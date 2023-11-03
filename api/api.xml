@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>api</name>
+    </assembly>
+    <members>
+        <member name="T:api.Controllers.HomeController">
+            <summary>
+            Todas as chamadas relacionadas com a pagina inicial do SmartMetric
+            </summary>
+        </member>
+        <member name="M:api.Controllers.HomeController.GetFormTemplates">
+            <summary>
+            Um teste de descricção do endpoint
+            </summary>
+            <returns>
+            um teste</returns>
+        </member>
+        <member name="M:api.Controllers.HomeController.GetScaleTemplates">
+            <summary>
+            COMENTAR
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:api.Controllers.HomeController.GetUniqueAnwserTemplates">
+            <summary>
+            COMENTAR
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:api.Migrations.Initial">
+            <inheritdoc />
+        </member>
+        <member name="M:api.Migrations.Initial.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:api.Migrations.Initial.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:api.Migrations.Initial.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>
