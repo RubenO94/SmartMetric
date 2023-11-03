@@ -99,6 +99,26 @@ create table Avaliacao_Answer (
 	FOREIGN KEY (singleEvaluationID) REFERENCES Avaliacao_SingleEvaluation(singleEvaluationID)
 );
 
+create table Funcionario (
+	IDFuncionario int NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	name varchar(255) NOT NULL,
+	IDDepartamento int NOT NULL
+);
+
+create table FuncionariosChefias (
+	IDFuncionariosChefias int NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	IDFuncionarioSuperior int NOT NULL,
+	IDFuncionario int,
+	IDDepartamento int,
+	FOREIGN KEY (IDFuncionario) REFERENCES Funcionario(IDFuncionario),
+	FOREIGN KEY (IDDepartamento) REFERENCES Departamento(IDDepartamento)
+);
+
+create table Departamento (
+	IDDepartamento int NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	nome varchar(255),
+);
+
 /* INSERT VALUES ***************** */
 INSERT INTO Avaliacao_ScaleTemplate VALUES ('Escala_01', '2023-11-03', null, 1);
 
