@@ -6,5 +6,6 @@ namespace api.Controllers
     [ApiController]
     public class CustomControllerBase : ControllerBase
     {
+        
     }
 }
