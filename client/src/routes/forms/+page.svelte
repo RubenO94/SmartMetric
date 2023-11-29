@@ -1,12 +1,10 @@
 <script>
-    import Sidebar from '$lib/sidebar/Sidebar.svelte'
     import ReviewsTemplateTable from '$lib/tables/ReviewsTemplateTable.svelte';
 	import { i } from '@inlang/sdk-js';
 </script>
 
 <div class="bg-gray-100">
-    <div class="w-auto flex justify-center">
-        <Sidebar activePage={"Models"} />
+    <div class="w-auto flex">
         <div class="w-[900px] flex flex-col m-10">
             <div class="w-full h-full flex flex-col">
                 <div class="bg-green-600 w-full h-24 flex items-center justify-end p-10 rounded-t-2xl">
