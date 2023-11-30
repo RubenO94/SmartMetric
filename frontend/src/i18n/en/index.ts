@@ -23,7 +23,16 @@ const en: BaseTranslation = {
 	ShowSidebar: "Show sidebar",
 	HideSidebar: "Hide sidebar",
 	Settings: "Settings",
-	Preview: "Preview"
+	Preview: "Preview",
+	Details: "Details",
+	Questions: "Questions",
+	Finalize: "Finalize",
+	ChooseLanguage: "Choose a language",
+	Portuguese: "Portuguese",
+	English: "English",
+	French: "French",
+	Spanish: "Spanish",
+	Polish: "Polish",
 }
 
 export default en

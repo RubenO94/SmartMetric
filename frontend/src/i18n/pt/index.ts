@@ -22,7 +22,16 @@ const pt: Translation = {
 	ShowSidebar: "Mostrar barra lateral",
 	HideSidebar: "Esconder barra lateral",
 	Settings: "Definições",
-	Preview: "Pré-visualizar"
+	Preview: "Pré-visualizar",
+	Details: 'Detalhes',
+	Questions: 'Questões',
+	Finalize: 'Finalizar',
+	ChooseLanguage: 'Escolher um idioma',
+	Portuguese: 'Português',
+	English: 'Inglês',
+	French: 'Francês',
+	Spanish: 'Espanhol',
+	Polish: 'Polaco'
 }
 
 export default pt
