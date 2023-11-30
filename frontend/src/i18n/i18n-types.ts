@@ -92,6 +92,10 @@ type RootTranslation = {
 	 * S​e​t​t​i​n​g​s
 	 */
 	Settings: string
+	/**
+	 * P​r​e​v​i​e​w
+	 */
+	Preview: string
 }
 
 export type TranslationFunctions = {
@@ -173,6 +177,10 @@ export type TranslationFunctions = {
 	 * Settings
 	 */
 	Settings: () => LocalizedString
+	/**
+	 * Preview
+	 */
+	Preview: () => LocalizedString
 }
 
 export type Formatters = {}

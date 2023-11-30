@@ -21,7 +21,8 @@ const pt: Translation = {
 	CopyFormModelDescription: "Cria uma revisão preenchida com um modelo de formulário que inclui questões pré-definidas.",
 	ShowSidebar: "Mostrar barra lateral",
 	HideSidebar: "Esconder barra lateral",
-	Settings: "Definições"
+	Settings: "Definições",
+	Preview: "Pré-visualizar"
 }
 
 export default pt
