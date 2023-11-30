@@ -92,6 +92,46 @@ type RootTranslation = {
 	 * S​e​t​t​i​n​g​s
 	 */
 	Settings: string
+	/**
+	 * P​r​e​v​i​e​w
+	 */
+	Preview: string
+	/**
+	 * D​e​t​a​i​l​s
+	 */
+	Details: string
+	/**
+	 * Q​u​e​s​t​i​o​n​s
+	 */
+	Questions: string
+	/**
+	 * F​i​n​a​l​i​z​e
+	 */
+	Finalize: string
+	/**
+	 * C​h​o​o​s​e​ ​a​ ​l​a​n​g​u​a​g​e
+	 */
+	ChooseLanguage: string
+	/**
+	 * P​o​r​t​u​g​u​e​s​e
+	 */
+	Portuguese: string
+	/**
+	 * E​n​g​l​i​s​h
+	 */
+	English: string
+	/**
+	 * F​r​e​n​c​h
+	 */
+	French: string
+	/**
+	 * S​p​a​n​i​s​h
+	 */
+	Spanish: string
+	/**
+	 * P​o​l​i​s​h
+	 */
+	Polish: string
 }
 
 export type TranslationFunctions = {
@@ -173,6 +213,46 @@ export type TranslationFunctions = {
 	 * Settings
 	 */
 	Settings: () => LocalizedString
+	/**
+	 * Preview
+	 */
+	Preview: () => LocalizedString
+	/**
+	 * Details
+	 */
+	Details: () => LocalizedString
+	/**
+	 * Questions
+	 */
+	Questions: () => LocalizedString
+	/**
+	 * Finalize
+	 */
+	Finalize: () => LocalizedString
+	/**
+	 * Choose a language
+	 */
+	ChooseLanguage: () => LocalizedString
+	/**
+	 * Portuguese
+	 */
+	Portuguese: () => LocalizedString
+	/**
+	 * English
+	 */
+	English: () => LocalizedString
+	/**
+	 * French
+	 */
+	French: () => LocalizedString
+	/**
+	 * Spanish
+	 */
+	Spanish: () => LocalizedString
+	/**
+	 * Polish
+	 */
+	Polish: () => LocalizedString
 }
 
 export type Formatters = {}

@@ -28,6 +28,9 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"dotenv": "^16.3.1",
+		"svelte-steps": "^2.4.1",
+		"svelte-toasts": "^1.1.2",
 		"typesafe-i18n": "^5.26.2"
 	}
 }

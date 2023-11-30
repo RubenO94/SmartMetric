@@ -22,7 +22,17 @@ const en: BaseTranslation = {
 	CopyFormModelDescription: "Cria uma revisão preenchida com um modelo de formulário que inclui questões pré-definidas.",
 	ShowSidebar: "Show sidebar",
 	HideSidebar: "Hide sidebar",
-	Settings: "Settings"
+	Settings: "Settings",
+	Preview: "Preview",
+	Details: "Details",
+	Questions: "Questions",
+	Finalize: "Finalize",
+	ChooseLanguage: "Choose a language",
+	Portuguese: "Portuguese",
+	English: "English",
+	French: "French",
+	Spanish: "Spanish",
+	Polish: "Polish",
 }
 
 export default en

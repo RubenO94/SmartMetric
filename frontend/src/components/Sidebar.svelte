@@ -1,7 +1,8 @@
 <script lang="ts">
     import { page } from '$app/stores'
-    import LL from '../../i18n/i18n-svelte'
+    import LL from '../i18n/i18n-svelte'
     import UserMenu from './UserMenu.svelte'
+    import { slide } from 'svelte/transition'
 
     const directories = ["Reviews", "Forms", "Statistics"]
     const icons = [
@@ -18,7 +19,7 @@
 
 </script>
 
-<nav class="w-80 h-screen text-sm bg-gray-100 border-r-[1px] border-gray-300">
+<nav class="w-80 h-screen text-sm bg-gray-100 border-r-[1px] border-gray-300" transition:slide={{ delay: 0, duration: 750, axis: 'x' }}>
     <UserMenu />
     <p class="font-semibold pt-8 pb-1 px-2">{ $LL.PerformanceModule() }</p>
     <div class="flex flex-col gap-y-1 px-2 mt-2">

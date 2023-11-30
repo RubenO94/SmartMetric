@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { LL } from '../../i18n/i18n-svelte'
+	import { LL } from '../i18n/i18n-svelte'
 	import { page } from '$app/stores'
 
 	export let sidebarVisible: boolean
@@ -15,8 +15,10 @@
 	function generatePathHTML(path: string) {
     	const directories = path.split('/').filter(Boolean); // Remove empty strings
     	return directories.map((directory, index) => {
+			const lastElement = index === directories.length - 1
+			const linkClass = lastElement ? 'font-semibold hover:underline' : 'text-gray-400 hover:underline'
       		return `
-        		<a href="/${directories.slice(0, index + 1).join('/')}" class="font-semibold hover:underline">
+        		<a href="/${directories.slice(0, index + 1).join('/')}" class="${linkClass}">
         			${directory.charAt(0).toUpperCase() + directory.slice(1)}
         		</a>
         		${index < directories.length - 1 ? `<span>${arrowIcon}</span>` : ''}
