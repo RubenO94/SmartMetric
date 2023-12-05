@@ -1,5 +1,5 @@
 <script>
-    import LL from "../i18n/i18n-svelte"
+    import LL from "../../i18n/i18n-svelte"
 </script>
 
 <div class="flex flex-col gap-y-4 bg-gray-300 h-auto p-2">

@@ -33,6 +33,13 @@ const en: BaseTranslation = {
 	French: "French",
 	Spanish: "Spanish",
 	Polish: "Polish",
+	QuestionType: {
+		Text: "Text",
+		SingleChoice: "SingleChoice",
+		Rating: "Rating",
+	},
+	Title: "Title",
+	Description: "Description"
 }
 
 export default en

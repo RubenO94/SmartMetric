@@ -1,5 +1,5 @@
 <script>
-    import CreateForm from "../../../components/CreateForm.svelte";
+    import CreateForm from "$lib/components/CreateForm.svelte";
     import LL from "../../../i18n/i18n-svelte";
 </script>
 
