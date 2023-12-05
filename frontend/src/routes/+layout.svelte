@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../app.css';
-    import Sidebar from '$lib/components/Sidebar.svelte';
-	import Header from '$lib/components/Header.svelte';
+    import Sidebar from '$lib/components/Sidebar.svelte'
+	import Header from '$lib/components/Header.svelte'
 
 	let sidebarVisible = true
 	

@@ -3,7 +3,7 @@ type Question = {
     description: string,
     type: string, 
     position: number, 
-    required: Boolean,
+    required: boolean,
     singleChoiceOption: SingleChoiceOption[],
     ratingOption: RatingOption[]
 }
@@ -14,7 +14,7 @@ type SingleChoiceOption = {
 }
 
 type RatingOption = {
-    numericValue: number,
-    title: string,
+    numericValue: number | null,
+    title: string | null,
     description: string
 }
