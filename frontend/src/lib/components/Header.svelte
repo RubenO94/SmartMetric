@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { LL } from '../i18n/i18n-svelte'
+	import { LL } from '../../i18n/i18n-svelte'
 	import { page } from '$app/stores'
 
 	export let sidebarVisible: boolean
@@ -28,7 +28,7 @@
 	
 </script>
 
-<header class="h-16 flex flex-row gap-x-4 items-center px-10 text-sm border-b-[1px] border-gray-300">
+<header class="flex flex-row gap-x-4 items-center px-10 py-[10px] text-sm border-b-[1px] border-gray-300">
 	<!-- Button to hide or show the Sidebar -->
 	<div class="relative inline-block group">
 		<button on:click={toggleSidebar} class="text-gray-700 p-1 rounded border-2 border-transparent hover:bg-gray-300 active:border-blue-500">

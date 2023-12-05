@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../app.css';
-    import Sidebar from '../components/Sidebar.svelte';
-	import Header from '../components/Header.svelte';
+    import Sidebar from '$lib/components/Sidebar.svelte'
+	import Header from '$lib/components/Header.svelte'
 
 	let sidebarVisible = true
 	
@@ -10,7 +10,7 @@
 	}
 </script>
 
-<div class="flex">
+<div class="flex h-screen w-full">
 	{#if sidebarVisible}
 		<Sidebar />
 	{/if}

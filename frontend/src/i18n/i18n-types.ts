@@ -132,6 +132,28 @@ type RootTranslation = {
 	 * P​o​l​i​s​h
 	 */
 	Polish: string
+	QuestionType: {
+		/**
+		 * T​e​x​t
+		 */
+		Text: string
+		/**
+		 * S​i​n​g​l​e​C​h​o​i​c​e
+		 */
+		SingleChoice: string
+		/**
+		 * R​a​t​i​n​g
+		 */
+		Rating: string
+	}
+	/**
+	 * T​i​t​l​e
+	 */
+	Title: string
+	/**
+	 * D​e​s​c​r​i​p​t​i​o​n
+	 */
+	Description: string
 }
 
 export type TranslationFunctions = {
@@ -253,6 +275,28 @@ export type TranslationFunctions = {
 	 * Polish
 	 */
 	Polish: () => LocalizedString
+	QuestionType: {
+		/**
+		 * Text
+		 */
+		Text: () => LocalizedString
+		/**
+		 * SingleChoice
+		 */
+		SingleChoice: () => LocalizedString
+		/**
+		 * Rating
+		 */
+		Rating: () => LocalizedString
+	}
+	/**
+	 * Title
+	 */
+	Title: () => LocalizedString
+	/**
+	 * Description
+	 */
+	Description: () => LocalizedString
 }
 
 export type Formatters = {}

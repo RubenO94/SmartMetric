@@ -1,6 +1,7 @@
-import { api } from "../../api/_api"
+import { api } from "$lib/api/_api"
 import type { PageServerLoad } from "./$types"
 
+// Get templates
 export const load: PageServerLoad = async () => {
     try {
         const [formTemplatesResponse] = await Promise.all([
