@@ -5,11 +5,13 @@
     import { draggable } from '$lib/actions/dnd'
     import { fade, fly } from 'svelte/transition'
     import { toasts, ToastContainer, FlatToast } from 'svelte-toasts'
+    import { goto } from '$app/navigation';
 
     //VARIABLES
+    let formTemplate: FormTemplate = {translations: [{language: 'PT', title: '', description: ''}], questions: []}
     let questions: Question[] = []
     let insertedSingleChoiceOption: string = '' 
-    let insertedNumericValue: number = 0
+    let insertedNumericValue: number | null = null
     let insertedTitle: string = ''
     let currentStep = 0
     let selectedQuestion: Question
@@ -33,11 +35,53 @@
     ]
 
     //Functions for Stepper
-    const handleStepBackward = () => { 
-        if (currentStep != 0) currentStep -= 1 
+    const handleStepBackward = (event: Event) => {
+        if (currentStep != 0) currentStep -= 1
     }
-    const handleStepForward = () => { 
+    const handleStepForward = async (event: Event) => { 
+        console.log(formTemplate)
         if (currentStep != 2) currentStep += 1
+        else {
+            const request = await fetch("http://localhost:5104/api/v1/FormTemplates", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    createdByUserId: 999,
+                    translations: [
+                        {
+                            language: "EN",
+                            title: "FormTemplate 01",
+                            description: "Description for formTemplate 01"
+                        }
+                    ],
+                    questions: [
+                        {
+                            isRequired: true,
+                            position: 1,
+                            responseType: "Text",
+                            translations: [
+                                {
+                                    language: "EN",
+                                    title: "This is a question of type Text"
+                                }
+                            ]
+                        }
+                    ]
+                })
+            })
+
+            const response = await request.json() 
+
+            if (response.status != 200) {
+                console.log(response.message)
+                goto('/forms')
+            } else {
+                console.log(response.message)
+                goto('/forms')
+            }
+        }
     }
 
     //Functions for Drop questionType and create question
@@ -49,7 +93,7 @@
 
         if (selectedCard) {
             const newQuestion: Question = {
-                text: "",
+                title: "",
                 description: "",
                 type: selectedCard.name,
                 position: questions.length + 1,
@@ -59,7 +103,7 @@
             }
 
             questions = [...questions, newQuestion]
-            // console.log(questions)
+            console.log(questions)
         }
     }
 
@@ -69,7 +113,7 @@
         questions.forEach((question, index) => question.position = index + 1)
         if (selectedQuestion && selectedQuestion.position - 1 == index) {
             selectedQuestion = {
-                text: "",
+                title: "",
                 description: "",
                 type: "",
                 position: -1,
@@ -93,7 +137,7 @@
     }
 
     //Function to add single choice option
-    function addOption(insertedOption: string): void {
+    function addSingleChoiceOption(insertedOption: string): void {
         insertedSingleChoiceOption = ''
         if (insertedOption == '' || insertedOption == null) { 
             return
@@ -102,14 +146,8 @@
         updateQuestion(selectedQuestion)
     }
 
-    //Function to delete single choice option
-    function removeOption(index: number): void {
-        selectedQuestion.singleChoiceOption = selectedQuestion.singleChoiceOption.filter((_, i) => i !== index)
-        updateQuestion(selectedQuestion)
-    }
-
     //Function to add rating option
-    function addRatingOption(numericValue: number, title: string): void {
+    function addRatingOption(numericValue: number | null, title: string): void {
         let conditionIsTrue = false
         insertedNumericValue = 0
         insertedTitle = ''
@@ -129,11 +167,18 @@
         updateQuestion(selectedQuestion)
     }
 
-    //Function to delete rating option
-    function removeRatingOption(index: number): void {
-        selectedQuestion.ratingOption = selectedQuestion.ratingOption.filter((_, i) => i !== index)
+    //Function to delete option (optionType == 1 is sco, optionType == 2 is rto)
+    function removeOption(index: number, optionType: number): void {
+        if (optionType == 1) {
+            selectedQuestion.singleChoiceOption = selectedQuestion.singleChoiceOption.filter((_, i) => i !== index)
+        } else {
+            selectedQuestion.ratingOption = selectedQuestion.ratingOption.filter((_, i) => i !== index)
+        }
         updateQuestion(selectedQuestion)
     }
+
+    //Everytime variable questions changes, formTemplate.questions is gonna change too
+    $: formTemplate.questions = questions
 
 </script>
 
@@ -144,7 +189,7 @@
         <div class="flex flex-col gap-y-10">
             <div class="flex flex-row gap-x-5 items-center">
                 <p class="text-black text-base font-semibold flex-shrink-0">{$LL.ChooseLanguage()}</p>
-                <select class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 flex-grow p-2">
+                <select bind:value={formTemplate.translations[0].language} class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 flex-grow p-2">
                     <option value="PT">{$LL.Portuguese()}</option>
                     <option value="EN">{$LL.English()}</option>
                     <option value="ES">{$LL.Spanish()}</option>
@@ -155,17 +200,15 @@
             <div class="flex flex-col gap-y-1">
                 <p class="text-black text-base font-semibold">Nome do modelo do formulário</p>
                 <p>Insira um nome único para identificar o modelo de formulário. Este nome será usado para referenciar e selecionar o modelo ao criar uma nova revisão</p>
-                <input name="titleForm" class="w-auto my-1 p-2 text-black border rounded" />
+                <input name="titleForm" class="w-auto my-1 p-2 text-black border rounded" bind:value={formTemplate.translations[0].title} />
             </div>
             <div class="flex flex-col gap-y-1">
                 <p class="text-black text-base font-semibold">Descrição</p>
                 <p>Adicione uma breve descrição que destaque o propósito ou conteúdo do modelo. Isso ajudará a fornecer orientação adicional sobre o modelo de formulário ao selecioná-lo para uma revisão.</p>
-                <textarea rows="8" class="w-auto my-1 p-2 text-black border rounded"></textarea>
+                <textarea name="descriptionForm" rows="8" class="w-auto my-1 p-2 text-black border rounded" bind:value={formTemplate.translations[0].description}></textarea>
             </div>
         </div>
-    {/if}
-
-    {#if currentStep == 1}
+    {:else if currentStep == 1}
         <div class="flex flex-row gap-x-10">
             <div class="flex flex-col gap-y-2">
                 <p class="text-black text-base font-semibold">Tipo de Questão</p>
@@ -189,7 +232,7 @@
                     {/if}
                     {#each questions as question, index}
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
-                        <div in:fade={{ duration: 500 }} out:fly={{ y: -200, duration: 500 }} class="group bg-white flex flex-col gap-y-5 px-2 py-4 rounded border border-transparent cursor-pointer hover:border-blue-500 relative" on:click={() => selectQuestion(question)}>
+                        <div in:fade={{ duration: 500 }} out:fly={{ y: -200, duration: 500 }} id="questionsAdded" class="group bg-white flex flex-col gap-y-5 px-2 py-4 rounded border border-transparent cursor-pointer hover:border-blue-500 relative" on:click={() => selectQuestion(question)}>
                             <button class="hidden group-hover:flex absolute top-0 right-0 p-2" on:click={(event) => removeQuestion(event, index)}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -198,7 +241,7 @@
                             <div class="flex flex-row gap-x-2">
                                 <p class="text-blue-500 font-extrabold">Q{question.position}</p>
                                 <div class="flex flex-col gap-y-1">
-                                    <p class="text-black font-bold">{question.text}</p>
+                                    <p class="text-black font-bold">{question.title}</p>
                                     <p>{question.description}</p>
                                 </div>
                             </div>
@@ -208,9 +251,10 @@
                                         <p>No rating option answers yet.</p>
                                     </div>
                                 {:else}
-                                    <div class="flex flex-row gap-x-1">
+                                    <div class="flex gap-x-1">
                                         {#each question.ratingOption as rating}
-                                            <div class="bg-gray-100 px-4 py-3 rounded-full">
+                                            <div class="flex flex-col gap-y-1 items-center">
+                                                <div class="bg-gray-100 p-5 rounded-full"></div>
                                                 <p>{rating.numericValue}</p>
                                             </div>
                                         {/each}
@@ -245,7 +289,7 @@
                     {#if selectedQuestion && selectedQuestion.position !== -1}
                         <div class="flex gap-x-2">
                             <p class="text-blue-500 font-extrabold text-base">Q{selectedQuestion.position}</p>
-                            <p class="text-black font-semibold text-base">{selectedQuestion.text}</p>
+                            <p class="text-black font-semibold text-base">{selectedQuestion.title}</p>
                         </div>
                         <div class="flex flex-col gap-y-5">
                             <div class="flex gap-x-2">
@@ -257,7 +301,7 @@
                             </div>
                             <div class="flex flex-col gap-y-1">
                                 <p class="text-black text-sm font-semibold">Titulo</p>
-                                <input class="text-black p-2 rounded" placeholder="Title" bind:value={selectedQuestion.text} on:blur={() => updateQuestion(selectedQuestion)} />
+                                <input class="text-black p-2 rounded" placeholder="Title" bind:value={selectedQuestion.title} on:blur={() => updateQuestion(selectedQuestion)} />
                             </div>
                             <div class="flex flex-col gap-y-1">
                                 <p class="text-black text-sm font-semibold">Descricao</p>
@@ -270,7 +314,7 @@
                                         {#each selectedQuestion.ratingOption as option, index}
                                             <div class="flex gap-x-2">
                                                 <p class="bg-white p-2 text-black border border-gray-500 rounded flex-grow">{option.title}</p>
-                                                <button on:click={() => removeRatingOption(index)}>
+                                                <button on:click={() => removeOption(index, 2)}>
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 hover:text-black">
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                                                     </svg>  
@@ -295,7 +339,7 @@
                                         {#each selectedQuestion.singleChoiceOption as option, index}
                                             <div class="flex gap-x-2">
                                                 <p class="bg-white p-2 text-black border border-gray-500 rounded flex-grow">{option.title}</p>
-                                                <button on:click={() => removeOption(index)}>
+                                                <button on:click={() => removeOption(index, 1)}>
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 hover:text-black">
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                                                     </svg>
@@ -304,7 +348,7 @@
                                         {/each}
                                         <div class="flex gap-x-2">
                                             <input class="bg-white p-2 text-black border border-dashed border-gray-500 rounded flex-grow" bind:value={insertedSingleChoiceOption} placeholder="Adicionar nova opção" />
-                                            <button on:click={() => addOption(insertedSingleChoiceOption)}>
+                                            <button on:click={() => addSingleChoiceOption(insertedSingleChoiceOption)}>
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-500 hover:bg-blue-100 rounded-full">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                 </svg>
@@ -318,13 +362,11 @@
                 </div>
             </div>
         </div>
-    {/if}
-
-    {#if currentStep == 2}
+    {:else if currentStep == 2}
         <p>Finalizar</p>
     {/if}
 
-    <div class="flex justify-between">
+    <div class="flex justify-between mt-10">
         <!-- Go Back button -->
         <button on:click={handleStepBackward} class="flex gap-x-2 text-lg font-semibold px-5 py-2 border border-transparent hover:bg-gray-100 rounded" id="buttonGoBack">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="4" stroke="currentColor" class="w-7 h-7">
@@ -333,7 +375,7 @@
             Voltar
         </button>
         <!-- Go Next button -->
-        <button on:click={handleStepForward} class="flex gap-x-2 text-lg font-semibold px-5 py-2 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded">
+        <button on:click={handleStepForward} type="submit" class="flex gap-x-2 text-lg font-semibold px-5 py-2 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded" id="buttonGoForward" value="Submit">
             {#if currentStep != 2}
                 Avançar
             {:else}
@@ -393,6 +435,10 @@
     /* When the checkbox is checked, shift the white ball towards the right within the slider. */
     input:checked+.slider:before {
         transform: translateX(14px);
+    }
+
+    #questionsAdded:focus {
+        border-color: #3B82F6
     }
 
 </style>
