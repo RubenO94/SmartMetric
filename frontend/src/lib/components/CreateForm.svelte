@@ -1,15 +1,18 @@
 <script lang="ts">
     // IMPORTS
-    import { Steps } from 'svelte-steps'
     import LL from '../../i18n/i18n-svelte'
+    import { api } from '$lib/stores/url'
     import { draggable } from '$lib/actions/dnd'
     import { fade, fly } from 'svelte/transition'
-    import { toasts, ToastContainer, FlatToast } from 'svelte-toasts'
+    import { goto } from '$app/navigation'
+    import { Steps } from 'svelte-steps'
 
     //VARIABLES
+    let apiUrl: string
+    let formTemplate: FormTemplate = {createdByUserId: 999, translations: [{language: 'PT', title: '', description: ''}], questions: []}
     let questions: Question[] = []
     let insertedSingleChoiceOption: string = '' 
-    let insertedNumericValue: number = 0
+    let insertedNumericValue: number | null = null
     let insertedTitle: string = ''
     let currentStep = 0
     let selectedQuestion: Question
@@ -32,12 +35,34 @@
         }
     ]
 
+    const unsubscribe = api.subscribe((value) => { apiUrl = value })
+
     //Functions for Stepper
-    const handleStepBackward = () => { 
-        if (currentStep != 0) currentStep -= 1 
+    const handleStepBackward = (event: Event) => {
+        if (currentStep != 0) currentStep -= 1
     }
-    const handleStepForward = () => { 
+    const handleStepForward = async (event: Event) => { 
+        console.log(formTemplate)
         if (currentStep != 2) currentStep += 1
+        else {
+            const request = await fetch(apiUrl + "FormTemplates", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formTemplate)
+            })
+
+            const response = await request.json() 
+
+            if (response.status != 200) {
+                console.log(response.error)
+                goto('/forms')
+            } else {
+                console.log(response.body)
+                goto('/forms')
+            }
+        }
     }
 
     //Functions for Drop questionType and create question
@@ -49,17 +74,16 @@
 
         if (selectedCard) {
             const newQuestion: Question = {
-                text: "",
-                description: "",
-                type: selectedCard.name,
+                isRequired: false,
                 position: questions.length + 1,
-                required: false,
-                singleChoiceOption: [],
-                ratingOption: []
+                responseType: selectedCard.name,
+                translations: [{language: formTemplate.translations[0].language, title: '', description: ''}],
+                singleChoiceOptions: [],
+                ratingOptions: []
             }
 
             questions = [...questions, newQuestion]
-            // console.log(questions)
+            console.log(questions)
         }
     }
 
@@ -69,13 +93,12 @@
         questions.forEach((question, index) => question.position = index + 1)
         if (selectedQuestion && selectedQuestion.position - 1 == index) {
             selectedQuestion = {
-                text: "",
-                description: "",
-                type: "",
+                isRequired: false,
                 position: -1,
-                required: false,
-                singleChoiceOption: [],
-                ratingOption: []
+                responseType: "",
+                translations: [],
+                singleChoiceOptions: [],
+                ratingOptions: []
             }
         }
         event.stopPropagation()
@@ -93,23 +116,18 @@
     }
 
     //Function to add single choice option
-    function addOption(insertedOption: string): void {
+    function addSingleChoiceOption(insertedOption: string): void {
         insertedSingleChoiceOption = ''
         if (insertedOption == '' || insertedOption == null) { 
             return
         }
-        selectedQuestion.singleChoiceOption = [...selectedQuestion.singleChoiceOption, {title: insertedOption, description: ""}]
-        updateQuestion(selectedQuestion)
-    }
-
-    //Function to delete single choice option
-    function removeOption(index: number): void {
-        selectedQuestion.singleChoiceOption = selectedQuestion.singleChoiceOption.filter((_, i) => i !== index)
+        let singleChoiceOptionTranslation: Translations = {language: formTemplate.translations[0].language, title: insertedOption, description: ''}
+        selectedQuestion.singleChoiceOptions = [...selectedQuestion.singleChoiceOptions, {translations: [singleChoiceOptionTranslation]}]
         updateQuestion(selectedQuestion)
     }
 
     //Function to add rating option
-    function addRatingOption(numericValue: number, title: string): void {
+    function addRatingOption(numericValue: number | null, title: string): void {
         let conditionIsTrue = false
         insertedNumericValue = 0
         insertedTitle = ''
@@ -117,7 +135,7 @@
             console.log("Invalid insert")
             return
         }
-        selectedQuestion.ratingOption.forEach(element => {
+        selectedQuestion.ratingOptions.forEach(element => {
             if (element.numericValue == numericValue) {
                 conditionIsTrue = true
                 console.log("This number already exist")
@@ -125,15 +143,23 @@
             }
         })
         if (conditionIsTrue) return
-        selectedQuestion.ratingOption = [...selectedQuestion.ratingOption, {numericValue: numericValue, title: title, description: ""}]
+        let ratingOptionTranslation: Translations = {language: formTemplate.translations[0].language, title: title, description: ''}
+        selectedQuestion.ratingOptions = [...selectedQuestion.ratingOptions, {numericValue: numericValue, translations: [ratingOptionTranslation]}]
         updateQuestion(selectedQuestion)
     }
 
-    //Function to delete rating option
-    function removeRatingOption(index: number): void {
-        selectedQuestion.ratingOption = selectedQuestion.ratingOption.filter((_, i) => i !== index)
+    //Function to delete option (optionType == 1 is sco, optionType == 2 is rto)
+    function removeOption(index: number, optionType: number): void {
+        if (optionType == 1) {
+            selectedQuestion.singleChoiceOptions = selectedQuestion.singleChoiceOptions.filter((_, i) => i !== index)
+        } else {
+            selectedQuestion.ratingOptions = selectedQuestion.ratingOptions.filter((_, i) => i !== index)
+        }
         updateQuestion(selectedQuestion)
     }
+
+    //Everytime variable questions changes, formTemplate.questions is gonna change too
+    $: formTemplate.questions = questions
 
 </script>
 
@@ -144,7 +170,7 @@
         <div class="flex flex-col gap-y-10">
             <div class="flex flex-row gap-x-5 items-center">
                 <p class="text-black text-base font-semibold flex-shrink-0">{$LL.ChooseLanguage()}</p>
-                <select class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 flex-grow p-2">
+                <select bind:value={formTemplate.translations[0].language} class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 flex-grow p-2">
                     <option value="PT">{$LL.Portuguese()}</option>
                     <option value="EN">{$LL.English()}</option>
                     <option value="ES">{$LL.Spanish()}</option>
@@ -155,17 +181,15 @@
             <div class="flex flex-col gap-y-1">
                 <p class="text-black text-base font-semibold">Nome do modelo do formulário</p>
                 <p>Insira um nome único para identificar o modelo de formulário. Este nome será usado para referenciar e selecionar o modelo ao criar uma nova revisão</p>
-                <input name="titleForm" class="w-auto my-1 p-2 text-black border rounded" />
+                <input name="titleForm" class="w-auto my-1 p-2 text-black border rounded" bind:value={formTemplate.translations[0].title} />
             </div>
             <div class="flex flex-col gap-y-1">
                 <p class="text-black text-base font-semibold">Descrição</p>
                 <p>Adicione uma breve descrição que destaque o propósito ou conteúdo do modelo. Isso ajudará a fornecer orientação adicional sobre o modelo de formulário ao selecioná-lo para uma revisão.</p>
-                <textarea rows="8" class="w-auto my-1 p-2 text-black border rounded"></textarea>
+                <textarea name="descriptionForm" rows="8" class="w-auto my-1 p-2 text-black border rounded" bind:value={formTemplate.translations[0].description}></textarea>
             </div>
         </div>
-    {/if}
-
-    {#if currentStep == 1}
+    {:else if currentStep == 1}
         <div class="flex flex-row gap-x-10">
             <div class="flex flex-col gap-y-2">
                 <p class="text-black text-base font-semibold">Tipo de Questão</p>
@@ -189,7 +213,7 @@
                     {/if}
                     {#each questions as question, index}
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
-                        <div in:fade={{ duration: 500 }} out:fly={{ y: -200, duration: 500 }} class="group bg-white flex flex-col gap-y-5 px-2 py-4 rounded border border-transparent cursor-pointer hover:border-blue-500 relative" on:click={() => selectQuestion(question)}>
+                        <div in:fade={{ duration: 500 }} out:fly={{ y: -200, duration: 500 }} id="questionsAdded" class="group bg-white flex flex-col gap-y-5 px-2 py-4 rounded border border-transparent cursor-pointer hover:border-blue-500 relative" on:click={() => selectQuestion(question)}>
                             <button class="hidden group-hover:flex absolute top-0 right-0 p-2" on:click={(event) => removeQuestion(event, index)}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -198,34 +222,35 @@
                             <div class="flex flex-row gap-x-2">
                                 <p class="text-blue-500 font-extrabold">Q{question.position}</p>
                                 <div class="flex flex-col gap-y-1">
-                                    <p class="text-black font-bold">{question.text}</p>
-                                    <p>{question.description}</p>
+                                    <p class="text-black font-bold">{question.translations[0].title}</p>
+                                    <p>{question.translations[0].description}</p>
                                 </div>
                             </div>
-                            {#if question.type === 'Rating' }
-                                {#if question.ratingOption.length == 0}
+                            {#if question.responseType === 'Rating' }
+                                {#if question.ratingOptions.length == 0}
                                     <div class="bg-gray-100 py-2 px-5 rounded-lg">
                                         <p>No rating option answers yet.</p>
                                     </div>
                                 {:else}
-                                    <div class="flex flex-row gap-x-1">
-                                        {#each question.ratingOption as rating}
-                                            <div class="bg-gray-100 px-4 py-3 rounded-full">
+                                    <div class="flex gap-x-1">
+                                        {#each question.ratingOptions as rating}
+                                            <div class="flex flex-col gap-y-1 items-center">
+                                                <div class="bg-gray-100 p-5 rounded-full"></div>
                                                 <p>{rating.numericValue}</p>
                                             </div>
                                         {/each}
                                     </div>
                                 {/if}
-                            {:else if question.type === 'SingleChoice' }
-                                {#if question.singleChoiceOption.length == 0}
+                            {:else if question.responseType === 'SingleChoice' }
+                                {#if question.singleChoiceOptions.length == 0}
                                     <div class="bg-gray-100 py-2 px-5 rounded-lg">
                                         <p>No single choice option answers yet.</p>
                                     </div>
                                 {:else}
                                     <div class="flex flex-col gap-y-1">
-                                        {#each question.singleChoiceOption as singleChoice}
+                                        {#each question.singleChoiceOptions as singleChoice}
                                             <div class="bg-gray-100 py-2 px-5 rounded-lg">
-                                                <p>{singleChoice.title}</p>
+                                                <p>{singleChoice.translations[0].title}</p>
                                             </div>
                                         {/each}
                                     </div>
@@ -245,32 +270,32 @@
                     {#if selectedQuestion && selectedQuestion.position !== -1}
                         <div class="flex gap-x-2">
                             <p class="text-blue-500 font-extrabold text-base">Q{selectedQuestion.position}</p>
-                            <p class="text-black font-semibold text-base">{selectedQuestion.text}</p>
+                            <p class="text-black font-semibold text-base">{selectedQuestion.translations[0].title}</p>
                         </div>
                         <div class="flex flex-col gap-y-5">
                             <div class="flex gap-x-2">
                                 <p class="text-black text-sm font-semibold">Required</p>
                                 <label class="toggle">
-                                    <input type="checkbox" checked="{selectedQuestion.required}" on:change={() => selectedQuestion.required = !selectedQuestion.required}>
+                                    <input type="checkbox" checked="{selectedQuestion.isRequired}" on:change={() => selectedQuestion.isRequired = !selectedQuestion.isRequired}>
                                     <span class="slider"></span>
                                 </label>
                             </div>
                             <div class="flex flex-col gap-y-1">
                                 <p class="text-black text-sm font-semibold">Titulo</p>
-                                <input class="text-black p-2 rounded" placeholder="Title" bind:value={selectedQuestion.text} on:blur={() => updateQuestion(selectedQuestion)} />
+                                <input class="text-black p-2 rounded" placeholder="Title" bind:value={selectedQuestion.translations[0].title} on:blur={() => updateQuestion(selectedQuestion)} />
                             </div>
                             <div class="flex flex-col gap-y-1">
                                 <p class="text-black text-sm font-semibold">Descricao</p>
-                                <textarea class="text-black p-2 rounded" placeholder="Description" bind:value={selectedQuestion.description} on:blur={() => updateQuestion(selectedQuestion)} rows="5"></textarea>
+                                <textarea class="text-black p-2 rounded" placeholder="Description" bind:value={selectedQuestion.translations[0].description} on:blur={() => updateQuestion(selectedQuestion)} rows="5"></textarea>
                             </div>
-                            {#if selectedQuestion.type == 'Rating'}
+                            {#if selectedQuestion.responseType == 'Rating'}
                                 <div class="flex flex-col gap-y-1">
                                     <p class="text-black text-sm font-semibold">Respostas</p>
                                     <div class="flex flex-col justify-center gap-y-1">
-                                        {#each selectedQuestion.ratingOption as option, index}
+                                        {#each selectedQuestion.ratingOptions as option, index}
                                             <div class="flex gap-x-2">
-                                                <p class="bg-white p-2 text-black border border-gray-500 rounded flex-grow">{option.title}</p>
-                                                <button on:click={() => removeRatingOption(index)}>
+                                                <p class="bg-white p-2 text-black border border-gray-500 rounded flex-grow">{option.translations[0].title}</p>
+                                                <button on:click={() => removeOption(index, 2)}>
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 hover:text-black">
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                                                     </svg>  
@@ -288,14 +313,14 @@
                                         </div>
                                     </div>
                                 </div>
-                            {:else if selectedQuestion.type == 'SingleChoice'}
+                            {:else if selectedQuestion.responseType == 'SingleChoice'}
                                 <div class="flex flex-col gap-y-1">
                                     <p class="text-black text-sm font-semibold">Respostas</p>
                                     <div class="flex flex-col justify-center gap-y-1">
-                                        {#each selectedQuestion.singleChoiceOption as option, index}
+                                        {#each selectedQuestion.singleChoiceOptions as option, index}
                                             <div class="flex gap-x-2">
-                                                <p class="bg-white p-2 text-black border border-gray-500 rounded flex-grow">{option.title}</p>
-                                                <button on:click={() => removeOption(index)}>
+                                                <p class="bg-white p-2 text-black border border-gray-500 rounded flex-grow">{option.translations[0].title}</p>
+                                                <button on:click={() => removeOption(index, 1)}>
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 hover:text-black">
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                                                     </svg>
@@ -304,7 +329,7 @@
                                         {/each}
                                         <div class="flex gap-x-2">
                                             <input class="bg-white p-2 text-black border border-dashed border-gray-500 rounded flex-grow" bind:value={insertedSingleChoiceOption} placeholder="Adicionar nova opção" />
-                                            <button on:click={() => addOption(insertedSingleChoiceOption)}>
+                                            <button on:click={() => addSingleChoiceOption(insertedSingleChoiceOption)}>
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-500 hover:bg-blue-100 rounded-full">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                 </svg>
@@ -318,13 +343,12 @@
                 </div>
             </div>
         </div>
-    {/if}
-
-    {#if currentStep == 2}
+    {:else if currentStep == 2}
         <p>Finalizar</p>
     {/if}
 
-    <div class="flex justify-between">
+    <!-- Buttons of Stepper -->
+    <div class="flex justify-between mt-10">
         <!-- Go Back button -->
         <button on:click={handleStepBackward} class="flex gap-x-2 text-lg font-semibold px-5 py-2 border border-transparent hover:bg-gray-100 rounded" id="buttonGoBack">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="4" stroke="currentColor" class="w-7 h-7">
@@ -333,7 +357,7 @@
             Voltar
         </button>
         <!-- Go Next button -->
-        <button on:click={handleStepForward} class="flex gap-x-2 text-lg font-semibold px-5 py-2 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded">
+        <button on:click={handleStepForward} type="submit" class="flex gap-x-2 text-lg font-semibold px-5 py-2 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded" id="buttonGoForward" value="Submit">
             {#if currentStep != 2}
                 Avançar
             {:else}
@@ -393,6 +417,10 @@
     /* When the checkbox is checked, shift the white ball towards the right within the slider. */
     input:checked+.slider:before {
         transform: translateX(14px);
+    }
+
+    #questionsAdded:focus {
+        border-color: #3B82F6
     }
 
 </style>

@@ -19,7 +19,7 @@
 
 </script>
 
-<nav class="w-80 text-sm bg-gray-100 border-r-[1px] border-gray-300" transition:fly={{ delay: 0, duration: 100, x: -50 }}>
+<nav class="w-80 min-h-screen text-sm bg-gray-100 border-r-[1px] border-gray-300" transition:fly={{ delay: 0, duration: 100, x: -50 }}>
     <UserMenu />
     <p class="font-semibold pt-8 pb-1 px-2">{ $LL.PerformanceModule() }</p>
     <div class="flex flex-col gap-y-1 px-2 mt-2">

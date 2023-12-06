@@ -1,6 +1,6 @@
-<script>
-    import CreateForm from "$lib/components/CreateForm.svelte";
-    import LL from "../../../i18n/i18n-svelte";
+<script lang="ts">
+    import CreateForm from "$lib/components/CreateForm.svelte"
+    import LL from "../../../i18n/i18n-svelte"
 </script>
 
 <div class="mx-auto flex flex-col w-[1200px] p-10 gap-y-5">

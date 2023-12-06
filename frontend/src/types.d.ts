@@ -1,20 +1,29 @@
 type Question = {
-    text: string,
-    description: string,
-    type: string, 
-    position: number, 
-    required: boolean,
-    singleChoiceOption: SingleChoiceOption[],
-    ratingOption: RatingOption[]
+    isRequired: boolean
+    position: number,
+    responseType: string,
+    translations: Translations[],
+    singleChoiceOptions: SingleChoiceOption[],
+    ratingOptions: RatingOption[]
 }
 
 type SingleChoiceOption = {
-    title: string,
-    description: string
+    translations: Translations[]
 }
 
 type RatingOption = {
     numericValue: number | null,
-    title: string | null,
-    description: string
+    translations: Translations[]
+}
+
+type FormTemplate  = {
+    createdByUserId: number,
+    translations: Translations[],
+    questions: Question[]
+}
+
+type Translations = {
+    language: string,
+    title: string,
+    description: string,
 }

@@ -10,7 +10,7 @@
 	}
 </script>
 
-<div class="flex h-screen w-full">
+<div class="flex h-full w-full">
 	{#if sidebarVisible}
 		<Sidebar />
 	{/if}
