@@ -4,11 +4,12 @@
     import LL from '../../i18n/i18n-svelte'
     import { draggable } from '$lib/actions/dnd'
     import { fade, fly } from 'svelte/transition'
-    import { toasts, ToastContainer, FlatToast } from 'svelte-toasts'
-    import { goto } from '$app/navigation';
+    import { goto } from '$app/navigation'
+    import { api } from '$lib/stores/url'
 
     //VARIABLES
-    let formTemplate: FormTemplate = {translations: [{language: 'PT', title: '', description: ''}], questions: []}
+    let apiUrl: string
+    let formTemplate: FormTemplate = {createdByUserId: 123, translations: [{language: 'PT', title: '', description: ''}], questions: []}
     let questions: Question[] = []
     let insertedSingleChoiceOption: string = '' 
     let insertedNumericValue: number | null = null
@@ -34,6 +35,8 @@
         }
     ]
 
+    const unsubscribe = api.subscribe((value) => { apiUrl = value })
+
     //Functions for Stepper
     const handleStepBackward = (event: Event) => {
         if (currentStep != 0) currentStep -= 1
@@ -42,43 +45,21 @@
         console.log(formTemplate)
         if (currentStep != 2) currentStep += 1
         else {
-            const request = await fetch("http://localhost:5104/api/v1/FormTemplates", {
+            const request = await fetch(apiUrl + "FormTemplates", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({
-                    createdByUserId: 999,
-                    translations: [
-                        {
-                            language: "EN",
-                            title: "FormTemplate 01",
-                            description: "Description for formTemplate 01"
-                        }
-                    ],
-                    questions: [
-                        {
-                            isRequired: true,
-                            position: 1,
-                            responseType: "Text",
-                            translations: [
-                                {
-                                    language: "EN",
-                                    title: "This is a question of type Text"
-                                }
-                            ]
-                        }
-                    ]
-                })
+                body: JSON.stringify(formTemplate)
             })
 
             const response = await request.json() 
 
             if (response.status != 200) {
-                console.log(response.message)
+                console.log(response.error)
                 goto('/forms')
             } else {
-                console.log(response.message)
+                console.log(response.body)
                 goto('/forms')
             }
         }
@@ -366,6 +347,7 @@
         <p>Finalizar</p>
     {/if}
 
+    <!-- Buttons of Stepper -->
     <div class="flex justify-between mt-10">
         <!-- Go Back button -->
         <button on:click={handleStepBackward} class="flex gap-x-2 text-lg font-semibold px-5 py-2 border border-transparent hover:bg-gray-100 rounded" id="buttonGoBack">

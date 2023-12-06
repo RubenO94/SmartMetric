@@ -20,6 +20,7 @@ type RatingOption = {
 }
 
 type FormTemplate  = {
+    createdByUserId: number,
     translations: Translations[]
     questions: Question[]
 }

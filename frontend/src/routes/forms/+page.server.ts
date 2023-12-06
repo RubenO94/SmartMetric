@@ -1,5 +1,5 @@
 import { api } from "$lib/api/_api"
-import type { PageServerLoad } from "./$types"
+import type { Actions, PageServerLoad } from "./$types"
 
 // Get templates
 export const load: PageServerLoad = async () => {
@@ -14,4 +14,9 @@ export const load: PageServerLoad = async () => {
     } catch (ex) {
         throw ex
     }
+}
+
+// post templates
+export const actions: Actions = {
+    
 }
