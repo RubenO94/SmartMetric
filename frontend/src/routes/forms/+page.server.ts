@@ -1,11 +1,11 @@
 import { api } from "$lib/api/_api"
-import type { Actions, PageServerLoad } from "./$types"
+import type { PageServerLoad } from "./$types"
 
 // Get templates
 export const load: PageServerLoad = async () => {
     try {
         const [formTemplatesResponse] = await Promise.all([
-            api ("GET", `FormTemplates`)
+            api ("GET", `FormTemplates?page=1&pageSize=20`)
         ])
 
         let formTemplates = formTemplatesResponse?.body
@@ -14,9 +14,4 @@ export const load: PageServerLoad = async () => {
     } catch (ex) {
         throw ex
     }
-}
-
-// post templates
-export const actions: Actions = {
-    
 }

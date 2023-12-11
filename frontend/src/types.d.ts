@@ -27,3 +27,5 @@ type Translations = {
     title: string,
     description: string,
 }
+
+type Reviews = {}

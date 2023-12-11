@@ -1,7 +1,6 @@
 import type { BaseTranslation } from '../i18n-types'
 
 const en: BaseTranslation = {
-	// TODO: your translations go here
 	Sidebar: {
 		Reviews: 'Reviews',
 		Forms: 'Forms',
@@ -12,14 +11,14 @@ const en: BaseTranslation = {
 	PerformanceModule: "Performance module",
 	Hello: "Hello",
 	FormButton: "Create form",
-	FormSearchInput: "Search for the name of the department to filter the list",
+	FormSearchInput: "Insert the title of the form template to filter the list",
 	CreateFormModel: "Create form model",
 	CreateFormModelDescription: "This feature allows the creation of form templates, establishing predefined structures for future reviews. Simplify the assessment process by creating consistent patterns, saving time, and maintaining uniformity in evaluations.",
 	YourWork: "Your Work",
 	CreateBlankReview: "Create blank review",
 	CopyFormModel: "Copy form model",
-	CreateBlankReviewDescription: "Cria uma revisão vazia, permite a adição de questões, associação do tipo de revisão, especificação do responsável, data de início e término.",
-	CopyFormModelDescription: "Cria uma revisão preenchida com um modelo de formulário que inclui questões pré-definidas.",
+	CreateBlankReviewDescription: "Create an empty review, that allows adding questions, associate the review type, specify the responsable and start and end date.",
+	CopyFormModelDescription: "Create a review with a form template that includes predefined questions.",
 	ShowSidebar: "Show sidebar",
 	HideSidebar: "Hide sidebar",
 	Settings: "Settings",
@@ -39,7 +38,36 @@ const en: BaseTranslation = {
 		Rating: "Rating",
 	},
 	Title: "Title",
-	Description: "Description"
+	Description: "Description",
+	ReviewSearchInput: "Insert the title of the review to filter the list",
+	Ongoing: "Ongoing",
+	Completed: "Completed",
+	NotStarted: "Not started",
+	Canceled: "Canceled",
+	State: "State",
+	EndingDate: "Ending date",
+	Progression: "Progression",
+	FormModelTitleTitle: "Form model title",
+	FormModelTitleDescription: "Insert a title for the form model.",
+	FormModelDescriptionTitle: "Form model description",
+	FormModelDescriptionDescription: "Add a brief description that highlights the purpose or content of the model. This will help provide additional guidance on the form when selecting it for review.",
+	Return: "Return",
+	Forward: "Forward",
+	QuestionTypeText: "Type of Question",
+	FormPreview: "Form Preview",
+	QuestionProperties: "Question Properties",
+	FormPreviewPlaceholder: "No questions yet, drag one type of question to add a question to this form.",
+	FormPreviewRatingPlaceholder: "No rating option answers yet.",
+	FormPreviewSingleChoicePlaceholder: "No single choice option answers yet.",
+	Answer: "Answer",
+	Required: "Required",
+	Answers: "Answers",
+	Numeric: "Numeric",
+	AddOption: "Add an option",
+	AddSingleChoiceOptionError: "Single Choice option must have a text",
+	AddRatingOptionError01: "All fields must be filled",
+	AddRatingOptionError02: "A rating option for this number already exists",
+	FormTemplateSuccess: "Form Template created successfully"
 }
 
 export default en

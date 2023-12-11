@@ -49,7 +49,7 @@ type RootTranslation = {
 	 */
 	FormButton: string
 	/**
-	 * S​e​a​r​c​h​ ​f​o​r​ ​t​h​e​ ​n​a​m​e​ ​o​f​ ​t​h​e​ ​d​e​p​a​r​t​m​e​n​t​ ​t​o​ ​f​i​l​t​e​r​ ​t​h​e​ ​l​i​s​t
+	 * I​n​s​e​r​t​ ​t​h​e​ ​t​i​t​l​e​ ​o​f​ ​t​h​e​ ​f​o​r​m​ ​t​e​m​p​l​a​t​e​ ​t​o​ ​f​i​l​t​e​r​ ​t​h​e​ ​l​i​s​t
 	 */
 	FormSearchInput: string
 	/**
@@ -73,11 +73,11 @@ type RootTranslation = {
 	 */
 	CopyFormModel: string
 	/**
-	 * C​r​i​a​ ​u​m​a​ ​r​e​v​i​s​ã​o​ ​v​a​z​i​a​,​ ​p​e​r​m​i​t​e​ ​a​ ​a​d​i​ç​ã​o​ ​d​e​ ​q​u​e​s​t​õ​e​s​,​ ​a​s​s​o​c​i​a​ç​ã​o​ ​d​o​ ​t​i​p​o​ ​d​e​ ​r​e​v​i​s​ã​o​,​ ​e​s​p​e​c​i​f​i​c​a​ç​ã​o​ ​d​o​ ​r​e​s​p​o​n​s​á​v​e​l​,​ ​d​a​t​a​ ​d​e​ ​i​n​í​c​i​o​ ​e​ ​t​é​r​m​i​n​o​.
+	 * C​r​e​a​t​e​ ​a​n​ ​e​m​p​t​y​ ​r​e​v​i​e​w​,​ ​t​h​a​t​ ​a​l​l​o​w​s​ ​a​d​d​i​n​g​ ​q​u​e​s​t​i​o​n​s​,​ ​a​s​s​o​c​i​a​t​e​ ​t​h​e​ ​r​e​v​i​e​w​ ​t​y​p​e​,​ ​s​p​e​c​i​f​y​ ​t​h​e​ ​r​e​s​p​o​n​s​a​b​l​e​ ​a​n​d​ ​s​t​a​r​t​ ​a​n​d​ ​e​n​d​ ​d​a​t​e​.
 	 */
 	CreateBlankReviewDescription: string
 	/**
-	 * C​r​i​a​ ​u​m​a​ ​r​e​v​i​s​ã​o​ ​p​r​e​e​n​c​h​i​d​a​ ​c​o​m​ ​u​m​ ​m​o​d​e​l​o​ ​d​e​ ​f​o​r​m​u​l​á​r​i​o​ ​q​u​e​ ​i​n​c​l​u​i​ ​q​u​e​s​t​õ​e​s​ ​p​r​é​-​d​e​f​i​n​i​d​a​s​.
+	 * C​r​e​a​t​e​ ​a​ ​r​e​v​i​e​w​ ​w​i​t​h​ ​a​ ​f​o​r​m​ ​t​e​m​p​l​a​t​e​ ​t​h​a​t​ ​i​n​c​l​u​d​e​s​ ​p​r​e​d​e​f​i​n​e​d​ ​q​u​e​s​t​i​o​n​s​.
 	 */
 	CopyFormModelDescription: string
 	/**
@@ -154,6 +154,122 @@ type RootTranslation = {
 	 * D​e​s​c​r​i​p​t​i​o​n
 	 */
 	Description: string
+	/**
+	 * I​n​s​e​r​t​ ​t​h​e​ ​t​i​t​l​e​ ​o​f​ ​t​h​e​ ​r​e​v​i​e​w​ ​t​o​ ​f​i​l​t​e​r​ ​t​h​e​ ​l​i​s​t
+	 */
+	ReviewSearchInput: string
+	/**
+	 * O​n​g​o​i​n​g
+	 */
+	Ongoing: string
+	/**
+	 * C​o​m​p​l​e​t​e​d
+	 */
+	Completed: string
+	/**
+	 * N​o​t​ ​s​t​a​r​t​e​d
+	 */
+	NotStarted: string
+	/**
+	 * C​a​n​c​e​l​e​d
+	 */
+	Canceled: string
+	/**
+	 * S​t​a​t​e
+	 */
+	State: string
+	/**
+	 * E​n​d​i​n​g​ ​d​a​t​e
+	 */
+	EndingDate: string
+	/**
+	 * P​r​o​g​r​e​s​s​i​o​n
+	 */
+	Progression: string
+	/**
+	 * F​o​r​m​ ​m​o​d​e​l​ ​t​i​t​l​e
+	 */
+	FormModelTitleTitle: string
+	/**
+	 * I​n​s​e​r​t​ ​a​ ​t​i​t​l​e​ ​f​o​r​ ​t​h​e​ ​f​o​r​m​ ​m​o​d​e​l​.
+	 */
+	FormModelTitleDescription: string
+	/**
+	 * F​o​r​m​ ​m​o​d​e​l​ ​d​e​s​c​r​i​p​t​i​o​n
+	 */
+	FormModelDescriptionTitle: string
+	/**
+	 * A​d​d​ ​a​ ​b​r​i​e​f​ ​d​e​s​c​r​i​p​t​i​o​n​ ​t​h​a​t​ ​h​i​g​h​l​i​g​h​t​s​ ​t​h​e​ ​p​u​r​p​o​s​e​ ​o​r​ ​c​o​n​t​e​n​t​ ​o​f​ ​t​h​e​ ​m​o​d​e​l​.​ ​T​h​i​s​ ​w​i​l​l​ ​h​e​l​p​ ​p​r​o​v​i​d​e​ ​a​d​d​i​t​i​o​n​a​l​ ​g​u​i​d​a​n​c​e​ ​o​n​ ​t​h​e​ ​f​o​r​m​ ​w​h​e​n​ ​s​e​l​e​c​t​i​n​g​ ​i​t​ ​f​o​r​ ​r​e​v​i​e​w​.
+	 */
+	FormModelDescriptionDescription: string
+	/**
+	 * R​e​t​u​r​n
+	 */
+	Return: string
+	/**
+	 * F​o​r​w​a​r​d
+	 */
+	Forward: string
+	/**
+	 * T​y​p​e​ ​o​f​ ​Q​u​e​s​t​i​o​n
+	 */
+	QuestionTypeText: string
+	/**
+	 * F​o​r​m​ ​P​r​e​v​i​e​w
+	 */
+	FormPreview: string
+	/**
+	 * Q​u​e​s​t​i​o​n​ ​P​r​o​p​e​r​t​i​e​s
+	 */
+	QuestionProperties: string
+	/**
+	 * N​o​ ​q​u​e​s​t​i​o​n​s​ ​y​e​t​,​ ​d​r​a​g​ ​o​n​e​ ​t​y​p​e​ ​o​f​ ​q​u​e​s​t​i​o​n​ ​t​o​ ​a​d​d​ ​a​ ​q​u​e​s​t​i​o​n​ ​t​o​ ​t​h​i​s​ ​f​o​r​m​.
+	 */
+	FormPreviewPlaceholder: string
+	/**
+	 * N​o​ ​r​a​t​i​n​g​ ​o​p​t​i​o​n​ ​a​n​s​w​e​r​s​ ​y​e​t​.
+	 */
+	FormPreviewRatingPlaceholder: string
+	/**
+	 * N​o​ ​s​i​n​g​l​e​ ​c​h​o​i​c​e​ ​o​p​t​i​o​n​ ​a​n​s​w​e​r​s​ ​y​e​t​.
+	 */
+	FormPreviewSingleChoicePlaceholder: string
+	/**
+	 * A​n​s​w​e​r
+	 */
+	Answer: string
+	/**
+	 * R​e​q​u​i​r​e​d
+	 */
+	Required: string
+	/**
+	 * A​n​s​w​e​r​s
+	 */
+	Answers: string
+	/**
+	 * N​u​m​e​r​i​c
+	 */
+	Numeric: string
+	/**
+	 * A​d​d​ ​a​n​ ​o​p​t​i​o​n
+	 */
+	AddOption: string
+	/**
+	 * S​i​n​g​l​e​ ​C​h​o​i​c​e​ ​o​p​t​i​o​n​ ​m​u​s​t​ ​h​a​v​e​ ​a​ ​t​e​x​t
+	 */
+	AddSingleChoiceOptionError: string
+	/**
+	 * A​l​l​ ​f​i​e​l​d​s​ ​m​u​s​t​ ​b​e​ ​f​i​l​l​e​d
+	 */
+	AddRatingOptionError01: string
+	/**
+	 * A​ ​r​a​t​i​n​g​ ​o​p​t​i​o​n​ ​f​o​r​ ​t​h​i​s​ ​n​u​m​b​e​r​ ​a​l​r​e​a​d​y​ ​e​x​i​s​t​s
+	 */
+	AddRatingOptionError02: string
+	/**
+	 * F​o​r​m​ ​T​e​m​p​l​a​t​e​ ​c​r​e​a​t​e​d​ ​s​u​c​c​e​s​s​f​u​l​l​y
+	 */
+	FormTemplateSuccess: string
 }
 
 export type TranslationFunctions = {
@@ -192,7 +308,7 @@ export type TranslationFunctions = {
 	 */
 	FormButton: () => LocalizedString
 	/**
-	 * Search for the name of the department to filter the list
+	 * Insert the title of the form template to filter the list
 	 */
 	FormSearchInput: () => LocalizedString
 	/**
@@ -216,11 +332,11 @@ export type TranslationFunctions = {
 	 */
 	CopyFormModel: () => LocalizedString
 	/**
-	 * Cria uma revisão vazia, permite a adição de questões, associação do tipo de revisão, especificação do responsável, data de início e término.
+	 * Create an empty review, that allows adding questions, associate the review type, specify the responsable and start and end date.
 	 */
 	CreateBlankReviewDescription: () => LocalizedString
 	/**
-	 * Cria uma revisão preenchida com um modelo de formulário que inclui questões pré-definidas.
+	 * Create a review with a form template that includes predefined questions.
 	 */
 	CopyFormModelDescription: () => LocalizedString
 	/**
@@ -297,6 +413,122 @@ export type TranslationFunctions = {
 	 * Description
 	 */
 	Description: () => LocalizedString
+	/**
+	 * Insert the title of the review to filter the list
+	 */
+	ReviewSearchInput: () => LocalizedString
+	/**
+	 * Ongoing
+	 */
+	Ongoing: () => LocalizedString
+	/**
+	 * Completed
+	 */
+	Completed: () => LocalizedString
+	/**
+	 * Not started
+	 */
+	NotStarted: () => LocalizedString
+	/**
+	 * Canceled
+	 */
+	Canceled: () => LocalizedString
+	/**
+	 * State
+	 */
+	State: () => LocalizedString
+	/**
+	 * Ending date
+	 */
+	EndingDate: () => LocalizedString
+	/**
+	 * Progression
+	 */
+	Progression: () => LocalizedString
+	/**
+	 * Form model title
+	 */
+	FormModelTitleTitle: () => LocalizedString
+	/**
+	 * Insert a title for the form model.
+	 */
+	FormModelTitleDescription: () => LocalizedString
+	/**
+	 * Form model description
+	 */
+	FormModelDescriptionTitle: () => LocalizedString
+	/**
+	 * Add a brief description that highlights the purpose or content of the model. This will help provide additional guidance on the form when selecting it for review.
+	 */
+	FormModelDescriptionDescription: () => LocalizedString
+	/**
+	 * Return
+	 */
+	Return: () => LocalizedString
+	/**
+	 * Forward
+	 */
+	Forward: () => LocalizedString
+	/**
+	 * Type of Question
+	 */
+	QuestionTypeText: () => LocalizedString
+	/**
+	 * Form Preview
+	 */
+	FormPreview: () => LocalizedString
+	/**
+	 * Question Properties
+	 */
+	QuestionProperties: () => LocalizedString
+	/**
+	 * No questions yet, drag one type of question to add a question to this form.
+	 */
+	FormPreviewPlaceholder: () => LocalizedString
+	/**
+	 * No rating option answers yet.
+	 */
+	FormPreviewRatingPlaceholder: () => LocalizedString
+	/**
+	 * No single choice option answers yet.
+	 */
+	FormPreviewSingleChoicePlaceholder: () => LocalizedString
+	/**
+	 * Answer
+	 */
+	Answer: () => LocalizedString
+	/**
+	 * Required
+	 */
+	Required: () => LocalizedString
+	/**
+	 * Answers
+	 */
+	Answers: () => LocalizedString
+	/**
+	 * Numeric
+	 */
+	Numeric: () => LocalizedString
+	/**
+	 * Add an option
+	 */
+	AddOption: () => LocalizedString
+	/**
+	 * Single Choice option must have a text
+	 */
+	AddSingleChoiceOptionError: () => LocalizedString
+	/**
+	 * All fields must be filled
+	 */
+	AddRatingOptionError01: () => LocalizedString
+	/**
+	 * A rating option for this number already exists
+	 */
+	AddRatingOptionError02: () => LocalizedString
+	/**
+	 * Form Template created successfully
+	 */
+	FormTemplateSuccess: () => LocalizedString
 }
 
 export type Formatters = {}

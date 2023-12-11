@@ -1,6 +1,7 @@
 <script lang="ts">
     // IMPORTS
     import LL from '../../i18n/i18n-svelte'
+    import toast, { Toaster } from 'svelte-french-toast'
     import { api } from '$lib/stores/url'
     import { draggable } from '$lib/actions/dnd'
     import { fade, fly } from 'svelte/transition'
@@ -9,7 +10,7 @@
 
     //VARIABLES
     let apiUrl: string
-    let formTemplate: FormTemplate = {createdByUserId: 999, translations: [{language: 'PT', title: '', description: ''}], questions: []}
+    let formTemplate: FormTemplate = {createdByUserId: 1, translations: [{language: 'PT', title: '', description: ''}], questions: []}
     let questions: Question[] = []
     let insertedSingleChoiceOption: string = '' 
     let insertedNumericValue: number | null = null
@@ -42,7 +43,6 @@
         if (currentStep != 0) currentStep -= 1
     }
     const handleStepForward = async (event: Event) => { 
-        console.log(formTemplate)
         if (currentStep != 2) currentStep += 1
         else {
             const request = await fetch(apiUrl + "FormTemplates", {
@@ -53,13 +53,13 @@
                 body: JSON.stringify(formTemplate)
             })
 
-            const response = await request.json() 
+            const response = await request.json()
+            console.log(response)
 
             if (response.status != 200) {
-                console.log(response.error)
-                goto('/forms')
+                toast.error(response.details)
             } else {
-                console.log(response.body)
+                toast.success($LL.FormTemplateSuccess())
                 goto('/forms')
             }
         }
@@ -83,7 +83,7 @@
             }
 
             questions = [...questions, newQuestion]
-            console.log(questions)
+            selectedQuestion = newQuestion
         }
     }
 
@@ -119,6 +119,7 @@
     function addSingleChoiceOption(insertedOption: string): void {
         insertedSingleChoiceOption = ''
         if (insertedOption == '' || insertedOption == null) { 
+            toast.error($LL.AddSingleChoiceOptionError())
             return
         }
         let singleChoiceOptionTranslation: Translations = {language: formTemplate.translations[0].language, title: insertedOption, description: ''}
@@ -129,16 +130,16 @@
     //Function to add rating option
     function addRatingOption(numericValue: number | null, title: string): void {
         let conditionIsTrue = false
-        insertedNumericValue = 0
+        insertedNumericValue = null
         insertedTitle = ''
         if (numericValue == 0 || title == null || title == '') {
-            console.log("Invalid insert")
+            toast.error($LL.AddRatingOptionError01())
             return
         }
         selectedQuestion.ratingOptions.forEach(element => {
             if (element.numericValue == numericValue) {
                 conditionIsTrue = true
-                console.log("This number already exist")
+                toast.error($LL.AddRatingOptionError02())
                 return
             }
         })
@@ -163,6 +164,8 @@
 
 </script>
 
+<Toaster />
+
 <div class="flex flex-col text-gray-400 text-xs gap-y-16">
     <Steps clickable={false} {steps} size="2.3em" bind:current={currentStep} />
 
@@ -179,20 +182,20 @@
                 </select>
             </div>
             <div class="flex flex-col gap-y-1">
-                <p class="text-black text-base font-semibold">Nome do modelo do formulário</p>
-                <p>Insira um nome único para identificar o modelo de formulário. Este nome será usado para referenciar e selecionar o modelo ao criar uma nova revisão</p>
+                <p class="text-black text-base font-semibold">{$LL.FormModelTitleTitle()}</p>
+                <p>{$LL.FormModelTitleDescription()}</p>
                 <input name="titleForm" class="w-auto my-1 p-2 text-black border rounded" bind:value={formTemplate.translations[0].title} />
             </div>
             <div class="flex flex-col gap-y-1">
-                <p class="text-black text-base font-semibold">Descrição</p>
-                <p>Adicione uma breve descrição que destaque o propósito ou conteúdo do modelo. Isso ajudará a fornecer orientação adicional sobre o modelo de formulário ao selecioná-lo para uma revisão.</p>
+                <p class="text-black text-base font-semibold">{$LL.FormModelDescriptionTitle()}</p>
+                <p>{$LL.FormModelDescriptionDescription()}</p>
                 <textarea name="descriptionForm" rows="8" class="w-auto my-1 p-2 text-black border rounded" bind:value={formTemplate.translations[0].description}></textarea>
             </div>
         </div>
     {:else if currentStep == 1}
         <div class="flex flex-row gap-x-10">
             <div class="flex flex-col gap-y-2">
-                <p class="text-black text-base font-semibold">Tipo de Questão</p>
+                <p class="text-black text-base font-semibold">{$LL.QuestionTypeText()}</p>
                 <div class="flex flex-col gap-y-2">
                     {#each cards as card}
                         <p use:draggable={card.id} class="flex items-center gap-x-2 p-2 bg-gray-100 text-black font-bold rounded">
@@ -205,11 +208,11 @@
                 </div>
             </div>
             <div class="flex flex-col gap-y-2 w-2/4">
-                <p class="text-black text-base font-semibold">Pré-visualização do Formulário</p>
+                <p class="text-black text-base font-semibold">{$LL.FormPreview()}</p>
                 <!-- svelte-ignore a11y-no-static-element-interactions -->
-                <div class="bg-gray-100 min-h-[250px] h-full flex flex-col gap-y-2 shadow-lg rounded-lg p-5" on:drop="{handleDrop}" on:dragover="{allowDrop}">
+                <div class="bg-gray-100 min-h-[250px] h-full flex flex-col gap-y-2 shadow-lg rounded-lg p-5 border border-gray-200" on:drop="{handleDrop}" on:dragover="{allowDrop}">
                     {#if questions.length == 0}
-                        <p>No questions yet, drag one type of question to add a question to this form.</p>
+                        <p>{$LL.FormPreviewPlaceholder()}</p>
                     {/if}
                     {#each questions as question, index}
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -229,7 +232,7 @@
                             {#if question.responseType === 'Rating' }
                                 {#if question.ratingOptions.length == 0}
                                     <div class="bg-gray-100 py-2 px-5 rounded-lg">
-                                        <p>No rating option answers yet.</p>
+                                        <p>{$LL.FormPreviewRatingPlaceholder()}</p>
                                     </div>
                                 {:else}
                                     <div class="flex gap-x-1">
@@ -244,7 +247,7 @@
                             {:else if question.responseType === 'SingleChoice' }
                                 {#if question.singleChoiceOptions.length == 0}
                                     <div class="bg-gray-100 py-2 px-5 rounded-lg">
-                                        <p>No single choice option answers yet.</p>
+                                        <p>{$LL.FormPreviewSingleChoicePlaceholder()}</p>
                                     </div>
                                 {:else}
                                     <div class="flex flex-col gap-y-1">
@@ -257,7 +260,7 @@
                                 {/if}
                             {:else}
                                 <div class="bg-gray-100 py-2 px-5 rounded-lg">
-                                    <p>Text Answer...</p>
+                                    <p>{$LL.Answer()}</p>
                                 </div>
                             {/if}
                         </div>
@@ -265,8 +268,8 @@
                 </div>
             </div>
             <div class="flex flex-col gap-y-2 flex-grow">
-                <p class="text-black text-base font-semibold">Propriedades da Questão</p>
-                <div class="bg-gray-100 flex flex-col h-full gap-y-10 shadow-lg rounded-lg p-5">
+                <p class="text-black text-base font-semibold">{$LL.QuestionProperties()}</p>
+                <div class="bg-gray-100 flex flex-col h-full gap-y-10 shadow-lg rounded-lg p-5 border border-gray-200">
                     {#if selectedQuestion && selectedQuestion.position !== -1}
                         <div class="flex gap-x-2">
                             <p class="text-blue-500 font-extrabold text-base">Q{selectedQuestion.position}</p>
@@ -274,27 +277,27 @@
                         </div>
                         <div class="flex flex-col gap-y-5">
                             <div class="flex gap-x-2">
-                                <p class="text-black text-sm font-semibold">Required</p>
+                                <p class="text-black text-sm font-semibold">{$LL.Required()}</p>
                                 <label class="toggle">
                                     <input type="checkbox" checked="{selectedQuestion.isRequired}" on:change={() => selectedQuestion.isRequired = !selectedQuestion.isRequired}>
                                     <span class="slider"></span>
                                 </label>
                             </div>
                             <div class="flex flex-col gap-y-1">
-                                <p class="text-black text-sm font-semibold">Titulo</p>
-                                <input class="text-black p-2 rounded" placeholder="Title" bind:value={selectedQuestion.translations[0].title} on:blur={() => updateQuestion(selectedQuestion)} />
+                                <p class="text-black text-sm font-semibold">{$LL.Title()}</p>
+                                <input class="text-black p-2 rounded" placeholder={$LL.Title()} bind:value={selectedQuestion.translations[0].title} on:blur={() => updateQuestion(selectedQuestion)} />
                             </div>
                             <div class="flex flex-col gap-y-1">
-                                <p class="text-black text-sm font-semibold">Descricao</p>
-                                <textarea class="text-black p-2 rounded" placeholder="Description" bind:value={selectedQuestion.translations[0].description} on:blur={() => updateQuestion(selectedQuestion)} rows="5"></textarea>
+                                <p class="text-black text-sm font-semibold">{$LL.Description()}</p>
+                                <textarea class="text-black p-2 rounded" placeholder={$LL.Description()} bind:value={selectedQuestion.translations[0].description} on:blur={() => updateQuestion(selectedQuestion)} rows="5"></textarea>
                             </div>
                             {#if selectedQuestion.responseType == 'Rating'}
                                 <div class="flex flex-col gap-y-1">
-                                    <p class="text-black text-sm font-semibold">Respostas</p>
+                                    <p class="text-black text-sm font-semibold">{$LL.Answers()}</p>
                                     <div class="flex flex-col justify-center gap-y-1">
                                         {#each selectedQuestion.ratingOptions as option, index}
                                             <div class="flex gap-x-2">
-                                                <p class="bg-white p-2 text-black border border-gray-500 rounded flex-grow">{option.translations[0].title}</p>
+                                                <p class="bg-white p-2 text-black rounded flex-grow">{option.translations[0].title}</p>
                                                 <button on:click={() => removeOption(index, 2)}>
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 hover:text-black">
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
@@ -303,8 +306,8 @@
                                             </div>
                                         {/each}
                                         <div class="flex gap-x-2">
-                                            <input id="numericValueRatingOption" class="bg-white w-16 p-2 text-black border border-dashed border-gray-500 rounded" bind:value={insertedNumericValue} placeholder="Numeric" />
-                                            <input id="titleRatingOption" class="bg-white p-2 text-black border border-dashed border-gray-500 rounded flex-grow" bind:value={insertedTitle} placeholder="Adicionar nova opção" />
+                                            <input id="numericValueRatingOption" class="bg-white w-[70px] p-2 text-black border border-dashed border-gray-500 rounded" bind:value={insertedNumericValue} placeholder={$LL.Numeric()} />
+                                            <input id="titleRatingOption" class="bg-white p-2 text-black border border-dashed border-gray-500 rounded flex-grow" bind:value={insertedTitle} placeholder={$LL.AddOption()} />
                                             <button on:click={() => addRatingOption(insertedNumericValue, insertedTitle)}>
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-500 hover:bg-blue-100 rounded-full">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -315,7 +318,7 @@
                                 </div>
                             {:else if selectedQuestion.responseType == 'SingleChoice'}
                                 <div class="flex flex-col gap-y-1">
-                                    <p class="text-black text-sm font-semibold">Respostas</p>
+                                    <p class="text-black text-sm font-semibold">{$LL.Answers()}</p>
                                     <div class="flex flex-col justify-center gap-y-1">
                                         {#each selectedQuestion.singleChoiceOptions as option, index}
                                             <div class="flex gap-x-2">
@@ -328,7 +331,7 @@
                                             </div>
                                         {/each}
                                         <div class="flex gap-x-2">
-                                            <input class="bg-white p-2 text-black border border-dashed border-gray-500 rounded flex-grow" bind:value={insertedSingleChoiceOption} placeholder="Adicionar nova opção" />
+                                            <input class="bg-white p-2 text-black border border-dashed border-gray-500 rounded flex-grow" bind:value={insertedSingleChoiceOption} placeholder={$LL.AddOption()} />
                                             <button on:click={() => addSingleChoiceOption(insertedSingleChoiceOption)}>
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-500 hover:bg-blue-100 rounded-full">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -344,7 +347,7 @@
             </div>
         </div>
     {:else if currentStep == 2}
-        <p>Finalizar</p>
+        <p></p>
     {/if}
 
     <!-- Buttons of Stepper -->
@@ -353,15 +356,15 @@
         <button on:click={handleStepBackward} class="flex gap-x-2 text-lg font-semibold px-5 py-2 border border-transparent hover:bg-gray-100 rounded" id="buttonGoBack">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="4" stroke="currentColor" class="w-7 h-7">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-            </svg>              
-            Voltar
+            </svg> 
+            {$LL.Return()}
         </button>
         <!-- Go Next button -->
         <button on:click={handleStepForward} type="submit" class="flex gap-x-2 text-lg font-semibold px-5 py-2 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded" id="buttonGoForward" value="Submit">
             {#if currentStep != 2}
-                Avançar
+                {$LL.Forward()}
             {:else}
-                Finalizar
+                {$LL.Finalize()}
             {/if}
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="4" stroke="currentColor" class="w-7 h-7">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
@@ -422,5 +425,4 @@
     #questionsAdded:focus {
         border-color: #3B82F6
     }
-
 </style>
