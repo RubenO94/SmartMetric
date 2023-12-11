@@ -56,11 +56,15 @@
             const response = await request.json()
             console.log(response)
 
-            if (response.status != 200) {
-                toast.error(response.details)
-            } else {
+            if (response.statusCode == 201) {
                 toast.success($LL.FormTemplateSuccess())
                 goto('/forms')
+            } else if (response.error === 'Questions') {
+                toast.error($LL.ErrorsFormTemplate.Question())
+            } else if (response.error === 'Translations[0].Title') {
+                toast.error($LL.ErrorsFormTemplate.Title())
+            } else {
+                toast.error($LL.ErrorsFormTemplate.Others())
             }
         }
     }
@@ -306,7 +310,7 @@
                                             </div>
                                         {/each}
                                         <div class="flex gap-x-2">
-                                            <input id="numericValueRatingOption" class="bg-white w-[70px] p-2 text-black border border-dashed border-gray-500 rounded" bind:value={insertedNumericValue} placeholder={$LL.Numeric()} />
+                                            <input id="numericValueRatingOption" type="number" class="bg-white w-[70px] p-2 text-black border border-dashed border-gray-500 rounded" bind:value={insertedNumericValue} placeholder={$LL.Numeric()} />
                                             <input id="titleRatingOption" class="bg-white p-2 text-black border border-dashed border-gray-500 rounded flex-grow" bind:value={insertedTitle} placeholder={$LL.AddOption()} />
                                             <button on:click={() => addRatingOption(insertedNumericValue, insertedTitle)}>
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-500 hover:bg-blue-100 rounded-full">

@@ -1,11 +1,10 @@
 <script lang="ts">
-    import { LL, locale }from "../../i18n/i18n-svelte"
+    import { LL, locale } from "../../i18n/i18n-svelte"
 
     export let data
 
     let responseData = data.formTemplates
     let lang = $locale.toUpperCase()
-    console.log(responseData)
     
 </script>
 

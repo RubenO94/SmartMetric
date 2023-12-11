@@ -28,4 +28,18 @@ type Translations = {
     description: string,
 }
 
-type Reviews = {}
+type Reviews = {
+    createdByUserId: number,
+    startDate: string,
+    endDate: string,
+    reviewType: string,
+    reviewStatus: string,
+    translations: Translations[],
+    questions: Question[]
+    reviewDepartmentsIds: Array<number>
+}
+
+type Secrets = {
+    apiUrl: string,
+    token: string
+}

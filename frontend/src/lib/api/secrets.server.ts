@@ -1,7 +1,8 @@
 import 'dotenv/config'
 
-const secrets = {
-    apiUrl: process.env.API_URL
-}
+const secrets: Secrets = {
+    apiUrl: process.env.API_URL,
+    token: process.env.API_TOKEN
+};
 
 export default secrets

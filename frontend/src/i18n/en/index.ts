@@ -62,12 +62,31 @@ const en: BaseTranslation = {
 	Answer: "Answer",
 	Required: "Required",
 	Answers: "Answers",
-	Numeric: "Numeric",
+	Numeric: "Value",
 	AddOption: "Add an option",
 	AddSingleChoiceOptionError: "Single Choice option must have a text",
 	AddRatingOptionError01: "All fields must be filled",
 	AddRatingOptionError02: "A rating option for this number already exists",
-	FormTemplateSuccess: "Form Template created successfully"
+	FormTemplateSuccess: "Form Template created successfully",
+	QuestionWithoutDesc: "Question without description",
+	ErrorsFormTemplate: {
+		Title: "Form template must have a title",
+		Question: "Form template must have at least one question",
+		Others: "Server error"
+	},
+	Departments: "Departments",
+	ReviewTitleTitle: "Review Title",
+	ReviewTitleDescription: "Insert a title to identify the review. Exemplo: 'Revisão Trimestral de Desempenho'",
+	ReviewDescriptionTitle: "Review Description",
+	ReviewDescriptionDescription: "Provide a detailed explanation of the scope, criteria, and objectives of this review. This helps ensure a comprehensive understanding of the elements to be evaluated.",
+	ReviewTypeTitle: "Review type",
+	ReviewTypeDescription: "Choose the evaluation method that best suits the organizational dynamics.",
+	SaveReviewAsForm: "Save Review as Form template",
+	SaveReviewAsFormDesc: "If you wish, you can save the questionnaire from this review as a form template to facilitate the quick creation of future reviews. Just check the option below.",
+	Save: "Save Form",
+	StartAndEndDateText: "Specify Start and End Date.",
+	StartAndEndDateDesc: "Optionally, you can specify start and end dates for the review. If you don't provide this information now, you will be prompted to indicate the dates when you actually start the review.",
+	
 }
 
 export default en

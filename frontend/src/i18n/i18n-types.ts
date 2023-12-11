@@ -247,7 +247,7 @@ type RootTranslation = {
 	 */
 	Answers: string
 	/**
-	 * N​u​m​e​r​i​c
+	 * V​a​l​u​e
 	 */
 	Numeric: string
 	/**
@@ -270,6 +270,72 @@ type RootTranslation = {
 	 * F​o​r​m​ ​T​e​m​p​l​a​t​e​ ​c​r​e​a​t​e​d​ ​s​u​c​c​e​s​s​f​u​l​l​y
 	 */
 	FormTemplateSuccess: string
+	/**
+	 * Q​u​e​s​t​i​o​n​ ​w​i​t​h​o​u​t​ ​d​e​s​c​r​i​p​t​i​o​n
+	 */
+	QuestionWithoutDesc: string
+	ErrorsFormTemplate: {
+		/**
+		 * F​o​r​m​ ​t​e​m​p​l​a​t​e​ ​m​u​s​t​ ​h​a​v​e​ ​a​ ​t​i​t​l​e
+		 */
+		Title: string
+		/**
+		 * F​o​r​m​ ​t​e​m​p​l​a​t​e​ ​m​u​s​t​ ​h​a​v​e​ ​a​t​ ​l​e​a​s​t​ ​o​n​e​ ​q​u​e​s​t​i​o​n
+		 */
+		Question: string
+		/**
+		 * S​e​r​v​e​r​ ​e​r​r​o​r
+		 */
+		Others: string
+	}
+	/**
+	 * D​e​p​a​r​t​m​e​n​t​s
+	 */
+	Departments: string
+	/**
+	 * R​e​v​i​e​w​ ​T​i​t​l​e
+	 */
+	ReviewTitleTitle: string
+	/**
+	 * I​n​s​e​r​t​ ​a​ ​t​i​t​l​e​ ​t​o​ ​i​d​e​n​t​i​f​y​ ​t​h​e​ ​r​e​v​i​e​w​.​ ​E​x​e​m​p​l​o​:​ ​'​R​e​v​i​s​ã​o​ ​T​r​i​m​e​s​t​r​a​l​ ​d​e​ ​D​e​s​e​m​p​e​n​h​o​'
+	 */
+	ReviewTitleDescription: string
+	/**
+	 * R​e​v​i​e​w​ ​D​e​s​c​r​i​p​t​i​o​n
+	 */
+	ReviewDescriptionTitle: string
+	/**
+	 * P​r​o​v​i​d​e​ ​a​ ​d​e​t​a​i​l​e​d​ ​e​x​p​l​a​n​a​t​i​o​n​ ​o​f​ ​t​h​e​ ​s​c​o​p​e​,​ ​c​r​i​t​e​r​i​a​,​ ​a​n​d​ ​o​b​j​e​c​t​i​v​e​s​ ​o​f​ ​t​h​i​s​ ​r​e​v​i​e​w​.​ ​T​h​i​s​ ​h​e​l​p​s​ ​e​n​s​u​r​e​ ​a​ ​c​o​m​p​r​e​h​e​n​s​i​v​e​ ​u​n​d​e​r​s​t​a​n​d​i​n​g​ ​o​f​ ​t​h​e​ ​e​l​e​m​e​n​t​s​ ​t​o​ ​b​e​ ​e​v​a​l​u​a​t​e​d​.
+	 */
+	ReviewDescriptionDescription: string
+	/**
+	 * R​e​v​i​e​w​ ​t​y​p​e
+	 */
+	ReviewTypeTitle: string
+	/**
+	 * C​h​o​o​s​e​ ​t​h​e​ ​e​v​a​l​u​a​t​i​o​n​ ​m​e​t​h​o​d​ ​t​h​a​t​ ​b​e​s​t​ ​s​u​i​t​s​ ​t​h​e​ ​o​r​g​a​n​i​z​a​t​i​o​n​a​l​ ​d​y​n​a​m​i​c​s​.
+	 */
+	ReviewTypeDescription: string
+	/**
+	 * S​a​v​e​ ​R​e​v​i​e​w​ ​a​s​ ​F​o​r​m​ ​t​e​m​p​l​a​t​e
+	 */
+	SaveReviewAsForm: string
+	/**
+	 * I​f​ ​y​o​u​ ​w​i​s​h​,​ ​y​o​u​ ​c​a​n​ ​s​a​v​e​ ​t​h​e​ ​q​u​e​s​t​i​o​n​n​a​i​r​e​ ​f​r​o​m​ ​t​h​i​s​ ​r​e​v​i​e​w​ ​a​s​ ​a​ ​f​o​r​m​ ​t​e​m​p​l​a​t​e​ ​t​o​ ​f​a​c​i​l​i​t​a​t​e​ ​t​h​e​ ​q​u​i​c​k​ ​c​r​e​a​t​i​o​n​ ​o​f​ ​f​u​t​u​r​e​ ​r​e​v​i​e​w​s​.​ ​J​u​s​t​ ​c​h​e​c​k​ ​t​h​e​ ​o​p​t​i​o​n​ ​b​e​l​o​w​.
+	 */
+	SaveReviewAsFormDesc: string
+	/**
+	 * S​a​v​e​ ​F​o​r​m
+	 */
+	Save: string
+	/**
+	 * S​p​e​c​i​f​y​ ​S​t​a​r​t​ ​a​n​d​ ​E​n​d​ ​D​a​t​e​.
+	 */
+	StartAndEndDateText: string
+	/**
+	 * O​p​t​i​o​n​a​l​l​y​,​ ​y​o​u​ ​c​a​n​ ​s​p​e​c​i​f​y​ ​s​t​a​r​t​ ​a​n​d​ ​e​n​d​ ​d​a​t​e​s​ ​f​o​r​ ​t​h​e​ ​r​e​v​i​e​w​.​ ​I​f​ ​y​o​u​ ​d​o​n​'​t​ ​p​r​o​v​i​d​e​ ​t​h​i​s​ ​i​n​f​o​r​m​a​t​i​o​n​ ​n​o​w​,​ ​y​o​u​ ​w​i​l​l​ ​b​e​ ​p​r​o​m​p​t​e​d​ ​t​o​ ​i​n​d​i​c​a​t​e​ ​t​h​e​ ​d​a​t​e​s​ ​w​h​e​n​ ​y​o​u​ ​a​c​t​u​a​l​l​y​ ​s​t​a​r​t​ ​t​h​e​ ​r​e​v​i​e​w​.
+	 */
+	StartAndEndDateDesc: string
 }
 
 export type TranslationFunctions = {
@@ -506,7 +572,7 @@ export type TranslationFunctions = {
 	 */
 	Answers: () => LocalizedString
 	/**
-	 * Numeric
+	 * Value
 	 */
 	Numeric: () => LocalizedString
 	/**
@@ -529,6 +595,72 @@ export type TranslationFunctions = {
 	 * Form Template created successfully
 	 */
 	FormTemplateSuccess: () => LocalizedString
+	/**
+	 * Question without description
+	 */
+	QuestionWithoutDesc: () => LocalizedString
+	ErrorsFormTemplate: {
+		/**
+		 * Form template must have a title
+		 */
+		Title: () => LocalizedString
+		/**
+		 * Form template must have at least one question
+		 */
+		Question: () => LocalizedString
+		/**
+		 * Server error
+		 */
+		Others: () => LocalizedString
+	}
+	/**
+	 * Departments
+	 */
+	Departments: () => LocalizedString
+	/**
+	 * Review Title
+	 */
+	ReviewTitleTitle: () => LocalizedString
+	/**
+	 * Insert a title to identify the review. Exemplo: 'Revisão Trimestral de Desempenho'
+	 */
+	ReviewTitleDescription: () => LocalizedString
+	/**
+	 * Review Description
+	 */
+	ReviewDescriptionTitle: () => LocalizedString
+	/**
+	 * Provide a detailed explanation of the scope, criteria, and objectives of this review. This helps ensure a comprehensive understanding of the elements to be evaluated.
+	 */
+	ReviewDescriptionDescription: () => LocalizedString
+	/**
+	 * Review type
+	 */
+	ReviewTypeTitle: () => LocalizedString
+	/**
+	 * Choose the evaluation method that best suits the organizational dynamics.
+	 */
+	ReviewTypeDescription: () => LocalizedString
+	/**
+	 * Save Review as Form template
+	 */
+	SaveReviewAsForm: () => LocalizedString
+	/**
+	 * If you wish, you can save the questionnaire from this review as a form template to facilitate the quick creation of future reviews. Just check the option below.
+	 */
+	SaveReviewAsFormDesc: () => LocalizedString
+	/**
+	 * Save Form
+	 */
+	Save: () => LocalizedString
+	/**
+	 * Specify Start and End Date.
+	 */
+	StartAndEndDateText: () => LocalizedString
+	/**
+	 * Optionally, you can specify start and end dates for the review. If you don't provide this information now, you will be prompted to indicate the dates when you actually start the review.
+	 */
+	StartAndEndDateDesc: () => LocalizedString
 }
 
 export type Formatters = {}

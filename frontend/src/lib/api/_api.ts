@@ -6,6 +6,9 @@ export async function api (method: string, resource: string, data?: Record<strin
 
         var response = await fetch(`${base}/${resource}`, {
             method: method,
+            headers: {
+                'Authorization': 'Bearer ' + secrets.token
+            },
             body: data && JSON.stringify(data)
         })
         var responseFromApi = await response.json()
@@ -15,7 +18,7 @@ export async function api (method: string, resource: string, data?: Record<strin
             message: responseFromApi.message,
             body: responseFromApi.data
         }
-        
+
     } catch (error) {
         console.log(error)
     }

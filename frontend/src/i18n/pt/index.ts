@@ -62,12 +62,31 @@ const pt: Translation = {
 	Answer: 'Resposta',
 	Required: 'Obrigatório',
 	Answers: 'Respostas',
-	Numeric: 'Numérico',
+	Numeric: 'Valor',
 	AddOption: 'Adicionar uma opção',
 	AddSingleChoiceOptionError: 'Opção de escolha única deve ter um texto',
 	AddRatingOptionError01: 'Todos os campos devem ser preenchidos',
 	AddRatingOptionError02: 'Uma opção de resposta numérica já tem este valor numérico',
-	FormTemplateSuccess: 'Modelo de formulário criado com sucesso'
+	FormTemplateSuccess: 'Modelo de formulário criado com sucesso',
+	QuestionWithoutDesc: 'Questão sem descrição',
+	ErrorsFormTemplate: {
+		Title: 'Modelo de formulário deve ter um título',
+		Question: 'Modelo de formulário deve ter pelo menos uma questão',
+		Others: 'Erro do servidor'
+	},
+	Departments: 'Departamentos',
+	ReviewTitleTitle: 'Título da Revisão',
+	ReviewTitleDescription: 'Insira um título para identificar a revisão. Exemplo: "Revisão Trimestral de Desempenho"',
+	ReviewDescriptionTitle: 'Descrição da Revisão',
+	ReviewDescriptionDescription: 'Forneça uma explicação detalhada do escopo, critérios e objetivos desta revisão. Isso ajuda a garantir uma compreensão abrangente dos elementos a serem avaliados.',
+	ReviewTypeTitle: 'Tipo de Revisão',
+	ReviewTypeDescription: 'Escolha o método de avaliação que melhor se adequa à dinâmica organizacional.',
+	SaveReviewAsForm: 'Guardar Revisão como formulário',
+	SaveReviewAsFormDesc: 'Se desejar, pode guardar o questionário desta revisão como um modelo de formulário para facilitar a criação rápida de revisões futuras. Basta marcar a opção abaixo.',
+	Save: 'Guardar Formulário',
+	StartAndEndDateText: 'Indicar Data de Início e Fim',
+	StartAndEndDateDesc: 'Opcionalmente, pode especificar datas de início e fim para a revisão. Caso não forneça essas informações agora, será solicitado a indicar as datas quando iniciar efetivamente a revisão.',
+	
 }
 
 export default pt
