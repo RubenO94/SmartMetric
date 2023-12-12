@@ -86,7 +86,24 @@ const pt: Translation = {
 	Save: 'Guardar Formulário',
 	StartAndEndDateText: 'Indicar Data de Início e Fim',
 	StartAndEndDateDesc: 'Opcionalmente, pode especificar datas de início e fim para a revisão. Caso não forneça essas informações agora, será solicitado a indicar as datas quando iniciar efetivamente a revisão.',
-	
+	TopDown: {
+		Label: 'Top-Down',
+		Text: 'Avaliação realizada de cima para baixo, geralmente por supervisores.'
+	},
+	BottomUp: {
+		Label: 'Bottom-Up',
+		Text: 'Avaliação realizada de baixo para cima, onde os funcionários também avaliam os seus superiores.'
+	},
+	SelfEvaluation: {
+		Label: 'Auto-Avaliação',
+		Text: 'Autoavaliação individual do desempenho.'
+	},
+	Interdepartmental: {
+		Label: 'Interdepartamental',
+		Text: 'Avaliação entre superiores de diferentes departamentos.'
+	},
+	StartDate: 'Data de início',
+	EndDate: 'Data de fim'
 }
 
 export default pt

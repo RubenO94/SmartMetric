@@ -86,7 +86,24 @@ const en: BaseTranslation = {
 	Save: "Save Form",
 	StartAndEndDateText: "Specify Start and End Date.",
 	StartAndEndDateDesc: "Optionally, you can specify start and end dates for the review. If you don't provide this information now, you will be prompted to indicate the dates when you actually start the review.",
-	
+	TopDown: {
+		Label: "Top-Down",
+		Text: "Evaluation conducted from the top down, typically by supervisors."
+	},
+	BottomUp: {
+		Label: "Bottom-Up",
+		Text: "Evaluation conducted from the bottom up, where employees also assess their superiors."
+	},
+	SelfEvaluation: {
+		Label: "Self-Evaluation",
+		Text: "Individual self-evaluation of performance."
+	},
+	Interdepartmental: {
+		Label: "Interdepartmental",
+		Text: "Evaluation among superiors from different departments."
+	},
+	StartDate: "Start Date",
+	EndDate: "End Date"
 }
 
 export default en

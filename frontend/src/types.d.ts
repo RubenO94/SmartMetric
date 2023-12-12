@@ -40,6 +40,5 @@ type Reviews = {
 }
 
 type Secrets = {
-    apiUrl: string,
-    token: string
+    apiUrl: string
 }

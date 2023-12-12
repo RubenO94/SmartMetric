@@ -2,7 +2,7 @@
     // IMPORTS
     import LL from '../../i18n/i18n-svelte'
     import toast, { Toaster } from 'svelte-french-toast'
-    import { api } from '$lib/stores/url'
+    import { api, api_token } from '$lib/stores/url'
     import { draggable } from '$lib/actions/dnd'
     import { fade, fly } from 'svelte/transition'
     import { goto } from '$app/navigation'
@@ -10,6 +10,7 @@
 
     //VARIABLES
     let apiUrl: string
+    let token: string
     let formTemplate: FormTemplate = {createdByUserId: 1, translations: [{language: 'PT', title: '', description: ''}], questions: []}
     let questions: Question[] = []
     let insertedSingleChoiceOption: string = '' 
@@ -17,26 +18,24 @@
     let insertedTitle: string = ''
     let currentStep = 0
     let selectedQuestion: Question
-    let steps = [{ text: $LL.Details() }, { text: $LL.Questions() }, { text: $LL.Finalize() }]
+    let steps = [
+        { text: $LL.Details() }, 
+        { text: $LL.Questions() }, 
+        { text: $LL.Finalize() }
+    ]
     let cards = [
-        {
-            id: 1,
-            title: $LL.QuestionType.Text(),
-            name: 'Text'
-        },
-        {
-            id: 2,
-            title: $LL.QuestionType.SingleChoice(),
-            name: 'SingleChoice'
-        },
-        {
-            id: 3,
-            title: $LL.QuestionType.Rating(),
-            name: 'Rating'
-        }
+        { id: 1, title: $LL.QuestionType.Text(), name: 'Text' },
+        { id: 2, title: $LL.QuestionType.SingleChoice(), name: 'SingleChoice' },
+        { id: 3, title: $LL.QuestionType.Rating(), name: 'Rating' }
+    ]
+    let icons = [
+        "M3 3h18v2H3zm0 4h12v2H3zm0 4h18v2H3zm0 4h12v2H3zm0 4h18v2H3z",
+        "m10 17l-5-5l1.41-1.42L10 14.17l7.59-7.59L19 8m0-5H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2",
+        "M14 17h-2V9h-2V7h4m5-4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2"
     ]
 
-    const unsubscribe = api.subscribe((value) => { apiUrl = value })
+    api.subscribe((value) => { apiUrl = value })
+    api_token.subscribe((value) => { token = value })
 
     //Functions for Stepper
     const handleStepBackward = (event: Event) => {
@@ -48,7 +47,8 @@
             const request = await fetch(apiUrl + "FormTemplates", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
                 },
                 body: JSON.stringify(formTemplate)
             })
@@ -165,7 +165,6 @@
 
     //Everytime variable questions changes, formTemplate.questions is gonna change too
     $: formTemplate.questions = questions
-
 </script>
 
 <Toaster />
@@ -201,10 +200,10 @@
             <div class="flex flex-col gap-y-2">
                 <p class="text-black text-base font-semibold">{$LL.QuestionTypeText()}</p>
                 <div class="flex flex-col gap-y-2">
-                    {#each cards as card}
-                        <p use:draggable={card.id} class="flex items-center gap-x-2 p-2 bg-gray-100 text-black font-bold rounded">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12H12m-8.25 5.25h16.5" />
+                    {#each cards as card, index}
+                        <p use:draggable={card.id} class="flex items-center gap-x-2 p-2 bg-gray-100 text-gray-600 font-bold rounded">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="{icons[index]}"/>
                             </svg>
                             {card.title}
                         </p>

@@ -336,6 +336,54 @@ type RootTranslation = {
 	 * O​p​t​i​o​n​a​l​l​y​,​ ​y​o​u​ ​c​a​n​ ​s​p​e​c​i​f​y​ ​s​t​a​r​t​ ​a​n​d​ ​e​n​d​ ​d​a​t​e​s​ ​f​o​r​ ​t​h​e​ ​r​e​v​i​e​w​.​ ​I​f​ ​y​o​u​ ​d​o​n​'​t​ ​p​r​o​v​i​d​e​ ​t​h​i​s​ ​i​n​f​o​r​m​a​t​i​o​n​ ​n​o​w​,​ ​y​o​u​ ​w​i​l​l​ ​b​e​ ​p​r​o​m​p​t​e​d​ ​t​o​ ​i​n​d​i​c​a​t​e​ ​t​h​e​ ​d​a​t​e​s​ ​w​h​e​n​ ​y​o​u​ ​a​c​t​u​a​l​l​y​ ​s​t​a​r​t​ ​t​h​e​ ​r​e​v​i​e​w​.
 	 */
 	StartAndEndDateDesc: string
+	TopDown: {
+		/**
+		 * T​o​p​-​D​o​w​n
+		 */
+		Label: string
+		/**
+		 * E​v​a​l​u​a​t​i​o​n​ ​c​o​n​d​u​c​t​e​d​ ​f​r​o​m​ ​t​h​e​ ​t​o​p​ ​d​o​w​n​,​ ​t​y​p​i​c​a​l​l​y​ ​b​y​ ​s​u​p​e​r​v​i​s​o​r​s​.
+		 */
+		Text: string
+	}
+	BottomUp: {
+		/**
+		 * B​o​t​t​o​m​-​U​p
+		 */
+		Label: string
+		/**
+		 * E​v​a​l​u​a​t​i​o​n​ ​c​o​n​d​u​c​t​e​d​ ​f​r​o​m​ ​t​h​e​ ​b​o​t​t​o​m​ ​u​p​,​ ​w​h​e​r​e​ ​e​m​p​l​o​y​e​e​s​ ​a​l​s​o​ ​a​s​s​e​s​s​ ​t​h​e​i​r​ ​s​u​p​e​r​i​o​r​s​.
+		 */
+		Text: string
+	}
+	SelfEvaluation: {
+		/**
+		 * S​e​l​f​-​E​v​a​l​u​a​t​i​o​n
+		 */
+		Label: string
+		/**
+		 * I​n​d​i​v​i​d​u​a​l​ ​s​e​l​f​-​e​v​a​l​u​a​t​i​o​n​ ​o​f​ ​p​e​r​f​o​r​m​a​n​c​e​.
+		 */
+		Text: string
+	}
+	Interdepartmental: {
+		/**
+		 * I​n​t​e​r​d​e​p​a​r​t​m​e​n​t​a​l
+		 */
+		Label: string
+		/**
+		 * E​v​a​l​u​a​t​i​o​n​ ​a​m​o​n​g​ ​s​u​p​e​r​i​o​r​s​ ​f​r​o​m​ ​d​i​f​f​e​r​e​n​t​ ​d​e​p​a​r​t​m​e​n​t​s​.
+		 */
+		Text: string
+	}
+	/**
+	 * S​t​a​r​t​ ​D​a​t​e
+	 */
+	StartDate: string
+	/**
+	 * E​n​d​ ​D​a​t​e
+	 */
+	EndDate: string
 }
 
 export type TranslationFunctions = {
@@ -661,6 +709,54 @@ export type TranslationFunctions = {
 	 * Optionally, you can specify start and end dates for the review. If you don't provide this information now, you will be prompted to indicate the dates when you actually start the review.
 	 */
 	StartAndEndDateDesc: () => LocalizedString
+	TopDown: {
+		/**
+		 * Top-Down
+		 */
+		Label: () => LocalizedString
+		/**
+		 * Evaluation conducted from the top down, typically by supervisors.
+		 */
+		Text: () => LocalizedString
+	}
+	BottomUp: {
+		/**
+		 * Bottom-Up
+		 */
+		Label: () => LocalizedString
+		/**
+		 * Evaluation conducted from the bottom up, where employees also assess their superiors.
+		 */
+		Text: () => LocalizedString
+	}
+	SelfEvaluation: {
+		/**
+		 * Self-Evaluation
+		 */
+		Label: () => LocalizedString
+		/**
+		 * Individual self-evaluation of performance.
+		 */
+		Text: () => LocalizedString
+	}
+	Interdepartmental: {
+		/**
+		 * Interdepartmental
+		 */
+		Label: () => LocalizedString
+		/**
+		 * Evaluation among superiors from different departments.
+		 */
+		Text: () => LocalizedString
+	}
+	/**
+	 * Start Date
+	 */
+	StartDate: () => LocalizedString
+	/**
+	 * End Date
+	 */
+	EndDate: () => LocalizedString
 }
 
 export type Formatters = {}
