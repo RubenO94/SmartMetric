@@ -4,8 +4,12 @@
     export let data
 
     let responseData = data.formTemplates
+    let totalForms = data.total
+    let pageSize = data.pageSize
+    let pageNumber = data.pageNumber
     let lang = $locale.toUpperCase()
-    
+
+    $: totalPages = Math.ceil(totalForms / pageSize)
 </script>
 
 <div class="mx-auto flex flex-col w-[1200px] p-10 gap-y-10">
@@ -56,6 +60,14 @@
                     </div>
                 {/if}
             {/each}
+        {/each}
+    </div>
+
+    <div class="flex border border-gray-300 rounded w-min">
+        {#each Array(totalPages) as _, index}
+            <a href="/forms?page={index + 1}&pageSize={pageSize}" class="px-5 hover:bg-gray-100 {pageNumber === index + 1 ? 'bg-gray-100' : ''} {index !== totalPages - 1 ? 'border-r border-gray-300' : ''}">
+                {index + 1}
+            </a>
         {/each}
     </div>
 </div>

@@ -20,7 +20,8 @@ export async function api (method: string, resource: string, data?: Record<strin
         return { 
             status: responseFromApi.statusCode,
             message: responseFromApi.message,
-            body: responseFromApi.data
+            body: responseFromApi.data,
+            total: responseFromApi.totalCount
         }
 
     } catch (error) {

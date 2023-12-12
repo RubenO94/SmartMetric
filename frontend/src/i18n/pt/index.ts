@@ -103,7 +103,9 @@ const pt: Translation = {
 		Text: 'Avaliação entre superiores de diferentes departamentos.'
 	},
 	StartDate: 'Data de início',
-	EndDate: 'Data de fim'
+	EndDate: 'Data de fim',
+	SelectDepartmentsLabel: 'Selecionar Departamentos a Serem Avaliados',
+	SelectDepartmentsText: 'Selecione o(s) departamento(s) que serão avaliados durante esta revisão. Isso ajuda a direcionar a avaliação para áreas específicas da organização.'
 }
 
 export default pt

@@ -384,6 +384,14 @@ type RootTranslation = {
 	 * E​n​d​ ​D​a​t​e
 	 */
 	EndDate: string
+	/**
+	 * S​e​l​e​c​t​ ​D​e​p​a​r​t​m​e​n​t​s​ ​t​o​ ​b​e​ ​E​v​a​l​u​a​t​e​d
+	 */
+	SelectDepartmentsLabel: string
+	/**
+	 * S​e​l​e​c​t​ ​t​h​e​ ​d​e​p​a​r​t​m​e​n​t​(​s​)​ ​t​h​a​t​ ​w​i​l​l​ ​b​e​ ​e​v​a​l​u​a​t​e​d​ ​d​u​r​i​n​g​ ​t​h​i​s​ ​r​e​v​i​e​w​.​ ​T​h​i​s​ ​h​e​l​p​s​ ​t​o​ ​f​o​c​u​s​ ​t​h​e​ ​a​s​s​e​s​s​m​e​n​t​ ​o​n​ ​s​p​e​c​i​f​i​c​ ​a​r​e​a​s​ ​o​f​ ​t​h​e​ ​o​r​g​a​n​i​z​a​t​i​o​n​.
+	 */
+	SelectDepartmentsText: string
 }
 
 export type TranslationFunctions = {
@@ -757,6 +765,14 @@ export type TranslationFunctions = {
 	 * End Date
 	 */
 	EndDate: () => LocalizedString
+	/**
+	 * Select Departments to be Evaluated
+	 */
+	SelectDepartmentsLabel: () => LocalizedString
+	/**
+	 * Select the department(s) that will be evaluated during this review. This helps to focus the assessment on specific areas of the organization.
+	 */
+	SelectDepartmentsText: () => LocalizedString
 }
 
 export type Formatters = {}

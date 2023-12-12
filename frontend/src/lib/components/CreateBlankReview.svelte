@@ -1,11 +1,15 @@
 <script lang="ts">
     import LL from "../../i18n/i18n-svelte"
     import toast, { Toaster } from 'svelte-french-toast'
+    import { api, api_token } from '$lib/stores/url'
     import { draggable } from '$lib/actions/dnd'
     import { fade, fly } from 'svelte/transition'
+    import { goto } from "$app/navigation"
     import { Steps } from 'svelte-steps'
 
     let currentStep = 0
+    let apiUrl: string
+    let token: string
     let questions: Question[] = []
     let selectedQuestion: Question
     let insertedSingleChoiceOption: string = '' 
@@ -13,13 +17,13 @@
     let insertedTitle: string = ''
     let review: Reviews = {
         createdByUserId: 1,
-        startDate: '',
-        endDate: '',
+        startDate: null,
+        endDate: null,
         reviewType: '',
         reviewStatus: 'NotStarted',
         translations: [{language: 'PT', title: '', description: ''}],
         questions: [],
-        reviewDepartmentsIds: []
+        reviewDepartmentsIds: [ 21 ]
     }
     let steps = [
         { text: $LL.Details() }, 
@@ -28,21 +32,25 @@
         { text: $LL.Finalize() }
     ]
     let typeOfReview = [
-        {name: $LL.TopDown.Label(), text: $LL.TopDown.Text(), value: "TopDown"}, 
-        {name: $LL.BottomUp.Label(), text: $LL.BottomUp.Text(), value: "BottomUp"}, 
-        {name: $LL.SelfEvaluation.Label(), text: $LL.SelfEvaluation.Text(), value: "SelfEvaluation"}, 
-        {name: $LL.Interdepartmental.Label(), text: $LL.Interdepartmental.Text(), value: "Interdepartamental"}
+        { name: $LL.TopDown.Label(), text: $LL.TopDown.Text(), value: "TopDown" }, 
+        { name: $LL.BottomUp.Label(), text: $LL.BottomUp.Text(), value: "BottomUp" }, 
+        { name: $LL.SelfEvaluation.Label(), text: $LL.SelfEvaluation.Text(), value: "SelfEvaluation" }, 
+        { name: $LL.Interdepartmental.Label(), text: $LL.Interdepartmental.Text(), value: "Interdepartamental" }
     ]
     let cards = [
-        {id: 1, title: $LL.QuestionType.Text(), name: 'Text'},
-        {id: 2, title: $LL.QuestionType.SingleChoice(), name: 'SingleChoice'},
-        {id: 3, title: $LL.QuestionType.Rating(), name: 'Rating'}
+        { id: 1, title: $LL.QuestionType.Text(), name: 'Text' },
+        { id: 2, title: $LL.QuestionType.SingleChoice(), name: 'SingleChoice' },
+        { id: 3, title: $LL.QuestionType.Rating(), name: 'Rating' }
     ]
     let icons = [
         "M3 3h18v2H3zm0 4h12v2H3zm0 4h18v2H3zm0 4h12v2H3zm0 4h18v2H3z",
         "m10 17l-5-5l1.41-1.42L10 14.17l7.59-7.59L19 8m0-5H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2",
         "M14 17h-2V9h-2V7h4m5-4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2"
     ]
+
+    //Store
+    api.subscribe((value) => { apiUrl = value })
+    api_token.subscribe((value) => { token = value })
 
     //Functions for Drop questionType and create question
     function allowDrop(event: DragEvent) { event.preventDefault() } 
@@ -144,10 +152,37 @@
     }
     const handleStepForward = async (event: Event) => { 
         if (currentStep != steps.length - 1) currentStep += 1
+        else {
+            const request = await fetch(apiUrl + "Reviews", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify(review)
+            })
+
+            const response = await request.json()
+            console.log(response)
+
+            if (response.statusCode == 201) {
+                toast.success($LL.FormTemplateSuccess())
+                goto('/reviews')
+            } else if (response.error === 'Questions') {
+                toast.error($LL.ErrorsFormTemplate.Question())
+            } else if (response.error === 'Translations[0].Title') {
+                toast.error($LL.ErrorsFormTemplate.Title())
+            } else {
+                toast.error($LL.ErrorsFormTemplate.Others())
+            }
+        }
     }
 
     //Everytime variable questions changes, formTemplate.questions is gonna change too
     $: review.questions = questions
+    $: console.log(review.endDate?.toString())
+    $: review.reviewStatus = review.endDate != null ? 'Active' : 'NotStarted'
+    $: review.startDate = review.endDate != null ? new Date().toDateString() : null
 </script>
 
 <Toaster />
@@ -194,7 +229,12 @@
             </div>
         </div>
     {:else if currentStep == 1}
-        <p>Departments</p>
+        <div class="flex flex-col gap-y-10">
+            <div class="flex flex-col gap-y-1">
+                <p class="text-black text-base font-semibold">{$LL.SelectDepartmentsLabel()}</p>
+                <p>{$LL.SelectDepartmentsText()}</p>
+            </div>
+        </div>
     {:else if currentStep == 2}
         <div class="flex flex-row gap-x-10">
             <div class="flex flex-col gap-y-2">
@@ -365,11 +405,11 @@
                 <div class="flex items-center m-5 gap-x-10">
                     <div class="flex flex-col gap-y-2">
                         <p class="text-sm font-medium text-gray-600">{$LL.StartDate()}</p>
-                        <input type="date" class="bg-gray-100 p-2 text-gray-600 rounded-lg" />
+                        <input type="date" class="bg-gray-100 px-2 py-1 text-base font-mono text-gray-600 rounded-lg" />
                     </div>
                     <div class="flex flex-col gap-y-2">
                         <p class="text-sm font-medium text-gray-600">{$LL.EndDate()}</p>
-                        <input type="date" class="bg-gray-100 p-2 text-gray-600 rounded-lg" />
+                        <input type="date" class="bg-gray-100 px-2 py-1 text-base font-mono text-gray-600 rounded-lg" bind:value={review.endDate} />
                     </div>
                 </div>
             </div>

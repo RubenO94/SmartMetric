@@ -103,7 +103,9 @@ const en: BaseTranslation = {
 		Text: "Evaluation among superiors from different departments."
 	},
 	StartDate: "Start Date",
-	EndDate: "End Date"
+	EndDate: "End Date",
+	SelectDepartmentsLabel: "Select Departments to be Evaluated",
+	SelectDepartmentsText: "Select the department(s) that will be evaluated during this review. This helps to focus the assessment on specific areas of the organization."
 }
 
 export default en

@@ -3,14 +3,17 @@ import type { PageServerLoad } from "./$types"
 
 // Get templates
 export const load: PageServerLoad = async ( event ) => {
+    const pageNumber = Number(event.url.searchParams.get('page')) || 1
+    const pageSize = Number(event.url.searchParams.get('pageSize')) || 5
     try {
         const lang = event.locals.lang[0].slice(0, 2)
         const [formTemplatesResponse] = await Promise.all([
-            api ("GET", `FormTemplates?page=1&pageSize=20&language=` + lang)
+            api ("GET", `FormTemplates?page=${pageNumber}&pageSize=${pageSize}&language=${lang}`)
         ])
 
         let formTemplates = formTemplatesResponse?.body
-        return { formTemplates }
+        let total = formTemplatesResponse?.total
+        return { formTemplates, total, pageSize, pageNumber }
     } catch (ex) {
         throw ex
     }
