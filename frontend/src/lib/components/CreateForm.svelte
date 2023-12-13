@@ -2,11 +2,12 @@
     // IMPORTS
     import LL from '../../i18n/i18n-svelte'
     import toast, { Toaster } from 'svelte-french-toast'
-    import { api, api_token } from '$lib/stores/url'
+    import { api_url, api_token } from '$lib/stores/url'
     import { draggable } from '$lib/actions/dnd'
     import { fade, fly } from 'svelte/transition'
     import { goto } from '$app/navigation'
     import { Steps } from 'svelte-steps'
+    import { api } from '$lib/api/_api'
 
     //VARIABLES
     let apiUrl: string
@@ -34,7 +35,7 @@
         "M14 17h-2V9h-2V7h4m5-4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2"
     ]
 
-    api.subscribe((value) => { apiUrl = value })
+    api_url.subscribe((value) => { apiUrl = value })
     api_token.subscribe((value) => { token = value })
 
     //Functions for Stepper

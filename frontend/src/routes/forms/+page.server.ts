@@ -2,7 +2,7 @@ import { api } from "$lib/api/_api"
 import type { PageServerLoad } from "./$types"
 
 // Get templates
-export const load: PageServerLoad = async ( event ) => {
+export const load: PageServerLoad = async ( event ) => {    
     const pageNumber = Number(event.url.searchParams.get('page')) || 1
     const pageSize = Number(event.url.searchParams.get('pageSize')) || 5
     try {

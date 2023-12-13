@@ -34,12 +34,12 @@
     </div>
 
     <!-- List of form models -->
-    <div class="flex flex-col gap-y-2">
+    <div class="flex flex-col">
         <!-- for each cycle of formTemplates -->
         {#each responseData as formTemplate}
             {#each formTemplate.translations as translation}
                 {#if translation.language == lang}
-                    <div class="flex flex-row justify-between items-center border-b border-gray-300 px-5 py-2 gap-x-2">
+                    <div class="flex flex-row justify-between items-center border-b border-gray-300 px-5 py-2 gap-x-2 hover:bg-gray-100">
                         <div class="flex gap-x-4 flex-grow">
                             <div class="bg-green-200 p-6 rounded-md flex items-center justify-center">AA</div>
                             <div class="flex flex-col gap-x-1 pt-2">
@@ -63,9 +63,12 @@
         {/each}
     </div>
 
-    <div class="flex border border-gray-300 rounded w-min">
+    <div class="flex rounded w-min mx-auto">
         {#each Array(totalPages) as _, index}
-            <a href="/forms?page={index + 1}&pageSize={pageSize}" class="px-5 hover:bg-gray-100 {pageNumber === index + 1 ? 'bg-gray-100' : ''} {index !== totalPages - 1 ? 'border-r border-gray-300' : ''}">
+            <a 
+                href="/forms?page={index + 1}&pageSize={pageSize}" 
+                class="px-3 py-1 border {pageNumber === index + 1 ? 'bg-blue-500 border-blue-500' : 'hover:bg-gray-100 hover:border-gray-500'} {index !== totalPages - 1 ? '' : ''}"
+            >
                 {index + 1}
             </a>
         {/each}

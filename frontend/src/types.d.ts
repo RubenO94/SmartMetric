@@ -42,3 +42,10 @@ type Reviews = {
 type Secrets = {
     apiUrl: string
 }
+
+type Departments = {
+    departmentId: number,
+    departmentDescription: string,
+    departmentParentId: number,
+    checked: boolean
+}

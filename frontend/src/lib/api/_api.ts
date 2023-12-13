@@ -1,14 +1,14 @@
-import { api_token } from '$lib/stores/url'
-import secrets from './secrets.server'
+import { api_token, api_url } from '$lib/stores/url'
 
 let token = ""
 api_token.subscribe((value) => { token = value })
 
+let urlToApi = ""
+api_url.subscribe((value) => { urlToApi = value })
+
 export async function api (method: string, resource: string, data?: Record<string, unknown>) {
     try {
-        const base = secrets.apiUrl
-
-        var response = await fetch(`${base}/${resource}`, {
+        var response = await fetch(urlToApi + resource, {
             method: method,
             headers: {
                 'Authorization': 'Bearer ' + token
