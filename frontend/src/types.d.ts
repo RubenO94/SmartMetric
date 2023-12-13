@@ -28,4 +28,24 @@ type Translations = {
     description: string,
 }
 
-type Reviews = {}
+type Reviews = {
+    createdByUserId: number,
+    startDate: string | null,
+    endDate: string | null,
+    reviewType: string,
+    reviewStatus: string,
+    translations: Translations[],
+    questions: Question[]
+    reviewDepartmentsIds: Array<number>
+}
+
+type Secrets = {
+    apiUrl: string
+}
+
+type Departments = {
+    departmentId: number,
+    departmentDescription: string,
+    departmentParentId: number,
+    checked: boolean
+}

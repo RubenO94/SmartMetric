@@ -1,12 +1,15 @@
 <script lang="ts">
-    import { LL, locale }from "../../i18n/i18n-svelte"
+    import { LL, locale } from "../../i18n/i18n-svelte"
 
     export let data
 
     let responseData = data.formTemplates
+    let totalForms = data.total
+    let pageSize = data.pageSize
+    let pageNumber = data.pageNumber
     let lang = $locale.toUpperCase()
-    console.log(responseData)
-    
+
+    $: totalPages = Math.ceil(totalForms / pageSize)
 </script>
 
 <div class="mx-auto flex flex-col w-[1200px] p-10 gap-y-10">
@@ -31,12 +34,12 @@
     </div>
 
     <!-- List of form models -->
-    <div class="flex flex-col gap-y-2">
+    <div class="flex flex-col">
         <!-- for each cycle of formTemplates -->
         {#each responseData as formTemplate}
             {#each formTemplate.translations as translation}
                 {#if translation.language == lang}
-                    <div class="flex flex-row justify-between items-center border-b border-gray-300 px-5 py-2 gap-x-2">
+                    <div class="flex flex-row justify-between items-center border-b border-gray-300 px-5 py-2 gap-x-2 hover:bg-gray-100">
                         <div class="flex gap-x-4 flex-grow">
                             <div class="bg-green-200 p-6 rounded-md flex items-center justify-center">AA</div>
                             <div class="flex flex-col gap-x-1 pt-2">
@@ -57,6 +60,17 @@
                     </div>
                 {/if}
             {/each}
+        {/each}
+    </div>
+
+    <div class="flex rounded w-min mx-auto">
+        {#each Array(totalPages) as _, index}
+            <a 
+                href="/forms?page={index + 1}&pageSize={pageSize}" 
+                class="px-3 py-1 border {pageNumber === index + 1 ? 'bg-blue-500 border-blue-500' : 'hover:bg-gray-100 hover:border-gray-500'} {index !== totalPages - 1 ? '' : ''}"
+            >
+                {index + 1}
+            </a>
         {/each}
     </div>
 </div>

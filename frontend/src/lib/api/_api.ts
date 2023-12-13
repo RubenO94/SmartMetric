@@ -1,11 +1,18 @@
-import secrets from './secrets.server'
+import { api_token, api_url } from '$lib/stores/url'
+
+let token = ""
+api_token.subscribe((value) => { token = value })
+
+let urlToApi = ""
+api_url.subscribe((value) => { urlToApi = value })
 
 export async function api (method: string, resource: string, data?: Record<string, unknown>) {
     try {
-        const base = secrets.apiUrl
-
-        var response = await fetch(`${base}/${resource}`, {
+        var response = await fetch(urlToApi + resource, {
             method: method,
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
             body: data && JSON.stringify(data)
         })
         var responseFromApi = await response.json()
@@ -13,9 +20,10 @@ export async function api (method: string, resource: string, data?: Record<strin
         return { 
             status: responseFromApi.statusCode,
             message: responseFromApi.message,
-            body: responseFromApi.data
+            body: responseFromApi.data,
+            total: responseFromApi.totalCount
         }
-        
+
     } catch (error) {
         console.log(error)
     }

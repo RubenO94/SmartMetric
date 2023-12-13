@@ -28,6 +28,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"dayjs": "^1.11.10",
 		"dotenv": "^16.3.1",
 		"svelte-french-toast": "^1.2.0",
 		"svelte-steps": "^2.4.1",

@@ -5,7 +5,8 @@
 
     let reviews = data.reviews
     let activeSeparator: number = 0
-
+    //$: console.log(activeSeparator)
+    console.log(reviews)
 </script>
 
 <div class="mx-auto flex flex-col w-[1200px] p-10 gap-y-10">
