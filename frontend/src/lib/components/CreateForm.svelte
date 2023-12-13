@@ -171,7 +171,7 @@
 <Toaster />
 
 <div class="flex flex-col text-gray-400 text-xs gap-y-16">
-    <Steps clickable={false} {steps} size="2.3em" bind:current={currentStep} />
+    <Steps clickable={true} {steps} size="2.3em" bind:current={currentStep} />
 
     {#if currentStep == 0}
         <div class="flex flex-col gap-y-10">
