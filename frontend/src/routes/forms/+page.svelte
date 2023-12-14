@@ -8,6 +8,8 @@
     let pageSize = data.pageSize
     let pageNumber = data.pageNumber
     let lang = $locale.toUpperCase()
+    let isOpen = Array(responseData.length).fill(false)
+    let items = ["Edit", "Delete"]
 
     $: totalPages = Math.ceil(totalForms / pageSize)
 </script>
@@ -36,7 +38,7 @@
     <!-- List of form models -->
     <div class="flex flex-col">
         <!-- for each cycle of formTemplates -->
-        {#each responseData as formTemplate}
+        {#each responseData as formTemplate, i}
             {#each formTemplate.translations as translation}
                 {#if translation.language == lang}
                     <div class="flex flex-row justify-between items-center border-b border-gray-300 px-5 py-2 gap-x-2 hover:bg-gray-100">
@@ -50,11 +52,20 @@
                         <div class="flex gap-x-2">
                             <a href="/forms/{formTemplate.formTemplateId}" class="bg-blue-500 text-white text-sm px-2 py-1 rounded-lg border border-transparent cursor-pointer whitespace-nowrap hover:bg-blue-700 hover:border-blue-950">{$LL.Preview()}</a>
                             <div class="relative inline-block group">
-                                <button>
+                                <button on:mouseup={() => (isOpen[i] = !isOpen[i])}>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
                                     </svg>
                                 </button>
+                                {#if isOpen[i]}
+                                    <div class="absolute left-0 w-48 py-2 mt-2 mr-10 bg-white rounded-lg shadow-xl">
+                                        {#each items as item (item)}
+                                            <a href="/" class="block px-4 py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+                                                {item}
+                                            </a>
+                                        {/each}
+                                    </div>
+                                {/if}
                             </div>
                         </div>
                     </div>

@@ -1,28 +1,56 @@
 <script lang="ts">
-    // IMPORTS
-    import LL from '../../i18n/i18n-svelte'
+    import dayjs from 'dayjs'
+    import LL from "../../i18n/i18n-svelte"
     import toast, { Toaster } from 'svelte-french-toast'
-    import { api_url, api_token } from '$lib/stores/url'
+    import { api_token, api_url } from '$lib/stores/url'
     import { draggable } from '$lib/actions/dnd'
     import { fade, fly } from 'svelte/transition'
-    import { goto } from '$app/navigation'
+    import { goto } from "$app/navigation"
     import { Steps } from 'svelte-steps'
     import { api } from '$lib/api/_api'
+    import { onMount } from 'svelte'
+    import InfiniteScroll from './InfiniteScroll.svelte'
 
-    //VARIABLES
+    export let questions: Question[] = []
+
+    let departments: Departments[] = []
+    let newBatch: Departments[] = []
+    let page: number = 1
+    let currentStep: number = 0
+    let saveFormModal: boolean = false
+    let saveAsForm: boolean = false
     let apiUrl: string
     let token: string
-    let formTemplate: FormTemplate = {createdByUserId: 1, translations: [{language: 'PT', title: '', description: ''}], questions: []}
-    let questions: Question[] = []
+    let selectedQuestion: Question
     let insertedSingleChoiceOption: string = '' 
     let insertedNumericValue: number | null = null
     let insertedTitle: string = ''
-    let currentStep = 0
-    let selectedQuestion: Question
+    let review: Reviews = {
+        createdByUserId: 1,
+        startDate: null,
+        endDate: null,
+        reviewType: '',
+        reviewStatus: 'NotStarted',
+        translations: [{language: 'PT', title: '', description: ''}],
+        questions: [],
+        reviewDepartmentsIds: []
+    }
+    let formTemplate: FormTemplate = { 
+        createdByUserId: 1, 
+        translations: [{ language: review.translations[0].language, title: review.translations[0].title, description: '' }],
+        questions: review.questions
+    }
     let steps = [
         { text: $LL.Details() }, 
+        { text: $LL.Departments() }, 
         { text: $LL.Questions() }, 
         { text: $LL.Finalize() }
+    ]
+    let typeOfReview = [
+        { name: $LL.TopDown.Label(), text: $LL.TopDown.Text(), value: "TopDown" }, 
+        { name: $LL.BottomUp.Label(), text: $LL.BottomUp.Text(), value: "BottomUp" }, 
+        { name: $LL.SelfEvaluation.Label(), text: $LL.SelfEvaluation.Text(), value: "SelfEvaluation" }, 
+        { name: $LL.Interdepartmental.Label(), text: $LL.Interdepartmental.Text(), value: "Interdepartamental" }
     ]
     let cards = [
         { id: 1, title: $LL.QuestionType.Text(), name: 'Text' },
@@ -35,40 +63,24 @@
         "M14 17h-2V9h-2V7h4m5-4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2"
     ]
 
+    // Scroll Departments ---------------------------------------------------------------------------------------------------------------
+    async function fetchData() {
+        const [response] = await Promise.all([
+            api ('GET', `Departments?page=${page}&pageSize=10`)
+        ])
+        newBatch = response?.body
+        newBatch.forEach((department) => {
+            department.checked = false
+        })
+        departments = [...departments, ...newBatch]
+    }
+
+    onMount(() => { fetchData() })
+    // ----------------------------------------------------------------------------------------------------------------------------------
+
+    //Store
     api_url.subscribe((value) => { apiUrl = value })
     api_token.subscribe((value) => { token = value })
-
-    //Functions for Stepper
-    const handleStepBackward = (event: Event) => {
-        if (currentStep != 0) currentStep -= 1
-    }
-    const handleStepForward = async (event: Event) => { 
-        if (currentStep != 2) currentStep += 1
-        else {
-            const request = await fetch(apiUrl + "FormTemplates", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
-                body: JSON.stringify(formTemplate)
-            })
-
-            const response = await request.json()
-            console.log(response)
-
-            if (response.statusCode == 201) {
-                toast.success($LL.FormTemplateSuccess())
-                goto('/forms')
-            } else if (response.error === 'Questions') {
-                toast.error($LL.ErrorsFormTemplate.Question())
-            } else if (response.error === 'Translations[0].Title') {
-                toast.error($LL.ErrorsFormTemplate.Title())
-            } else {
-                toast.error($LL.ErrorsFormTemplate.Others())
-            }
-        }
-    }
 
     //Functions for Drop questionType and create question
     function allowDrop(event: DragEvent) { event.preventDefault() } 
@@ -82,7 +94,7 @@
                 isRequired: false,
                 position: questions.length + 1,
                 responseType: selectedCard.name,
-                translations: [{language: formTemplate.translations[0].language, title: '', description: ''}],
+                translations: [{language: review.translations[0].language, title: '', description: ''}],
                 singleChoiceOptions: [],
                 ratingOptions: []
             }
@@ -127,7 +139,7 @@
             toast.error($LL.AddSingleChoiceOptionError())
             return
         }
-        let singleChoiceOptionTranslation: Translations = {language: formTemplate.translations[0].language, title: insertedOption, description: insertedOption}
+        let singleChoiceOptionTranslation: Translations = {language: review.translations[0].language, title: insertedOption, description: ''}
         selectedQuestion.singleChoiceOptions = [...selectedQuestion.singleChoiceOptions, {translations: [singleChoiceOptionTranslation]}]
         updateQuestion(selectedQuestion)
     }
@@ -149,7 +161,7 @@
             }
         })
         if (conditionIsTrue) return
-        let ratingOptionTranslation: Translations = {language: formTemplate.translations[0].language, title: title, description: title}
+        let ratingOptionTranslation: Translations = {language: review.translations[0].language, title: title, description: ''}
         selectedQuestion.ratingOptions = [...selectedQuestion.ratingOptions, {numericValue: numericValue, translations: [ratingOptionTranslation]}]
         updateQuestion(selectedQuestion)
     }
@@ -164,8 +176,66 @@
         updateQuestion(selectedQuestion)
     }
 
+    //Function to save Form Template
+    async function saveFormTemplate () {
+        const requestFormTemplate = await fetch(apiUrl + "FormTemplates", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify(formTemplate)
+        })
+
+        const responseFormTemplate = await requestFormTemplate.json()
+        console.log(responseFormTemplate)
+    }
+
+    //buttons of stepper
+    const handleStepBackward = (event: Event) => {
+        if (currentStep != 0) currentStep -= 1
+    }
+    const handleStepForward = async (event: Event) => { 
+        if (currentStep != steps.length - 1) currentStep += 1
+        else {
+            const request = await fetch(apiUrl + "Reviews", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify(review)
+            })
+
+            const response = await request.json()
+            console.log(response)
+
+            if (response.statusCode == 201) {
+                toast.success($LL.FormTemplateSuccess())
+                if (saveAsForm == true) {
+                    saveFormModal = true
+                    saveFormTemplate()
+                }
+                goto('/reviews')
+            } else if (response.error === '$.reviewType') {
+                toast.error($LL.ErrorsReview.ReviewType())
+            } else if (response.error === 'Questions') {
+                toast.error($LL.ErrorsReview.Question())
+            } else if (response.error === 'Translations[0].Title') {
+                toast.error($LL.ErrorsReview.Title())
+            } else if (response.error === 'ReviewDepartmentsIds') {
+                toast.error($LL.ErrorsReview.Departments())
+            } else {
+                toast.error($LL.ErrorsReview.Others())
+            }
+        }
+    }
+
     //Everytime variable questions changes, formTemplate.questions is gonna change too
-    $: formTemplate.questions = questions
+    $: review.questions = questions
+    $: review.reviewStatus = review.endDate != null ? 'Active' : 'NotStarted'
+    $: review.startDate = review.endDate != null ? dayjs(new Date()).format('YYYY-MM-DDThh:mm:ss') : null
+    $: review.reviewDepartmentsIds = departments.filter(department => department.checked).map(department => department.departmentId)
 </script>
 
 <Toaster />
@@ -177,7 +247,7 @@
         <div class="flex flex-col gap-y-10">
             <div class="flex flex-row gap-x-5 items-center">
                 <p class="text-black text-base font-semibold flex-shrink-0">{$LL.ChooseLanguage()}</p>
-                <select bind:value={formTemplate.translations[0].language} class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 flex-grow p-2">
+                <select bind:value={review.translations[0].language} class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 flex-grow p-2">
                     <option value="PT">{$LL.Portuguese()}</option>
                     <option value="EN">{$LL.English()}</option>
                     <option value="ES">{$LL.Spanish()}</option>
@@ -186,23 +256,63 @@
                 </select>
             </div>
             <div class="flex flex-col gap-y-1">
-                <p class="text-black text-base font-semibold">{$LL.FormModelTitleTitle()}</p>
-                <p>{$LL.FormModelTitleDescription()}</p>
-                <input name="titleForm" class="w-auto my-1 p-2 text-black border rounded" bind:value={formTemplate.translations[0].title} />
+                <p class="text-black text-base font-semibold">{$LL.ReviewTitleTitle()}</p>
+                <p>{$LL.ReviewTitleDescription()}</p>
+                <input name="titleForm" class="w-auto my-1 p-2 text-black border rounded" bind:value={review.translations[0].title} />
             </div>
             <div class="flex flex-col gap-y-1">
-                <p class="text-black text-base font-semibold">{$LL.FormModelDescriptionTitle()}</p>
-                <p>{$LL.FormModelDescriptionDescription()}</p>
-                <textarea name="descriptionForm" rows="8" class="w-auto my-1 p-2 text-black border rounded" bind:value={formTemplate.translations[0].description}></textarea>
+                <p class="text-black text-base font-semibold">{$LL.ReviewDescriptionTitle()}</p>
+                <p>{$LL.ReviewDescriptionDescription()}</p>
+                <textarea name="descriptionForm" rows="8" class="w-auto my-1 p-2 text-black border rounded" bind:value={review.translations[0].description}></textarea>
+            </div>
+            <div class="flex flex-col gap-y-1">
+                <p class="text-black text-base font-semibold">{$LL.ReviewTypeTitle()}</p>
+                <p>{$LL.ReviewTypeDescription()}</p>
+                <div class="flex flex-col gap-2 mt-2">
+                    {#each typeOfReview as type}
+                        <div class="flex">
+                            <input id="{type.name}" type="radio" name="radio-group" value="{type.value}" bind:group={review.reviewType} class="h-5 w-5 cursor-pointer" />
+                            <label for="{type.name}" class="flex gap-x-1 pl-2 cursor-pointer">
+                                <p class="text-gray-600 font-semibold">{type.name}:</p>
+                                <p>{type.text}</p>
+                            </label>
+                        </div>
+                    {/each}
+                </div>
             </div>
         </div>
     {:else if currentStep == 1}
+        <div class="flex flex-col gap-y-10">
+            <div class="flex flex-col gap-y-5">
+                <div class="flex flex-col gap-y-1">
+                    <p class="text-black text-base font-semibold">{$LL.SelectDepartmentsLabel()}</p>
+                    <p>{$LL.SelectDepartmentsText()}</p>
+                </div>
+                
+                <!-- <div class="flex flex-col bg-gray-100 border border-gray-300 px-4 py-5 gap-y-2 rounded"> -->
+                <ul>
+                    {#each departments as department}
+                        {#if department.departmentParentId == 0}    
+                            <li on:click={() => {department.checked = !department.checked}} class="cursor-pointer">
+                                <div class="text-gray-600 flex items-center font-medium gap-x-2">
+                                    <input bind:checked={department.checked} type="checkbox" class="accent-blue-500 w-5 h-5" />
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M4 20q-.825 0-1.412-.587T2 18V6q0-.825.588-1.412T4 4h5.175q.4 0 .763.15t.637.425L12 6h8q.825 0 1.413.588T22 8v10q0 .825-.587 1.413T20 20zm7-3h8v-.55q0-1.125-1.1-1.787T15 14q-1.8 0-2.9.663T11 16.45zm4-4q.825 0 1.413-.587T17 11q0-.825-.587-1.412T15 9q-.825 0-1.412.588T13 11q0 .825.588 1.413T15 13"/></svg>
+                                    <p>{department.departmentDescription}</p>
+                                </div>
+                            </li>
+                        {/if}
+                    {/each}
+                    <InfiniteScroll hasMore={newBatch.length} threshold={100} on:loadMore={() => {page++; fetchData()}} />
+                </ul>
+            </div>
+        </div>
+    {:else if currentStep == 2}
         <div class="flex flex-row gap-x-10">
             <div class="flex flex-col gap-y-2">
                 <p class="text-black text-base font-semibold">{$LL.QuestionTypeText()}</p>
                 <div class="flex flex-col gap-y-2">
                     {#each cards as card, index}
-                        <p use:draggable={card.id} class="flex items-center gap-x-2 p-2 bg-gray-100 text-gray-600 border border-gray-200 font-bold rounded">
+                        <p use:draggable={card.id} class="flex items-center gap-x-2 p-2 font-bold border bg-gray-100 text-gray-600 border-gray-200 rounded">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 <path fill="currentColor" d="{icons[index]}"/>
                             </svg>
@@ -257,7 +367,7 @@
                                     <div class="flex flex-col gap-y-1">
                                         {#each question.singleChoiceOptions as singleChoice}
                                             <div class="bg-gray-100 py-2 px-5 rounded-lg">
-                                                <p>{singleChoice.translations[0].title}</p>
+                                                <p>{singleChoice.translations[0].description}</p>
                                             </div>
                                         {/each}
                                     </div>
@@ -350,8 +460,27 @@
                 </div>
             </div>
         </div>
-    {:else if currentStep == 2}
-        <p></p>
+    {:else}
+        <div class="flex flex-col gap-y-10">
+            <div class="flex flex-col gap-y-1">
+                <p class="text-black text-base font-semibold">{$LL.SaveReviewAsForm()}</p>
+                <p>{$LL.SaveReviewAsFormDesc()}</p>
+                <div class="flex items-center m-5">
+                    <input on:click={() => saveAsForm = !saveAsForm} checked={saveAsForm} id="default-checkbox" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                    <label for="default-checkbox" class="ms-2 text-sm font-medium text-gray-600">{$LL.Save()}</label>
+                </div>
+            </div>
+            <div class="flex flex-col gap-y-1">
+                <p class="text-black text-base font-semibold">{$LL.StartAndEndDateText()}</p>
+                <p>{$LL.StartAndEndDateDesc()}</p>
+                <div class="flex items-center m-5 gap-x-10">
+                    <div class="flex flex-col gap-y-2">
+                        <p class="text-sm font-medium text-gray-600">{$LL.EndDate()}</p>
+                        <input type="date" class="bg-gray-100 px-2 py-1 text-base font-mono text-gray-600 rounded-lg" bind:value={review.endDate} />
+                    </div>
+                </div>
+            </div>
+        </div>
     {/if}
 
     <!-- Buttons of Stepper -->
@@ -365,7 +494,7 @@
         </button>
         <!-- Go Next button -->
         <button on:click={handleStepForward} type="submit" class="flex gap-x-2 text-lg font-semibold px-5 py-2 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded" id="buttonGoForward" value="Submit">
-            {#if currentStep != 2}
+            {#if currentStep != steps.length - 1}
                 {$LL.Forward()}
             {:else}
                 {$LL.Finalize()}
@@ -426,7 +555,31 @@
         transform: translateX(14px);
     }
 
-    #questionsAdded:focus {
-        border-color: #3B82F6
+    ul {
+        box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
+        0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+        display: flex;
+        flex-direction: column;
+        border-radius: 2px;
+        width: 100%;
+        max-height: 325px;
+        --tw-bg-opacity: 1;
+        background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+        overflow-x: hidden;
+        list-style: none;
+        padding: 0;
+    }
+
+    li {
+        padding: 10px;
+        box-sizing: border-box;
+        transition: 0.2s all;
+        font-size: 14px;
+        color: black;
+    }
+
+    li:hover {
+        --tw-bg-opacity: 1;
+        background-color: rgb(209 213 219 / var(--tw-bg-opacity));
     }
 </style>

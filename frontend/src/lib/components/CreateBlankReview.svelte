@@ -9,7 +9,7 @@
     import { Steps } from 'svelte-steps'
     import { api } from '$lib/api/_api'
     import { onMount } from 'svelte'
-    import InfiniteScroll from './InfiniteScroll.svelte';
+    import InfiniteScroll from './InfiniteScroll.svelte'
 
     let departments: Departments[] = []
     let newBatch: Departments[] = []
@@ -33,6 +33,11 @@
         translations: [{language: 'PT', title: '', description: ''}],
         questions: [],
         reviewDepartmentsIds: []
+    }
+    let formTemplate: FormTemplate = { 
+        createdByUserId: 1, 
+        translations: [{ language: review.translations[0].language, title: review.translations[0].title, description: '' }],
+        questions: review.questions
     }
     let steps = [
         { text: $LL.Details() }, 
@@ -172,11 +177,6 @@
 
     //Function to save Form Template
     async function saveFormTemplate () {
-        let formTemplate: FormTemplate = { 
-            createdByUserId: 1, 
-            translations: [{ language: review.translations[0].language, title: review.translations[0].title, description: '' }],
-            questions: review.questions
-        }
         const requestFormTemplate = await fetch(apiUrl + "FormTemplates", {
             method: "POST",
             headers: {
@@ -311,7 +311,7 @@
                 <p class="text-black text-base font-semibold">{$LL.QuestionTypeText()}</p>
                 <div class="flex flex-col gap-y-2">
                     {#each cards as card, index}
-                        <p use:draggable={card.id} class="flex items-center gap-x-2 p-2 bg-gray-100 text-gray-600 font-bold rounded">
+                        <p use:draggable={card.id} class="flex items-center gap-x-2 p-2 font-bold border bg-gray-100 text-gray-600 border-gray-200 rounded">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 <path fill="currentColor" d="{icons[index]}"/>
                             </svg>
