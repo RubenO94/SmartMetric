@@ -19,16 +19,16 @@
 
 </script>
 
-<nav class="w-80 min-h-screen text-sm bg-gray-100 border-r-[1px] border-gray-300" transition:fly={{ delay: 0, duration: 100, x: -50 }}>
+<nav class="w-[250px] min-h-screen text-sm bg-gray-100 border-r-[1px] border-gray-300" transition:fly={{ delay: 0, duration: 100, x: -50 }}>
     <UserMenu />
     <p class="font-semibold pt-8 pb-1 px-2">{ $LL.PerformanceModule() }</p>
-    <div class="flex flex-col gap-y-1 px-2 mt-2">
+    <div class="flex flex-col gap-y-1 px-1 mt-2">
         {#each directories as directory, index}
             <a href="/{directory.toLowerCase()}" class="flex flex-row gap-x-2 items-center hover:bg-gray-300 p-2 rounded-md {$page.url.pathname.split("/")[1].toLowerCase() === directory.toLowerCase() ? 'bg-gray-300' : ''}">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="{icons[index]}" />
                 </svg>
-                <p>{getTranslation(directory)}</p>
+                <p class="font-normal text-sm">{getTranslation(directory)}</p>
                 {#if $page.url.pathname.split("/")[1].toLowerCase() === directory.toLowerCase()}
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 ml-auto">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />

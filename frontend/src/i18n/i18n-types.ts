@@ -392,6 +392,28 @@ type RootTranslation = {
 	 * S​e​l​e​c​t​ ​t​h​e​ ​d​e​p​a​r​t​m​e​n​t​(​s​)​ ​t​h​a​t​ ​w​i​l​l​ ​b​e​ ​e​v​a​l​u​a​t​e​d​ ​d​u​r​i​n​g​ ​t​h​i​s​ ​r​e​v​i​e​w​.​ ​T​h​i​s​ ​h​e​l​p​s​ ​t​o​ ​f​o​c​u​s​ ​t​h​e​ ​a​s​s​e​s​s​m​e​n​t​ ​o​n​ ​s​p​e​c​i​f​i​c​ ​a​r​e​a​s​ ​o​f​ ​t​h​e​ ​o​r​g​a​n​i​z​a​t​i​o​n​.
 	 */
 	SelectDepartmentsText: string
+	ErrorsReview: {
+		/**
+		 * R​e​v​i​e​w​ ​m​u​s​t​ ​h​a​v​e​ ​a​ ​t​i​t​l​e
+		 */
+		Title: string
+		/**
+		 * R​e​v​i​e​w​ ​m​u​s​t​ ​h​a​v​e​ ​a​t​ ​l​e​a​s​t​ ​o​n​e​ ​q​u​e​s​t​i​o​n
+		 */
+		Question: string
+		/**
+		 * R​e​v​i​e​w​ ​m​u​s​t​ ​h​a​v​e​ ​a​ ​t​y​p​e
+		 */
+		ReviewType: string
+		/**
+		 * R​e​v​i​e​w​ ​m​u​s​t​ ​h​a​v​e​ ​a​t​ ​l​e​a​s​t​ ​o​n​e​ ​d​e​p​a​r​t​m​e​n​t​ ​a​s​s​o​c​i​a​t​e​d
+		 */
+		Departments: string
+		/**
+		 * S​e​r​v​e​r​ ​e​r​r​o​r
+		 */
+		Others: string
+	}
 }
 
 export type TranslationFunctions = {
@@ -773,6 +795,28 @@ export type TranslationFunctions = {
 	 * Select the department(s) that will be evaluated during this review. This helps to focus the assessment on specific areas of the organization.
 	 */
 	SelectDepartmentsText: () => LocalizedString
+	ErrorsReview: {
+		/**
+		 * Review must have a title
+		 */
+		Title: () => LocalizedString
+		/**
+		 * Review must have at least one question
+		 */
+		Question: () => LocalizedString
+		/**
+		 * Review must have a type
+		 */
+		ReviewType: () => LocalizedString
+		/**
+		 * Review must have at least one department associated
+		 */
+		Departments: () => LocalizedString
+		/**
+		 * Server error
+		 */
+		Others: () => LocalizedString
+	}
 }
 
 export type Formatters = {}

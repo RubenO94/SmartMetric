@@ -105,7 +105,14 @@ const pt: Translation = {
 	StartDate: 'Data de início',
 	EndDate: 'Data de fim',
 	SelectDepartmentsLabel: 'Selecionar Departamentos a Serem Avaliados',
-	SelectDepartmentsText: 'Selecione o(s) departamento(s) que serão avaliados durante esta revisão. Isso ajuda a direcionar a avaliação para áreas específicas da organização.'
+	SelectDepartmentsText: 'Selecione o(s) departamento(s) que serão avaliados durante esta revisão. Isso ajuda a direcionar a avaliação para áreas específicas da organização.',
+	ErrorsReview: {
+		Title: 'Modelo de formulário deve ter um título',
+		Question: 'Modelo de formulário deve ter pelo menos uma questão',
+		ReviewType: 'Modelo de formulário deve ter um tipo associado',
+		Departments: 'Modelo de formulário deve ter pelo menos um departamento associado',
+		Others: 'Erro do servidor'
+	}
 }
 
 export default pt

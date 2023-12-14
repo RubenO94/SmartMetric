@@ -105,7 +105,14 @@ const en: BaseTranslation = {
 	StartDate: "Start Date",
 	EndDate: "End Date",
 	SelectDepartmentsLabel: "Select Departments to be Evaluated",
-	SelectDepartmentsText: "Select the department(s) that will be evaluated during this review. This helps to focus the assessment on specific areas of the organization."
+	SelectDepartmentsText: "Select the department(s) that will be evaluated during this review. This helps to focus the assessment on specific areas of the organization.",
+	ErrorsReview: {
+		Title: "Review must have a title",
+		Question: "Review must have at least one question",
+		ReviewType: "Review must have a type",
+		Departments: "Review must have at least one department associated",
+		Others: "Server error"
+	},
 }
 
 export default en
