@@ -8,6 +8,7 @@
     import { goto } from '$app/navigation'
     import { Steps } from 'svelte-steps'
     import { api } from '$lib/api/_api'
+    import { handleValidationsForm } from '$lib/actions/handleValidations'
 
     //VARIABLES
     let apiUrl: string
@@ -42,7 +43,12 @@
     const handleStepBackward = (event: Event) => {
         if (currentStep != 0) currentStep -= 1
     }
-    const handleStepForward = async (event: Event) => { 
+    const handleStepForward = async (event: Event) => {
+        let [validateForm, message] = handleValidationsForm(formTemplate, currentStep)
+        if (!validateForm) {
+            toast.error(message)
+            return
+        } 
         if (currentStep != 2) currentStep += 1
         else {
             const request = await fetch(apiUrl + "FormTemplates", {
@@ -60,12 +66,8 @@
             if (response.statusCode == 201) {
                 toast.success($LL.FormTemplateSuccess())
                 goto('/forms')
-            } else if (response.error === 'Questions') {
-                toast.error($LL.ErrorsFormTemplate.Question())
-            } else if (response.error === 'Translations[0].Title') {
-                toast.error($LL.ErrorsFormTemplate.Title())
             } else {
-                toast.error($LL.ErrorsFormTemplate.Others())
+                toast.error($LL.ErrorsFormTemplate.SomethingWrong())
             }
         }
     }
@@ -188,7 +190,7 @@
             <div class="flex flex-col gap-y-1">
                 <p class="text-black text-base font-semibold">{$LL.FormModelTitleTitle()}</p>
                 <p>{$LL.FormModelTitleDescription()}</p>
-                <input name="titleForm" class="w-auto my-1 p-2 text-black border rounded" bind:value={formTemplate.translations[0].title} />
+                <input name="titleForm" class="w-auto my-1 p-2 text-black border rounded peer" bind:value={formTemplate.translations[0].title} required />
             </div>
             <div class="flex flex-col gap-y-1">
                 <p class="text-black text-base font-semibold">{$LL.FormModelDescriptionTitle()}</p>
@@ -351,7 +353,7 @@
             </div>
         </div>
     {:else if currentStep == 2}
-        <p></p>
+        <p>{formTemplate.translations[0].title}</p>
     {/if}
 
     <!-- Buttons of Stepper -->

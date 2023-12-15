@@ -2,7 +2,7 @@
     import LL from "../../i18n/i18n-svelte"
 </script>
 
-<div class="flex flex-col gap-y-4 bg-gray-300 h-auto p-2">
+<div class="flex flex-col gap-y-4 bg-gray-300 h-auto p-2 pb-10">
     <!-- Go Back button -->
     <a href="/" class="flex flex-row items-center">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">

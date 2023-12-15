@@ -236,6 +236,7 @@
     $: review.reviewStatus = review.endDate != null ? 'Active' : 'NotStarted'
     $: review.startDate = review.endDate != null ? dayjs(new Date()).format('YYYY-MM-DDThh:mm:ss') : null
     $: review.reviewDepartmentsIds = departments.filter(department => department.checked).map(department => department.departmentId)
+    $: formTemplate.questions = review.questions
 </script>
 
 <Toaster />

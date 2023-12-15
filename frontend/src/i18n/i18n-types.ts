@@ -287,6 +287,10 @@ type RootTranslation = {
 		 * S​e​r​v​e​r​ ​e​r​r​o​r
 		 */
 		Others: string
+		/**
+		 * S​o​m​e​t​h​i​n​g​ ​w​e​n​t​ ​w​r​o​n​g
+		 */
+		SomethingWrong: string
 	}
 	/**
 	 * D​e​p​a​r​t​m​e​n​t​s
@@ -414,6 +418,18 @@ type RootTranslation = {
 		 */
 		Others: string
 	}
+	/**
+	 * B​a​c​k​o​f​f​i​c​e​ ​m​o​d​u​l​e
+	 */
+	Backoffice: string
+	/**
+	 * F​r​o​n​t​o​f​f​i​c​e​ ​m​o​d​u​l​e
+	 */
+	Frontoffice: string
+	/**
+	 * F​o​r​m
+	 */
+	Form: string
 }
 
 export type TranslationFunctions = {
@@ -690,6 +706,10 @@ export type TranslationFunctions = {
 		 * Server error
 		 */
 		Others: () => LocalizedString
+		/**
+		 * Something went wrong
+		 */
+		SomethingWrong: () => LocalizedString
 	}
 	/**
 	 * Departments
@@ -817,6 +837,18 @@ export type TranslationFunctions = {
 		 */
 		Others: () => LocalizedString
 	}
+	/**
+	 * Backoffice module
+	 */
+	Backoffice: () => LocalizedString
+	/**
+	 * Frontoffice module
+	 */
+	Frontoffice: () => LocalizedString
+	/**
+	 * Form
+	 */
+	Form: () => LocalizedString
 }
 
 export type Formatters = {}

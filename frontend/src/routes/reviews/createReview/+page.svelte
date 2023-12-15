@@ -59,7 +59,7 @@
                 <button on:click={() => (chooseForm = chooseForm + 1)} class="text-lg font-semibold py-1 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded">Continue</button>
             </div>
         {:else}
-            <CreateReviewWithForm bind:questions={questions}  />
+            <CreateReviewWithForm bind:questions={questions} />
         {/if}
     {/if}
 </div>

@@ -72,7 +72,8 @@ const en: BaseTranslation = {
 	ErrorsFormTemplate: {
 		Title: "Form template must have a title",
 		Question: "Form template must have at least one question",
-		Others: "Server error"
+		Others: "Server error",
+		SomethingWrong: "Something went wrong"
 	},
 	Departments: "Departments",
 	ReviewTitleTitle: "Review Title",
@@ -113,6 +114,9 @@ const en: BaseTranslation = {
 		Departments: "Review must have at least one department associated",
 		Others: "Server error"
 	},
+	Backoffice: "Backoffice module",
+	Frontoffice: "Frontoffice module",
+	Form: "Form"
 }
 
 export default en

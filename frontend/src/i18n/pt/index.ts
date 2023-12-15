@@ -112,7 +112,10 @@ const pt: Translation = {
 		ReviewType: 'Modelo de formulário deve ter um tipo associado',
 		Departments: 'Modelo de formulário deve ter pelo menos um departamento associado',
 		Others: 'Erro do servidor'
-	}
+	},
+	Backoffice: 'Módulo de Backoffice',
+	Frontoffice: 'Módulo de Frontoffice',
+	Form: 'Formulário'
 }
 
 export default pt

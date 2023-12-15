@@ -21,7 +21,9 @@ export async function api (method: string, resource: string, data?: Record<strin
             status: responseFromApi.statusCode,
             message: responseFromApi.message,
             body: responseFromApi.data,
-            total: responseFromApi.totalCount
+            total: responseFromApi.totalCount,
+            error: responseFromApi.error,
+            details: responseFromApi.details
         }
 
     } catch (error) {

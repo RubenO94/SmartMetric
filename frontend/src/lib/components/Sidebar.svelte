@@ -19,9 +19,9 @@
 
 </script>
 
-<nav class="w-[250px] min-h-screen text-sm bg-gray-100 border-r-[1px] border-gray-300" transition:fly={{ delay: 0, duration: 100, x: -50 }}>
+<nav class="w-[350px] min-h-screen text-sm bg-gray-100 border-r-[1px] border-gray-300" transition:fly={{ delay: 0, duration: 100, x: -50 }}>
     <UserMenu />
-    <p class="font-semibold pt-4 pb-1 px-2 text-center">Backoffice module</p>
+    <p class="font-semibold pt-4 pb-1 px-2 text-center">{$LL.Backoffice()}</p>
     <div class="flex flex-col gap-y-1 px-1 mt-2">
         {#each directories as directory, index}
             <a href="/{directory.toLowerCase()}" class="flex flex-row gap-x-2 items-center hover:bg-gray-300 p-2 rounded-md {$page.url.pathname.split("/")[1].toLowerCase() === directory.toLowerCase() ? 'bg-gray-300' : ''}">
@@ -34,17 +34,6 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                     </svg>
                 {/if}
-            </a>
-        {/each}
-    </div>
-    <p class="font-semibold pt-4 pb-1 px-2 text-center">Frontoffice module</p>
-    <div class="flex flex-col gap-y-1 px-1 mt-2">
-        {#each directories as directory, index}
-            <a href="/" class="flex flex-row gap-x-2 items-center hover:bg-gray-300 p-2 rounded-md}">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="{icons[index]}" />
-                </svg>
-                <p class="font-normal text-sm">{getTranslation(directory)}</p>
             </a>
         {/each}
     </div>
