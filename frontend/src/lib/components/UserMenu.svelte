@@ -2,7 +2,7 @@
     import LL from "../../i18n/i18n-svelte"
 </script>
 
-<div class="flex flex-col gap-y-4 bg-gray-300 h-auto p-2">
+<div class="flex flex-col gap-y-4 bg-gray-300 h-auto p-2 pb-10">
     <!-- Go Back button -->
     <a href="/" class="flex flex-row items-center">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
@@ -20,7 +20,7 @@
         </div>
     </div>
     <!-- Other Buttons (Ex: Settings) -->
-    <div class="flex flex-row gap-x-2">
+    <!-- <div class="flex flex-row gap-x-2">
         <div class="relative inline-block group w-1/4">
             <a href="/" class="flex justify-center bg-gray-100 rounded px-2 py-1 hover:bg-blue-500 hover:text-white">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -30,5 +30,5 @@
             </a>
             <div class="absolute w-max top-0 left-full mt-2 ml-2 p-2 bg-gray-800 text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-x-0">{$LL.Settings()}</div>
         </div>
-    </div>
+    </div> -->
 </div>

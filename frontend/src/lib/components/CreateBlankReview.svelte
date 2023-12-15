@@ -9,12 +9,13 @@
     import { Steps } from 'svelte-steps'
     import { api } from '$lib/api/_api'
     import { onMount } from 'svelte'
-    import InfiniteScroll from './InfiniteScroll.svelte';
+    import InfiniteScroll from './InfiniteScroll.svelte'
 
     let departments: Departments[] = []
     let newBatch: Departments[] = []
     let page: number = 1
     let currentStep: number = 0
+    let saveFormModal: boolean = false
     let saveAsForm: boolean = false
     let apiUrl: string
     let token: string
@@ -32,6 +33,11 @@
         translations: [{language: 'PT', title: '', description: ''}],
         questions: [],
         reviewDepartmentsIds: []
+    }
+    let formTemplate: FormTemplate = { 
+        createdByUserId: 1, 
+        translations: [{ language: review.translations[0].language, title: review.translations[0].title, description: '' }],
+        questions: review.questions
     }
     let steps = [
         { text: $LL.Details() }, 
@@ -169,6 +175,21 @@
         updateQuestion(selectedQuestion)
     }
 
+    //Function to save Form Template
+    async function saveFormTemplate () {
+        const requestFormTemplate = await fetch(apiUrl + "FormTemplates", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify(formTemplate)
+        })
+
+        const responseFormTemplate = await requestFormTemplate.json()
+        console.log(responseFormTemplate)
+    }
+
     //buttons of stepper
     const handleStepBackward = (event: Event) => {
         if (currentStep != 0) currentStep -= 1
@@ -191,30 +212,20 @@
             if (response.statusCode == 201) {
                 toast.success($LL.FormTemplateSuccess())
                 if (saveAsForm == true) {
-                    let formTemplate: FormTemplate = { 
-                        createdByUserId: 1, 
-                        translations: [{ language: review.translations[0].language, title: review.translations[0].title, description: ''}],
-                        questions: review.questions
-                    }
-                    const requestFormTemplate = await fetch(apiUrl + "FormTemplates", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "Authorization": `Bearer ${token}`
-                        },
-                        body: JSON.stringify(formTemplate)
-                    })
-
-                    const responseFormTemplate = await request.json()
-                    console.log(responseFormTemplate)
+                    saveFormModal = true
+                    saveFormTemplate()
                 }
                 goto('/reviews')
+            } else if (response.error === '$.reviewType') {
+                toast.error($LL.ErrorsReview.ReviewType())
             } else if (response.error === 'Questions') {
-                toast.error($LL.ErrorsFormTemplate.Question())
+                toast.error($LL.ErrorsReview.Question())
             } else if (response.error === 'Translations[0].Title') {
-                toast.error($LL.ErrorsFormTemplate.Title())
+                toast.error($LL.ErrorsReview.Title())
+            } else if (response.error === 'ReviewDepartmentsIds') {
+                toast.error($LL.ErrorsReview.Departments())
             } else {
-                toast.error($LL.ErrorsFormTemplate.Others())
+                toast.error($LL.ErrorsReview.Others())
             }
         }
     }
@@ -280,14 +291,14 @@
                 <!-- <div class="flex flex-col bg-gray-100 border border-gray-300 px-4 py-5 gap-y-2 rounded"> -->
                 <ul>
                     {#each departments as department}
-                        {#if department.departmentParentId == 0}
-                        <li on:click={() => {department.checked = !department.checked}} class="cursor-pointer">
-                            <div class="text-gray-600 flex items-center font-medium gap-x-2">
-                                <input bind:checked={department.checked} type="checkbox" class="accent-blue-500 w-5 h-5" />
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M4 20q-.825 0-1.412-.587T2 18V6q0-.825.588-1.412T4 4h5.175q.4 0 .763.15t.637.425L12 6h8q.825 0 1.413.588T22 8v10q0 .825-.587 1.413T20 20zm7-3h8v-.55q0-1.125-1.1-1.787T15 14q-1.8 0-2.9.663T11 16.45zm4-4q.825 0 1.413-.587T17 11q0-.825-.587-1.412T15 9q-.825 0-1.412.588T13 11q0 .825.588 1.413T15 13"/></svg>
-                                <p>{department.departmentDescription}</p>
-                            </div>
-                        </li>
+                        {#if department.departmentParentId == 0}    
+                            <li on:click={() => {department.checked = !department.checked}} class="cursor-pointer">
+                                <div class="text-gray-600 flex items-center font-medium gap-x-2">
+                                    <input bind:checked={department.checked} type="checkbox" class="accent-blue-500 w-5 h-5" />
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M4 20q-.825 0-1.412-.587T2 18V6q0-.825.588-1.412T4 4h5.175q.4 0 .763.15t.637.425L12 6h8q.825 0 1.413.588T22 8v10q0 .825-.587 1.413T20 20zm7-3h8v-.55q0-1.125-1.1-1.787T15 14q-1.8 0-2.9.663T11 16.45zm4-4q.825 0 1.413-.587T17 11q0-.825-.587-1.412T15 9q-.825 0-1.412.588T13 11q0 .825.588 1.413T15 13"/></svg>
+                                    <p>{department.departmentDescription}</p>
+                                </div>
+                            </li>
                         {/if}
                     {/each}
                     <InfiniteScroll hasMore={newBatch.length} threshold={100} on:loadMore={() => {page++; fetchData()}} />
@@ -300,7 +311,7 @@
                 <p class="text-black text-base font-semibold">{$LL.QuestionTypeText()}</p>
                 <div class="flex flex-col gap-y-2">
                     {#each cards as card, index}
-                        <p use:draggable={card.id} class="flex items-center gap-x-2 p-2 bg-gray-100 text-gray-600 font-bold rounded">
+                        <p use:draggable={card.id} class="flex items-center gap-x-2 p-2 font-bold border bg-gray-100 text-gray-600 border-gray-200 rounded">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 <path fill="currentColor" d="{icons[index]}"/>
                             </svg>

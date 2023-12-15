@@ -3,7 +3,7 @@
     import Sidebar from '$lib/components/Sidebar.svelte'
 	import Header from '$lib/components/Header.svelte'
 
-	let sidebarVisible = true
+	let sidebarVisible = false
 	
 	function toggleSidebar() {
 		sidebarVisible = !sidebarVisible
