@@ -120,6 +120,7 @@ const pt: Translation = {
 	EditFormButton: 'Editar formulário',
 	EditFormModel: 'Editar modelo de formulário',
 	EditFormModelDescription: 'Esta funcionalidade permite aos utilizadores editar facilmente modelos de formulários, oferecendo uma abordagem simplificada para aperfeiçoar estruturas predefinidas para futuras avaliações. Melhore a eficiência do processo de avaliação ao modificar e atualizar padrões estabelecidos, garantindo economia de tempo e mantendo uniformidade nas avaliações. Seja ajustando critérios, atualizando campos ou refinando conteúdo, a funcionalidade de edição otimiza a personalização de modelos de formulários para atender às necessidades em constante evolução.',
+	StateDontExist: 'Review deve ser iniciada'
 }
 
 export default pt

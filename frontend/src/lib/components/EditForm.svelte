@@ -51,7 +51,7 @@
     //Function to update question
     function updateQuestion(question: Question) {
         let position = question.position
-        formTemplate.questions[position - 1] = selectedQuestion
+        formTemplate.questions[position - 1] = selectedQuestion 
     }
 
     //Function to remove question
@@ -136,6 +136,8 @@
             }
         }
     }
+
+    $: console.log(formTemplate)
 </script>
 
 <Toaster />

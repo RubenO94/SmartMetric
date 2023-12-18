@@ -10,12 +10,14 @@
 	}
 </script>
 
-<div class="flex h-full w-full">
+<div class="flex w-full min-h-screen overflow-y-hidden">
 	{#if sidebarVisible}
 		<Sidebar />
 	{/if}
-	<div class="flex flex-col w-full">
+	<div class="flex flex-col flex-1">
 		<Header {sidebarVisible} {toggleSidebar} />
-		<slot />
+		<div style="max-height: calc(100vh - 56px); overflow-y: auto;">
+			<slot />
+		</div>
 	</div>
 </div>

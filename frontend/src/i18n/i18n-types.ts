@@ -442,6 +442,10 @@ type RootTranslation = {
 	 * T​h​i​s​ ​f​e​a​t​u​r​e​ ​e​m​p​o​w​e​r​s​ ​u​s​e​r​s​ ​t​o​ ​e​f​f​o​r​t​l​e​s​s​l​y​ ​e​d​i​t​ ​f​o​r​m​ ​t​e​m​p​l​a​t​e​s​,​ ​p​r​o​v​i​d​i​n​g​ ​a​ ​s​e​a​m​l​e​s​s​ ​a​v​e​n​u​e​ ​f​o​r​ ​r​e​f​i​n​i​n​g​ ​p​r​e​d​e​f​i​n​e​d​ ​s​t​r​u​c​t​u​r​e​s​ ​i​n​ ​p​r​e​p​a​r​a​t​i​o​n​ ​f​o​r​ ​f​u​t​u​r​e​ ​a​s​s​e​s​s​m​e​n​t​s​.​ ​E​n​h​a​n​c​e​ ​t​h​e​ ​e​f​f​i​c​i​e​n​c​y​ ​o​f​ ​t​h​e​ ​e​v​a​l​u​a​t​i​o​n​ ​p​r​o​c​e​s​s​ ​b​y​ ​e​a​s​i​l​y​ ​m​o​d​i​f​y​i​n​g​ ​a​n​d​ ​u​p​d​a​t​i​n​g​ ​e​s​t​a​b​l​i​s​h​e​d​ ​p​a​t​t​e​r​n​s​,​ ​e​n​s​u​r​i​n​g​ ​t​i​m​e​ ​s​a​v​i​n​g​s​ ​a​n​d​ ​p​r​e​s​e​r​v​i​n​g​ ​u​n​i​f​o​r​m​i​t​y​ ​i​n​ ​e​v​a​l​u​a​t​i​o​n​s​.​ ​W​h​e​t​h​e​r​ ​a​d​j​u​s​t​i​n​g​ ​c​r​i​t​e​r​i​a​,​ ​u​p​d​a​t​i​n​g​ ​f​i​e​l​d​s​,​ ​o​r​ ​r​e​f​i​n​i​n​g​ ​c​o​n​t​e​n​t​,​ ​t​h​e​ ​e​d​i​t​i​n​g​ ​f​u​n​c​t​i​o​n​a​l​i​t​y​ ​s​t​r​e​a​m​l​i​n​e​s​ ​t​h​e​ ​c​u​s​t​o​m​i​z​a​t​i​o​n​ ​o​f​ ​f​o​r​m​ ​t​e​m​p​l​a​t​e​s​ ​t​o​ ​m​e​e​t​ ​e​v​o​l​v​i​n​g​ ​n​e​e​d​s​.
 	 */
 	EditFormModelDescription: string
+	/**
+	 * R​e​v​i​e​w​ ​m​u​s​t​ ​b​e​ ​s​t​a​r​t​e​d
+	 */
+	StateDontExist: string
 }
 
 export type TranslationFunctions = {
@@ -873,6 +877,10 @@ export type TranslationFunctions = {
 	 * This feature empowers users to effortlessly edit form templates, providing a seamless avenue for refining predefined structures in preparation for future assessments. Enhance the efficiency of the evaluation process by easily modifying and updating established patterns, ensuring time savings and preserving uniformity in evaluations. Whether adjusting criteria, updating fields, or refining content, the editing functionality streamlines the customization of form templates to meet evolving needs.
 	 */
 	EditFormModelDescription: () => LocalizedString
+	/**
+	 * Review must be started
+	 */
+	StateDontExist: () => LocalizedString
 }
 
 export type Formatters = {}

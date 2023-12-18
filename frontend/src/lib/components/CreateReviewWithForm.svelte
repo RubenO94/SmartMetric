@@ -31,7 +31,7 @@
         endDate: null,
         reviewType: '',
         reviewStatus: 'NotStarted',
-        translations: [{language: 'PT', title: '', description: ''}],
+        translations: [{language: questions[0].translations[0].language, title: '', description: ''}],
         questions: [],
         reviewDepartmentsIds: []
     }
