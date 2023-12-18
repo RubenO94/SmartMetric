@@ -6,12 +6,13 @@ api_token.subscribe((value) => { token = value })
 let urlToApi = ""
 api_url.subscribe((value) => { urlToApi = value })
 
-export async function api (method: string, resource: string, data?: Record<string, unknown>) {
+export async function api (method: string, resource: string, data?: any) {
     try {
         var response = await fetch(urlToApi + resource, {
             method: method,
             headers: {
-                'Authorization': 'Bearer ' + token
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
             },
             body: data && JSON.stringify(data)
         })

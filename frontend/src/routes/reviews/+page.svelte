@@ -9,6 +9,10 @@
     console.log(reviews)
 </script>
 
+<svelte:head>
+    <title>{$LL.Sidebar.Reviews()}</title>
+</svelte:head>
+
 <div class="mx-auto flex flex-col w-[1200px] p-10 gap-y-10">
     <div class="flex justify-between">
         <h1 class="font-semibold text-2xl">{ $LL.Sidebar.Reviews() }</h1>

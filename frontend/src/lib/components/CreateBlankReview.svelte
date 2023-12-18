@@ -34,10 +34,12 @@
         questions: [],
         reviewDepartmentsIds: []
     }
-    let formTemplate: FormTemplate = { 
-        createdByUserId: 1, 
+    let formTemplate: FormTemplate = {
+        createdByUserId: 1,
         translations: [{ language: review.translations[0].language, title: review.translations[0].title, description: '' }],
-        questions: review.questions
+        questions: review.questions,
+        formTemplateId: null,
+        modifiedDate: null
     }
     let steps = [
         { text: $LL.Details() }, 

@@ -33,6 +33,10 @@
     $: responseData
 </script>
 
+<svelte:head>
+    <title>{$LL.Sidebar.Forms()}</title>
+</svelte:head>
+
 <Toaster />
 
 <div class="mx-auto flex flex-col w-[1200px] p-10 gap-y-10">
