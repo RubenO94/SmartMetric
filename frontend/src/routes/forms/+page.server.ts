@@ -1,4 +1,6 @@
+import { goto } from "$app/navigation"
 import { api } from "$lib/api/_api"
+import { redirect } from "@sveltejs/kit"
 import type { PageServerLoad } from "./$types"
 
 // Get templates
