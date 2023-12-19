@@ -1,18 +1,14 @@
 <script lang="ts">
-    import { api } from "$lib/api/_api";
-    import toast, { Toaster } from "svelte-french-toast";
+    import { api } from "$lib/api/_api"
     import { LL, locale } from "../../i18n/i18n-svelte"
-    import { onMount, onDestroy } from 'svelte'
+    import toast, { Toaster } from "svelte-french-toast"
 
     export let data
 
     let responseData = data.formTemplates
     let totalForms = data.total
     let pageSize = data.pageSize
-    let pageNumber = data.pageNumber
     let lang = $locale.toUpperCase()
-    let isOpen = Array(responseData.length).fill(false)
-    let items = ["Edit", "Delete"]
 
     async function deleteFormTemplate (index: string) {
         const [requestForm] = await Promise.all([

@@ -10,7 +10,7 @@
             api('GET', `Users/me`)
         ])
 
-        user = requestUser
+        user = requestUser?.body
     })
 </script>
 

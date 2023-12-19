@@ -5,8 +5,9 @@
     export let data
 
     let reviews = data.reviews
-    let activeSeparator: string = 'ongoing'
+    let activeSeparator: string = data.activeSeparator
     //$: console.log(activeSeparator)
+    $: console.log(activeSeparator)
     console.log(reviews)
 </script>
 
@@ -38,10 +39,10 @@
     <!-- Table list of reviews -->
     <div class="flex flex-col">
         <div class="flex gap-x-2">
-            <a href="/reviews?type=ongoing" on:click={() => activeSeparator = 'Active'} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator == 'Active' ? 'border-blue-500' : 'border-transparent'}">{$LL.Ongoing()}</a>
-            <a href="/reviews?type=completed" on:click={() => activeSeparator = 'Completed'} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator == 'Completed' ? 'border-blue-500' : 'border-transparent'}">{$LL.Completed()}</a>
-            <a href="/reviews?type=notStarted" on:click={() => activeSeparator = 'NotStarted'} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator == 'NotStarted' ? 'border-blue-500' : 'border-transparent'}">{$LL.NotStarted()}</a>
-            <a href="/reviews?type=canceled" on:click={() => activeSeparator = 'Canceled'} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator == 'Canceled' ? 'border-blue-500' : 'border-transparent'}">{$LL.Canceled()}</a>
+            <a href="/reviews?type=ongoing" on:click={() => activeSeparator = 'Active'} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator === 'Active' ? 'border-blue-500' : 'border-transparent'}">{$LL.Ongoing()}</a>
+            <a href="/reviews?type=notStarted" on:click={() => activeSeparator = 'NotStarted'} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator === 'NotStarted' ? 'border-blue-500' : 'border-transparent'}">{$LL.NotStarted()}</a>
+            <a href="/reviews?type=canceled" on:click={() => activeSeparator = 'Canceled'} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator === 'Canceled' ? 'border-blue-500' : 'border-transparent'}">{$LL.Canceled()}</a>
+            <a href="/reviews?type=completed" on:click={() => activeSeparator = 'Completed'} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator === 'Completed' ? 'border-blue-500' : 'border-transparent'}">{$LL.Completed()}</a>
         </div>
         <div class="block w-full overflow-x-auto">
             <table class="w-full bg-transparent border-collapse table-auto">
