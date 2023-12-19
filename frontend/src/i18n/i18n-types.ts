@@ -446,6 +446,10 @@ type RootTranslation = {
 	 * R​e​v​i​e​w​ ​m​u​s​t​ ​b​e​ ​s​t​a​r​t​e​d
 	 */
 	StateDontExist: string
+	/**
+	 * R​e​t​u​r​n​ ​t​o​ ​S​m​a​r​t​T​i​m​e
+	 */
+	ButtonExitModule: string
 }
 
 export type TranslationFunctions = {
@@ -881,6 +885,10 @@ export type TranslationFunctions = {
 	 * Review must be started
 	 */
 	StateDontExist: () => LocalizedString
+	/**
+	 * Return to SmartTime
+	 */
+	ButtonExitModule: () => LocalizedString
 }
 
 export type Formatters = {}

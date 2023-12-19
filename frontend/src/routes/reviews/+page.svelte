@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { goto } from "$app/navigation";
     import { LL, locale } from "../../i18n/i18n-svelte"
 
     export let data

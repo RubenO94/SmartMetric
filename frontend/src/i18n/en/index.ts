@@ -120,7 +120,8 @@ const en: BaseTranslation = {
 	EditFormButton: "Edit form",
 	EditFormModel: "Edit form model",
 	EditFormModelDescription: "This feature empowers users to effortlessly edit form templates, providing a seamless avenue for refining predefined structures in preparation for future assessments. Enhance the efficiency of the evaluation process by easily modifying and updating established patterns, ensuring time savings and preserving uniformity in evaluations. Whether adjusting criteria, updating fields, or refining content, the editing functionality streamlines the customization of form templates to meet evolving needs.",
-	StateDontExist: "Review must be started"
+	StateDontExist: "Review must be started",
+	ButtonExitModule: "Return to SmartTime"
 }
 
 export default en
