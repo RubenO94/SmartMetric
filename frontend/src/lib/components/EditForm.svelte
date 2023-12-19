@@ -1,78 +1,27 @@
 <script lang="ts">
-    // IMPORTS
-    import LL from '../../i18n/i18n-svelte'
-    import toast, { Toaster } from 'svelte-french-toast'
-    import { api_url, api_token } from '$lib/stores/url'
     import { draggable } from '$lib/actions/dnd'
-    import { fade, fly } from 'svelte/transition'
-    import { goto } from '$app/navigation'
+    import LL from '../../i18n/i18n-svelte'
     import { Steps } from 'svelte-steps'
-    import { api } from '$lib/api/_api'
-    import { handleValidationsForm } from '$lib/actions/handleValidations'
+    import { fade, fly } from 'svelte/transition'
+    import toast, { Toaster } from 'svelte-french-toast'
+    import { api } from '$lib/api/_api';
+    import { goto } from '$app/navigation';
 
-    //VARIABLES
-    let apiUrl: string
-    let token: string
-    let formTemplate: FormTemplate = { createdByUserId: 1, translations: [{ language: 'PT', title: '', description: '' }], questions: [], formTemplateId: null, modifiedDate: null }
-    let questions: Question[] = []
+    export let formTemplate: FormTemplate
+
+    let formTempId = formTemplate.formTemplateId
+    let currentStep: number = 0
+    let selectedQuestion: Question
     let insertedSingleChoiceOption: string = '' 
     let insertedNumericValue: number | null = null
     let insertedTitle: string = ''
-    let currentStep = 0
-    let selectedQuestion: Question
-    let steps = [
-        { text: $LL.Details() }, 
-        { text: $LL.Questions() }, 
-        { text: $LL.Finalize() }
-    ]
+    let steps = [{ text: $LL.Details() }, { text: $LL.Questions() }, { text: $LL.Finalize() }]
     let cards = [
-        { id: 1, title: $LL.QuestionType.Text(), name: 'Text' },
-        { id: 2, title: $LL.QuestionType.SingleChoice(), name: 'SingleChoice' },
-        { id: 3, title: $LL.QuestionType.Rating(), name: 'Rating' }
-    ]
-    let icons = [
-        "M3 3h18v2H3zm0 4h12v2H3zm0 4h18v2H3zm0 4h12v2H3zm0 4h18v2H3z",
-        "m10 17l-5-5l1.41-1.42L10 14.17l7.59-7.59L19 8m0-5H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2",
-        "M14 17h-2V9h-2V7h4m5-4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2"
+        { id: 1, title: $LL.QuestionType.Text(), name: 'Text', icons: 'M3 3h18v2H3zm0 4h12v2H3zm0 4h18v2H3zm0 4h12v2H3zm0 4h18v2H3z' },
+        { id: 2, title: $LL.QuestionType.SingleChoice(), name: 'SingleChoice', icons: 'm10 17l-5-5l1.41-1.42L10 14.17l7.59-7.59L19 8m0-5H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2' },
+        { id: 3, title: $LL.QuestionType.Rating(), name: 'Rating', icons: 'M14 17h-2V9h-2V7h4m5-4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2' }
     ]
 
-    api_url.subscribe((value) => { apiUrl = value })
-    api_token.subscribe((value) => { token = value })
-
-    //Functions for Stepper
-    const handleStepBackward = (event: Event) => {
-        if (currentStep != 0) currentStep -= 1
-    }
-    const handleStepForward = async (event: Event) => {
-        let [validateForm, message] = handleValidationsForm(formTemplate, currentStep)
-        if (!validateForm) {
-            toast.error(message)
-            return
-        } 
-        if (currentStep != 2) currentStep += 1
-        else {
-            const request = await fetch(apiUrl + "FormTemplates", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
-                body: JSON.stringify(formTemplate)
-            })
-
-            const response = await request.json()
-            console.log(response)
-
-            if (response.statusCode == 201) {
-                toast.success($LL.FormTemplateSuccess())
-                goto('/forms')
-            } else {
-                toast.error($LL.ErrorsFormTemplate.SomethingWrong())
-            }
-        }
-    }
-
-    //Functions for Drop questionType and create question
     function allowDrop(event: DragEvent) { event.preventDefault() } 
     function handleDrop(event: DragEvent) {
         event.preventDefault()
@@ -82,22 +31,33 @@
         if (selectedCard) {
             const newQuestion: Question = {
                 isRequired: false,
-                position: questions.length + 1,
+                position: formTemplate.questions.length + 1,
                 responseType: selectedCard.name,
                 translations: [{language: formTemplate.translations[0].language, title: '', description: ''}],
                 singleChoiceOptions: [],
                 ratingOptions: []
             }
 
-            questions = [...questions, newQuestion]
+            formTemplate.questions = [...formTemplate.questions, newQuestion]
             selectedQuestion = newQuestion
         }
     }
 
+    //Function to select question to edit
+    function selectQuestion(question: Question) {
+        selectedQuestion = question
+    }
+
+    //Function to update question
+    function updateQuestion(question: Question) {
+        let position = question.position
+        formTemplate.questions[position - 1] = selectedQuestion 
+    }
+
     //Function to remove question
     function removeQuestion(event: Event, index: number): void {
-        questions = questions.filter((question) => question.position - 1 !== index)
-        questions.forEach((question, index) => question.position = index + 1)
+        formTemplate.questions = formTemplate.questions.filter((question) => question.position - 1 !== index)
+        formTemplate.questions.forEach((question, index) => question.position = index + 1)
         if (selectedQuestion && selectedQuestion.position - 1 == index) {
             selectedQuestion = {
                 isRequired: false,
@@ -109,17 +69,6 @@
             }
         }
         event.stopPropagation()
-    }
-
-    //Function to select question to edit
-    function selectQuestion(question: Question) {
-        selectedQuestion = question
-    }
-
-    //Function to update question
-    function updateQuestion(question: Question) {
-        let position = question.position
-        questions[position - 1] = selectedQuestion
     }
 
     //Function to add single choice option
@@ -166,8 +115,29 @@
         updateQuestion(selectedQuestion)
     }
 
-    //Everytime variable questions changes, formTemplate.questions is gonna change too
-    $: formTemplate.questions = questions
+    //buttons of stepper
+    const handleStepBackward = (event: Event) => {
+        if (currentStep != 0) currentStep -= 1
+    }
+    const handleStepForward = async (event: Event) => {
+        if (currentStep != steps.length - 1) currentStep += 1
+        else {
+            const [requestPut] = await Promise.all([
+                api('PUT', `FormTemplates/${formTempId}`, formTemplate)
+            ])
+
+            const response = requestPut
+            console.log(response)
+            if (response?.status < 205) {
+                toast.success(response?.message)
+                goto('/forms')
+            } else {
+                toast.error(response?.error)
+            }
+        }
+    }
+
+    $: console.log(formTemplate)
 </script>
 
 <Toaster />
@@ -188,13 +158,13 @@
                 </select>
             </div>
             <div class="flex flex-col gap-y-1">
-                <p class="text-black text-base font-semibold">{$LL.FormModelTitleTitle()}</p>
-                <p>{$LL.FormModelTitleDescription()}</p>
-                <input name="titleForm" class="w-auto my-1 p-2 text-black border rounded peer" bind:value={formTemplate.translations[0].title} required />
+                <p class="text-black text-base font-semibold">{$LL.ReviewTitleTitle()}</p>
+                <p>{$LL.ReviewTitleDescription()}</p>
+                <input name="titleForm" class="w-auto my-1 p-2 text-black border rounded" bind:value={formTemplate.translations[0].title} />
             </div>
             <div class="flex flex-col gap-y-1">
-                <p class="text-black text-base font-semibold">{$LL.FormModelDescriptionTitle()}</p>
-                <p>{$LL.FormModelDescriptionDescription()}</p>
+                <p class="text-black text-base font-semibold">{$LL.ReviewDescriptionTitle()}</p>
+                <p>{$LL.ReviewDescriptionDescription()}</p>
                 <textarea name="descriptionForm" rows="8" class="w-auto my-1 p-2 text-black border rounded" bind:value={formTemplate.translations[0].description}></textarea>
             </div>
         </div>
@@ -204,9 +174,9 @@
                 <p class="text-black text-base font-semibold">{$LL.QuestionTypeText()}</p>
                 <div class="flex flex-col gap-y-2">
                     {#each cards as card, index}
-                        <p use:draggable={card.id} class="flex items-center gap-x-2 p-2 bg-gray-100 text-gray-600 border border-gray-200 font-bold rounded">
+                        <p use:draggable={card.id} class="flex items-center gap-x-2 p-2 font-bold border bg-gray-100 text-gray-600 border-gray-200 rounded">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                <path fill="currentColor" d="{icons[index]}"/>
+                                <path fill="currentColor" d="{card.icons}"/>
                             </svg>
                             {card.title}
                         </p>
@@ -217,10 +187,10 @@
                 <p class="text-black text-base font-semibold">{$LL.FormPreview()}</p>
                 <!-- svelte-ignore a11y-no-static-element-interactions -->
                 <div class="bg-gray-100 min-h-[250px] h-full flex flex-col gap-y-2 shadow-lg rounded-lg p-5 border border-gray-200" on:drop="{handleDrop}" on:dragover="{allowDrop}">
-                    {#if questions.length == 0}
+                    {#if formTemplate.questions.length == 0}
                         <p>{$LL.FormPreviewPlaceholder()}</p>
                     {/if}
-                    {#each questions as question, index}
+                    {#each formTemplate.questions as question, index}
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
                         <div in:fade={{ duration: 500 }} out:fly={{ y: -200, duration: 500 }} id="questionsAdded" class="group bg-white flex flex-col gap-y-5 px-2 py-4 rounded border border-transparent cursor-pointer hover:border-blue-500 relative" on:click={() => selectQuestion(question)}>
                             <button class="hidden group-hover:flex absolute top-0 right-0 p-2" on:click={(event) => removeQuestion(event, index)}>
@@ -259,7 +229,7 @@
                                     <div class="flex flex-col gap-y-1">
                                         {#each question.singleChoiceOptions as singleChoice}
                                             <div class="bg-gray-100 py-2 px-5 rounded-lg">
-                                                <p>{singleChoice.translations[0].title}</p>
+                                                <p>{singleChoice.translations[0].description}</p>
                                             </div>
                                         {/each}
                                     </div>
@@ -352,8 +322,8 @@
                 </div>
             </div>
         </div>
-    {:else if currentStep == 2}
-        <p>{formTemplate.translations[0].title}</p>
+    {:else}
+        <p>Finalize</p>
     {/if}
 
     <!-- Buttons of Stepper -->
@@ -367,7 +337,7 @@
         </button>
         <!-- Go Next button -->
         <button on:click={handleStepForward} type="submit" class="flex gap-x-2 text-lg font-semibold px-5 py-2 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded" id="buttonGoForward" value="Submit">
-            {#if currentStep != 2}
+            {#if currentStep != steps.length - 1}
                 {$LL.Forward()}
             {:else}
                 {$LL.Finalize()}
@@ -426,9 +396,5 @@
     /* When the checkbox is checked, shift the white ball towards the right within the slider. */
     input:checked+.slider:before {
         transform: translateX(14px);
-    }
-
-    #questionsAdded:focus {
-        border-color: #3B82F6
     }
 </style>

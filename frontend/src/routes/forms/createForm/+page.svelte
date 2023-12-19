@@ -3,6 +3,10 @@
     import LL from "../../../i18n/i18n-svelte"
 </script>
 
+<svelte:head>
+    <title>{$LL.FormButton()}</title>
+</svelte:head>
+
 <div class="mx-auto flex flex-col w-[1200px] p-10 gap-y-5">
     <div class="flex flex-row gap-x-4 text-blue-500">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="100" height="100">

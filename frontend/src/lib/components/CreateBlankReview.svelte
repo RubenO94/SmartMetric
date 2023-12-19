@@ -34,10 +34,12 @@
         questions: [],
         reviewDepartmentsIds: []
     }
-    let formTemplate: FormTemplate = { 
-        createdByUserId: 1, 
+    let formTemplate: FormTemplate = {
+        createdByUserId: 1,
         translations: [{ language: review.translations[0].language, title: review.translations[0].title, description: '' }],
-        questions: review.questions
+        questions: review.questions,
+        formTemplateId: null,
+        modifiedDate: null
     }
     let steps = [
         { text: $LL.Details() }, 
@@ -419,7 +421,7 @@
                                             </div>
                                         {/each}
                                         <div class="flex gap-x-2">
-                                            <input id="numericValueRatingOption" type="number" class="bg-white w-[70px] p-2 text-black border border-dashed border-gray-500 rounded" bind:value={insertedNumericValue} placeholder={$LL.Numeric()} />
+                                            <input id="numericValueRatingOption" type="number" pattern="[0-9]*" class="bg-white w-[70px] p-2 text-black border border-dashed border-gray-500 rounded" bind:value={insertedNumericValue} placeholder={$LL.Numeric()} />
                                             <input id="titleRatingOption" class="bg-white p-2 text-black border border-dashed border-gray-500 rounded flex-grow" bind:value={insertedTitle} placeholder={$LL.AddOption()} />
                                             <button on:click={() => addRatingOption(insertedNumericValue, insertedTitle)}>
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-500 hover:bg-blue-100 rounded-full">

@@ -72,7 +72,8 @@ const pt: Translation = {
 	ErrorsFormTemplate: {
 		Title: 'Modelo de formulário deve ter um título',
 		Question: 'Modelo de formulário deve ter pelo menos uma questão',
-		Others: 'Erro do servidor'
+		Others: 'Erro do servidor',
+		SomethingWrong: ''
 	},
 	Departments: 'Departamentos',
 	ReviewTitleTitle: 'Título da Revisão',
@@ -115,7 +116,12 @@ const pt: Translation = {
 	},
 	Backoffice: 'Módulo de Backoffice',
 	Frontoffice: 'Módulo de Frontoffice',
-	Form: 'Formulário'
+	Form: 'Formulário',
+	EditFormButton: 'Editar formulário',
+	EditFormModel: 'Editar modelo de formulário',
+	EditFormModelDescription: 'Esta funcionalidade permite aos utilizadores editar facilmente modelos de formulários, oferecendo uma abordagem simplificada para aperfeiçoar estruturas predefinidas para futuras avaliações. Melhore a eficiência do processo de avaliação ao modificar e atualizar padrões estabelecidos, garantindo economia de tempo e mantendo uniformidade nas avaliações. Seja ajustando critérios, atualizando campos ou refinando conteúdo, a funcionalidade de edição otimiza a personalização de modelos de formulários para atender às necessidades em constante evolução.',
+	StateDontExist: 'Review deve ser iniciada',
+	ButtonExitModule: 'Voltar para o smartTime'
 }
 
 export default pt
