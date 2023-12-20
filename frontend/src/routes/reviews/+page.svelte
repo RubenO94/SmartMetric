@@ -6,8 +6,6 @@
 
     let reviews = data.reviews
     let activeSeparator: string = data.activeSeparator
-
-    console.log(reviews)
 </script>
 
 <svelte:head>
@@ -57,7 +55,7 @@
                 <tbody>
                     {#each reviews as review}
                         {#if activeSeparator === review.reviewStatus}
-                            <tr class="border-b border-gray-300">
+                            <tr class="border-b border-gray-300 hover:bg-zinc-100 cursor-pointer" on:click={() => console.log(review)}>
                                 <td>
                                     <div class="flex flex-row p-2 gap-x-2">
                                         <div class="bg-red-200 flex items-center justify-center px-6 py-5 rounded-md">AA</div>
@@ -69,9 +67,9 @@
                                 </td>
                                 <td>
                                     <div>
-                                        <button class="w-3/4 px-2 py-1 flex justify-center text-sm border border-transparent cursor-pointer rounded-lg {review.reviewStatus === 'Active' ? 'bg-green-500 text-white hover:bg-green-700 hover:border-green-900' : 'bg-gray-200 text-black hover:bg-gray-300 hover:border-gray-500'}">
+                                        <p class="w-3/4 px-2 py-1 flex justify-center text-sm border border-transparent rounded-lg {review.reviewStatus === 'Active' ? 'bg-green-500 text-white border-green-900' : 'bg-gray-200 text-black border-gray-400'}">
                                             {review.reviewStatus}
-                                        </button>
+                                        </p>
                                     </div>
                                 </td>
                                 <td>

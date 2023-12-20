@@ -5,7 +5,10 @@
     import CreateBlankReview from "$lib/components/CreateBlankReview.svelte"
     import CreateReviewWithForm from "$lib/components/CreateReviewWithForm.svelte"
     import LL from "../../../i18n/i18n-svelte"
-    
+
+    export let data
+
+    let user = data.user
     let chooseForm: number = 0
     let currentStep: number = 1
     let page: number = 1
@@ -36,7 +39,7 @@
                 <p class="text-black text-sm">{ $LL.CreateBlankReviewDescription() }</p>
             </div>
         </div>
-        <CreateBlankReview />
+        <CreateBlankReview bind:user={user} />
     {:else}
         <div class="flex flex-row gap-x-4 text-blue-500">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="100" height="100">
@@ -59,7 +62,7 @@
                 <button on:click={() => (chooseForm = chooseForm + 1)} class="text-lg font-semibold py-1 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded">Continue</button>
             </div>
         {:else}
-            <CreateReviewWithForm bind:questions={questions} />
+            <CreateReviewWithForm bind:questions={questions} bind:user={user} />
         {/if}
     {/if}
 </div>
