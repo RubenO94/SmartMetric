@@ -1,6 +1,9 @@
 <script lang="ts">
     import CreateForm from "$lib/components/CreateForm.svelte"
     import LL from "../../../i18n/i18n-svelte"
+
+    export let data
+    let user = data.user
 </script>
 
 <svelte:head>
@@ -18,5 +21,5 @@
         </div>
     </div>
 
-    <CreateForm />
+    <CreateForm bind:user={user} />
 </div>

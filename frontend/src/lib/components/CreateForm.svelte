@@ -7,13 +7,14 @@
     import { fade, fly } from 'svelte/transition'
     import { goto } from '$app/navigation'
     import { Steps } from 'svelte-steps'
-    import { api } from '$lib/api/_api'
     import { handleValidationsForm } from '$lib/actions/handleValidations'
+
+    export let user
 
     //VARIABLES
     let apiUrl: string
     let token: string
-    let formTemplate: FormTemplate = { createdByUserId: 1, translations: [{ language: 'PT', title: '', description: '' }], questions: [], formTemplateId: null, modifiedDate: null }
+    let formTemplate: FormTemplate = { createdByUserId: user.userId, translations: [{ language: 'PT', title: '', description: '' }], questions: [], formTemplateId: null, modifiedDate: null }
     let questions: Question[] = []
     let insertedSingleChoiceOption: string = '' 
     let insertedNumericValue: number | null = null

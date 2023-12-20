@@ -1,17 +1,8 @@
 <script lang="ts">
-    import { api } from "$lib/api/_api"
-    import { onMount } from "svelte"
     import LL from "../../i18n/i18n-svelte"
 
-    let user: any
-
-    onMount (async () => {
-        const [requestUser] = await Promise.all([
-            api('GET', `Users/me`)
-        ])
-
-        user = requestUser?.body
-    })
+    export let user: any
+    console.log(user)
 </script>
 
 <div class="flex flex-col gap-y-4 bg-gray-300 h-auto p-2 pb-5">

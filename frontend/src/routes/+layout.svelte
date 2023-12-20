@@ -3,6 +3,9 @@
     import Sidebar from '$lib/components/Sidebar.svelte'
 	import Header from '$lib/components/Header.svelte'
 
+	export let data
+
+	let user = data.user
 	let sidebarVisible = false
 	
 	function toggleSidebar() {
@@ -12,7 +15,7 @@
 
 <div class="flex w-full min-h-screen overflow-y-hidden">
 	{#if sidebarVisible}
-		<Sidebar />
+		<Sidebar bind:user={user} />
 	{/if}
 	<div class="flex flex-col flex-1">
 		<Header {sidebarVisible} {toggleSidebar} />

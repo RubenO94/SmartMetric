@@ -11,6 +11,8 @@
     import { onMount } from 'svelte'
     import InfiniteScroll from './InfiniteScroll.svelte'
 
+    export let user
+
     let departments: Departments[] = []
     let newBatch: Departments[] = []
     let page: number = 1
@@ -25,7 +27,7 @@
     let insertedNumericValue: number | null = null
     let insertedTitle: string = ''
     let review: Reviews = {
-        createdByUserId: 1,
+        createdByUserId: user.userId,
         startDate: null,
         endDate: null,
         reviewType: '',
@@ -35,7 +37,7 @@
         reviewDepartmentsIds: []
     }
     let formTemplate: FormTemplate = {
-        createdByUserId: 1,
+        createdByUserId: review.createdByUserId,
         translations: [{ language: review.translations[0].language, title: review.translations[0].title, description: '' }],
         questions: review.questions,
         formTemplateId: null,
