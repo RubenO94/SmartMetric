@@ -1,12 +1,12 @@
 <script lang="ts">
-    import { LL, locale } from "../../i18n/i18n-svelte"
+    import { api } from "$lib/api/_api";
+    import { LL } from "../../i18n/i18n-svelte"
 
     export let data
 
     let reviews = data.reviews
     let activeSeparator: string = data.activeSeparator
-    //$: console.log(activeSeparator)
-    $: console.log(activeSeparator)
+
     console.log(reviews)
 </script>
 
@@ -69,9 +69,9 @@
                                 </td>
                                 <td>
                                     <div>
-                                        <p class="w-3/4 px-2 py-1 flex justify-center text-sm border border-transparent cursor-pointer rounded-lg {review.reviewStatus === 'Active' ? 'bg-green-500 text-white hover:bg-green-700 hover:border-green-900' : 'bg-gray-200 text-black hover:bg-gray-300 hover:border-gray-500'}">
+                                        <button class="w-3/4 px-2 py-1 flex justify-center text-sm border border-transparent cursor-pointer rounded-lg {review.reviewStatus === 'Active' ? 'bg-green-500 text-white hover:bg-green-700 hover:border-green-900' : 'bg-gray-200 text-black hover:bg-gray-300 hover:border-gray-500'}">
                                             {review.reviewStatus}
-                                        </p>
+                                        </button>
                                     </div>
                                 </td>
                                 <td>
