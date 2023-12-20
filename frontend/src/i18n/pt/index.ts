@@ -121,7 +121,20 @@ const pt: Translation = {
 	EditFormModel: 'Editar modelo de formulário',
 	EditFormModelDescription: 'Esta funcionalidade permite aos utilizadores editar facilmente modelos de formulários, oferecendo uma abordagem simplificada para aperfeiçoar estruturas predefinidas para futuras avaliações. Melhore a eficiência do processo de avaliação ao modificar e atualizar padrões estabelecidos, garantindo economia de tempo e mantendo uniformidade nas avaliações. Seja ajustando critérios, atualizando campos ou refinando conteúdo, a funcionalidade de edição otimiza a personalização de modelos de formulários para atender às necessidades em constante evolução.',
 	StateDontExist: 'Review deve ser iniciada',
-	ButtonExitModule: 'Voltar para o smartTime'
+	ButtonExitModule: 'Voltar para o smartTime',
+	Delete: 'Remover',
+	Cancel: 'Cancelar',
+	DeleteDialogForm: 'Remover modelo de formulário?',
+	DeleteDialogFormDesc: 'Tem a certeza que pretende remover formulário? Esta ação não pode ser revertida.',
+	ChangeReviewStatus: 'Mudar estado da revisão',
+	ChangeReviewStatusDesc: 'Tem a certeza que pretende mudar o estado da revisão? Esta ação não pode ser revertida.',
+	ChangeStatus: 'Mudar estado',
+	ReviewState: {
+		NotStarted: 'Não iniciada',
+		Active: 'Ativa',
+		Canceled: 'Cancelada',
+		Completed: 'Completada'
+	}
 }
 
 export default pt

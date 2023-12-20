@@ -450,6 +450,52 @@ type RootTranslation = {
 	 * R​e​t​u​r​n​ ​t​o​ ​S​m​a​r​t​T​i​m​e
 	 */
 	ButtonExitModule: string
+	/**
+	 * D​e​l​e​t​e
+	 */
+	Delete: string
+	/**
+	 * C​a​n​c​e​l
+	 */
+	Cancel: string
+	/**
+	 * D​e​l​e​t​e​ ​f​o​r​m​ ​t​e​m​p​l​a​t​e​?
+	 */
+	DeleteDialogForm: string
+	/**
+	 * A​r​e​ ​y​o​u​ ​s​u​r​e​ ​y​o​u​ ​w​a​n​t​ ​t​o​ ​d​e​l​e​t​e​ ​t​h​e​ ​f​o​r​m​?​ ​T​h​i​s​ ​a​c​t​i​o​n​ ​c​a​n​n​o​t​ ​b​e​ ​u​n​d​o​n​e​.
+	 */
+	DeleteDialogFormDesc: string
+	/**
+	 * C​h​a​n​g​e​ ​r​e​v​i​e​w​ ​s​t​a​t​u​s
+	 */
+	ChangeReviewStatus: string
+	/**
+	 * A​r​e​ ​y​o​u​ ​s​u​r​e​ ​y​o​u​ ​w​a​n​t​ ​t​o​ ​c​h​a​n​g​e​ ​s​t​a​t​u​s​ ​o​f​ ​t​h​e​ ​r​e​v​i​e​w​?​ ​T​h​i​s​ ​a​c​t​i​o​n​ ​c​a​n​n​o​t​ ​b​e​ ​u​n​d​o​n​e​.
+	 */
+	ChangeReviewStatusDesc: string
+	/**
+	 * C​h​a​n​g​e​ ​S​t​a​t​u​s
+	 */
+	ChangeStatus: string
+	ReviewState: {
+		/**
+		 * N​o​t​ ​S​t​a​r​t​e​d
+		 */
+		NotStarted: string
+		/**
+		 * A​c​t​i​v​e
+		 */
+		Active: string
+		/**
+		 * C​a​n​c​e​l​e​d
+		 */
+		Canceled: string
+		/**
+		 * C​o​m​p​l​e​t​e​d
+		 */
+		Completed: string
+	}
 }
 
 export type TranslationFunctions = {
@@ -889,6 +935,52 @@ export type TranslationFunctions = {
 	 * Return to SmartTime
 	 */
 	ButtonExitModule: () => LocalizedString
+	/**
+	 * Delete
+	 */
+	Delete: () => LocalizedString
+	/**
+	 * Cancel
+	 */
+	Cancel: () => LocalizedString
+	/**
+	 * Delete form template?
+	 */
+	DeleteDialogForm: () => LocalizedString
+	/**
+	 * Are you sure you want to delete the form? This action cannot be undone.
+	 */
+	DeleteDialogFormDesc: () => LocalizedString
+	/**
+	 * Change review status
+	 */
+	ChangeReviewStatus: () => LocalizedString
+	/**
+	 * Are you sure you want to change status of the review? This action cannot be undone.
+	 */
+	ChangeReviewStatusDesc: () => LocalizedString
+	/**
+	 * Change Status
+	 */
+	ChangeStatus: () => LocalizedString
+	ReviewState: {
+		/**
+		 * Not Started
+		 */
+		NotStarted: () => LocalizedString
+		/**
+		 * Active
+		 */
+		Active: () => LocalizedString
+		/**
+		 * Canceled
+		 */
+		Canceled: () => LocalizedString
+		/**
+		 * Completed
+		 */
+		Completed: () => LocalizedString
+	}
 }
 
 export type Formatters = {}

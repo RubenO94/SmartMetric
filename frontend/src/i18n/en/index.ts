@@ -121,7 +121,20 @@ const en: BaseTranslation = {
 	EditFormModel: "Edit form model",
 	EditFormModelDescription: "This feature empowers users to effortlessly edit form templates, providing a seamless avenue for refining predefined structures in preparation for future assessments. Enhance the efficiency of the evaluation process by easily modifying and updating established patterns, ensuring time savings and preserving uniformity in evaluations. Whether adjusting criteria, updating fields, or refining content, the editing functionality streamlines the customization of form templates to meet evolving needs.",
 	StateDontExist: "Review must be started",
-	ButtonExitModule: "Return to SmartTime"
+	ButtonExitModule: "Return to SmartTime",
+	Delete: "Delete",
+	Cancel: "Cancel",
+	DeleteDialogForm: "Delete form template?",
+	DeleteDialogFormDesc: "Are you sure you want to delete the form? This action cannot be undone.",
+	ChangeReviewStatus: "Change review status",
+	ChangeReviewStatusDesc: "Are you sure you want to change status of the review? This action cannot be undone.",
+	ChangeStatus: "Change Status",
+	ReviewState: {
+		NotStarted: "Not Started",
+		Active: "Active",
+		Canceled: "Canceled",
+		Completed: "Completed"
+	}
 }
 
 export default en
