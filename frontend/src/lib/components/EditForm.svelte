@@ -283,7 +283,11 @@
                     {#if selectedQuestion && selectedQuestion.position !== -1}
                         <div class="flex gap-x-2">
                             <p class="text-blue-500 font-extrabold text-base">Q{selectedQuestion.position}</p>
-                            <p class="text-black font-semibold text-base">{selectedQuestion.translations[0].title}</p>
+                            {#each selectedQuestion.translations as translation, index}
+                                {#if translation.language == chooseLanguage}
+                                    <p class="text-black font-semibold text-base">{translation.title}</p>
+                                {/if}
+                            {/each}
                         </div>
                         <div class="flex flex-col gap-y-5">
                             <div class="flex gap-x-2">

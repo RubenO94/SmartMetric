@@ -72,6 +72,7 @@ const pt: Translation = {
 	ErrorsFormTemplate: {
 		Title: 'Modelo de formulário deve ter um título',
 		Question: 'Modelo de formulário deve ter pelo menos uma questão',
+		QuestionTitle: 'Todas as questões do formulário deve ter titulo',
 		Others: 'Erro do servidor',
 		SomethingWrong: ''
 	},

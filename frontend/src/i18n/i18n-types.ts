@@ -284,6 +284,10 @@ type RootTranslation = {
 		 */
 		Question: string
 		/**
+		 * A​l​l​ ​q​u​e​s​t​i​o​n​s​ ​o​f​ ​f​o​r​m​ ​m​u​s​t​ ​h​a​v​e​ ​a​ ​t​i​t​l​e
+		 */
+		QuestionTitle: string
+		/**
 		 * S​e​r​v​e​r​ ​e​r​r​o​r
 		 */
 		Others: string
@@ -768,6 +772,10 @@ export type TranslationFunctions = {
 		 * Form template must have at least one question
 		 */
 		Question: () => LocalizedString
+		/**
+		 * All questions of form must have a title
+		 */
+		QuestionTitle: () => LocalizedString
 		/**
 		 * Server error
 		 */

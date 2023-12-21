@@ -47,9 +47,22 @@
     const handleStepForward = async (event: Event) => {
         let [validateForm, message] = handleValidationsForm(formTemplate, currentStep)
         if (!validateForm) {
-            toast.error(message)
+            switch (message) {
+                case 'title':
+                    toast.error($LL.ErrorsFormTemplate.Title())
+                    break
+                case 'question':
+                    toast.error($LL.ErrorsFormTemplate.Question())
+                    break
+                case 'questionTitle':
+                    toast.error($LL.ErrorsFormTemplate.QuestionTitle())
+                    break
+                default:
+                    toast.error($LL.ErrorsFormTemplate.Others())
+                    break
+            }
             return
-        } 
+        }
         if (currentStep != 2) currentStep += 1
         else {
             document.getElementById('buttonGoForward')?.setAttribute("disabled", "disabled")

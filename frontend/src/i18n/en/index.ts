@@ -72,6 +72,7 @@ const en: BaseTranslation = {
 	ErrorsFormTemplate: {
 		Title: "Form template must have a title",
 		Question: "Form template must have at least one question",
+		QuestionTitle: "All questions of form must have a title",
 		Others: "Server error",
 		SomethingWrong: "Something went wrong"
 	},
