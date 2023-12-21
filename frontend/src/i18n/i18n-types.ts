@@ -500,6 +500,34 @@ type RootTranslation = {
 		 */
 		Completed: string
 	}
+	/**
+	 * H​e​l​p
+	 */
+	Help: string
+	/**
+	 * S​t​a​r​t​ ​r​e​v​i​e​w
+	 */
+	StartReview: string
+	/**
+	 * S​t​a​r​t​ ​R​e​v​i​e​w​?
+	 */
+	ChangeReviewStatusDialog: string
+	/**
+	 * A​r​e​ ​y​o​u​ ​s​u​r​e​ ​y​o​u​ ​w​a​n​t​ ​t​o​ ​s​t​a​r​t​ ​r​e​v​i​e​w​?​ ​T​h​i​s​ ​a​c​t​i​o​n​ ​c​a​n​n​o​t​ ​b​e​ ​u​n​d​o​n​e​.
+	 */
+	ChangeReviewStatusDialogDesc: string
+	/**
+	 * S​t​a​r​t
+	 */
+	Start: string
+	/**
+	 * E​n​t​e​r​ ​a​ ​v​a​l​i​d​ ​d​a​t​e​ ​f​o​r​ ​d​a​y​ ​l​i​m​i​t​ ​o​f​ ​r​e​v​i​e​w
+	 */
+	AddEndDate: string
+	/**
+	 * U​s​e​r
+	 */
+	User: string
 }
 
 export type TranslationFunctions = {
@@ -989,6 +1017,34 @@ export type TranslationFunctions = {
 		 */
 		Completed: () => LocalizedString
 	}
+	/**
+	 * Help
+	 */
+	Help: () => LocalizedString
+	/**
+	 * Start review
+	 */
+	StartReview: () => LocalizedString
+	/**
+	 * Start Review?
+	 */
+	ChangeReviewStatusDialog: () => LocalizedString
+	/**
+	 * Are you sure you want to start review? This action cannot be undone.
+	 */
+	ChangeReviewStatusDialogDesc: () => LocalizedString
+	/**
+	 * Start
+	 */
+	Start: () => LocalizedString
+	/**
+	 * Enter a valid date for day limit of review
+	 */
+	AddEndDate: () => LocalizedString
+	/**
+	 * User
+	 */
+	User: () => LocalizedString
 }
 
 export type Formatters = {}

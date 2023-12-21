@@ -1,6 +1,7 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
-import { LL } from "../../i18n/i18n-svelte"
+    import { api } from "$lib/api/_api";
+    import { LL } from "../../i18n/i18n-svelte"
 
     export let data
 

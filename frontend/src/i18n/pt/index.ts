@@ -135,7 +135,14 @@ const pt: Translation = {
 		Active: 'Ativa',
 		Canceled: 'Cancelada',
 		Completed: 'Completada'
-	}
+	},
+	Help: 'Ajuda',
+	StartReview: 'Iniciar revisão',
+	ChangeReviewStatusDialog: 'Iniciar revisão?',
+	ChangeReviewStatusDialogDesc: 'Tem a certeza que pretende iniciar a revisão? Esta ação não pode ser revertida.',
+	Start: 'Iniciar',
+	AddEndDate: 'Insira uma data válida como prazo de fim da revisão:',
+	User: 'Utilizador'
 }
 
 export default pt
