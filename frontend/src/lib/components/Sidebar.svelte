@@ -20,7 +20,7 @@
 
 </script>
 
-<nav class="w-[300px] min-h-screen text-sm bg-gray-100 border-r-[1px] border-gray-300" transition:fly={{ delay: 0, duration: 100, x: -50 }}>
+<nav class="w-[250px] min-h-screen text-sm bg-gray-100 border-r-[1px] border-gray-300" transition:fly={{ delay: 0, duration: 100, x: -50 }}>
     <UserMenu bind:user={user} />
     <p class="font-semibold pt-4 pb-1 px-2">{$LL.Backoffice()}</p>
     <div class="flex flex-col gap-y-1 px-1 py-2">

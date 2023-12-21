@@ -26,7 +26,7 @@ const pt: Translation = {
 	Details: 'Detalhes',
 	Questions: 'Questões',
 	Finalize: 'Finalizar',
-	ChooseLanguage: 'Esolha um idioma',
+	ChooseLanguage: 'Escolha um idioma',
 	Portuguese: 'Português',
 	English: 'Inglês',
 	French: 'Francês',

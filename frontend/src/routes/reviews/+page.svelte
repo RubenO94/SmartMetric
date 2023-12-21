@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { api } from "$lib/api/_api";
-    import { LL } from "../../i18n/i18n-svelte"
+    import { goto } from "$app/navigation";
+import { LL } from "../../i18n/i18n-svelte"
 
     export let data
 
@@ -55,7 +55,7 @@
                 <tbody>
                     {#each reviews as review}
                         {#if activeSeparator === review.reviewStatus}
-                            <tr class="border-b border-gray-300 hover:bg-zinc-100 cursor-pointer" on:click={() => console.log(review)}>
+                            <tr class="border-b border-gray-300 hover:bg-zinc-100 cursor-pointer" on:click={() => goto(`/reviews/${review.reviewId}`)}>
                                 <td>
                                     <div class="flex flex-row p-2 gap-x-2">
                                         <div class="bg-red-200 flex items-center justify-center px-6 py-5 rounded-md">AA</div>
