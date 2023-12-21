@@ -52,6 +52,7 @@
         } 
         if (currentStep != 2) currentStep += 1
         else {
+            document.getElementById('buttonGoForward')?.setAttribute("disabled", "disabled")
             const request = await fetch(apiUrl + "FormTemplates", {
                 method: "POST",
                 headers: {
