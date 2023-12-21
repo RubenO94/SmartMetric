@@ -43,7 +43,11 @@
                             {#each question.singleChoiceOptions as sco}
                                 <div class="flex gap-x-2 bg-gray-100 text-gray-400 border border-gray-300 px-2 py-2 rounded">
                                     <svg class="text-gray-300" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M3 5v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2"/></svg>
-                                    {sco.translations[0].description}
+                                    {#each sco.translations as translation}
+                                        {#if translation.language == lang}
+                                            {translation.description}
+                                        {/if}
+                                    {/each}
                                 </div>
                             {/each}
                         {:else if question.responseType == 'Rating'}
