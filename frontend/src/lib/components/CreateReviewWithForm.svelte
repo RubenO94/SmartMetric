@@ -253,11 +253,9 @@
             <div class="flex flex-row gap-x-5 items-center">
                 <p class="text-black text-base font-semibold flex-shrink-0">{$LL.ChooseLanguage()}</p>
                 <select bind:value={review.translations[0].language} class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 flex-grow p-2">
-                    <option value="PT">{$LL.Portuguese()}</option>
-                    <option value="EN">{$LL.English()}</option>
-                    <option value="ES">{$LL.Spanish()}</option>
-                    <option value="FR">{$LL.French()}</option>
-                    <option value="PL">{$LL.Polish()}</option>
+                    {#each questions[0].translations as translation}
+                        <option value={translation.language}>{translation.language}</option>
+                    {/each}
                 </select>
             </div>
             <div class="flex flex-col gap-y-1">

@@ -79,9 +79,8 @@
                         </div>
                         <div class="flex flex-col gap-y-1">
                             <p>{$LL.AddEndDate()}</p>
-                            <input type="date" class="bg-gray-100 px-2 py-1 text-base font-mono text-gray-600 rounded-lg" bind:value={reviewPatchBody.endDate} />
+                            <input type="date" class="bg-gray-100 px-2 py-1 text-base font-mono cursor-pointer text-gray-600 rounded-lg" bind:value={reviewPatchBody.endDate} />
                         </div>
-                        
                         <div class="flex justify-end gap-4 mt-5">
                             <button class="bg-gray-100 border border-gray-300 px-6 py-2 rounded text-black hover:bg-gray-200" on:click="{hideDialog}">{$LL.Cancel()}</button>
                             <button class="bg-blue-500 px-6 py-2 rounded text-white hover:bg-blue-700" on:click="{startReview}">{$LL.Start()}</button>

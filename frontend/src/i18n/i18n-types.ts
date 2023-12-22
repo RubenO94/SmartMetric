@@ -528,6 +528,14 @@ type RootTranslation = {
 	 * U​s​e​r
 	 */
 	User: string
+	/**
+	 * S​h​o​w​ ​f​o​r​m​ ​i​n
+	 */
+	ShowFormIn: string
+	/**
+	 * S​e​l​e​c​t​ ​a​t​ ​l​e​a​s​t​ ​o​n​e​ ​l​a​n​g​u​a​g​e​ ​f​o​r​ ​f​o​r​m
+	 */
+	ErrorAddingLanguagesToForm: string
 }
 
 export type TranslationFunctions = {
@@ -1045,6 +1053,14 @@ export type TranslationFunctions = {
 	 * User
 	 */
 	User: () => LocalizedString
+	/**
+	 * Show form in
+	 */
+	ShowFormIn: () => LocalizedString
+	/**
+	 * Select at least one language for form
+	 */
+	ErrorAddingLanguagesToForm: () => LocalizedString
 }
 
 export type Formatters = {}

@@ -142,7 +142,9 @@ const en: BaseTranslation = {
 	ChangeReviewStatusDialogDesc: "Are you sure you want to start review? This action cannot be undone.",
 	Start: "Start",
 	AddEndDate: "Enter a valid date for day limit of review",
-	User: "User"
+	User: "User",
+	ShowFormIn: "Show form in",
+	ErrorAddingLanguagesToForm: "Select at least one language for form"
 }
 
 export default en

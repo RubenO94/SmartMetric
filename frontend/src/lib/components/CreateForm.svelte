@@ -46,6 +46,23 @@
     api_url.subscribe((value) => { apiUrl = value })
     api_token.subscribe((value) => { token = value })
 
+    function showLanguageTranslation(languageAbbrev: string) {
+        switch (languageAbbrev) {
+            case 'PT':
+                return $LL.Portuguese()
+            case 'EN':
+                return $LL.English()
+            case 'ES':
+                return $LL.Spanish()
+            case 'FR':
+                return $LL.French()
+            case 'PL':
+                return $LL.Polish()
+            default:
+                return 'This language doesn`t exist'
+        }
+    }
+
     //Functions for Stepper
     const handleStepBackward = (event: Event) => {
         if (currentStep != 0) currentStep -= 1
@@ -211,7 +228,7 @@
                 <p class="text-black text-base font-semibold flex-shrink-0">{$LL.ChooseLanguage()}</p>
                 <select bind:value={chooseLanguage} class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 flex-grow p-2">
                     {#each formTemplate.translations as translation}
-                        <option value={translation.language}>{translation.language}</option>
+                        <option value={translation.language}>{showLanguageTranslation(translation.language)}</option>
                     {/each}
                 </select>              
             </div>
@@ -257,7 +274,7 @@
                         <p class="text-black text-sm font-semibold flex-shrink-0">{$LL.ChooseLanguage()}</p>
                         <select bind:value={chooseLanguage} class="bg-white border border-gray-300 text-gray-900 text-xs rounded-lg shadow focus:ring-blue-500 focus:border-blue-500 flex-grow p-2">
                             {#each formTemplate.translations as translation}
-                                <option value={translation.language}>{translation.language}</option>
+                                <option value={translation.language}>{showLanguageTranslation(translation.language)}</option>
                             {/each}
                         </select>
                     </div>
