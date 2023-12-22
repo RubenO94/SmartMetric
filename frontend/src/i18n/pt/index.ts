@@ -142,7 +142,9 @@ const pt: Translation = {
 	ChangeReviewStatusDialogDesc: 'Tem a certeza que pretende iniciar a revisão? Esta ação não pode ser revertida.',
 	Start: 'Iniciar',
 	AddEndDate: 'Insira uma data válida como prazo de fim da revisão:',
-	User: 'Utilizador'
+	User: 'Utilizador',
+	ShowFormIn: 'Mostrar formulário em',
+	ErrorAddingLanguagesToForm: 'Selecione pelo menos um idioma para o formulário'
 }
 
 export default pt
