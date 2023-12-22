@@ -28,29 +28,41 @@
 	
 </script>
 
-<header class="flex flex-row gap-x-4 items-center px-10 py-2 text-sm border-b-[1px] border-gray-300">
+<header class="flex items-center px-10 py-2 text-sm border-b-[1px] border-gray-300 justify-between	">
 	<!-- Button to hide or show the Sidebar -->
-	<div class="relative inline-block group">
-		<button on:click={toggleSidebar} class="text-gray-700 p-1 rounded border-2 border-transparent hover:bg-gray-300 active:border-blue-500">
-			{#if sidebarVisible}
-				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M9 3v18m7-6l-3-3l3-3"/></g></svg>
-			{:else}
-				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M9 3v18m5-12l3 3l-3 3"/></g></svg>
-			{/if}
-		</button>
-		<div class="absolute w-max top-0 left-full mt-2 ml-2 p-2 bg-gray-800 text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-x-0">
-			{#if sidebarVisible}
-				{$LL.HideSidebar()}
-			{:else}
-				{$LL.ShowSidebar()}
-			{/if}
+	<div class="flex gap-x-4">
+		<div class="relative inline-block group">
+			<button on:click={toggleSidebar} class="text-gray-700 p-1 rounded border-2 border-transparent hover:bg-gray-300 active:border-blue-500">
+				{#if sidebarVisible}
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M9 3v18m7-6l-3-3l3-3"/></g></svg>
+				{:else}
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M9 3v18m5-12l3 3l-3 3"/></g></svg>
+				{/if}
+			</button>
+			<div class="absolute w-max top-0 left-full mt-2 ml-2 p-2 bg-gray-800 text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-x-0">
+				{#if sidebarVisible}
+					{$LL.HideSidebar()}
+				{:else}
+					{$LL.ShowSidebar()}
+				{/if}
+			</div>
+		</div>
+	
+		<!-- Directories -->
+		<div class="flex flex-row gap-x-1 items-center">
+			<a href="/reviews" class="text-gray-400 hover:underline">{$LL.YourWork()}</a>
+			{@html arrowIcon}
+			{@html generatePathHTML($page.url.pathname)}
 		</div>
 	</div>
 
-	<!-- Directories -->
-	<div class="flex flex-row gap-x-1 items-center">
-		<a href="/reviews" class="text-gray-400 hover:underline">{$LL.YourWork()}</a>
-		{@html arrowIcon}
-		{@html generatePathHTML($page.url.pathname)}
+	<div class="relative inline-block group">
+		<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" data-slot="icon" class="w-6 h-6 cursor-pointer">
+			<path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
+		</svg>
+		<div class="absolute w-max top-0 right-full mt-2 mr-2 p-2 bg-gray-800 text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-x-0">
+			{$LL.Help()}
+		</div>
 	</div>
+		  
 </header>

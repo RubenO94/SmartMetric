@@ -1,14 +1,37 @@
 <script lang="ts">
     import CreateForm from "$lib/components/CreateForm.svelte"
+    import toast, { Toaster } from "svelte-french-toast"
     import LL from "../../../i18n/i18n-svelte"
 
     export let data
+
     let user = data.user
+    let page: number = 0
+    let chooseLanguages: string[] = []
+    let languages = [
+        {name: 'PT', checked: false},
+        {name: 'EN', checked: false},
+        {name: 'ES', checked: false},
+        {name: 'FR', checked: false},
+        {name: 'PL', checked: false}
+    ]
+
+    function checkLanguages() {
+        if (chooseLanguages.length < 1) {
+            toast.error("Select at least one language for form")
+            return
+        } 
+        page++
+    }
+
+    $: chooseLanguages = languages.filter(language => language.checked).map(language => language.name)
 </script>
 
 <svelte:head>
     <title>{$LL.FormButton()}</title>
 </svelte:head>
+
+<Toaster />
 
 <div class="mx-auto flex flex-col w-[1200px] p-10 gap-y-5">
     <div class="flex flex-row gap-x-4 text-blue-500">
@@ -21,5 +44,16 @@
         </div>
     </div>
 
-    <CreateForm bind:user={user} />
+    {#if page == 0}
+        <p>Select languages to create form:</p>
+        {#each languages as language}
+            <div class="flex items-center cursor-pointer mr-auto" on:click={() => {language.checked = !language.checked}}>
+                <input bind:checked={language.checked} type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                <p class="ms-2 text-sm font-medium text-gray-900">{language.name}</p>
+            </div>
+        {/each}
+        <button on:click={() => checkLanguages()} class="flex gap-x-2 mx-auto text-base font-semibold px-5 py-2 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded">Create form</button>
+    {:else if page == 1}
+        <CreateForm bind:user={user} bind:languages={chooseLanguages} />
+    {/if}
 </div>

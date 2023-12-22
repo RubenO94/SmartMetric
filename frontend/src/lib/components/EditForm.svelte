@@ -87,7 +87,6 @@
         formTemplate.translations.forEach(element => {
             singleChoiceOption.translations = [...singleChoiceOption.translations, {language: element.language, title: '', description: insertedOption}]
         })
-        
         selectedQuestion.singleChoiceOptions = [...selectedQuestion.singleChoiceOptions, singleChoiceOption]
         updateQuestion(selectedQuestion)
     }
@@ -229,8 +228,8 @@
                                 <div class="flex flex-col gap-y-1">
                                     {#each question.translations as translation, index}
                                         {#if translation.language == chooseLanguage}
-                                        <p class="text-black font-bold">{question.translations[index].title}</p>
-                                        <p>{question.translations[index].description}</p>
+                                            <p class="text-black font-bold">{question.translations[index].title}</p>
+                                            <p>{question.translations[index].description}</p>
                                         {/if}
                                     {/each}
                                 </div>

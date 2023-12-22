@@ -27,7 +27,7 @@
                 {#if user && user.userName}
                     {user.userName}
                 {:else}
-                    User
+                    {$LL.User()}
                 {/if}
             </p>
         </div>

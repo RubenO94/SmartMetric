@@ -135,7 +135,14 @@ const en: BaseTranslation = {
 		Active: "Active",
 		Canceled: "Canceled",
 		Completed: "Completed"
-	}
+	},
+	Help: "Help",
+	StartReview: "Start review",
+	ChangeReviewStatusDialog: "Start Review?",
+	ChangeReviewStatusDialogDesc: "Are you sure you want to start review? This action cannot be undone.",
+	Start: "Start",
+	AddEndDate: "Enter a valid date for day limit of review",
+	User: "User"
 }
 
 export default en
