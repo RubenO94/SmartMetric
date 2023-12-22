@@ -13,7 +13,6 @@
     export let languages
 
     //VARIABLES
-    let chooseLanguage: string = ''
     let apiUrl: string
     let token: string
     let formTemplate: FormTemplate = { createdByUserId: user.userId, translations: [], questions: [], formTemplateId: null, modifiedDate: null }
@@ -42,6 +41,7 @@
     languages.forEach((element: string) => {
         formTemplate.translations = [...formTemplate.translations, {language: element, title: '', description: ''}]
     })
+    let chooseLanguage: string = formTemplate.translations[0].language
 
     api_url.subscribe((value) => { apiUrl = value })
     api_token.subscribe((value) => { token = value })
@@ -105,10 +105,13 @@
                 isRequired: false,
                 position: questions.length + 1,
                 responseType: selectedCard.name,
-                translations: [{language: formTemplate.translations[0].language, title: '', description: ''}],
+                translations: [],
                 singleChoiceOptions: [],
                 ratingOptions: []
             }
+            formTemplate.translations.forEach(element => {
+                newQuestion.translations = [...newQuestion.translations, {language: element.language, title: '', description: ''}]
+            });
 
             questions = [...questions, newQuestion]
             selectedQuestion = newQuestion
@@ -150,8 +153,11 @@
             toast.error($LL.AddSingleChoiceOptionError())
             return
         }
-        let singleChoiceOptionTranslation: Translations = {language: formTemplate.translations[0].language, title: insertedOption, description: insertedOption}
-        selectedQuestion.singleChoiceOptions = [...selectedQuestion.singleChoiceOptions, {translations: [singleChoiceOptionTranslation]}]
+        let singleChoiceOption: SingleChoiceOption = {translations: []}
+        formTemplate.translations.forEach(element => {
+            singleChoiceOption.translations = [...singleChoiceOption.translations, {language: element.language, title: '', description: insertedOption}]
+        })
+        selectedQuestion.singleChoiceOptions = [...selectedQuestion.singleChoiceOptions, singleChoiceOption]
         updateQuestion(selectedQuestion)
     }
 
@@ -172,8 +178,11 @@
             }
         })
         if (conditionIsTrue) return
-        let ratingOptionTranslation: Translations = {language: formTemplate.translations[0].language, title: title, description: title}
-        selectedQuestion.ratingOptions = [...selectedQuestion.ratingOptions, {numericValue: numericValue, translations: [ratingOptionTranslation]}]
+        let ratingOption: RatingOption = {numericValue: numericValue, translations: []}
+        formTemplate.translations.forEach(element => {
+            ratingOption.translations = [...ratingOption.translations, {language: element.language, title: '', description: title}]
+        })
+        selectedQuestion.ratingOptions = [...selectedQuestion.ratingOptions, ratingOption]
         updateQuestion(selectedQuestion)
     }
 
@@ -189,7 +198,6 @@
 
     //Everytime variable questions changes, formTemplate.questions is gonna change too
     $: formTemplate.questions = questions
-    $: console.log(formTemplate)
 </script>
 
 <Toaster />
@@ -202,7 +210,7 @@
             <div class="flex flex-row gap-x-5 items-center">
                 <p class="text-black text-base font-semibold flex-shrink-0">{$LL.ChooseLanguage()}</p>
                 <select bind:value={chooseLanguage} class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 flex-grow p-2">
-                    {#each formTemplate.translations as translation, index}
+                    {#each formTemplate.translations as translation}
                         <option value={translation.language}>{translation.language}</option>
                     {/each}
                 </select>              
@@ -210,12 +218,20 @@
             <div class="flex flex-col gap-y-1">
                 <p class="text-black text-base font-semibold">{$LL.FormModelTitleTitle()}</p>
                 <p>{$LL.FormModelTitleDescription()}</p>
-                <input name="titleForm" class="w-auto my-1 p-2 text-black border rounded peer" bind:value={formTemplate.translations[0].title} required />
+                {#each formTemplate.translations as translation, index}
+                    {#if translation.language == chooseLanguage}
+                        <input name="titleForm" class="w-auto my-1 p-2 text-black border rounded peer" bind:value={formTemplate.translations[index].title} required />
+                    {/if}
+                {/each}
             </div>
             <div class="flex flex-col gap-y-1">
                 <p class="text-black text-base font-semibold">{$LL.FormModelDescriptionTitle()}</p>
                 <p>{$LL.FormModelDescriptionDescription()}</p>
-                <textarea name="descriptionForm" rows="8" class="w-auto my-1 p-2 text-black border rounded" bind:value={formTemplate.translations[0].description}></textarea>
+                {#each formTemplate.translations as translation, index}
+                    {#if translation.language == chooseLanguage}
+                        <textarea name="descriptionForm" rows="8" class="w-auto my-1 p-2 text-black border rounded" bind:value={formTemplate.translations[index].description}></textarea>
+                    {/if}
+                {/each}
             </div>
         </div>
     {:else if currentStep == 1}
@@ -237,6 +253,14 @@
                 <p class="text-black text-base font-semibold">{$LL.FormPreview()}</p>
                 <!-- svelte-ignore a11y-no-static-element-interactions -->
                 <div class="bg-gray-100 min-h-[250px] h-full flex flex-col gap-y-2 shadow-lg rounded-lg p-5 border border-gray-200" on:drop="{handleDrop}" on:dragover="{allowDrop}">
+                    <div class="flex flex-row gap-x-5 items-center">
+                        <p class="text-black text-sm font-semibold flex-shrink-0">{$LL.ChooseLanguage()}</p>
+                        <select bind:value={chooseLanguage} class="bg-white border border-gray-300 text-gray-900 text-xs rounded-lg shadow focus:ring-blue-500 focus:border-blue-500 flex-grow p-2">
+                            {#each formTemplate.translations as translation}
+                                <option value={translation.language}>{translation.language}</option>
+                            {/each}
+                        </select>
+                    </div>
                     {#if questions.length == 0}
                         <p>{$LL.FormPreviewPlaceholder()}</p>
                     {/if}
@@ -251,8 +275,12 @@
                             <div class="flex flex-row gap-x-2">
                                 <p class="text-blue-500 font-extrabold">Q{question.position}</p>
                                 <div class="flex flex-col gap-y-1">
-                                    <p class="text-black font-bold">{question.translations[0].title}</p>
-                                    <p>{question.translations[0].description}</p>
+                                    {#each question.translations as translation, index}
+                                        {#if translation.language == chooseLanguage}
+                                            <p class="text-black font-bold">{question.translations[index].title}</p>
+                                            <p>{question.translations[index].description}</p>
+                                        {/if}
+                                    {/each}
                                 </div>
                             </div>
                             {#if question.responseType === 'Rating' }
@@ -279,7 +307,11 @@
                                     <div class="flex flex-col gap-y-1">
                                         {#each question.singleChoiceOptions as singleChoice}
                                             <div class="bg-gray-100 py-2 px-5 rounded-lg">
-                                                <p>{singleChoice.translations[0].title}</p>
+                                                {#each singleChoice.translations as translation}
+                                                    {#if translation.language == chooseLanguage}
+                                                        <p>{translation.description}</p>
+                                                    {/if}
+                                                {/each}
                                             </div>
                                         {/each}
                                     </div>
@@ -299,7 +331,11 @@
                     {#if selectedQuestion && selectedQuestion.position !== -1}
                         <div class="flex gap-x-2">
                             <p class="text-blue-500 font-extrabold text-base">Q{selectedQuestion.position}</p>
-                            <p class="text-black font-semibold text-base">{selectedQuestion.translations[0].title}</p>
+                            {#each selectedQuestion.translations as translation, index}
+                                {#if translation.language == chooseLanguage}
+                                    <p class="text-black font-semibold text-base">{selectedQuestion.translations[index].title}</p>
+                                {/if}
+                            {/each}
                         </div>
                         <div class="flex flex-col gap-y-5">
                             <div class="flex gap-x-2">
@@ -311,11 +347,19 @@
                             </div>
                             <div class="flex flex-col gap-y-1">
                                 <p class="text-black text-sm font-semibold">{$LL.Title()}</p>
-                                <input class="text-black p-2 rounded" placeholder={$LL.Title()} bind:value={selectedQuestion.translations[0].title} on:blur={() => updateQuestion(selectedQuestion)} />
+                                {#each selectedQuestion.translations as translation, index}
+                                    {#if translation.language == chooseLanguage}
+                                        <input class="text-black p-2 rounded" placeholder={$LL.Title()} bind:value={selectedQuestion.translations[index].title} on:blur={() => updateQuestion(selectedQuestion)} />
+                                    {/if}
+                                {/each}
                             </div>
                             <div class="flex flex-col gap-y-1">
                                 <p class="text-black text-sm font-semibold">{$LL.Description()}</p>
-                                <textarea class="text-black p-2 rounded" placeholder={$LL.Description()} bind:value={selectedQuestion.translations[0].description} on:blur={() => updateQuestion(selectedQuestion)} rows="5"></textarea>
+                                {#each selectedQuestion.translations as translation, index}
+                                    {#if translation.language == chooseLanguage}
+                                        <textarea class="text-black p-2 rounded" placeholder={$LL.Description()} bind:value={selectedQuestion.translations[index].description} on:blur={() => updateQuestion(selectedQuestion)} rows="5"></textarea>
+                                    {/if}
+                                {/each}
                             </div>
                             {#if selectedQuestion.responseType == 'Rating'}
                                 <div class="flex flex-col gap-y-1">
@@ -323,7 +367,11 @@
                                     <div class="flex flex-col justify-center gap-y-1">
                                         {#each selectedQuestion.ratingOptions as option, index}
                                             <div class="flex gap-x-2">
-                                                <p class="bg-white p-2 text-black rounded flex-grow">{option.translations[0].description}</p>
+                                                {#each option.translations as translation, index}
+                                                    {#if translation.language == chooseLanguage}
+                                                    <input class="bg-white p-2 text-black rounded flex-grow" bind:value={translation.description} on:blur={() => updateQuestion(selectedQuestion)} />
+                                                    {/if}
+                                                {/each}
                                                 <button on:click={() => removeOption(index, 2)}>
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 hover:text-black">
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
@@ -348,7 +396,11 @@
                                     <div class="flex flex-col justify-center gap-y-1">
                                         {#each selectedQuestion.singleChoiceOptions as option, index}
                                             <div class="flex gap-x-2">
-                                                <p class="bg-white p-2 text-black border border-gray-500 rounded flex-grow">{option.translations[0].description}</p>
+                                                {#each option.translations as translation, i}
+                                                    {#if translation.language == chooseLanguage}
+                                                        <input class="bg-white p-2 text-black border border-gray-500 rounded flex-grow" bind:value={option.translations[i].description} on:blur={() => updateQuestion(selectedQuestion)} />
+                                                    {/if}
+                                                {/each}
                                                 <button on:click={() => removeOption(index, 1)}>
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 hover:text-black">
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
