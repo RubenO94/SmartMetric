@@ -17,6 +17,7 @@ type RatingOption = {
 }
 
 type FormTemplate  = {
+    createdDate: any | null,
     formTemplateId: string | null,
     createdByUserId: number,
     modifiedDate: string | null
@@ -33,7 +34,7 @@ type Translations = {
 type Reviews = {
     createdByUserId: number,
     startDate: string | null,
-    endDate: string | null,
+    endDate: Date | null,
     reviewType: string,
     reviewStatus: string,
     translations: Translations[],

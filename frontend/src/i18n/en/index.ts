@@ -144,7 +144,13 @@ const en: BaseTranslation = {
 	AddEndDate: "Enter a valid date for day limit of review",
 	User: "User",
 	ShowFormIn: "Show form in",
-	ErrorAddingLanguagesToForm: "Select at least one language for form"
+	ErrorAddingLanguagesToForm: "Select at least one language for form",
+	AddLanguage: "Add language",
+	Edit: "Edit",
+	CancelReview: "Cancel review",
+	GoBack: "Voltar",
+	ChangeReviewStatusDialog2: "Cancel review?",
+	ChangeReviewStatusDialogDesc2: "Are you sure you want to cancel review? This action cannot be undone."
 }
 
 export default en

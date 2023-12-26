@@ -6,6 +6,7 @@
     import toast, { Toaster } from 'svelte-french-toast'
     import { api } from '$lib/api/_api';
     import { goto } from '$app/navigation';
+    import { handleValidationsForm } from '$lib/actions/handleValidations';
 
     export let formTemplate: FormTemplate
 
@@ -148,6 +149,24 @@
         if (currentStep != 0) currentStep -= 1
     }
     const handleStepForward = async (event: Event) => {
+        let [validateForm, message] = handleValidationsForm(formTemplate, currentStep)
+        if (!validateForm) {
+            switch (message) {
+                case 'title':
+                    toast.error($LL.ErrorsFormTemplate.Title())
+                    break
+                case 'question':
+                    toast.error($LL.ErrorsFormTemplate.Question())
+                    break
+                case 'questionTitle':
+                    toast.error($LL.ErrorsFormTemplate.QuestionTitle())
+                    break
+                default:
+                    toast.error($LL.ErrorsFormTemplate.Others())
+                    break
+            }
+            return
+        }
         if (currentStep != steps.length - 1) currentStep += 1
         else {
             const [requestPut] = await Promise.all([
@@ -164,8 +183,6 @@
             }
         }
     }
-
-    $: console.log(formTemplate)
 </script>
 
 <Toaster />

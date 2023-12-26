@@ -15,7 +15,9 @@
     //VARIABLES
     let apiUrl: string
     let token: string
-    let formTemplate: FormTemplate = { createdByUserId: user.userId, translations: [], questions: [], formTemplateId: null, modifiedDate: null }
+    let formTemplate: FormTemplate = {
+        createdByUserId: user.userId, translations: [], questions: [], formTemplateId: null, modifiedDate: null, createdDate: undefined
+    }
     let questions: Question[] = []
     let insertedSingleChoiceOption: string = '' 
     let insertedNumericValue: number | null = null
@@ -386,7 +388,7 @@
                                             <div class="flex gap-x-2">
                                                 {#each option.translations as translation, index}
                                                     {#if translation.language == chooseLanguage}
-                                                    <input class="bg-white p-2 text-black rounded flex-grow" bind:value={translation.description} on:blur={() => updateQuestion(selectedQuestion)} />
+                                                        <input class="bg-white p-2 text-black rounded flex-grow" bind:value={translation.description} on:blur={() => updateQuestion(selectedQuestion)} />
                                                     {/if}
                                                 {/each}
                                                 <button on:click={() => removeOption(index, 2)}>

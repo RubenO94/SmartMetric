@@ -121,7 +121,7 @@ const pt: Translation = {
 	EditFormButton: 'Editar formulário',
 	EditFormModel: 'Editar modelo de formulário',
 	EditFormModelDescription: 'Esta funcionalidade permite aos utilizadores editar facilmente modelos de formulários, oferecendo uma abordagem simplificada para aperfeiçoar estruturas predefinidas para futuras avaliações. Melhore a eficiência do processo de avaliação ao modificar e atualizar padrões estabelecidos, garantindo economia de tempo e mantendo uniformidade nas avaliações. Seja ajustando critérios, atualizando campos ou refinando conteúdo, a funcionalidade de edição otimiza a personalização de modelos de formulários para atender às necessidades em constante evolução.',
-	StateDontExist: 'Review deve ser iniciada',
+	StateDontExist: 'Revisão deve ser iniciada',
 	ButtonExitModule: 'Voltar para o smartTime',
 	Delete: 'Remover',
 	Cancel: 'Cancelar',
@@ -144,7 +144,13 @@ const pt: Translation = {
 	AddEndDate: 'Insira uma data válida como prazo de fim da revisão:',
 	User: 'Utilizador',
 	ShowFormIn: 'Mostrar formulário em',
-	ErrorAddingLanguagesToForm: 'Selecione pelo menos um idioma para o formulário'
+	ErrorAddingLanguagesToForm: 'Selecione pelo menos um idioma para o formulário',
+	AddLanguage: 'Adicionar idioma',
+	Edit: 'Editar',
+	CancelReview: 'Cancelar revisão',
+	GoBack: 'Voltar',
+	ChangeReviewStatusDialog2: 'Cancelar revisão?',
+	ChangeReviewStatusDialogDesc2: 'Tem a certeza que pretence cancelar a revisão? Esta ação não pode ser revertida.'
 }
 
 export default pt

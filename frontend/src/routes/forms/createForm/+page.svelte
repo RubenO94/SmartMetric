@@ -65,10 +65,10 @@
         <p>Select languages to create form:</p>
         <div class="flex flex-col gap-y-2">
             {#each languages as language}
-                <div class="flex items-center cursor-pointer mr-auto" on:click={() => {language.checked = !language.checked}}>
+                <button class="flex items-center cursor-pointer mr-auto" on:click={() => {language.checked = !language.checked}}>
                     <input bind:checked={language.checked} type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
                     <p class="ms-2 text-sm font-medium text-gray-900">{showLanguageTranslation(language.name)}</p>
-                </div>
+                </button>
             {/each}
         </div>
         <button on:click={() => checkLanguages()} class="flex gap-x-2 mx-auto text-base font-semibold px-5 py-2 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded">Create form</button>

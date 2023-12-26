@@ -536,6 +536,30 @@ type RootTranslation = {
 	 * S​e​l​e​c​t​ ​a​t​ ​l​e​a​s​t​ ​o​n​e​ ​l​a​n​g​u​a​g​e​ ​f​o​r​ ​f​o​r​m
 	 */
 	ErrorAddingLanguagesToForm: string
+	/**
+	 * A​d​d​ ​l​a​n​g​u​a​g​e
+	 */
+	AddLanguage: string
+	/**
+	 * E​d​i​t
+	 */
+	Edit: string
+	/**
+	 * C​a​n​c​e​l​ ​r​e​v​i​e​w
+	 */
+	CancelReview: string
+	/**
+	 * V​o​l​t​a​r
+	 */
+	GoBack: string
+	/**
+	 * C​a​n​c​e​l​ ​r​e​v​i​e​w​?
+	 */
+	ChangeReviewStatusDialog2: string
+	/**
+	 * A​r​e​ ​y​o​u​ ​s​u​r​e​ ​y​o​u​ ​w​a​n​t​ ​t​o​ ​c​a​n​c​e​l​ ​r​e​v​i​e​w​?​ ​T​h​i​s​ ​a​c​t​i​o​n​ ​c​a​n​n​o​t​ ​b​e​ ​u​n​d​o​n​e​.
+	 */
+	ChangeReviewStatusDialogDesc2: string
 }
 
 export type TranslationFunctions = {
@@ -1061,6 +1085,30 @@ export type TranslationFunctions = {
 	 * Select at least one language for form
 	 */
 	ErrorAddingLanguagesToForm: () => LocalizedString
+	/**
+	 * Add language
+	 */
+	AddLanguage: () => LocalizedString
+	/**
+	 * Edit
+	 */
+	Edit: () => LocalizedString
+	/**
+	 * Cancel review
+	 */
+	CancelReview: () => LocalizedString
+	/**
+	 * Voltar
+	 */
+	GoBack: () => LocalizedString
+	/**
+	 * Cancel review?
+	 */
+	ChangeReviewStatusDialog2: () => LocalizedString
+	/**
+	 * Are you sure you want to cancel review? This action cannot be undone.
+	 */
+	ChangeReviewStatusDialogDesc2: () => LocalizedString
 }
 
 export type Formatters = {}

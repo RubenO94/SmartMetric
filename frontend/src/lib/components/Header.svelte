@@ -50,7 +50,7 @@
 	
 		<!-- Directories -->
 		<div class="flex flex-row gap-x-1 items-center">
-			<a href="/reviews" class="text-gray-400 hover:underline">{$LL.YourWork()}</a>
+			<a href="/" class="text-gray-400 hover:underline">{$LL.YourWork()}</a>
 			{@html arrowIcon}
 			{@html generatePathHTML($page.url.pathname)}
 		</div>
