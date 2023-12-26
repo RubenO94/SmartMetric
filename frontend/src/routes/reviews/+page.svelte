@@ -1,12 +1,13 @@
 <script lang="ts">
-    import { goto } from "$app/navigation";
-    import { api } from "$lib/api/_api";
+    import { goto } from "$app/navigation"
+    import { api } from "$lib/api/_api"
     import { LL } from "../../i18n/i18n-svelte"
 
     export let data
 
     let reviews = data.reviews
     let activeSeparator: string = data.activeSeparator
+    console.log(reviews)
 </script>
 
 <svelte:head>

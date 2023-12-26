@@ -10,11 +10,14 @@
     import { api } from '$lib/api/_api'
     import { onMount } from 'svelte'
     import InfiniteScroll from './InfiniteScroll.svelte'
+    import { DateInput } from 'date-picker-svelte';
 
     export let questions: Question[] = []
     export let user
+    export let languages
 
     let departments: Departments[] = []
+    let selectAllDeps: boolean = false
     let newBatch: Departments[] = []
     let page: number = 1
     let currentStep: number = 0
@@ -41,7 +44,8 @@
         translations: [{ language: review.translations[0].language, title: review.translations[0].title, description: '' }],
         questions: review.questions,
         modifiedDate: null,
-        formTemplateId: null
+        formTemplateId: null,
+        createdDate: undefined
     }
     let steps = [
         { text: $LL.Details() }, 
@@ -73,7 +77,7 @@
         ])
         newBatch = response?.body
         newBatch.forEach((department) => {
-            department.checked = false
+            department.checked = selectAllDeps
         })
         departments = [...departments, ...newBatch]
     }
@@ -194,6 +198,28 @@
         console.log(responseFormTemplate)
     }
 
+    function showLanguageTranslation(languageAbbrev: string) {
+        switch (languageAbbrev) {
+            case 'PT':
+                return $LL.Portuguese()
+            case 'EN':
+                return $LL.English()
+            case 'ES':
+                return $LL.Spanish()
+            case 'FR':
+                return $LL.French()
+            case 'PL':
+                return $LL.Polish()
+            default:
+                return 'This language doesn`t exist'
+        }
+    }
+
+    function selectDepsAll() {
+        departments.forEach(department => department.checked = !selectAllDeps)
+        console.log(departments)
+    }
+
     //buttons of stepper
     const handleStepBackward = (event: Event) => {
         if (currentStep != 0) currentStep -= 1
@@ -254,7 +280,7 @@
                 <p class="text-black text-base font-semibold flex-shrink-0">{$LL.ChooseLanguage()}</p>
                 <select bind:value={review.translations[0].language} class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 flex-grow p-2">
                     {#each questions[0].translations as translation}
-                        <option value={translation.language}>{translation.language}</option>
+                        <option value={translation.language}>{showLanguageTranslation(translation.language)}</option>
                     {/each}
                 </select>
             </div>
@@ -293,6 +319,11 @@
                 </div>
                 
                 <!-- <div class="flex flex-col bg-gray-100 border border-gray-300 px-4 py-5 gap-y-2 rounded"> -->
+                <div class="text-gray-600 flex items-center font-medium gap-x-2">
+                    <input type="checkbox" class="accent-blue-500 w-5 h-5" bind:checked={selectAllDeps} on:click={selectDepsAll} />
+                    <p>Selecionar Tudo</p>
+                </div>
+
                 <ul>
                     {#each departments as department}
                         {#if department.departmentParentId == 0}    
@@ -479,7 +510,7 @@
                 <div class="flex items-center m-5 gap-x-10">
                     <div class="flex flex-col gap-y-2">
                         <p class="text-sm font-medium text-gray-600">{$LL.EndDate()}</p>
-                        <input type="date" class="bg-gray-100 px-2 py-1 text-base font-mono text-gray-600 rounded-lg" bind:value={review.endDate} />
+                        <DateInput bind:value={review.endDate} placeholder="" closeOnSelection />
                     </div>
                 </div>
             </div>
