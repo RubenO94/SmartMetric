@@ -5,7 +5,7 @@
     import CreateBlankReview from "$lib/components/CreateBlankReview.svelte"
     import CreateReviewWithForm from "$lib/components/CreateReviewWithForm.svelte"
     import LL from "../../../i18n/i18n-svelte"
-    import toast from "svelte-french-toast"
+    import toast, { Toaster } from "svelte-french-toast"
 
     export let data
 
@@ -63,6 +63,8 @@
     $: chooseLanguages = languages.filter(language => language.checked).map(language => language.name)
 </script>
 
+<Toaster />
+
 <div class="mx-auto flex flex-col w-[1200px] p-10 gap-y-5">
     {#if currentStep == 1}
         <ChooseReview bind:currentStep={currentStep} />
@@ -82,7 +84,7 @@
         <div class="flex flex-col gap-y-2">
             {#each languages as language}
                 <button class="flex items-center cursor-pointer mr-auto" on:click={() => {language.checked = !language.checked}}>
-                    <input bind:checked={language.checked} type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                    <input bind:checked={language.checked} type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 cursor-pointer">
                     <p class="ms-2 text-sm font-medium text-gray-900">{showLanguageTranslation(language.name)}</p>
                 </button>
             {/each}
