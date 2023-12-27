@@ -150,7 +150,10 @@ const en: BaseTranslation = {
 	CancelReview: "Cancel review",
 	GoBack: "Voltar",
 	ChangeReviewStatusDialog2: "Cancel review?",
-	ChangeReviewStatusDialogDesc2: "Are you sure you want to cancel review? This action cannot be undone."
+	ChangeReviewStatusDialogDesc2: "Are you sure you want to cancel review? This action cannot be undone.",
+	SaveReviewAsFormDialog: "Save review as form?",
+	SaveReviewAsFormDescDialog: "Are you sure you want to save review as form.",
+	ShowMenu: "Show menu"
 }
 
 export default en

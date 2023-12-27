@@ -20,12 +20,12 @@
 
 </script>
 
-<nav class="w-[260px] min-h-screen text-sm bg-gray-100 border-r-[1px] border-gray-300" transition:fly={{ delay: 0, duration: 100, x: -50 }}>
+<nav class="hidden 2xl:flex flex-col w-[260px] min-h-screen text-sm bg-gray-100 border-r-[1px] border-gray-300" transition:fly={{ delay: 0, duration: 100, x: -50 }}>
     <UserMenu bind:user={user} />
-    <p class="font-semibold pt-4 pb-1 px-2">{$LL.Backoffice()}</p>
     <div class="flex flex-col gap-y-1 px-1 py-2">
+        <p class="font-semibold pt-4 pb-1 px-2">{$LL.Backoffice()}</p>
         {#each directories as directory, index}
-            <a href="/{directory.name.toLowerCase()}" class="flex flex-row gap-x-2 items-center hover:bg-gray-300 p-2 rounded-md {$page.url.pathname.split("/")[1].toLowerCase() === directory.name.toLowerCase() ? 'bg-gray-300' : ''}">
+            <a href="/{directory.name.toLowerCase()}" class="flex flex-row gap-x-2 items-center hover:bg-gray-300 py-2 px-3 rounded-xl {$page.url.pathname.split("/")[1].toLowerCase() === directory.name.toLowerCase() ? 'bg-gray-300' : ''}">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="{directory.icon}" />
                 </svg>

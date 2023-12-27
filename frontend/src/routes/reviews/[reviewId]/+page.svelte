@@ -14,6 +14,8 @@
         endDate: undefined,
         reviewStatus: '',
     }
+    let maxDateAllowed = new Date()
+    maxDateAllowed.setFullYear(maxDateAllowed.getFullYear() + 5)
 
     onMount(() => {
         if (review.reviewStatus == 'NotStarted') reviewPatchBody.reviewStatus = 'Active'
@@ -86,7 +88,7 @@
                         </div>
                         <div class="flex flex-col gap-y-1">
                             <p>{$LL.AddEndDate()}</p>
-                            <DateInput bind:value={reviewPatchBody.endDate} placeholder="" closeOnSelection />
+                            <DateInput bind:value={reviewPatchBody.endDate} placeholder="" closeOnSelection max={maxDateAllowed} />
                         </div>
                         <div class="flex justify-end gap-4 mt-5">
                             <button class="bg-gray-100 border border-gray-300 px-6 py-2 rounded text-black hover:bg-gray-200" on:click="{hideDialog}">{$LL.Cancel()}</button>

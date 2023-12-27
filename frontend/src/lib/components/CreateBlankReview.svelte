@@ -11,6 +11,7 @@
     import { onMount } from 'svelte'
     import { DateInput } from 'date-picker-svelte'
     import InfiniteScroll from './InfiniteScroll.svelte'
+    import { handleValidationsForm } from '$lib/actions/handleValidations';
 
     export let user
     export let languages
@@ -19,7 +20,6 @@
     let newBatch: Departments[] = []
     let page: number = 1
     let currentStep: number = 0
-    let saveFormModal: boolean = false
     let saveAsForm: boolean = false
     let apiUrl: string
     let token: string
@@ -71,6 +71,7 @@
 
     languages.forEach((element: string) => {
         review.translations = [...review.translations, {language: element, title: '', description: ''}]
+        formTemplate.translations = [...formTemplate.translations, {language: element, title: '', description: ''}]
     })
     let chooseLanguage: string = review.translations[0].language
 
@@ -213,19 +214,49 @@
         updateQuestion(selectedQuestion)
     }
 
+    async function saveReview() {
+        const [request] = await Promise.all([ api("POST", "Reviews", review) ])
+        const response: any = request
+        console.log(response)
+
+        if (response.status == 201) {
+            toast.success($LL.FormTemplateSuccess())
+            goto('/reviews')
+        } else if (response.error === '$.reviewType') {
+            toast.error($LL.ErrorsReview.ReviewType())
+        } else if (response.error === 'Questions') {
+            toast.error($LL.ErrorsReview.Question())
+        } else if (response.error === 'Translations[0].Title') {
+            toast.error($LL.ErrorsReview.Title())
+        } else if (response.error === 'ReviewDepartmentsIds') {
+            toast.error($LL.ErrorsReview.Departments())
+        } else {
+            toast.error($LL.ErrorsReview.Others())
+        }
+        document.getElementById('buttonGoForward')?.removeAttribute("disabled")
+    }
+
     //Function to save Form Template
     async function saveFormTemplate () {
-        const requestFormTemplate = await fetch(apiUrl + "FormTemplates", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
-            body: JSON.stringify(formTemplate)
-        })
-
-        const responseFormTemplate = await requestFormTemplate.json()
+        const [formValid, error] = handleValidationsForm(formTemplate, 0)
+        if (!formValid) {
+            toast.error(error)
+            return
+        }
+        const [requestFormTemplate] = await Promise.all([ api("POST", "FormTemplates", formTemplate) ])
+        const responseFormTemplate: any = requestFormTemplate
+        if (!responseFormTemplate.error) {
+            saveReview()
+        }
         console.log(responseFormTemplate)
+    }
+
+    function hideDialog() {
+        let dialog = document.getElementById('dialog');
+        setTimeout(() => {
+            dialog?.classList.add('hidden');
+        }, 100);
+        document.getElementById('buttonGoForward')?.removeAttribute("disabled")
     }
 
     //buttons of stepper
@@ -236,35 +267,11 @@
         if (currentStep != steps.length - 1) currentStep += 1
         else {
             document.getElementById('buttonGoForward')?.setAttribute("disabled", "disabled")
-            const request = await fetch(apiUrl + "Reviews", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
-                body: JSON.stringify(review)
-            })
-
-            const response = await request.json()
-            console.log(response)
-
-            if (response.statusCode == 201) {
-                toast.success($LL.FormTemplateSuccess())
-                if (saveAsForm == true) {
-                    saveFormModal = true
-                    saveFormTemplate()
-                }
-                goto('/reviews')
-            } else if (response.error === '$.reviewType') {
-                toast.error($LL.ErrorsReview.ReviewType())
-            } else if (response.error === 'Questions') {
-                toast.error($LL.ErrorsReview.Question())
-            } else if (response.error === 'Translations[0].Title') {
-                toast.error($LL.ErrorsReview.Title())
-            } else if (response.error === 'ReviewDepartmentsIds') {
-                toast.error($LL.ErrorsReview.Departments())
+            if (saveAsForm) {
+                let dialog = document.getElementById('dialog')
+                dialog?.classList.remove('hidden')
             } else {
-                toast.error($LL.ErrorsReview.Others())
+                saveReview()
             }
         }
     }
@@ -274,7 +281,7 @@
     $: review.reviewStatus = review.endDate != null ? 'Active' : 'NotStarted'
     $: review.startDate = review.endDate != null ? dayjs(new Date()).format('YYYY-MM-DDThh:mm:ss') : null
     $: review.reviewDepartmentsIds = departments.filter(department => department.checked).map(department => department.departmentId)
-    $: console.log(review)
+    $: formTemplate.questions = review.questions
 </script>
 
 <Toaster />
@@ -584,6 +591,53 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
             </svg>
         </button>
+    </div>
+</div>
+
+<!-- DIALOG -->
+<div id="dialog" class="fixed left-0 top-0 bg-black bg-opacity-75 hidden w-screen h-screen transition-opacity duration-500">
+    <div class="bg-white rounded shadow-md p-8 mx-auto my-20 w-2/5 flex flex-col gap-y-5">
+        <div class="flex items-center gap-5">
+            <div class="bg-blue-200 text-blue-500 flex items-center justify-center w-10 h-10 p-5 rounded-full">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+                    </svg>                                     
+                </p>                                                                               
+            </div>
+            <div>
+                <h1 class="font-bold text-xl mb-2">{$LL.SaveReviewAsFormDialog()}</h1>
+                <p class="text-gray-400 text-sm">{$LL.SaveReviewAsFormDescDialog()}</p>
+            </div>
+        </div>
+        <div class="flex gap-x-2 items-center">
+            <p>{$LL.ChooseLanguage()}</p>
+            <select bind:value={chooseLanguage} class="bg-gray-100 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 flex-grow p-2">
+                {#each formTemplate.translations as translation}
+                    <option value={translation.language}>{showLanguageTranslation(translation.language)}</option>
+                {/each}
+            </select>
+        </div>
+        <div class="flex flex-col gap-y-1">
+            <p>{$LL.FormModelTitleTitle()}</p>
+            {#each formTemplate.translations as translation}
+                {#if translation.language == chooseLanguage}
+                    <input bind:value={translation.title} class="p-2 text-sm border border-gray-300 bg-gray-100 rounded" />
+                {/if}
+            {/each}
+        </div>
+        <div class="flex flex-col gap-y-1">
+            <p>{$LL.FormModelDescriptionTitle()}</p>
+            {#each formTemplate.translations as translation}
+                {#if translation.language == chooseLanguage}
+                    <input bind:value={translation.description} class="p-2 text-sm border border-gray-300 bg-gray-100 rounded" />
+                {/if}
+            {/each}
+        </div>
+        <div class="flex justify-end gap-4 mt-5">
+            <button class="bg-gray-100 border border-gray-300 px-6 py-2 rounded text-black hover:bg-gray-200" on:click={hideDialog}>{$LL.Cancel()}</button>
+            <button class="bg-blue-500 px-6 py-2 rounded text-white hover:bg-blue-700" on:click="{saveFormTemplate}">{$LL.Start()}</button>
+        </div>
     </div>
 </div>
 

@@ -10,7 +10,7 @@
     import { api } from '$lib/api/_api'
     import { onMount } from 'svelte'
     import InfiniteScroll from './InfiniteScroll.svelte'
-    import { DateInput } from 'date-picker-svelte';
+    import { DateInput } from 'date-picker-svelte'
 
     export let questions: Question[] = []
     export let user

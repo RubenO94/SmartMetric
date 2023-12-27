@@ -57,9 +57,11 @@
         FormTemplates = request?.body
     }
 
-    onMount(() => { getForms() })
+    onMount(() => { 
+        getForms()
+        formTemplateChoose = FormTemplates[0]
+    })
 
-    $: formTemplateChoose = FormTemplates[0]
     $: chooseLanguages = languages.filter(language => language.checked).map(language => language.name)
 </script>
 

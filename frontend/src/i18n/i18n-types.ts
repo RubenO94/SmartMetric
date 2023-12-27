@@ -560,6 +560,18 @@ type RootTranslation = {
 	 * A​r​e​ ​y​o​u​ ​s​u​r​e​ ​y​o​u​ ​w​a​n​t​ ​t​o​ ​c​a​n​c​e​l​ ​r​e​v​i​e​w​?​ ​T​h​i​s​ ​a​c​t​i​o​n​ ​c​a​n​n​o​t​ ​b​e​ ​u​n​d​o​n​e​.
 	 */
 	ChangeReviewStatusDialogDesc2: string
+	/**
+	 * S​a​v​e​ ​r​e​v​i​e​w​ ​a​s​ ​f​o​r​m​?
+	 */
+	SaveReviewAsFormDialog: string
+	/**
+	 * A​r​e​ ​y​o​u​ ​s​u​r​e​ ​y​o​u​ ​w​a​n​t​ ​t​o​ ​s​a​v​e​ ​r​e​v​i​e​w​ ​a​s​ ​f​o​r​m​.
+	 */
+	SaveReviewAsFormDescDialog: string
+	/**
+	 * S​h​o​w​ ​m​e​n​u
+	 */
+	ShowMenu: string
 }
 
 export type TranslationFunctions = {
@@ -1109,6 +1121,18 @@ export type TranslationFunctions = {
 	 * Are you sure you want to cancel review? This action cannot be undone.
 	 */
 	ChangeReviewStatusDialogDesc2: () => LocalizedString
+	/**
+	 * Save review as form?
+	 */
+	SaveReviewAsFormDialog: () => LocalizedString
+	/**
+	 * Are you sure you want to save review as form.
+	 */
+	SaveReviewAsFormDescDialog: () => LocalizedString
+	/**
+	 * Show menu
+	 */
+	ShowMenu: () => LocalizedString
 }
 
 export type Formatters = {}
