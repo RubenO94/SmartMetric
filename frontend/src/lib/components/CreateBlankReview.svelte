@@ -184,7 +184,7 @@
         let conditionIsTrue = false
         insertedNumericValue = null
         insertedTitle = ''
-        if (numericValue == 0 || title == null || title == '') {
+        if (numericValue == 0 || numericValue == null || title == null || title == '') {
             toast.error($LL.AddRatingOptionError01())
             return
         }
@@ -630,13 +630,13 @@
             <p>{$LL.FormModelDescriptionTitle()}</p>
             {#each formTemplate.translations as translation}
                 {#if translation.language == chooseLanguage}
-                    <input bind:value={translation.description} class="p-2 text-sm border border-gray-300 bg-gray-100 rounded" />
+                    <textarea bind:value={translation.description} rows="4" class="p-2 text-sm border border-gray-300 bg-gray-100 rounded"></textarea>
                 {/if}
             {/each}
         </div>
         <div class="flex justify-end gap-4 mt-5">
             <button class="bg-gray-100 border border-gray-300 px-6 py-2 rounded text-black hover:bg-gray-200" on:click={hideDialog}>{$LL.Cancel()}</button>
-            <button class="bg-blue-500 px-6 py-2 rounded text-white hover:bg-blue-700" on:click="{saveFormTemplate}">{$LL.Start()}</button>
+            <button class="bg-blue-500 px-6 py-2 rounded text-white hover:bg-blue-700" on:click="{saveFormTemplate}">{$LL.SaveAsForm()}</button>
         </div>
     </div>
 </div>

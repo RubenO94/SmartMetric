@@ -153,7 +153,8 @@ const pt: Translation = {
 	ChangeReviewStatusDialogDesc2: 'Tem a certeza que pretence cancelar a revisão? Esta ação não pode ser revertida.',
 	SaveReviewAsFormDialog: 'Guardar revisão como formulário?',
 	SaveReviewAsFormDescDialog: 'Tem a certeza que pretende guardar revisão como formulário.',
-	ShowMenu: 'Mostrar menu'
+	ShowMenu: 'Mostrar menu',
+	SaveAsForm: 'Guardar como formulário'
 }
 
 export default pt

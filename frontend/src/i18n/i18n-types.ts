@@ -572,6 +572,10 @@ type RootTranslation = {
 	 * S​h​o​w​ ​m​e​n​u
 	 */
 	ShowMenu: string
+	/**
+	 * S​a​v​e​ ​a​s​ ​f​o​r​m
+	 */
+	SaveAsForm: string
 }
 
 export type TranslationFunctions = {
@@ -1133,6 +1137,10 @@ export type TranslationFunctions = {
 	 * Show menu
 	 */
 	ShowMenu: () => LocalizedString
+	/**
+	 * Save as form
+	 */
+	SaveAsForm: () => LocalizedString
 }
 
 export type Formatters = {}

@@ -28,7 +28,7 @@
 	
 </script>
 
-<header class="flex items-center px-10 py-2 text-sm border-b-[1px] border-gray-300 justify-between	">
+<header class="flex items-center px-10 py-2 text-sm border-b-[1px] border-gray-300 justify-between">
 	<!-- Button to hide or show the Sidebar -->
 	<div class="flex gap-x-4">
 		<div class="relative 2xl:inline-block group hidden">
@@ -47,14 +47,14 @@
 				{/if}
 			</div>
 		</div>
-		<div class="2xl:hidden inline-block relative group">
-			<button class="text-gray-700 p-1 rounded border-2 border-transparent hover:bg-gray-300 active:border-blue-500">
+		<div class="2xl:hidden group">
+			<button on:click={toggleSidebar} class="text-gray-700 p-1 rounded border-2 border-transparent hover:bg-gray-300 active:border-blue-500">
 				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
 					<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
 				</svg>				  
 			</button>
 			<div class="absolute w-max top-0 left-full mt-2 ml-2 p-2 bg-gray-800 text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-x-0">
-					{$LL.ShowMenu()}
+				{$LL.ShowMenu()}
 			</div>
 		</div>
 	

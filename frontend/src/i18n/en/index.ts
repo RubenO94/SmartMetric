@@ -153,7 +153,8 @@ const en: BaseTranslation = {
 	ChangeReviewStatusDialogDesc2: "Are you sure you want to cancel review? This action cannot be undone.",
 	SaveReviewAsFormDialog: "Save review as form?",
 	SaveReviewAsFormDescDialog: "Are you sure you want to save review as form.",
-	ShowMenu: "Show menu"
+	ShowMenu: "Show menu",
+	SaveAsForm: "Save as form"
 }
 
 export default en
