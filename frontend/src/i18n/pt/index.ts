@@ -84,9 +84,9 @@ const pt: Translation = {
 	ReviewTypeTitle: 'Tipo de Revisão',
 	ReviewTypeDescription: 'Escolha o método de avaliação que melhor se adequa à dinâmica organizacional.',
 	SaveReviewAsForm: 'Guardar Revisão como formulário',
-	SaveReviewAsFormDesc: 'Se desejar, pode guardar o questionário desta revisão como um modelo de formulário para facilitar a criação rápida de revisões futuras. Basta marcar a opção abaixo.',
+	SaveReviewAsFormDesc: 'Se desejar, pode guardar o questionário desta revisão como um modelo de formulário para facilitar a criação rápida de revisões futuras. Basta marcar a opção abaixo. Se não fizer alterações nas questões não necessita de assinalar a opção.',
 	Save: 'Guardar Formulário',
-	StartAndEndDateText: 'Indicar Data de Início e Fim',
+	StartAndEndDateText: 'Indicar Data de Fim',
 	StartAndEndDateDesc: 'Opcionalmente, pode especificar datas de início e fim para a revisão. Caso não forneça essas informações agora, será solicitado a indicar as datas quando iniciar efetivamente a revisão.',
 	TopDown: {
 		Label: 'Top-Down',
@@ -150,7 +150,11 @@ const pt: Translation = {
 	CancelReview: 'Cancelar revisão',
 	GoBack: 'Voltar',
 	ChangeReviewStatusDialog2: 'Cancelar revisão?',
-	ChangeReviewStatusDialogDesc2: 'Tem a certeza que pretence cancelar a revisão? Esta ação não pode ser revertida.'
+	ChangeReviewStatusDialogDesc2: 'Tem a certeza que pretence cancelar a revisão? Esta ação não pode ser revertida.',
+	SaveReviewAsFormDialog: 'Guardar revisão como formulário?',
+	SaveReviewAsFormDescDialog: 'Tem a certeza que pretende guardar revisão como formulário.',
+	ShowMenu: 'Mostrar menu',
+	SaveAsForm: 'Guardar como formulário'
 }
 
 export default pt

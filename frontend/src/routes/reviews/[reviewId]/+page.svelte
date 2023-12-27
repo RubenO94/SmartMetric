@@ -4,21 +4,42 @@
     import { DateInput } from 'date-picker-svelte';
     import { LL, locale } from '../../../i18n/i18n-svelte'
     import { onMount } from 'svelte';
+    import PreviewForm from '$lib/components/PreviewForm.svelte';
 
     export let data
 
     let lang = $locale.toUpperCase()
     let review = data.review
+    let activeLang = review.translations[0].language
     let pageSelected = 'details'
     let reviewPatchBody = {
         endDate: undefined,
         reviewStatus: '',
     }
+    let maxDateAllowed = new Date()
+    maxDateAllowed.setFullYear(maxDateAllowed.getFullYear() + 5)
 
     onMount(() => {
         if (review.reviewStatus == 'NotStarted') reviewPatchBody.reviewStatus = 'Active'
         else if (review.reviewStatus == 'Active') reviewPatchBody.reviewStatus = 'Canceled'
     })
+
+    function showLanguageTranslation(languageAbbrev: string) {
+        switch (languageAbbrev) {
+            case 'PT':
+                return $LL.Portuguese()
+            case 'EN':
+                return $LL.English()
+            case 'ES':
+                return $LL.Spanish()
+            case 'FR':
+                return $LL.French()
+            case 'PL':
+                return $LL.Polish()
+            default:
+                return 'This language doesn`t exist'
+        }
+    }
 
     function showDialog() {
         let dialog = document.getElementById('dialog');
@@ -86,7 +107,7 @@
                         </div>
                         <div class="flex flex-col gap-y-1">
                             <p>{$LL.AddEndDate()}</p>
-                            <DateInput bind:value={reviewPatchBody.endDate} placeholder="" closeOnSelection />
+                            <DateInput bind:value={reviewPatchBody.endDate} placeholder="" closeOnSelection max={maxDateAllowed} />
                         </div>
                         <div class="flex justify-end gap-4 mt-5">
                             <button class="bg-gray-100 border border-gray-300 px-6 py-2 rounded text-black hover:bg-gray-200" on:click="{hideDialog}">{$LL.Cancel()}</button>
@@ -126,8 +147,18 @@
                 </div>
             {/if}
         </div>
+        <p class="text-sm text-gray-400">{review.translations[0].description}</p>
+        <!-- Track of the progress of review -->
     {:else if pageSelected == 'form'}
-        <p>Form</p>
+        <div class="flex justify-between">
+            <p class="font-semibold text-2xl">{$LL.Form()}</p>
+            <select bind:value={activeLang} class="bg-gray-100 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 px-2 py-1 rounded-lg">
+                {#each review.translations as translation}
+                    <option value={translation.language}>{$LL.ShowFormIn()} {showLanguageTranslation(translation.language)}</option>
+                {/each}
+            </select>
+        </div>
+        <PreviewForm bind:object={review} bind:lang={activeLang} />
     {/if}
 </div>
 
