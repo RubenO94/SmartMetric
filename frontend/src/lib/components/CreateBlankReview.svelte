@@ -75,6 +75,9 @@
     })
     let chooseLanguage: string = review.translations[0].language
 
+    let maxDateAllowed = new Date()
+    maxDateAllowed.setFullYear(maxDateAllowed.getFullYear() + 5)
+
     // Scroll Departments ---------------------------------------------------------------------------------------------------------------
     async function fetchData() {
         const [response] = await Promise.all([
@@ -564,7 +567,7 @@
                 <div class="flex items-center m-5 gap-x-10">
                     <div class="flex flex-col gap-y-2">
                         <p class="text-sm font-medium text-gray-600">{$LL.EndDate()}</p>
-                        <DateInput bind:value={review.endDate} placeholder="" closeOnSelection />
+                        <DateInput bind:value={review.endDate} placeholder="" closeOnSelection max={maxDateAllowed} timePrecision=minute />
                     </div>
                 </div>
             </div>

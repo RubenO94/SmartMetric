@@ -337,7 +337,7 @@ type RootTranslation = {
 	 */
 	Save: string
 	/**
-	 * S​p​e​c​i​f​y​ ​S​t​a​r​t​ ​a​n​d​ ​E​n​d​ ​D​a​t​e​.
+	 * S​p​e​c​i​f​y​ ​E​n​d​ ​D​a​t​e​.
 	 */
 	StartAndEndDateText: string
 	/**
@@ -902,7 +902,7 @@ export type TranslationFunctions = {
 	 */
 	Save: () => LocalizedString
 	/**
-	 * Specify Start and End Date.
+	 * Specify End Date.
 	 */
 	StartAndEndDateText: () => LocalizedString
 	/**

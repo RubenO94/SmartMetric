@@ -26,7 +26,7 @@
         <p class="font-semibold text-center pt-4 pb-1 px-2">{$LL.Backoffice()}</p>
         <hr class="mx-10" />
         {#each directories as directory, index}
-            <a href="/{directory.name.toLowerCase()}" class="flex flex-row gap-x-2 items-center hover:bg-gray-300 hover:px-4 p-2 rounded-xl {$page.url.pathname.split("/")[1].toLowerCase() === directory.name.toLowerCase() ? 'bg-gray-300 px-4' : ''}">
+            <a href="/{directory.name.toLowerCase()}" class="flex flex-row gap-x-2 items-center hover:bg-gray-300 p-2 rounded-md {$page.url.pathname.split("/")[1].toLowerCase() === directory.name.toLowerCase() ? 'bg-gray-300' : ''}">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="{directory.icon}" />
                 </svg>

@@ -86,7 +86,7 @@ const en: BaseTranslation = {
 	SaveReviewAsForm: "Save Review as Form template",
 	SaveReviewAsFormDesc: "If you wish, you can save the questionnaire from this review as a form template to facilitate the quick creation of future reviews. Just check the option below.",
 	Save: "Save Form",
-	StartAndEndDateText: "Specify Start and End Date.",
+	StartAndEndDateText: "Specify End Date.",
 	StartAndEndDateDesc: "Optionally, you can specify start and end dates for the review. If you don't provide this information now, you will be prompted to indicate the dates when you actually start the review.",
 	TopDown: {
 		Label: "Top-Down",
