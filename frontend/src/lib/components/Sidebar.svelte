@@ -26,12 +26,12 @@
         <hr class="mx-10" />
         {#each directories as directory, index}
             <a href="/{directory.name.toLowerCase()}" class="flex flex-row gap-x-2 items-center hover:bg-gray-300 p-2 rounded-md {$page.url.pathname.split("/")[1].toLowerCase() === directory.name.toLowerCase() ? 'bg-gray-300' : ''}">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="{directory.icon}" />
                 </svg>
                 <p class="font-normal text-sm">{getTranslation(directory.name)}</p>
                 {#if $page.url.pathname.split("/")[1].toLowerCase() === directory.name.toLowerCase()}
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 ml-auto">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 ml-auto">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                     </svg>
                 {/if}
