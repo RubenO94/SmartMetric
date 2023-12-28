@@ -125,7 +125,7 @@
                 <button on:click={() => (chooseForm = chooseForm + 1)} class="text-lg font-semibold py-1 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded">Continue</button>
             </div>
         {:else}
-            <CreateReviewWithForm bind:questions={formTemplateChoose.questions} {user} {languages} />
+            <CreateReviewWithForm bind:questions={formTemplateChoose.questions} {user} />
         {/if}
     {/if}
 </div>

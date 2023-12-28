@@ -14,7 +14,6 @@
 
     export let questions: Question[] = []
     export let user
-    export let languages
 
     let departments: Departments[] = []
     let selectAllDeps: boolean = false
@@ -330,6 +329,8 @@
                 <ul>
                     {#each departments as department}
                         {#if department.departmentParentId == 0}    
+                            <!-- svelte-ignore a11y-click-events-have-key-events -->
+                            <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
                             <li on:click={() => {department.checked = !department.checked}} class="cursor-pointer">
                                 <div class="text-gray-600 flex items-center font-medium gap-x-2">
                                     <input bind:checked={department.checked} type="checkbox" class="accent-blue-500 w-5 h-5" />

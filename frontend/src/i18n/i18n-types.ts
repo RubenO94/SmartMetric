@@ -576,6 +576,22 @@ type RootTranslation = {
 	 * S​a​v​e​ ​a​s​ ​f​o​r​m
 	 */
 	SaveAsForm: string
+	/**
+	 * D​e​l​e​t​e​ ​r​e​v​i​e​w​?
+	 */
+	RemoveReviewStatusDialog: string
+	/**
+	 * A​r​e​ ​y​o​u​ ​s​u​r​e​ ​y​o​u​ ​w​a​n​t​ ​t​o​ ​r​e​m​o​v​e​ ​r​e​v​i​e​w​?​ ​T​h​i​s​ ​a​c​t​i​o​n​ ​c​a​n​n​o​t​ ​b​e​ ​u​n​d​o​n​e​.
+	 */
+	RemoveReviewStatusDialogDesc: string
+	/**
+	 * D​e​l​e​t​e​d​ ​f​o​r​m​ ​t​e​m​p​l​a​t​e​ ​s​u​c​c​e​s​s​f​u​l​l​y​.
+	 */
+	DeleteFormMessage: string
+	/**
+	 * D​e​l​e​t​e​d​ ​r​e​v​i​e​w​ ​s​u​c​c​e​s​s​f​u​l​l​y​.
+	 */
+	DeleteReviewMessage: string
 }
 
 export type TranslationFunctions = {
@@ -1141,6 +1157,22 @@ export type TranslationFunctions = {
 	 * Save as form
 	 */
 	SaveAsForm: () => LocalizedString
+	/**
+	 * Delete review?
+	 */
+	RemoveReviewStatusDialog: () => LocalizedString
+	/**
+	 * Are you sure you want to remove review? This action cannot be undone.
+	 */
+	RemoveReviewStatusDialogDesc: () => LocalizedString
+	/**
+	 * Deleted form template successfully.
+	 */
+	DeleteFormMessage: () => LocalizedString
+	/**
+	 * Deleted review successfully.
+	 */
+	DeleteReviewMessage: () => LocalizedString
 }
 
 export type Formatters = {}

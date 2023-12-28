@@ -5,6 +5,7 @@
     import { LL, locale } from '../../../i18n/i18n-svelte'
     import { onMount } from 'svelte';
     import PreviewForm from '$lib/components/PreviewForm.svelte';
+    import Dropdown from '$lib/components/Dropdown.svelte';
 
     export let data
 
@@ -82,9 +83,9 @@
 <div class="mx-auto flex flex-col w-[1200px] p-10 gap-y-10">
     {#if pageSelected == 'details'}
         <div class="flex justify-between">
-            <h1 class="font-semibold text-xl">{ review.translations[0].title }</h1>
+            <h1 class="font-semibold text-xl mb-5">{ review.translations[0].title }</h1>
             {#if review.reviewStatus == 'NotStarted'}
-                <button on:click={showDialog} class="flex flex-row items-center gap-x-1 bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer border border-transparent hover:bg-blue-700 hover:border-blue-950">
+                <button on:click={showDialog} class="flex flex-row items-center gap-x-1 h-fit bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer border border-transparent hover:bg-blue-700 hover:border-blue-950">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g><path fill="currentColor" d="M7 3H17V7.2L12 12L7 7.2V3Z"><animate id="eosIconsHourglass0" fill="freeze" attributeName="opacity" begin="0;eosIconsHourglass1.end" dur="2s" from="1" to="0"/></path><path fill="currentColor" d="M17 21H7V16.8L12 12L17 16.8V21Z"><animate fill="freeze" attributeName="opacity" begin="0;eosIconsHourglass1.end" dur="2s" from="0" to="1"/></path><path fill="currentColor" d="M6 2V8H6.01L6 8.01L10 12L6 16L6.01 16.01H6V22H18V16.01H17.99L18 16L14 12L18 8.01L17.99 8H18V2H6ZM16 16.5V20H8V16.5L12 12.5L16 16.5ZM12 11.5L8 7.5V4H16V7.5L12 11.5Z"/><animateTransform id="eosIconsHourglass1" attributeName="transform" attributeType="XML" begin="eosIconsHourglass0.end" dur="0.5s" from="0 12 12" to="180 12 12" type="rotate"/></g></svg>
                     {$LL.StartReview()}
                 </button>
@@ -152,11 +153,16 @@
     {:else if pageSelected == 'form'}
         <div class="flex justify-between">
             <p class="font-semibold text-2xl">{$LL.Form()}</p>
-            <select bind:value={activeLang} class="bg-gray-100 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 px-2 py-1 rounded-lg">
-                {#each review.translations as translation}
-                    <option value={translation.language}>{$LL.ShowFormIn()} {showLanguageTranslation(translation.language)}</option>
-                {/each}
-            </select>
+            <div class="flex gap-x-2 items-center">
+                {#if review.reviewStatus == 'NotStarted'}
+                    <Dropdown bind:object={review} />
+                {/if}
+                <select bind:value={activeLang} class="bg-gray-100 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 px-2 py-1 rounded-lg">
+                    {#each review.translations as translation}
+                        <option value={translation.language}>{$LL.ShowFormIn()} {showLanguageTranslation(translation.language)}</option>
+                    {/each}
+                </select>
+            </div>
         </div>
         <PreviewForm bind:object={review} bind:lang={activeLang} />
     {/if}

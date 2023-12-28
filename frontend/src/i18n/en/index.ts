@@ -154,7 +154,11 @@ const en: BaseTranslation = {
 	SaveReviewAsFormDialog: "Save review as form?",
 	SaveReviewAsFormDescDialog: "Are you sure you want to save review as form.",
 	ShowMenu: "Show menu",
-	SaveAsForm: "Save as form"
+	SaveAsForm: "Save as form",
+	RemoveReviewStatusDialog: "Delete review?",
+	RemoveReviewStatusDialogDesc: "Are you sure you want to remove review? This action cannot be undone.",
+	DeleteFormMessage: "Deleted form template successfully.",
+	DeleteReviewMessage: "Deleted review successfully."
 }
 
 export default en

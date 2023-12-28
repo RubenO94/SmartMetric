@@ -154,7 +154,11 @@ const pt: Translation = {
 	SaveReviewAsFormDialog: 'Guardar revisão como formulário?',
 	SaveReviewAsFormDescDialog: 'Tem a certeza que pretende guardar revisão como formulário.',
 	ShowMenu: 'Mostrar menu',
-	SaveAsForm: 'Guardar como formulário'
+	SaveAsForm: 'Guardar como formulário',
+	RemoveReviewStatusDialog: 'Remover revisão?',
+	RemoveReviewStatusDialogDesc: 'Tem a certeza que pretende remover a revisão? Esta ação não pode ser revertida.',
+	DeleteFormMessage: 'Formulário removido com sucesso.',
+	DeleteReviewMessage: 'Revisão removida com sucesso.'
 }
 
 export default pt
