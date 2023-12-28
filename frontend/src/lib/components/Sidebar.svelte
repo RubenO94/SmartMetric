@@ -17,7 +17,6 @@
         if (directory == "Forms") return $LL.Sidebar.Forms()
         if (directory == "Statistics") return $LL.Sidebar.Statistics()
     }
-
 </script>
 
 <nav class="hidden 2xl:flex flex-col w-[300px] min-h-screen text-sm bg-gray-100 border-r-[1px] border-gray-300" transition:fly={{ delay: 0, duration: 100, x: -50 }}>
