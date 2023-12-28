@@ -3,6 +3,7 @@
 	import LL from '../i18n/i18n-svelte'
     import Sidebar from '$lib/components/Sidebar.svelte'
 	import Header from '$lib/components/Header.svelte'
+	import { clickOutside } from '$lib/actions/clickOutside'
 
 	export let data
 
@@ -12,6 +13,10 @@
 	function toggleSidebar() {
 		sidebarVisible = !sidebarVisible
 	}
+
+	function handleClickOutside(event: any) {
+		sidebarVisible = false
+	}
 </script>
 
 <div class="flex w-full min-h-screen overflow-y-hidden">
@@ -20,8 +25,9 @@
 	{/if}
 	<div class="flex flex-col flex-1">
 		{#if sidebarVisible}
-			<div class="2xl:hidden absolute w-60 p-1 min-h-full border-r border-gray-300 bg-gray-100">
-				<button on:click={toggleSidebar} class="absolute right-2 p-1 bg-gray-300 hover:text-red-500 rounded">
+		<div class="2xl:hidden fixed top-0 left-0 bg-black bg-opacity-50 w-screen h-screen">
+			<div use:clickOutside on:click_outside={handleClickOutside} class="2xl:hidden absolute w-60 p-1 min-h-full border-r border-gray-300 bg-gray-100">
+				<button on:click={toggleSidebar} class="absolute right-2 p-1 hover:bg-gray-300 hover:text-red-500 rounded">
 					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
 					</svg>
@@ -49,6 +55,7 @@
 					</a>
 				</nav>
 			</div>
+		</div>
 		{/if}
 		<Header {sidebarVisible} {toggleSidebar} />
 		<div style="max-height: calc(100vh - 56px); overflow-y: auto;">
