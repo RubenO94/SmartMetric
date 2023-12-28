@@ -47,15 +47,14 @@
 				{/if}
 			</div>
 		</div>
-		<div class="2xl:hidden group">
-			<button on:click={toggleSidebar} class="text-gray-700 p-1 rounded border-2 border-transparent hover:bg-gray-300 active:border-blue-500">
-				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-					<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-				</svg>				  
-			</button>
-			<div class="absolute w-max top-0 left-full mt-2 ml-2 p-2 bg-gray-800 text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-x-0">
-				{$LL.ShowMenu()}
-			</div>
+		<div class="2xl:hidden relative group">
+			{#if sidebarVisible == false}
+				<button on:click={toggleSidebar} class="text-gray-700 p-1 rounded border-2 border-transparent hover:bg-gray-300">
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+					</svg>				  
+				</button>
+			{/if}
 		</div>
 	
 		<!-- Directories -->
