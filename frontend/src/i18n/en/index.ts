@@ -158,7 +158,8 @@ const en: BaseTranslation = {
 	RemoveReviewStatusDialog: "Delete review?",
 	RemoveReviewStatusDialogDesc: "Are you sure you want to remove review? This action cannot be undone.",
 	DeleteFormMessage: "Deleted form template successfully.",
-	DeleteReviewMessage: "Deleted review successfully."
+	DeleteReviewMessage: "Deleted review successfully.",
+	FormDivText: "There are no forms created yet."
 }
 
 export default en

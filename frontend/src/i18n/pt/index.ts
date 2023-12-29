@@ -158,7 +158,8 @@ const pt: Translation = {
 	RemoveReviewStatusDialog: 'Remover revisão?',
 	RemoveReviewStatusDialogDesc: 'Tem a certeza que pretende remover a revisão? Esta ação não pode ser revertida.',
 	DeleteFormMessage: 'Formulário removido com sucesso.',
-	DeleteReviewMessage: 'Revisão removida com sucesso.'
+	DeleteReviewMessage: 'Revisão removida com sucesso.',
+	FormDivText: 'Não existem formulários para mostrar de momento.'
 }
 
 export default pt

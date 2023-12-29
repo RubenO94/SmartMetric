@@ -592,6 +592,10 @@ type RootTranslation = {
 	 * D​e​l​e​t​e​d​ ​r​e​v​i​e​w​ ​s​u​c​c​e​s​s​f​u​l​l​y​.
 	 */
 	DeleteReviewMessage: string
+	/**
+	 * T​h​e​r​e​ ​a​r​e​ ​n​o​ ​f​o​r​m​s​ ​c​r​e​a​t​e​d​ ​y​e​t​.
+	 */
+	FormDivText: string
 }
 
 export type TranslationFunctions = {
@@ -1173,6 +1177,10 @@ export type TranslationFunctions = {
 	 * Deleted review successfully.
 	 */
 	DeleteReviewMessage: () => LocalizedString
+	/**
+	 * There are no forms created yet.
+	 */
+	FormDivText: () => LocalizedString
 }
 
 export type Formatters = {}
