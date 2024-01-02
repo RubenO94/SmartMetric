@@ -185,8 +185,6 @@
     }
 </script>
 
-<Toaster />
-
 <div class="flex flex-col text-gray-400 text-xs gap-y-16">
     <Steps clickable={true} {steps} size="2.3em" bind:current={currentStep} />
 
@@ -205,7 +203,7 @@
                 <p>{$LL.ReviewTitleDescription()}</p>
                 {#each formTemplate.translations as translation, index}
                     {#if translation.language == chooseLanguage}
-                    <input name="titleForm" class="w-auto my-1 p-2 text-black border rounded" bind:value={formTemplate.translations[index].title} />
+                        <input name="titleForm" class="w-auto my-1 p-2 text-black border rounded" bind:value={formTemplate.translations[index].title} />
                     {/if}
                 {/each}
             </div>
@@ -224,7 +222,7 @@
             <div class="flex flex-col gap-y-2">
                 <p class="text-black text-base font-semibold">{$LL.QuestionTypeText()}</p>
                 <div class="flex flex-col gap-y-2">
-                    {#each cards as card, index}
+                    {#each cards as card}
                         <p use:draggable={card.id} class="flex items-center gap-x-2 p-2 font-bold border bg-gray-100 text-gray-600 border-gray-200 rounded">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 <path fill="currentColor" d="{card.icons}"/>

@@ -1,13 +1,22 @@
 <script lang="ts">
     import { goto } from "$app/navigation"
-    import { api } from "$lib/api/_api"
     import { LL } from "../../i18n/i18n-svelte"
+    import { Plus, Search } from 'lucide-svelte'
 
     export let data
 
     let reviews = data.reviews
     let activeSeparator: string = data.activeSeparator
-    console.log(reviews)
+
+    function showStatusReview(reviewStatus: string) {
+        switch(reviewStatus) {
+            case 'Active': return $LL.ReviewState.Active()
+            case 'NotStarted': return $LL.ReviewState.NotStarted()
+            case 'Canceled': return $LL.ReviewState.Canceled()
+            case 'Completed': return $LL.ReviewState.Completed()
+            default: return $LL.ReviewState.DontExist()
+        }
+    }
 </script>
 
 <svelte:head>
@@ -18,9 +27,7 @@
     <div class="flex justify-between">
         <h1 class="font-semibold text-2xl">{ $LL.Sidebar.Reviews() }</h1>
         <a href="/reviews/createReview" class="flex flex-row items-center gap-x-1 bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer border border-transparent hover:bg-blue-700 hover:border-blue-950">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
-            </svg>
+            <svelte:component this={Plus} />
             { $LL.ReviewButton() }
         </a>
     </div>
@@ -29,9 +36,7 @@
     <div class="flex">
         <input class="bg-gray-100 w-full p-4 rounded-l-lg text-sm border border-gray-200" type="search" placeholder="{$LL.ReviewSearchInput()}" />
         <button class="bg-blue-500 text-white py-2 px-4 rounded-r-lg border border-transparent hover:bg-blue-700 hover:border-blue-950">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-            </svg>
+            <svelte:component this={Search} />
         </button>
     </div>
 
@@ -43,7 +48,7 @@
             <a href="/reviews?type=canceled" on:click={() => activeSeparator = 'Canceled'} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator === 'Canceled' ? 'border-blue-500' : 'border-transparent'}">{$LL.Canceled()}</a>
             <a href="/reviews?type=completed" on:click={() => activeSeparator = 'Completed'} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator === 'Completed' ? 'border-blue-500' : 'border-transparent'}">{$LL.Completed()}</a>
         </div>
-        <div class="block w-full overflow-x-auto">
+        <div class="w-full overflow-x-auto">
             <table class="w-full bg-transparent border-collapse table-auto">
                 <thead>
                     <tr class="align-middle text-xs text-left whitespace-nowrap font-bold bg-gray-300 text-black">
@@ -70,7 +75,7 @@
                                 <td>
                                     <div>
                                         <p class="w-3/4 px-2 py-1 flex justify-center text-sm border border-transparent rounded-lg {review.reviewStatus === 'Active' ? 'bg-green-500 text-white border-green-900' : 'bg-gray-200 text-black border-gray-400'}">
-                                            {review.reviewStatus}
+                                            {showStatusReview(review.reviewStatus)}
                                         </p>
                                     </div>
                                 </td>
@@ -82,11 +87,7 @@
                                     {/if}
                                 </td>
                                 <td></td>
-                                <td>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
-                                    </svg>
-                                </td>
+                                <td></td>
                             </tr>
                         {/if}
                     {/each}

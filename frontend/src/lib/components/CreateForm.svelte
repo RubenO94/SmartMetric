@@ -8,6 +8,7 @@
     import { goto } from '$app/navigation'
     import { Steps } from 'svelte-steps'
     import { handleValidationsForm } from '$lib/actions/handleValidations'
+    import { api } from '$lib/api/_api';
 
     export let user
     export let languages
@@ -91,19 +92,10 @@
         if (currentStep != 2) currentStep += 1
         else {
             document.getElementById('buttonGoForward')?.setAttribute("disabled", "disabled")
-            const request = await fetch(apiUrl + "FormTemplates", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
-                body: JSON.stringify(formTemplate)
-            })
+            const [request] = await Promise.all([ api("POST", "FormTemplates", formTemplate) ])
+            const response = request
 
-            const response = await request.json()
-            console.log(response)
-
-            if (response.statusCode == 201) {
+            if (response?.status == 201) {
                 toast.success($LL.FormTemplateSuccess())
                 goto('/forms')
             } else {
@@ -218,8 +210,6 @@
     //Everytime variable questions changes, formTemplate.questions is gonna change too
     $: formTemplate.questions = questions
 </script>
-
-<Toaster />
 
 <div class="flex flex-col text-gray-400 text-xs gap-y-16">
     <Steps clickable={true} {steps} size="2.3em" bind:current={currentStep} />
@@ -344,7 +334,7 @@
                     {/each}
                 </div>
             </div>
-            <div class="flex flex-col gap-y-2 flex-grow">
+            <div class="flex flex-col gap-y-2 flex-1">
                 <p class="text-black text-base font-semibold">{$LL.QuestionProperties()}</p>
                 <div class="bg-gray-100 flex flex-col h-full gap-y-10 shadow-lg rounded-lg p-5 border border-gray-200">
                     {#if selectedQuestion && selectedQuestion.position !== -1}
@@ -352,7 +342,7 @@
                             <p class="text-blue-500 font-extrabold text-base">Q{selectedQuestion.position}</p>
                             {#each selectedQuestion.translations as translation, index}
                                 {#if translation.language == chooseLanguage}
-                                    <p class="text-black font-semibold text-base">{selectedQuestion.translations[index].title}</p>
+                                    <p class="text-black font-semibold text-base text-ellipsis">{selectedQuestion.translations[index].title}</p>
                                 {/if}
                             {/each}
                         </div>

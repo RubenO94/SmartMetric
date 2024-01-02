@@ -197,12 +197,20 @@
             <div class="flex flex-col gap-y-1">
                 <p class="text-black text-base font-semibold">{$LL.ReviewTitleTitle()}</p>
                 <p>{$LL.ReviewTitleDescription()}</p>
-                <input name="titleForm" class="w-auto my-1 p-2 text-black border rounded" bind:value={review.translations[0].title} />
+                {#each review.translations as translation}
+                    {#if translation.language == chooseLanguage}
+                        <input name="titleForm" class="w-auto my-1 p-2 text-black border rounded" bind:value={translation.title} />
+                    {/if}
+                {/each}
             </div>
             <div class="flex flex-col gap-y-1">
                 <p class="text-black text-base font-semibold">{$LL.ReviewDescriptionTitle()}</p>
                 <p>{$LL.ReviewDescriptionDescription()}</p>
-                <textarea name="descriptionForm" rows="8" class="w-auto my-1 p-2 text-black border rounded" bind:value={review.translations[0].description}></textarea>
+                {#each review.translations as translation}
+                    {#if translation.language == chooseLanguage}
+                        <textarea name="descriptionForm" rows="8" class="w-auto my-1 p-2 text-black border rounded" bind:value={translation.description}></textarea>
+                    {/if}
+                {/each}
             </div>
             <div class="flex flex-col gap-y-1">
                 <p class="text-black text-base font-semibold">{$LL.ReviewTypeTitle()}</p>
@@ -246,6 +254,14 @@
                 <p class="text-black text-base font-semibold">{$LL.FormPreview()}</p>
                 <!-- svelte-ignore a11y-no-static-element-interactions -->
                 <div class="bg-gray-100 min-h-[250px] h-full flex flex-col gap-y-2 shadow-lg rounded-lg p-5 border border-gray-200" on:drop="{handleDrop}" on:dragover="{allowDrop}">
+                    <div class="flex flex-row gap-x-5 items-center">
+                        <p class="text-black text-sm font-semibold flex-shrink-0">{$LL.ChooseLanguage()}</p>
+                        <select bind:value={chooseLanguage} class="bg-white border border-gray-300 text-gray-900 text-xs rounded-lg shadow focus:ring-blue-500 focus:border-blue-500 flex-grow p-2">
+                            {#each review.translations as translation}
+                                <option value={translation.language}>{showLanguageTranslation(translation.language)}</option>
+                            {/each}
+                        </select>
+                    </div>
                     {#if review.questions.length == 0}
                         <p>{$LL.FormPreviewPlaceholder()}</p>
                     {/if}
@@ -260,8 +276,12 @@
                             <div class="flex flex-row gap-x-2">
                                 <p class="text-blue-500 font-extrabold">Q{question.position}</p>
                                 <div class="flex flex-col gap-y-1">
-                                    <p class="text-black font-bold">{question.translations[0].title}</p>
-                                    <p>{question.translations[0].description}</p>
+                                    {#each question.translations as translation}
+                                        {#if translation.language == chooseLanguage}
+                                            <p class="text-black font-bold">{translation.title}</p>
+                                            <p>{translation.description}</p>
+                                        {/if}
+                                    {/each}
                                 </div>
                             </div>
                             {#if question.responseType === 'Rating' }
@@ -288,7 +308,11 @@
                                     <div class="flex flex-col gap-y-1">
                                         {#each question.singleChoiceOptions as singleChoice}
                                             <div class="bg-gray-100 py-2 px-5 rounded-lg">
-                                                <p>{singleChoice.translations[0].description}</p>
+                                                {#each singleChoice.translations as sco}
+                                                    {#if sco.language == chooseLanguage}
+                                                        <p>{sco.description}</p>
+                                                    {/if}
+                                                {/each}
                                             </div>
                                         {/each}
                                     </div>

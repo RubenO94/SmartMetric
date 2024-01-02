@@ -4,7 +4,7 @@
     import Sidebar from '$lib/components/Sidebar.svelte'
 	import Header from '$lib/components/Header.svelte'
 	import { fly } from 'svelte/transition'
-	import { Clipboard, List, BarChartBig } from 'lucide-svelte'
+	import { Clipboard, List, BarChartBig, X } from 'lucide-svelte'
 
 	export let data
 
@@ -23,9 +23,7 @@
 		<div class="2xl:hidden fixed top-0 left-0 bg-black bg-opacity-50 w-screen h-screen">
 			<div class="2xl:hidden absolute w-[300px] p-2 min-h-full border-r border-gray-300 bg-gray-100" transition:fly={{ delay: 0, duration: 100, x: -50 }}>
 				<button on:click={toggleSidebar} class="absolute right-2 p-1 hover:bg-gray-300 hover:text-red-500 rounded">
-					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-						<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-					</svg>
+					<svelte:component this={X} />
 				</button>
 				<p class="font-semibold text-center pt-10 pb-1 px-2">{$LL.Backoffice()}</p>
         		<hr class="mx-10 py-1" />
