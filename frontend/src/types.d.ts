@@ -1,7 +1,7 @@
 type Question = {
     isRequired: boolean
     position: number,
-    responseType: string,
+    responseType: string | undefined,
     translations: Translations[],
     singleChoiceOptions: SingleChoiceOption[],
     ratingOptions: RatingOption[]

@@ -31,14 +31,9 @@
         { text: $LL.Finalize() }
     ]
     let cards = [
-        { id: 1, title: $LL.QuestionType.Text(), name: 'Text' },
-        { id: 2, title: $LL.QuestionType.SingleChoice(), name: 'SingleChoice' },
-        { id: 3, title: $LL.QuestionType.Rating(), name: 'Rating' }
-    ]
-    let icons = [
-        "M3 3h18v2H3zm0 4h12v2H3zm0 4h18v2H3zm0 4h12v2H3zm0 4h18v2H3z",
-        "m10 17l-5-5l1.41-1.42L10 14.17l7.59-7.59L19 8m0-5H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2",
-        "M14 17h-2V9h-2V7h4m5-4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2"
+        { id: 1, title: $LL.QuestionType.Text(), name: 'Text', icon: "M3 3h18v2H3zm0 4h12v2H3zm0 4h18v2H3zm0 4h12v2H3zm0 4h18v2H3z" },
+        { id: 2, title: $LL.QuestionType.SingleChoice(), name: 'SingleChoice', icon: "m10 17l-5-5l1.41-1.42L10 14.17l7.59-7.59L19 8m0-5H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2" },
+        { id: 3, title: $LL.QuestionType.Rating(), name: 'Rating', icon: "M14 17h-2V9h-2V7h4m5-4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2" }
     ]
 
     languages.forEach((element: string) => {
@@ -128,6 +123,22 @@
             selectedQuestion = newQuestion
         }
     }
+    function handleDblClick(id: number) {
+        const selectedCard = cards.find(card => card.id === id)
+        const newQuestion: Question = {
+                isRequired: false,
+                position: questions.length + 1,
+                responseType: selectedCard?.name,
+                translations: [],
+                singleChoiceOptions: [],
+                ratingOptions: []
+        }
+        formTemplate.translations.forEach(element => {
+            newQuestion.translations = [...newQuestion.translations, {language: element.language, title: '', description: ''}]
+        })
+        questions = [...questions, newQuestion]
+        selectedQuestion = newQuestion
+    }
 
     //Function to remove question
     function removeQuestion(event: Event, index: number): void {
@@ -209,6 +220,7 @@
 
     //Everytime variable questions changes, formTemplate.questions is gonna change too
     $: formTemplate.questions = questions
+    $: console.log(formTemplate)
 </script>
 
 <div class="flex flex-col text-gray-400 text-xs gap-y-16">
@@ -249,9 +261,9 @@
                 <p class="text-black text-base font-semibold">{$LL.QuestionTypeText()}</p>
                 <div class="flex flex-col gap-y-2">
                     {#each cards as card, index}
-                        <p use:draggable={card.id} class="flex items-center gap-x-2 p-2 bg-gray-100 text-gray-600 border border-gray-200 font-bold rounded">
+                        <p use:draggable={card.id} on:dblclick="{() => handleDblClick(card.id)}" class="flex items-center gap-x-2 p-2 bg-gray-100 text-gray-600 border border-gray-200 font-bold rounded">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                <path fill="currentColor" d="{icons[index]}"/>
+                                <path fill="currentColor" d="{card.icon}"/>
                             </svg>
                             {card.title}
                         </p>

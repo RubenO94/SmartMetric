@@ -23,7 +23,7 @@
     <title>{$LL.Sidebar.Reviews()}</title>
 </svelte:head>
 
-<div class="mx-auto flex flex-col w-[1200px] p-10 gap-y-10">
+<div class="mx-auto flex flex-col w-[1200px] p-5 gap-y-10">
     <div class="flex justify-between">
         <h1 class="font-semibold text-2xl">{ $LL.Sidebar.Reviews() }</h1>
         <a href="/reviews/createReview" class="flex flex-row items-center gap-x-1 bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer border border-transparent hover:bg-blue-700 hover:border-blue-950">
@@ -74,7 +74,7 @@
                                 </td>
                                 <td>
                                     <div>
-                                        <p class="w-3/4 px-2 py-1 flex justify-center text-sm border border-transparent rounded-lg {review.reviewStatus === 'Active' ? 'bg-green-500 text-white border-green-900' : 'bg-gray-200 text-black border-gray-400'}">
+                                        <p class="w-3/4 px-2 py-1 flex justify-center text-sm border border-transparent whitespace-nowrap rounded-lg {review.reviewStatus === 'Active' ? 'bg-green-500 text-white border-green-900' : 'bg-gray-200 text-black border-gray-400'}">
                                             {showStatusReview(review.reviewStatus)}
                                         </p>
                                     </div>

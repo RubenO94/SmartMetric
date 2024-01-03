@@ -1,7 +1,7 @@
 <script lang="ts">
     import { goto } from "$app/navigation"
     import { api } from "$lib/api/_api"
-    import toast, { Toaster } from "svelte-french-toast"
+    import toast from "svelte-french-toast"
     import LL from "../../i18n/i18n-svelte"
     import { PlusCircle, Pencil, Trash2, MoreHorizontal, XCircle } from 'lucide-svelte'
 
@@ -54,23 +54,23 @@
     </button>
 
     {#if isOpen}
-        <div id="menuDropdown" class="absolute -left-5 p-2 bg-gray-50 border border-gray-300 shadow-md rounded-lg">
+        <div id="menuDropdown" class="absolute right-0 p-2 bg-gray-50 border border-gray-300 shadow-md rounded-lg">
             <ul class="flex flex-col">
                 <button class="cursor-pointer whitespace-nowrap flex items-center gap-x-2" on:click={() => goto(`/`)}>
                     <p class="flex items-center hover:bg-blue-500 hover:text-white py-2 px-4 gap-x-2 rounded-lg">
-                        <svelte:component this={PlusCircle} />            
+                        <svelte:component this={PlusCircle} size="20" />            
                         {$LL.AddLanguage()}
                     </p>
                 </button>
                 <button class="cursor-pointer whitespace-nowrap" on:click={() => goToEditPage()}>
                     <p class="flex items-center hover:bg-blue-500 hover:text-white py-2 px-4 gap-x-2 rounded-lg">
-                        <svelte:component this={Pencil} />                     
+                        <svelte:component this={Pencil} size="20" />                     
                         {$LL.Edit()}
                     </p>
                 </button>
                 <button class="cursor-pointer whitespace-nowrap" on:click={() => showDialog()}>
                     <p class="flex items-center hover:bg-blue-500 hover:text-white py-2 px-4 gap-x-2 rounded-lg">
-                        <svelte:component this={Trash2} />                          
+                        <svelte:component this={Trash2} size="20" />                          
                         {$LL.Delete()}
                     </p>
                 </button>

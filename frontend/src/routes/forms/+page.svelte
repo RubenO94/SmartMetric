@@ -1,7 +1,8 @@
 <script lang="ts">
     import { api } from "$lib/api/_api"
+    import Dropdown from "$lib/components/Dropdown.svelte";
     import { LL, locale } from "../../i18n/i18n-svelte"
-    import { AlertCircle, AlertTriangle, Plus, Search, Trash2 } from 'lucide-svelte'
+    import { AlertCircle, AlertTriangle, MoreVertical, Plus, Search, Trash2 } from 'lucide-svelte'
     import toast, { Toaster } from "svelte-french-toast"
 
     export let data
@@ -48,11 +49,11 @@
 
 <Toaster />
 
-<div class="mx-auto flex flex-col xl:w-[1200px] lg:w-[900px] md:w-[750px] p-10 gap-y-10">
+<div class="mx-auto flex flex-col xl:w-[1200px] p-5 gap-y-10">
     <!-- Title and Create button-->
-    <div class="flex flex-col md:flex-row justify-between">
-        <h1 class="font-semibold text-2xl">{ $LL.Sidebar.Forms() }</h1>
-        <a href="forms/createForm/" class="flex flex-row items-center gap-x-1 bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer border border-transparent hover:bg-blue-700 hover:border-blue-950">
+    <div class="flex flex-col md:flex-row gap-y-5 justify-between">
+        <h1 class="font-semibold text-2xl mx-auto md:mx-0">{ $LL.Sidebar.Forms() }</h1>
+        <a href="forms/createForm/" class="flex flex-row mx-auto md:mx-0 items-center gap-x-1 bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer border border-transparent hover:bg-blue-700 hover:border-blue-950">
             <svelte:component this={Plus} />
             { $LL.FormButton() }
         </a>
@@ -72,16 +73,15 @@
             {#each responseData as formTemplate, i}
                 {#each formTemplate.translations as translation}
                     {#if translation.language == lang}
-                        <div class="flex flex-row justify-between items-center border-b border-gray-300 px-5 py-2 gap-x-2">
+                        <div class="flex gap-x-2 justify-between md:items-center px-3 py-2 border-b border-gray-300 hover:bg-gray-100 {i == 0 ? 'rounded-t' : ''}">
                             <div class="flex gap-x-4 flex-grow">
-                                <div class="bg-green-200 p-6 rounded-md flex items-center justify-center">AA</div>
-                                <div class="flex flex-col gap-x-1 pt-2">
-                                    <p>{translation.title}</p>
+                                <div class="flex flex-col gap-x-1 pt-1">
+                                    <p class="text-sm md:text-base">{translation.title}</p>
                                     <p class="text-xs text-gray-400">{translation.description}</p>
                                 </div>
                             </div>
-                            <div class="flex gap-x-2">
-                                <a href="/forms/{formTemplate.formTemplateId}" class="bg-blue-500 text-white text-sm px-2 py-1 rounded-lg border border-transparent cursor-pointer whitespace-nowrap hover:bg-blue-700 hover:border-blue-950">{$LL.Preview()}</a>
+                            <div class="hidden md:flex gap-x-2">
+                                <a href="/forms/{formTemplate.formTemplateId}" class="bg-blue-500 text-white text-xs md:text-sm px-2 py-1 rounded-lg border border-transparent cursor-pointer whitespace-nowrap hover:bg-blue-700 hover:border-blue-950">{$LL.Preview()}</a>
                                 <button on:click={() => showDialog(formTemplate.formTemplateId)}>
                                     <svelte:component this={Trash2} class="hover:text-gray-400" />
                                 </button>
@@ -104,6 +104,9 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="flex md:hidden items-center">
+                                <svelte:component this={MoreVertical} class="cursor-pointer" />
                             </div>
                         </div>
                     {/if}

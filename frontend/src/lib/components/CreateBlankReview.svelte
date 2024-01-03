@@ -282,8 +282,6 @@
     $: console.log(review)
 </script>
 
-<Toaster />
-
 <div class="flex flex-col text-gray-400 text-xs gap-y-16">
     <Steps clickable={true} {steps} size="2.3em" bind:current={currentStep} />
 

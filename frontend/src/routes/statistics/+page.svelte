@@ -6,8 +6,8 @@
     <title>{$LL.Sidebar.Statistics()}</title>
 </svelte:head>
 
-<div class="mx-auto flex flex-col w-[1200px] p-10">
+<div class="mx-auto flex flex-col xl:w-[1200px] p-5">
     <div class="flex justify-between">
-        <h1 class="font-semibold text-2xl">{ $LL.Sidebar.Statistics() }</h1>
+        <h1 class="font-semibold text-2xl mx-auto md:mx-0">{ $LL.Sidebar.Statistics() }</h1>
     </div>
 </div>

@@ -15,9 +15,11 @@
 </script>
 
 <div class="flex w-full min-h-screen overflow-y-hidden">
-	{#if sidebarVisible}
-		<Sidebar bind:user={user} />
-	{/if}
+	<div class="2xl:flex hidden">
+		{#if sidebarVisible}
+			<Sidebar bind:user={user} />
+		{/if}
+	</div>
 	<div class="flex flex-col flex-1">
 		{#if sidebarVisible}
 		<div class="2xl:hidden fixed top-0 left-0 bg-black bg-opacity-50 w-screen h-screen">
