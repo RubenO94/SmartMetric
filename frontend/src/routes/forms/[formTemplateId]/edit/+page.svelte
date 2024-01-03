@@ -1,6 +1,7 @@
 <script lang="ts">
     import { page } from "$app/stores"
     import EditForm from "$lib/components/EditForm.svelte";
+    import FormComponent from "$lib/components/FormComponent.svelte";
     import LL from "../../../../i18n/i18n-svelte"
 
     export let data
@@ -12,7 +13,7 @@
     <title>{$LL.EditFormButton()}</title>
 </svelte:head>
 
-<div class="mx-auto flex flex-col w-[1200px] p-10 gap-y-5">
+<div class="mx-auto flex flex-col xl:w-[900px] w-screen p-10 gap-y-5">
     <div class="flex gap-x-4 text-blue-500">
         <div class="w-1/3 flex items-center justify-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5">
@@ -25,5 +26,6 @@
         </div>
     </div>
 
-    <EditForm bind:formTemplate={formTemplate} />
+    <!-- <EditForm bind:formTemplate={formTemplate} /> -->
+    <FormComponent {formTemplate} />
 </div>

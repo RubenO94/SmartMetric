@@ -50,7 +50,7 @@
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div class="relative text-xs" on:mouseleave={unToggleDropdown}>
     <button class="cursor-pointer focus:outline-none" on:click={toggleDropdown}>
-        <svelte:component this={MoreHorizontal} />
+        <svelte:component this={MoreHorizontal} strokeWidth="1.5" />
     </button>
 
     {#if isOpen}

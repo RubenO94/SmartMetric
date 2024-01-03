@@ -6,7 +6,7 @@
     import { onMount } from 'svelte'
     import PreviewForm from '$lib/components/PreviewForm.svelte'
     import Dropdown from '$lib/components/Dropdown.svelte'
-    import { ArchiveX, Clock } from 'lucide-svelte'
+    import { AlertTriangle, ArchiveX, Calendar, Clock } from 'lucide-svelte'
 
     export let data
 
@@ -97,9 +97,7 @@
                         <div class="flex items-center gap-5">
                             <div class="bg-blue-200 text-blue-500 flex items-center justify-center w-10 h-10 p-5 rounded-full">
                                 <p>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
-                                    </svg>                                     
+                                    <svelte:component this={Calendar} />                                   
                                 </p>                                                                               
                             </div>
                             <div>
@@ -127,11 +125,9 @@
                 <div id="dialog" class="fixed left-0 top-0 bg-black bg-opacity-75 hidden w-screen h-screen transition-opacity duration-500">
                     <div class="bg-white rounded shadow-md p-8 mx-auto my-20 w-2/5 flex flex-col gap-y-5">
                         <div class="flex items-center gap-5">
-                            <div class="bg-blue-200 text-blue-500 flex items-center justify-center w-10 h-10 p-5 rounded-full">
+                            <div class="bg-red-200 text-red-500 flex items-center justify-center w-10 h-10 p-5 rounded-full">
                                 <p>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
-                                    </svg>                                     
+                                    <svelte:component this={AlertTriangle} />                           
                                 </p>                                                                               
                             </div>
                             <div>
@@ -141,7 +137,7 @@
                         </div>
                         <div class="flex justify-end gap-4 mt-5">
                             <button class="bg-gray-100 border border-gray-300 px-6 py-2 rounded text-black hover:bg-gray-200" on:click="{hideDialog}">{$LL.GoBack()}</button>
-                            <button class="bg-blue-500 px-6 py-2 rounded text-white hover:bg-blue-700" on:click="{patchReview}">{$LL.CancelReview()}</button>
+                            <button class="bg-red-500 px-6 py-2 rounded text-white hover:bg-red-700" on:click="{patchReview}">{$LL.CancelReview()}</button>
                         </div>
                     </div>
                 </div>

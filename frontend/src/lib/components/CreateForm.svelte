@@ -1,7 +1,7 @@
 <script lang="ts">
     // IMPORTS
     import LL from '../../i18n/i18n-svelte'
-    import toast, { Toaster } from 'svelte-french-toast'
+    import toast from 'svelte-french-toast'
     import { api_url, api_token } from '$lib/stores/url'
     import { draggable } from '$lib/actions/dnd'
     import { fade, fly } from 'svelte/transition'
@@ -9,13 +9,12 @@
     import { Steps } from 'svelte-steps'
     import { handleValidationsForm } from '$lib/actions/handleValidations'
     import { api } from '$lib/api/_api';
+    import { ChevronLeft, ChevronRight } from 'lucide-svelte';
 
     export let user
-    export let languages
+    export let languages 
 
     //VARIABLES
-    let apiUrl: string
-    let token: string
     let formTemplate: FormTemplate = {
         createdByUserId: user.userId, translations: [], questions: [], formTemplateId: null, modifiedDate: null, createdDate: undefined
     }
@@ -40,9 +39,6 @@
         formTemplate.translations = [...formTemplate.translations, {language: element, title: '', description: ''}]
     })
     let chooseLanguage: string = formTemplate.translations[0].language
-
-    api_url.subscribe((value) => { apiUrl = value })
-    api_token.subscribe((value) => { token = value })
 
     function showLanguageTranslation(languageAbbrev: string) {
         switch (languageAbbrev) {
@@ -223,7 +219,7 @@
     $: console.log(formTemplate)
 </script>
 
-<div class="flex flex-col text-gray-400 text-xs gap-y-16">
+<div class="flex flex-col xl:w-[1200px] text-gray-400 text-xs gap-y-16">
     <Steps clickable={true} {steps} size="2.3em" bind:current={currentStep} />
 
     {#if currentStep == 0}
@@ -256,11 +252,11 @@
             </div>
         </div>
     {:else if currentStep == 1}
-        <div class="flex flex-row gap-x-10">
+        <div class="flex gap-x-10">
             <div class="flex flex-col gap-y-2">
                 <p class="text-black text-base font-semibold">{$LL.QuestionTypeText()}</p>
                 <div class="flex flex-col gap-y-2">
-                    {#each cards as card, index}
+                    {#each cards as card}
                         <p use:draggable={card.id} on:dblclick="{() => handleDblClick(card.id)}" class="flex items-center gap-x-2 p-2 bg-gray-100 text-gray-600 border border-gray-200 font-bold rounded">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 <path fill="currentColor" d="{card.icon}"/>
@@ -453,9 +449,7 @@
     <div class="flex justify-between mt-10">
         <!-- Go Back button -->
         <button on:click={handleStepBackward} class="flex gap-x-2 text-lg font-semibold px-5 py-2 border border-transparent hover:bg-gray-100 rounded" id="buttonGoBack">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="4" stroke="currentColor" class="w-7 h-7">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-            </svg> 
+            <svelte:component this={ChevronLeft} strokeWidth=4 size={30} />
             {$LL.Return()}
         </button>
         <!-- Go Next button -->
@@ -465,9 +459,7 @@
             {:else}
                 {$LL.Finalize()}
             {/if}
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="4" stroke="currentColor" class="w-7 h-7">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-            </svg>
+            <svelte:component this={ChevronRight} strokeWidth=4 size={30} />
         </button>
     </div>
 </div>

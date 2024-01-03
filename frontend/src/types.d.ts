@@ -52,3 +52,8 @@ type Departments = {
     departmentParentId: number,
     checked: boolean
 }
+
+type Search = {
+    object: FormTemplate,
+    searchTerms: string
+}

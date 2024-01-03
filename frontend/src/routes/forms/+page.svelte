@@ -1,8 +1,7 @@
 <script lang="ts">
     import { api } from "$lib/api/_api"
-    import Dropdown from "$lib/components/Dropdown.svelte";
     import { LL, locale } from "../../i18n/i18n-svelte"
-    import { AlertCircle, AlertTriangle, MoreVertical, Plus, Search, Trash2 } from 'lucide-svelte'
+    import { AlertCircle, MoreVertical, Plus, Search, Trash2, XCircle } from 'lucide-svelte'
     import toast, { Toaster } from "svelte-french-toast"
 
     export let data
@@ -53,7 +52,7 @@
     <!-- Title and Create button-->
     <div class="flex flex-col md:flex-row gap-y-5 justify-between">
         <h1 class="font-semibold text-2xl mx-auto md:mx-0">{ $LL.Sidebar.Forms() }</h1>
-        <a href="forms/createForm/" class="flex flex-row mx-auto md:mx-0 items-center gap-x-1 bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer border border-transparent hover:bg-blue-700 hover:border-blue-950">
+        <a href="forms/createForm/" class="flex mx-auto md:mx-0 items-center gap-x-1 bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer border border-transparent hover:bg-blue-700 hover:border-blue-950">
             <svelte:component this={Plus} />
             { $LL.FormButton() }
         </a>
@@ -73,7 +72,7 @@
             {#each responseData as formTemplate, i}
                 {#each formTemplate.translations as translation}
                     {#if translation.language == lang}
-                        <div class="flex gap-x-2 justify-between md:items-center px-3 py-2 border-b border-gray-300 hover:bg-gray-100 {i == 0 ? 'rounded-t' : ''}">
+                        <div class="flex gap-x-2 justify-between md:items-center p-4 border-b border-gray-300 hover:bg-gray-100 {i == 0 ? 'rounded-t' : ''}">
                             <div class="flex gap-x-4 flex-grow">
                                 <div class="flex flex-col gap-x-1 pt-1">
                                     <p class="text-sm md:text-base">{translation.title}</p>
@@ -91,7 +90,7 @@
                                     <div class="bg-white rounded shadow-md p-8 mx-auto my-20 w-4/5 lg:w-3/5 xl:w-2/5">
                                         <div class="flex items-center gap-5">
                                             <div class="bg-red-200 text-red-500 flex items-center justify-center w-10 h-10 p-5 rounded-full">
-                                                <p><svelte:component this={AlertTriangle} /></p>
+                                                <p><svelte:component this={XCircle} /></p>
                                             </div>
                                             <div>
                                                 <h1 class="font-bold text-lg mb-2">{$LL.DeleteDialogForm()}</h1>
@@ -106,7 +105,9 @@
                                 </div>
                             </div>
                             <div class="flex md:hidden items-center">
-                                <svelte:component this={MoreVertical} class="cursor-pointer" />
+                                <button class="cursor-pointer hover:bg-gray-300 p-2 rounded">
+                                    <svelte:component this={MoreVertical} />
+                                </button>
                             </div>
                         </div>
                     {/if}

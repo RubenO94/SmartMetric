@@ -3,6 +3,7 @@
     import toast, { Toaster } from "svelte-french-toast"
     import LL from "../../../i18n/i18n-svelte"
     import { FilePlus } from "lucide-svelte";
+    import FormComponent from "$lib/components/FormComponent.svelte";
 
     export let data
 
@@ -16,12 +17,23 @@
         {name: 'FR', checked: false},
         {name: 'PL', checked: false}
     ]
+    let formTemplate: FormTemplate = {
+        createdByUserId: user.userId,
+        translations: [],
+        questions: [],
+        formTemplateId: null,
+        modifiedDate: null,
+        createdDate: null
+    }
 
     function checkLanguages() {
         if (chooseLanguages.length < 1) {
             toast.error($LL.ErrorAddingLanguagesToForm())
             return
-        } 
+        }
+        chooseLanguages.forEach((lang: string) => {
+            formTemplate.translations = [...formTemplate.translations, {language: lang, title: '', description: ''}]
+        })
         page++
     }
 
@@ -51,7 +63,7 @@
 
 <Toaster />
 
-<div class="mx-auto flex flex-col xl:w-[1200px] p-5 gap-y-5">
+<div class="mx-auto flex flex-col xl:w-[900px] w-screen p-5 gap-y-5">
     <div class="flex flex-col md:flex-row gap-x-4 items-center text-blue-500">
         <div class="block">
             <svelte:component this={FilePlus} size="90" />
@@ -74,6 +86,7 @@
         </div>
         <button on:click={() => checkLanguages()} class="flex gap-x-2 mx-auto text-base font-semibold px-5 py-2 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded">Create form</button>
     {:else if page == 1}
-        <CreateForm bind:user={user} bind:languages={chooseLanguages} />
+        <!-- <CreateForm {user} bind:languages={chooseLanguages} /> -->
+        <FormComponent {formTemplate} />
     {/if}
 </div>

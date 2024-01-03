@@ -10,9 +10,9 @@
 	
 </script>
 
-<header class="flex items-center px-10 py-2 text-sm border-b-[1px] border-gray-300 justify-between">
+<header class="flex items-center px-2 sm:px-10 py-2 text-sm border-b-[1px] border-gray-300 justify-between">
 	<!-- Button to hide or show the Sidebar -->
-	<div class="flex gap-x-4">
+	<div class="flex gap-x-1 sm:gap-x-4">
 		<div class="relative 2xl:inline-block group hidden">
 			<button on:click={toggleSidebar} class="text-gray-700 p-1 rounded border-2 border-transparent hover:bg-gray-300 active:border-blue-500">
 				{#if sidebarVisible}
