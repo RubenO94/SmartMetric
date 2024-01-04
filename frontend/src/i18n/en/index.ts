@@ -168,7 +168,9 @@ const en: BaseTranslation = {
 	SelectAll: "Select all",
 	SelectLangs: "Select languages to create form",
 	EditFormMessage: "Form template edited successfully",
-	EditReviewMessage: "Review edited successfully"
+	EditReviewMessage: "Review edited successfully",
+	PatchReviewStatusError: "End date can't be before Start date of review",
+	PatchReviewStatus: "Review status updated successfully"
 }
 
 export default en

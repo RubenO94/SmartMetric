@@ -1,7 +1,8 @@
 <script lang="ts">
+    import { goto } from "$app/navigation";
     import { api } from "$lib/api/_api"
     import { LL, locale } from "../../i18n/i18n-svelte"
-    import { AlertCircle, MoreVertical, Plus, Search, Trash2, XCircle } from 'lucide-svelte'
+    import { AlertCircle, Eye, MoreVertical, Pencil, Plus, PlusCircle, Search, Trash2, XCircle } from 'lucide-svelte'
     import toast, { Toaster } from "svelte-french-toast"
 
     export let data
@@ -11,6 +12,10 @@
     let pageSize = data.pageSize
     let lang = $locale.toUpperCase()
     let formTemplateToDelete = ''
+    let isDropdownOpen = false
+
+    function toggleDropdown() { isDropdownOpen = !isDropdownOpen }
+    function closeDropdown() { isDropdownOpen = false }
 
     function showDialog(index: string) {
         formTemplateToDelete = index
@@ -104,10 +109,29 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="flex md:hidden items-center">
-                                <button class="cursor-pointer hover:bg-gray-300 p-2 rounded">
+                            <div class="relative group md:hidden items-center">
+                                <button on:focus={toggleDropdown} on:blur={closeDropdown} class="cursor-pointer hover:bg-gray-300 p-2 rounded focus:ring-2 focus:ring-gray-300">
                                     <svelte:component this={MoreVertical} />
                                 </button>
+
+                                {#if isDropdownOpen}
+                                    <div class="absolute top-5 right-12 p-2 bg-gray-50 border border-gray-300 shadow-md rounded-lg">
+                                        <ul class="flex flex-col">
+                                            <button class="cursor-pointer whitespace-nowrap flex items-center gap-x-2">
+                                                <p class="flex items-center hover:bg-blue-500 hover:text-white py-2 px-4 gap-x-2 text-sm rounded-lg">
+                                                    <svelte:component this={Eye} size="20" />
+                                                    {$LL.Preview()}
+                                                </p>
+                                            </button>
+                                            <button class="cursor-pointer whitespace-nowrap">
+                                                <p class="flex items-center hover:bg-blue-500 hover:text-white py-2 px-4 gap-x-2 text-sm rounded-lg">
+                                                    <svelte:component this={Trash2} size="20" />                          
+                                                    {$LL.Delete()}
+                                                </p>
+                                            </button>
+                                        </ul>
+                                    </div>
+                                {/if}
                             </div>
                         </div>
                     {/if}

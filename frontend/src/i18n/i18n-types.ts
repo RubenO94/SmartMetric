@@ -632,6 +632,14 @@ type RootTranslation = {
 	 * R​e​v​i​e​w​ ​e​d​i​t​e​d​ ​s​u​c​c​e​s​s​f​u​l​l​y
 	 */
 	EditReviewMessage: string
+	/**
+	 * E​n​d​ ​d​a​t​e​ ​c​a​n​'​t​ ​b​e​ ​b​e​f​o​r​e​ ​S​t​a​r​t​ ​d​a​t​e​ ​o​f​ ​r​e​v​i​e​w
+	 */
+	PatchReviewStatusError: string
+	/**
+	 * R​e​v​i​e​w​ ​s​t​a​t​u​s​ ​u​p​d​a​t​e​d​ ​s​u​c​c​e​s​s​f​u​l​l​y
+	 */
+	PatchReviewStatus: string
 }
 
 export type TranslationFunctions = {
@@ -1253,6 +1261,14 @@ export type TranslationFunctions = {
 	 * Review edited successfully
 	 */
 	EditReviewMessage: () => LocalizedString
+	/**
+	 * End date can't be before Start date of review
+	 */
+	PatchReviewStatusError: () => LocalizedString
+	/**
+	 * Review status updated successfully
+	 */
+	PatchReviewStatus: () => LocalizedString
 }
 
 export type Formatters = {}

@@ -7,6 +7,7 @@
     import PreviewForm from '$lib/components/PreviewForm.svelte'
     import Dropdown from '$lib/components/Dropdown.svelte'
     import { AlertTriangle, ArchiveX, Calendar, Clock } from 'lucide-svelte'
+    import toast, { Toaster } from 'svelte-french-toast';
 
     export let data
 
@@ -60,10 +61,17 @@
             api("PATCH", `Reviews/${review.reviewId}`, reviewPatchBody)
         ])
 
-        const response = request
-        goto('/reviews')
+        if (request?.error) {
+            hideDialog()
+            toast.error($LL.PatchReviewStatusError())
+        } else {
+            toast.success($LL.PatchReviewStatus())
+            goto('/reviews')
+        }        
     }
 </script>
+
+<Toaster />
 
 <svelte:head>
     {#each review.translations as translation}
@@ -81,7 +89,7 @@
     <a href="/reviews/{review.reviewId}?page=form" on:click={() => pageSelected = 'form'} class="cursor-pointer font-semibold {pageSelected === 'form' ? 'underline' : 'hover:underline'}">{$LL.Form()}</a>
 </header>
 
-<div class="mx-auto flex flex-col w-[1200px] p-10 gap-y-10">
+<div class="mx-auto flex flex-col xl:w-[1280px] p-5 gap-y-10">
     {#if pageSelected == 'details'}
         <div class="flex justify-between">
             <h1 class="font-semibold text-xl mb-5">{ review.translations[0].title }</h1>

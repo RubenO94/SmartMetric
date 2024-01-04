@@ -168,7 +168,9 @@ const pt: Translation = {
 	SelectAll: 'Selecionar tudo',
 	SelectLangs: 'Selecionar idiomas para criar o formulário',
 	EditFormMessage: 'Modelo de formulário editado com sucesso',
-	EditReviewMessage: ''
+	EditReviewMessage: 'Revisão editada com sucesso',
+	PatchReviewStatusError: 'Data de fim da revisão não pode ter data anterior à data de início',
+	PatchReviewStatus: 'Estado da revisão alterado com sucesso'
 }
 
 export default pt
