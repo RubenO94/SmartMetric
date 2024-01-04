@@ -163,7 +163,8 @@ const pt: Translation = {
 	FormDivText: 'Não existem formulários para mostrar de momento.',
 	EditReview: 'Editar revisão',
 	EditReviewDescription: 'Esta funcionalidade permite aos utilizadores editar uma revisão antes de a iniciar.',
-	NoDescription: 'Esta questão não tem descrição'
+	NoDescription: 'Esta questão não tem descrição',
+	NoTitle: 'Esta questão não tem titulo'
 }
 
 export default pt

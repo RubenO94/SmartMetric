@@ -1,5 +1,4 @@
 <script lang="ts">
-    import CreateForm from "$lib/components/CreateForm.svelte"
     import toast, { Toaster } from "svelte-french-toast"
     import LL from "../../../i18n/i18n-svelte"
     import { FilePlus } from "lucide-svelte";
@@ -7,6 +6,7 @@
 
     export let data
 
+    let action = 'create'
     let user = data.user
     let page: number = 0
     let chooseLanguages: string[] = []
@@ -63,7 +63,7 @@
 
 <Toaster />
 
-<div class="mx-auto flex flex-col xl:w-[900px] w-screen p-5 gap-y-5">
+<div class="mx-auto flex flex-col xl:w-[1280px] p-5 gap-y-5">
     <div class="flex flex-col md:flex-row gap-x-4 items-center text-blue-500">
         <div class="block">
             <svelte:component this={FilePlus} size="90" />
@@ -86,7 +86,6 @@
         </div>
         <button on:click={() => checkLanguages()} class="flex gap-x-2 mx-auto text-base font-semibold px-5 py-2 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded">Create form</button>
     {:else if page == 1}
-        <!-- <CreateForm {user} bind:languages={chooseLanguages} /> -->
-        <FormComponent {formTemplate} />
+        <FormComponent {formTemplate} {action} />
     {/if}
 </div>

@@ -163,7 +163,8 @@ const en: BaseTranslation = {
 	FormDivText: "There are no forms created yet.",
 	EditReview: "Edit review",
 	EditReviewDescription: "This feature allows you to edit review before active it.",
-	NoDescription: "This question doesn't have description"
+	NoDescription: "This question doesn't have a description",
+	NoTitle: "This question doesn't have a title"
 }
 
 export default en

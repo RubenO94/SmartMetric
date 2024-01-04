@@ -51,7 +51,7 @@
 		</div>
 	</div>
 
-	<div class="relative inline-block group">
+	<div class="relative group">
 		<svelte:component this={HelpCircle} class="cursor-pointer" />
 		<div class="absolute w-max top-0 right-full mt-2 mr-2 p-2 bg-gray-800 text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-x-0">
 			{$LL.Help()}

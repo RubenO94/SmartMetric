@@ -48,7 +48,7 @@
 
 <Toaster />
 
-<div class="mx-auto flex flex-col xl:w-[1200px] p-5 gap-y-10">
+<div class="mx-auto flex flex-col xl:w-[1280px] p-5 gap-y-10">
     <!-- Title and Create button-->
     <div class="flex flex-col md:flex-row gap-y-5 justify-between">
         <h1 class="font-semibold text-2xl mx-auto md:mx-0">{ $LL.Sidebar.Forms() }</h1>

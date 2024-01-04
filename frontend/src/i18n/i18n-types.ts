@@ -609,9 +609,13 @@ type RootTranslation = {
 	 */
 	EditReviewDescription: string
 	/**
-	 * T​h​i​s​ ​q​u​e​s​t​i​o​n​ ​d​o​e​s​n​'​t​ ​h​a​v​e​ ​d​e​s​c​r​i​p​t​i​o​n
+	 * T​h​i​s​ ​q​u​e​s​t​i​o​n​ ​d​o​e​s​n​'​t​ ​h​a​v​e​ ​a​ ​d​e​s​c​r​i​p​t​i​o​n
 	 */
 	NoDescription: string
+	/**
+	 * T​h​i​s​ ​q​u​e​s​t​i​o​n​ ​d​o​e​s​n​'​t​ ​h​a​v​e​ ​a​ ​t​i​t​l​e
+	 */
+	NoTitle: string
 }
 
 export type TranslationFunctions = {
@@ -1210,9 +1214,13 @@ export type TranslationFunctions = {
 	 */
 	EditReviewDescription: () => LocalizedString
 	/**
-	 * This question doesn't have description
+	 * This question doesn't have a description
 	 */
 	NoDescription: () => LocalizedString
+	/**
+	 * This question doesn't have a title
+	 */
+	NoTitle: () => LocalizedString
 }
 
 export type Formatters = {}

@@ -22,7 +22,7 @@
 	</div>
 	<div class="flex flex-col flex-1 overflow-y-hidden">
 		{#if sidebarVisible}
-			<div class="2xl:hidden fixed top-0 left-0 bg-black bg-opacity-50 w-screen h-screen">
+			<div class="2xl:hidden fixed top-0 left-0 bg-black bg-opacity-50 w-screen h-screen z-50">
 				<div class="2xl:hidden absolute w-[250px] p-2 min-h-full border-r border-gray-300 bg-gray-100" transition:fly={{ delay: 0, duration: 100, x: -50 }}>
 					<button on:click={toggleSidebar} class="absolute right-2 p-1 hover:bg-gray-300 hover:text-red-500 rounded">
 						<svelte:component this={X} />
