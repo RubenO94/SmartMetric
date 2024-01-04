@@ -11,7 +11,6 @@
                 <div class="flex flex-col gap-y-2">
                     <div class="flex gap-x-2">
                         <p class="text-blue-500 font-semibold">Q{question.position}</p>
-
                         <div class="flex flex-col gap-y-1 w-full">
                             <p>{translation.title}</p>
                             <p class="text-gray-400 text-sm">

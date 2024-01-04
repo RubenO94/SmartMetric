@@ -134,7 +134,8 @@ const pt: Translation = {
 		NotStarted: 'Não iniciada',
 		Active: 'Ativa',
 		Canceled: 'Cancelada',
-		Completed: 'Completada'
+		Completed: 'Completada',
+		DontExist: 'Sem estado'
 	},
 	Help: 'Ajuda',
 	StartReview: 'Iniciar revisão',
@@ -158,7 +159,12 @@ const pt: Translation = {
 	RemoveReviewStatusDialog: 'Remover revisão?',
 	RemoveReviewStatusDialogDesc: 'Tem a certeza que pretende remover a revisão? Esta ação não pode ser revertida.',
 	DeleteFormMessage: 'Formulário removido com sucesso.',
-	DeleteReviewMessage: 'Revisão removida com sucesso.'
+	DeleteReviewMessage: 'Revisão removida com sucesso.',
+	FormDivText: 'Não existem formulários para mostrar de momento.',
+	EditReview: 'Editar revisão',
+	EditReviewDescription: 'Esta funcionalidade permite aos utilizadores editar uma revisão antes de a iniciar.',
+	NoDescription: 'Esta questão não tem descrição',
+	NoTitle: 'Esta questão não tem titulo'
 }
 
 export default pt

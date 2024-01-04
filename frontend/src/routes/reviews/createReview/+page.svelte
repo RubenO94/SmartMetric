@@ -50,6 +50,16 @@
         }
     }
 
+    function goNext() {
+        if (formTemplateChoose.translations.length == 1) {
+            chooseLanguages[0] = formTemplateChoose.translations[0].language
+            page = page + 2
+        } else {
+            languages = languages.filter(language => formTemplateChoose.translations.some(obj => obj.language == language.name))
+            page++
+        }
+    }
+
     async function getForms () {
         const [request] = await Promise.all([
             api('GET', `FormTemplates?page=${page}&pageSize=10`)
@@ -82,16 +92,16 @@
         </div>
 
         {#if page == 1}
-        <p>Select languages to create form:</p>
-        <div class="flex flex-col gap-y-2">
-            {#each languages as language}
-                <button class="flex items-center cursor-pointer mr-auto" on:click={() => {language.checked = !language.checked}}>
-                    <input bind:checked={language.checked} type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 cursor-pointer">
-                    <p class="ms-2 text-sm font-medium text-gray-900">{showLanguageTranslation(language.name)}</p>
-                </button>
-            {/each}
-        </div>
-        <button on:click={() => checkLanguages()} class="flex gap-x-2 mx-auto text-base font-semibold px-5 py-2 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded">Create form</button>
+            <p>Select languages to create form:</p>
+            <div class="flex flex-col gap-y-2">
+                {#each languages as language}
+                    <button class="flex items-center cursor-pointer mr-auto" on:click={() => {language.checked = !language.checked}}>
+                        <input bind:checked={language.checked} type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 cursor-pointer">
+                        <p class="ms-2 text-sm font-medium text-gray-900">{showLanguageTranslation(language.name)}</p>
+                    </button>
+                {/each}
+            </div>
+            <button on:click={() => checkLanguages()} class="flex gap-x-2 mx-auto text-base font-semibold px-5 py-2 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded">Create form</button>
         {:else if page == 2}
             <CreateBlankReview {user} bind:languages={chooseLanguages} />
         {/if}
@@ -107,7 +117,7 @@
             </div>
         </div>
 
-        {#if chooseForm == 0}
+        {#if page == 1}
             <div class="flex flex-col gap-y-10">
                 <div class="flex flex-col gap-y-2">
                    <p class="text-black text-base font-semibold">Select form template to use:</p>
@@ -122,10 +132,21 @@
                     </select> 
                 </div>
 
-                <button on:click={() => (chooseForm = chooseForm + 1)} class="text-lg font-semibold py-1 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded">Continue</button>
+                <button on:click={() => goNext()} class="text-lg font-semibold py-1 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded">Continue</button>
             </div>
+        {:else if page == 2}
+            <p>Select languages to create form:</p>
+            <div class="flex flex-col gap-y-2">
+                {#each languages as language}
+                    <button class="flex items-center cursor-pointer mr-auto" on:click={() => {language.checked = !language.checked}}>
+                        <input bind:checked={language.checked} type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 cursor-pointer">
+                        <p class="ms-2 text-sm font-medium text-gray-900">{showLanguageTranslation(language.name)}</p>
+                    </button>
+                {/each}
+            </div>
+            <button on:click={() => checkLanguages()} class="flex gap-x-2 mx-auto text-base font-semibold px-5 py-2 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded">Create form</button>
         {:else}
-            <CreateReviewWithForm bind:questions={formTemplateChoose.questions} {user} />
+            <CreateReviewWithForm {user} bind:languages={chooseLanguages} bind:questions={formTemplateChoose.questions} />
         {/if}
     {/if}
 </div>

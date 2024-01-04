@@ -1,55 +1,45 @@
 <script lang="ts">
+    import { ChevronLeft, ChevronRight} from "lucide-svelte"
+    import { Steps } from "svelte-steps"
+    import LL from "../../i18n/i18n-svelte"
     import { draggable } from '$lib/actions/dnd'
-    import LL from '../../i18n/i18n-svelte'
-    import { Steps } from 'svelte-steps'
     import { fade, fly } from 'svelte/transition'
-    import toast, { Toaster } from 'svelte-french-toast'
-    import { api } from '$lib/api/_api';
-    import { goto } from '$app/navigation';
-    import { handleValidationsForm } from '$lib/actions/handleValidations';
+    import toast from "svelte-french-toast"
+    import { api } from "$lib/api/_api"
+    import { goto } from "$app/navigation"
+    import { onMount } from "svelte"
+    import { DateInput } from 'date-picker-svelte'
 
-    export let formTemplate: FormTemplate
+    export let steps: any
+    export let review: any
 
-    let formTempId = formTemplate.formTemplateId
-    let chooseLanguage: string = formTemplate.translations[0].language
     let currentStep: number = 0
+    let chooseLanguage: string = review.translations[0].language
     let selectedQuestion: Question
-    let insertedSingleChoiceOption: string = '' 
     let insertedNumericValue: number | null = null
     let insertedTitle: string = ''
-    let steps = [{ text: $LL.Details() }, { text: $LL.Questions() }, { text: $LL.Finalize() }]
+    let insertedSingleChoiceOption: string = ''
+    let saveAsForm: boolean = false
+    let maxDateAllowed = new Date()
+
+    let typeOfReview = [
+        { name: $LL.TopDown.Label(), text: $LL.TopDown.Text(), value: "TopDown" }, 
+        { name: $LL.BottomUp.Label(), text: $LL.BottomUp.Text(), value: "BottomUp" }, 
+        { name: $LL.SelfEvaluation.Label(), text: $LL.SelfEvaluation.Text(), value: "SelfEvaluation" }, 
+        { name: $LL.Interdepartmental.Label(), text: $LL.Interdepartmental.Text(), value: "Interdepartamental" }
+    ]
     let cards = [
-        { id: 1, title: $LL.QuestionType.Text(), name: 'Text', icons: 'M3 3h18v2H3zm0 4h12v2H3zm0 4h18v2H3zm0 4h12v2H3zm0 4h18v2H3z' },
-        { id: 2, title: $LL.QuestionType.SingleChoice(), name: 'SingleChoice', icons: 'm10 17l-5-5l1.41-1.42L10 14.17l7.59-7.59L19 8m0-5H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2' },
-        { id: 3, title: $LL.QuestionType.Rating(), name: 'Rating', icons: 'M14 17h-2V9h-2V7h4m5-4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2' }
+        { id: 1, title: $LL.QuestionType.Text(), name: 'Text', icon: 'M3 3h18v2H3zm0 4h12v2H3zm0 4h18v2H3zm0 4h12v2H3zm0 4h18v2H3z' },
+        { id: 2, title: $LL.QuestionType.SingleChoice(), name: 'SingleChoice', icon: 'm10 17l-5-5l1.41-1.42L10 14.17l7.59-7.59L19 8m0-5H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2' },
+        { id: 3, title: $LL.QuestionType.Rating(), name: 'Rating', icon: 'M14 17h-2V9h-2V7h4m5-4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2' }
     ]
 
-    function allowDrop(event: DragEvent) { event.preventDefault() } 
-    function handleDrop(event: DragEvent) {
-        event.preventDefault()
-        const cardId = event.dataTransfer?.getData('text/plain')
-        const selectedCard = cards.find(card => card.id.toString() === cardId)
+    onMount(() => {
+        review.departmentIds = review.departments.map((element: any) => element.departmentId)
+        maxDateAllowed.setFullYear(maxDateAllowed.getFullYear() + 5)
+    })
 
-        if (selectedCard) {
-            const newQuestion: Question = {
-                isRequired: false,
-                position: formTemplate.questions.length + 1,
-                responseType: selectedCard.name,
-                translations: [],
-                singleChoiceOptions: [],
-                ratingOptions: []
-            }
-
-            formTemplate.translations.forEach(element => {
-                newQuestion.translations = [...newQuestion.translations, {language: element.language, title: '', description: ''}]
-            });
-
-            formTemplate.questions = [...formTemplate.questions, newQuestion]
-            selectedQuestion = newQuestion
-        }
-    }
-
-    function showLanguageTranslation(languageAbbrev: string) {
+    const showLanguageTranslation = (languageAbbrev: string) => {
         switch (languageAbbrev) {
             case 'PT':
                 return $LL.Portuguese()
@@ -66,21 +56,10 @@
         }
     }
 
-    //Function to select question to edit
-    function selectQuestion(question: Question) {
-        selectedQuestion = question
-    }
-
-    //Function to update question
-    function updateQuestion(question: Question) {
-        let position = question.position
-        formTemplate.questions[position - 1] = selectedQuestion 
-    }
-
     //Function to remove question
     function removeQuestion(event: Event, index: number): void {
-        formTemplate.questions = formTemplate.questions.filter((question) => question.position - 1 !== index)
-        formTemplate.questions.forEach((question, index) => question.position = index + 1)
+        review.questions = review.questions.filter((question: any) => question.position - 1 !== index)
+        review.questions.forEach((question: any, index: number) => question.position = index + 1)
         if (selectedQuestion && selectedQuestion.position - 1 == index) {
             selectedQuestion = {
                 isRequired: false,
@@ -94,6 +73,39 @@
         event.stopPropagation()
     }
 
+    //Function to select question to edit
+    function selectQuestion(question: Question) {
+        selectedQuestion = question
+    }
+
+    //Function to update question
+    function updateQuestion(question: Question) {
+        let position = question.position
+        review.questions[position - 1] = selectedQuestion
+    }
+
+    //Functions for Drop questionType and create question
+    function allowDrop(event: DragEvent) { event.preventDefault() } 
+    function handleDrop(event: DragEvent) {
+        event.preventDefault()
+        const cardId = event.dataTransfer?.getData('text/plain')
+        const selectedCard = cards.find(card => card.id.toString() === cardId)
+
+        if (selectedCard) {
+            const newQuestion: Question = {
+                isRequired: false,
+                position: review.questions.length + 1,
+                responseType: selectedCard.name,
+                translations: [{language: review.translations[0].language, title: '', description: ''}],
+                singleChoiceOptions: [],
+                ratingOptions: []
+            }
+
+            review.questions = [...review.questions, newQuestion]
+            selectedQuestion = newQuestion
+        }
+    }
+
     //Function to add single choice option
     function addSingleChoiceOption(insertedOption: string): void {
         insertedSingleChoiceOption = ''
@@ -102,7 +114,7 @@
             return
         }
         let singleChoiceOption: SingleChoiceOption = {translations: []}
-        formTemplate.translations.forEach(element => {
+        review.translations.forEach((element: any) => {
             singleChoiceOption.translations = [...singleChoiceOption.translations, {language: element.language, title: '', description: insertedOption}]
         })
         selectedQuestion.singleChoiceOptions = [...selectedQuestion.singleChoiceOptions, singleChoiceOption]
@@ -127,7 +139,7 @@
         })
         if (conditionIsTrue) return
         let ratingOption: RatingOption = {numericValue: numericValue, translations: []}
-        formTemplate.translations.forEach(element => {
+        review.translations.forEach((element: any) => {
             ratingOption.translations = [...ratingOption.translations, {language: element.language, title: '', description: title}]
         })
         selectedQuestion.ratingOptions = [...selectedQuestion.ratingOptions, ratingOption]
@@ -144,58 +156,40 @@
         updateQuestion(selectedQuestion)
     }
 
-    //buttons of stepper
-    const handleStepBackward = (event: Event) => {
-        if (currentStep != 0) currentStep -= 1
-    }
-    const handleStepForward = async (event: Event) => {
-        let [validateForm, message] = handleValidationsForm(formTemplate, currentStep)
-        if (!validateForm) {
-            switch (message) {
-                case 'title':
-                    toast.error($LL.ErrorsFormTemplate.Title())
-                    break
-                case 'question':
-                    toast.error($LL.ErrorsFormTemplate.Question())
-                    break
-                case 'questionTitle':
-                    toast.error($LL.ErrorsFormTemplate.QuestionTitle())
-                    break
-                default:
-                    toast.error($LL.ErrorsFormTemplate.Others())
-                    break
-            }
-            return
+    async function saveReview() {
+        const [reviewResponse] = await Promise.all([
+            api("PUT", `Reviews/${review.reviewId}`, review)
+        ])
+        if (reviewResponse?.status < 205) {
+            toast.success(reviewResponse?.message)
+            goto('/reviews')
+        } else {
+            toast.error(reviewResponse?.error)
         }
-        if (currentStep != steps.length - 1) currentStep += 1
-        else {
-            const [requestPut] = await Promise.all([
-                api('PUT', `FormTemplates/${formTempId}`, formTemplate)
-            ])
+    }
 
-            const response = requestPut
-            console.log(response)
-            if (response?.status < 205) {
-                toast.success(response?.message)
-                goto('/forms')
-            } else {
-                toast.error(response?.error)
-            }
-        }
+    const handleStepBackward = (event: Event) => { 
+        if (currentStep != 0) currentStep -= 1 
     }
+
+    const handleStepForward = (event: Event) => { 
+        if (currentStep != steps.length - 1) currentStep += 1 
+        else saveReview()
+    }
+
+    $: review.questions
+    $: console.log(review)
 </script>
 
-<Toaster />
-
 <div class="flex flex-col text-gray-400 text-xs gap-y-16">
-    <Steps clickable={true} {steps} size="2.3em" bind:current={currentStep} />
+    <Steps bind:current={currentStep} clickable={true} {steps} size="2.3em" />
 
     {#if currentStep == 0}
         <div class="flex flex-col gap-y-10">
             <div class="flex flex-row gap-x-5 items-center">
                 <p class="text-black text-base font-semibold flex-shrink-0">{$LL.ChooseLanguage()}</p>
                 <select bind:value={chooseLanguage} class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 flex-grow p-2">
-                    {#each formTemplate.translations as translation}
+                    {#each review.translations as translation}
                         <option value={translation.language}>{showLanguageTranslation(translation.language)}</option>
                     {/each}
                 </select>
@@ -203,32 +197,54 @@
             <div class="flex flex-col gap-y-1">
                 <p class="text-black text-base font-semibold">{$LL.ReviewTitleTitle()}</p>
                 <p>{$LL.ReviewTitleDescription()}</p>
-                {#each formTemplate.translations as translation, index}
+                {#each review.translations as translation}
                     {#if translation.language == chooseLanguage}
-                    <input name="titleForm" class="w-auto my-1 p-2 text-black border rounded" bind:value={formTemplate.translations[index].title} />
+                        <input name="titleForm" class="w-auto my-1 p-2 text-black border rounded" bind:value={translation.title} />
                     {/if}
                 {/each}
             </div>
             <div class="flex flex-col gap-y-1">
                 <p class="text-black text-base font-semibold">{$LL.ReviewDescriptionTitle()}</p>
                 <p>{$LL.ReviewDescriptionDescription()}</p>
-                {#each formTemplate.translations as translation, index}
+                {#each review.translations as translation}
                     {#if translation.language == chooseLanguage}
-                        <textarea name="descriptionForm" rows="8" class="w-auto my-1 p-2 text-black border rounded" bind:value={formTemplate.translations[index].description}></textarea>
+                        <textarea name="descriptionForm" rows="8" class="w-auto my-1 p-2 text-black border rounded" bind:value={translation.description}></textarea>
                     {/if}
                 {/each}
             </div>
+            <div class="flex flex-col gap-y-1">
+                <p class="text-black text-base font-semibold">{$LL.ReviewTypeTitle()}</p>
+                <p>{$LL.ReviewTypeDescription()}</p>
+                <div class="flex flex-col gap-2 mt-2">
+                    {#each typeOfReview as type}
+                        <div class="flex">
+                            <input id="{type.name}" type="radio" name="radio-group" value="{type.value}" bind:group={review.reviewType} class="h-5 w-5 cursor-pointer" />
+                            <label for="{type.name}" class="flex gap-x-1 pl-2 cursor-pointer">
+                                <p class="text-gray-600 font-semibold">{type.name}:</p>
+                                <p>{type.text}</p>
+                            </label>
+                        </div>
+                    {/each}
+                </div>
+            </div>
         </div>
     {:else if currentStep == 1}
+        <div class="flex flex-col gap-y-10">
+            <div class="flex flex-col gap-y-5">
+                <div class="flex flex-col gap-y-1">
+                    <p class="text-black text-base font-semibold">{$LL.SelectDepartmentsLabel()}</p>
+                    <p>{$LL.SelectDepartmentsText()}</p>
+                </div>
+            </div>
+        </div>
+    {:else if currentStep == 2}
         <div class="flex flex-row gap-x-10">
             <div class="flex flex-col gap-y-2">
                 <p class="text-black text-base font-semibold">{$LL.QuestionTypeText()}</p>
                 <div class="flex flex-col gap-y-2">
-                    {#each cards as card, index}
+                    {#each cards as card}
                         <p use:draggable={card.id} class="flex items-center gap-x-2 p-2 font-bold border bg-gray-100 text-gray-600 border-gray-200 rounded">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                <path fill="currentColor" d="{card.icons}"/>
-                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="{card.icon}"/></svg>
                             {card.title}
                         </p>
                     {/each}
@@ -241,17 +257,17 @@
                     <div class="flex flex-row gap-x-5 items-center">
                         <p class="text-black text-sm font-semibold flex-shrink-0">{$LL.ChooseLanguage()}</p>
                         <select bind:value={chooseLanguage} class="bg-white border border-gray-300 text-gray-900 text-xs rounded-lg shadow focus:ring-blue-500 focus:border-blue-500 flex-grow p-2">
-                            {#each formTemplate.translations as translation}
+                            {#each review.translations as translation}
                                 <option value={translation.language}>{showLanguageTranslation(translation.language)}</option>
                             {/each}
                         </select>
                     </div>
-                    {#if formTemplate.questions.length == 0}
+                    {#if review.questions.length == 0}
                         <p>{$LL.FormPreviewPlaceholder()}</p>
                     {/if}
-                    {#each formTemplate.questions as question, index}
+                    {#each review.questions as question, index}
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
-                        <div in:fade={{ duration: 500 }} out:fly={{ y: -200, duration: 500 }} id="questionsAdded" class="group bg-white flex flex-col gap-y-5 px-2 py-4 rounded border border-transparent cursor-pointer shadow hover:border-blue-500 relative" on:click={() => selectQuestion(question)}>
+                        <div in:fade={{ duration: 500 }} out:fly={{ y: -200, duration: 500 }} id="questionsAdded" class="group bg-white flex flex-col gap-y-5 px-2 py-4 rounded border border-transparent cursor-pointer hover:border-blue-500 relative" on:click={() => selectQuestion(question)}>
                             <button class="hidden group-hover:flex absolute top-0 right-0 p-2" on:click={(event) => removeQuestion(event, index)}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -260,10 +276,10 @@
                             <div class="flex flex-row gap-x-2">
                                 <p class="text-blue-500 font-extrabold">Q{question.position}</p>
                                 <div class="flex flex-col gap-y-1">
-                                    {#each question.translations as translation, index}
+                                    {#each question.translations as translation}
                                         {#if translation.language == chooseLanguage}
-                                            <p class="text-black font-bold">{question.translations[index].title}</p>
-                                            <p>{question.translations[index].description}</p>
+                                            <p class="text-black font-bold">{translation.title}</p>
+                                            <p>{translation.description}</p>
                                         {/if}
                                     {/each}
                                 </div>
@@ -292,9 +308,9 @@
                                     <div class="flex flex-col gap-y-1">
                                         {#each question.singleChoiceOptions as singleChoice}
                                             <div class="bg-gray-100 py-2 px-5 rounded-lg">
-                                                {#each singleChoice.translations as translation, index}
-                                                    {#if translation.language == chooseLanguage}
-                                                        <p>{translation.description}</p>
+                                                {#each singleChoice.translations as sco}
+                                                    {#if sco.language == chooseLanguage}
+                                                        <p>{sco.description}</p>
                                                     {/if}
                                                 {/each}
                                             </div>
@@ -352,7 +368,7 @@
                                     <div class="flex flex-col justify-center gap-y-1">
                                         {#each selectedQuestion.ratingOptions as option, index}
                                             <div class="flex gap-x-2">
-                                                {#each option.translations as translation, index}
+                                                {#each option.translations as translation}
                                                     {#if translation.language == chooseLanguage}
                                                         <input class="bg-white p-2 text-black rounded flex-grow" bind:value={translation.description} on:blur={() => updateQuestion(selectedQuestion)} />
                                                     {/if}
@@ -410,34 +426,46 @@
             </div>
         </div>
     {:else}
-        <p>Finalize</p>
+        <div class="flex flex-col gap-y-10">
+            <div class="flex flex-col gap-y-1">
+                <p class="text-black text-base font-semibold">{$LL.SaveReviewAsForm()}</p>
+                <p>{$LL.SaveReviewAsFormDesc()}</p>
+                <div class="flex items-center m-5">
+                    <input on:click={() => saveAsForm = !saveAsForm} checked={saveAsForm} id="default-checkbox" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                    <label for="default-checkbox" class="ms-2 text-sm font-medium text-gray-600">{$LL.Save()}</label>
+                </div>
+            </div>
+            <div class="flex flex-col gap-y-1">
+                <p class="text-black text-base font-semibold">{$LL.StartAndEndDateText()}</p>
+                <p>{$LL.StartAndEndDateDesc()}</p>
+                <div class="flex items-center m-5 gap-x-10">
+                    <div class="flex flex-col gap-y-2">
+                        <p class="text-sm font-medium text-gray-600">{$LL.EndDate()}</p>
+                        <DateInput bind:value={review.endDate} placeholder="" closeOnSelection max={maxDateAllowed} timePrecision=minute />
+                    </div>
+                </div>
+            </div>
+        </div>
     {/if}
 
-    <!-- Buttons of Stepper -->
     <div class="flex justify-between mt-10">
-        <!-- Go Back button -->
         <button on:click={handleStepBackward} class="flex gap-x-2 text-lg font-semibold px-5 py-2 border border-transparent hover:bg-gray-100 rounded" id="buttonGoBack">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="4" stroke="currentColor" class="w-7 h-7">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-            </svg> 
+            <svelte:component this={ChevronLeft} strokeWidth=4 size={30} />
             {$LL.Return()}
         </button>
-        <!-- Go Next button -->
         <button on:click={handleStepForward} type="submit" class="flex gap-x-2 text-lg font-semibold px-5 py-2 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded" id="buttonGoForward" value="Submit">
             {#if currentStep != steps.length - 1}
                 {$LL.Forward()}
             {:else}
                 {$LL.Finalize()}
             {/if}
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="4" stroke="currentColor" class="w-7 h-7">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-            </svg>
+            <svelte:component this={ChevronRight} strokeWidth=4 size={30} />
         </button>
     </div>
 </div>
 
 <style>
-    .toggle {
+        .toggle {
         position: relative;
         display: inline-block;
         width: 40px;

@@ -1,53 +1,83 @@
 <script lang="ts">
-    // IMPORTS
-    import LL from '../../i18n/i18n-svelte'
-    import toast, { Toaster } from 'svelte-french-toast'
-    import { api_url, api_token } from '$lib/stores/url'
-    import { draggable } from '$lib/actions/dnd'
-    import { fade, fly } from 'svelte/transition'
-    import { goto } from '$app/navigation'
-    import { Steps } from 'svelte-steps'
-    import { handleValidationsForm } from '$lib/actions/handleValidations'
+    import { Steps } from "svelte-steps"
+    import LL from "../../i18n/i18n-svelte"
+    import { ChevronLeft, ChevronRight, Square, X } from "lucide-svelte"
+    import { draggable } from "$lib/actions/dnd"
+    import { fade, fly } from "svelte/transition"
+    import toast from "svelte-french-toast"
+    import { handleValidationsForm } from "$lib/actions/handleValidations";
+    import { api } from "$lib/api/_api";
+    import { goto } from "$app/navigation";
 
-    export let user
-    export let languages
+    export let formTemplate: FormTemplate
+    export let action: string
 
-    //VARIABLES
-    let apiUrl: string
-    let token: string
-    let formTemplate: FormTemplate = {
-        createdByUserId: user.userId, translations: [], questions: [], formTemplateId: null, modifiedDate: null, createdDate: undefined
-    }
-    let questions: Question[] = []
-    let insertedSingleChoiceOption: string = '' 
-    let insertedNumericValue: number | null = null
-    let insertedTitle: string = ''
-    let currentStep = 0
     let selectedQuestion: Question
+    let insertedSingleChoiceOption: string = ''
+    let insertedNumericValue: number | null
+    let insertedTitle: string = ''
+    let current = 0
+    let chooseLanguage = formTemplate.translations[0].language
     let steps = [
-        { text: $LL.Details() }, 
-        { text: $LL.Questions() }, 
+        { text: $LL.Details() },
+        { text: $LL.Questions() },
         { text: $LL.Finalize() }
     ]
     let cards = [
-        { id: 1, title: $LL.QuestionType.Text(), name: 'Text' },
-        { id: 2, title: $LL.QuestionType.SingleChoice(), name: 'SingleChoice' },
-        { id: 3, title: $LL.QuestionType.Rating(), name: 'Rating' }
-    ]
-    let icons = [
-        "M3 3h18v2H3zm0 4h12v2H3zm0 4h18v2H3zm0 4h12v2H3zm0 4h18v2H3z",
-        "m10 17l-5-5l1.41-1.42L10 14.17l7.59-7.59L19 8m0-5H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2",
-        "M14 17h-2V9h-2V7h4m5-4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2"
+        { id: 1, title: $LL.QuestionType.Text(), name: 'Text', icon: "M3 3h18v2H3zm0 4h12v2H3zm0 4h18v2H3zm0 4h12v2H3zm0 4h18v2H3z" },
+        { id: 2, title: $LL.QuestionType.SingleChoice(), name: 'SingleChoice', icon: "m10 17l-5-5l1.41-1.42L10 14.17l7.59-7.59L19 8m0-5H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2" },
+        { id: 3, title: $LL.QuestionType.Rating(), name: 'Rating', icon: "M14 17h-2V9h-2V7h4m5-4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2" }
     ]
 
-    languages.forEach((element: string) => {
-        formTemplate.translations = [...formTemplate.translations, {language: element, title: '', description: ''}]
-    })
-    let chooseLanguage: string = formTemplate.translations[0].language
+    async function saveForm() {
+        let request: any
 
-    api_url.subscribe((value) => { apiUrl = value })
-    api_token.subscribe((value) => { token = value })
+        if (action == 'create') {
+            [request] = await Promise.all([ api("POST", `FormTemplates`, formTemplate) ])
+        }
+        else {
+            [request] = await Promise.all([ api("PUT", `FormTemplates/${formTemplate.formTemplateId}`, formTemplate) ])
+        }
 
+        if (request?.status == 200 || request?.status == 201) {
+            toast.success($LL.FormTemplateSuccess())
+            goto('/forms')
+        } else {
+            toast.error($LL.ErrorsFormTemplate.SomethingWrong())
+        }
+    }
+
+    // Functions for Stepper ----------------------------------------------------------------------------
+    const handleStepBackward = (event: Event) => {
+        if (current != 0) current -= 1
+    }
+    const handleStepForward = async (event: Event) => {
+        let [validationForm, message] = handleValidationsForm(formTemplate, current)
+        if (!validationForm) {
+            switch (message) {
+                case 'title': 
+                    toast.error($LL.ErrorsFormTemplate.Title()) 
+                    break
+                case 'question':
+                    toast.error($LL.ErrorsFormTemplate.Question())
+                    break
+                case 'questionTitle':
+                    toast.error($LL.ErrorsFormTemplate.QuestionTitle())
+                    break
+                default:
+                    toast.error($LL.ErrorsFormTemplate.Others())
+                    break
+            }
+            return
+        }
+        if (current != steps.length - 1) current += 1
+        else {
+            document.getElementById('buttonGoForward')?.setAttribute("disabled", "disabled")
+            saveForm()
+        }
+    }
+
+    // Function to show name of languages in all languages ----------------------------------------------
     function showLanguageTranslation(languageAbbrev: string) {
         switch (languageAbbrev) {
             case 'PT':
@@ -65,54 +95,7 @@
         }
     }
 
-    //Functions for Stepper
-    const handleStepBackward = (event: Event) => {
-        if (currentStep != 0) currentStep -= 1
-    }
-    const handleStepForward = async (event: Event) => {
-        let [validateForm, message] = handleValidationsForm(formTemplate, currentStep)
-        if (!validateForm) {
-            switch (message) {
-                case 'title':
-                    toast.error($LL.ErrorsFormTemplate.Title())
-                    break
-                case 'question':
-                    toast.error($LL.ErrorsFormTemplate.Question())
-                    break
-                case 'questionTitle':
-                    toast.error($LL.ErrorsFormTemplate.QuestionTitle())
-                    break
-                default:
-                    toast.error($LL.ErrorsFormTemplate.Others())
-                    break
-            }
-            return
-        }
-        if (currentStep != 2) currentStep += 1
-        else {
-            document.getElementById('buttonGoForward')?.setAttribute("disabled", "disabled")
-            const request = await fetch(apiUrl + "FormTemplates", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
-                body: JSON.stringify(formTemplate)
-            })
-
-            const response = await request.json()
-            console.log(response)
-
-            if (response.statusCode == 201) {
-                toast.success($LL.FormTemplateSuccess())
-                goto('/forms')
-            } else {
-                toast.error($LL.ErrorsFormTemplate.SomethingWrong())
-            }
-        }
-    }
-
-    //Functions for Drop questionType and create question
+    //Functions for Drop questionType and create question -----------------------------------------------
     function allowDrop(event: DragEvent) { event.preventDefault() } 
     function handleDrop(event: DragEvent) {
         event.preventDefault()
@@ -122,7 +105,7 @@
         if (selectedCard) {
             const newQuestion: Question = {
                 isRequired: false,
-                position: questions.length + 1,
+                position: formTemplate.questions.length + 1,
                 responseType: selectedCard.name,
                 translations: [],
                 singleChoiceOptions: [],
@@ -132,15 +115,40 @@
                 newQuestion.translations = [...newQuestion.translations, {language: element.language, title: '', description: ''}]
             });
 
-            questions = [...questions, newQuestion]
+            formTemplate.questions = [...formTemplate.questions, newQuestion]
             selectedQuestion = newQuestion
         }
     }
+    function handleDblClick(id: number) {
+        const selectedCard = cards.find(card => card.id === id)
+        const newQuestion: Question = {
+                isRequired: false,
+                position: formTemplate.questions.length + 1,
+                responseType: selectedCard?.name,
+                translations: [],
+                singleChoiceOptions: [],
+                ratingOptions: []
+        }
+        formTemplate.translations.forEach(element => {
+            newQuestion.translations = [...newQuestion.translations, {language: element.language, title: '', description: ''}]
+        })
+        formTemplate.questions = [...formTemplate.questions, newQuestion]
+        selectedQuestion = newQuestion
+    }
 
-    //Function to remove question
+    // functions for questions --------------------------------------------------------------------------------------------------
+    function selectQuestion(question: Question) {
+        selectedQuestion = question
+    }
+
+    function updateQuestion(question: Question) {
+        let position = question.position
+        formTemplate.questions[position - 1] = selectedQuestion
+    }
+
     function removeQuestion(event: Event, index: number): void {
-        questions = questions.filter((question) => question.position - 1 !== index)
-        questions.forEach((question, index) => question.position = index + 1)
+        formTemplate.questions = formTemplate.questions.filter((question) => question.position - 1 !== index)
+        formTemplate.questions.forEach((question, index) => question.position = index + 1)
         if (selectedQuestion && selectedQuestion.position - 1 == index) {
             selectedQuestion = {
                 isRequired: false,
@@ -154,18 +162,7 @@
         event.stopPropagation()
     }
 
-    //Function to select question to edit
-    function selectQuestion(question: Question) {
-        selectedQuestion = question
-    }
-
-    //Function to update question
-    function updateQuestion(question: Question) {
-        let position = question.position
-        questions[position - 1] = selectedQuestion
-    }
-
-    //Function to add single choice option
+    // functions for option
     function addSingleChoiceOption(insertedOption: string): void {
         insertedSingleChoiceOption = ''
         if (insertedOption == '' || insertedOption == null) { 
@@ -179,8 +176,6 @@
         selectedQuestion.singleChoiceOptions = [...selectedQuestion.singleChoiceOptions, singleChoiceOption]
         updateQuestion(selectedQuestion)
     }
-
-    //Function to add rating option
     function addRatingOption(numericValue: number | null, title: string): void {
         let conditionIsTrue = false
         insertedNumericValue = null
@@ -204,8 +199,6 @@
         selectedQuestion.ratingOptions = [...selectedQuestion.ratingOptions, ratingOption]
         updateQuestion(selectedQuestion)
     }
-
-    //Function to delete option (optionType == 1 is sco, optionType == 2 is rto)
     function removeOption(index: number, optionType: number): void {
         if (optionType == 1) {
             selectedQuestion.singleChoiceOptions = selectedQuestion.singleChoiceOptions.filter((_, i) => i !== index)
@@ -215,53 +208,50 @@
         updateQuestion(selectedQuestion)
     }
 
-    //Everytime variable questions changes, formTemplate.questions is gonna change too
-    $: formTemplate.questions = questions
+    $: console.log(formTemplate)
 </script>
 
-<Toaster />
+<div class="flex flex-col text-gray-400 text-xs gap-y-10">
+    <Steps clickable={true} size="2.3em" {steps} bind:current />
 
-<div class="flex flex-col text-gray-400 text-xs gap-y-16">
-    <Steps clickable={true} {steps} size="2.3em" bind:current={currentStep} />
-
-    {#if currentStep == 0}
+    {#if current == 0}
         <div class="flex flex-col gap-y-10">
-            <div class="flex flex-row gap-x-5 items-center">
+            <div class="flex gap-x-5 items-center">
                 <p class="text-black text-base font-semibold flex-shrink-0">{$LL.ChooseLanguage()}</p>
                 <select bind:value={chooseLanguage} class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 flex-grow p-2">
                     {#each formTemplate.translations as translation}
                         <option value={translation.language}>{showLanguageTranslation(translation.language)}</option>
                     {/each}
-                </select>              
+                </select>
             </div>
             <div class="flex flex-col gap-y-1">
                 <p class="text-black text-base font-semibold">{$LL.FormModelTitleTitle()}</p>
-                <p>{$LL.FormModelTitleDescription()}</p>
-                {#each formTemplate.translations as translation, index}
+                <p>{$LL.FormModelTitleDescription}</p>
+                {#each formTemplate.translations as translation}
                     {#if translation.language == chooseLanguage}
-                        <input name="titleForm" class="w-auto my-1 p-2 text-black border rounded peer" bind:value={formTemplate.translations[index].title} required />
+                        <input name="titleForm" class="w-auto my-1 p-2 text-black border rounded peer" bind:value={translation.title} />
                     {/if}
                 {/each}
             </div>
             <div class="flex flex-col gap-y-1">
                 <p class="text-black text-base font-semibold">{$LL.FormModelDescriptionTitle()}</p>
                 <p>{$LL.FormModelDescriptionDescription()}</p>
-                {#each formTemplate.translations as translation, index}
+                {#each formTemplate.translations as translation}
                     {#if translation.language == chooseLanguage}
-                        <textarea name="descriptionForm" rows="8" class="w-auto my-1 p-2 text-black border rounded" bind:value={formTemplate.translations[index].description}></textarea>
+                        <textarea name="descriptionForm" rows="8" class="w-auto my-1 p-2 text-black border rounded" bind:value={translation.description}></textarea>
                     {/if}
                 {/each}
             </div>
         </div>
-    {:else if currentStep == 1}
-        <div class="flex flex-row gap-x-10">
+    {:else if current == 1}
+        <div class="flex gap-x-10">
             <div class="flex flex-col gap-y-2">
                 <p class="text-black text-base font-semibold">{$LL.QuestionTypeText()}</p>
                 <div class="flex flex-col gap-y-2">
-                    {#each cards as card, index}
-                        <p use:draggable={card.id} class="flex items-center gap-x-2 p-2 bg-gray-100 text-gray-600 border border-gray-200 font-bold rounded">
+                    {#each cards as card}
+                        <p use:draggable={card.id} on:dblclick="{() => handleDblClick(card.id)}" class="flex items-center gap-x-2 p-2 bg-gray-100 text-gray-600 border border-gray-200 font-bold rounded">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                <path fill="currentColor" d="{icons[index]}"/>
+                                <path fill="currentColor" d="{card.icon}"/>
                             </svg>
                             {card.title}
                         </p>
@@ -280,24 +270,30 @@
                             {/each}
                         </select>
                     </div>
-                    {#if questions.length == 0}
+                    {#if formTemplate.questions.length == 0}
                         <p>{$LL.FormPreviewPlaceholder()}</p>
                     {/if}
-                    {#each questions as question, index}
+                    {#each formTemplate.questions as question, index}
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
                         <div in:fade={{ duration: 500 }} out:fly={{ y: -200, duration: 500 }} id="questionsAdded" class="group bg-white flex flex-col gap-y-5 px-2 py-4 rounded border border-transparent cursor-pointer hover:border-blue-500 relative" on:click={() => selectQuestion(question)}>
                             <button class="hidden group-hover:flex absolute top-0 right-0 p-2" on:click={(event) => removeQuestion(event, index)}>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
+                                <svelte:component this={X} />
                             </button>
                             <div class="flex flex-row gap-x-2">
                                 <p class="text-blue-500 font-extrabold">Q{question.position}</p>
                                 <div class="flex flex-col gap-y-1">
-                                    {#each question.translations as translation, index}
+                                    {#each question.translations as translation}
                                         {#if translation.language == chooseLanguage}
-                                            <p class="text-black font-bold">{question.translations[index].title}</p>
-                                            <p>{question.translations[index].description}</p>
+                                            {#if translation.title}
+                                                <p class="text-black font-bold">{translation.title}</p>
+                                            {:else}
+                                                <p>{$LL.NoTitle()}</p>
+                                            {/if}
+                                            {#if translation.description}
+                                                <p>{translation.description}</p>
+                                            {:else}
+                                                <p>{$LL.NoDescription()}</p>
+                                            {/if}
                                         {/if}
                                     {/each}
                                 </div>
@@ -325,9 +321,10 @@
                                 {:else}
                                     <div class="flex flex-col gap-y-1">
                                         {#each question.singleChoiceOptions as singleChoice}
-                                            <div class="bg-gray-100 py-2 px-5 rounded-lg">
+                                            <div class="bg-gray-100 flex items-center gap-x-2 py-2 px-5 rounded-lg">
                                                 {#each singleChoice.translations as translation}
                                                     {#if translation.language == chooseLanguage}
+                                                        <svelte:component this={Square} />
                                                         <p>{translation.description}</p>
                                                     {/if}
                                                 {/each}
@@ -344,7 +341,7 @@
                     {/each}
                 </div>
             </div>
-            <div class="flex flex-col gap-y-2 flex-grow">
+            <div class="flex flex-col gap-y-2 flex-1">
                 <p class="text-black text-base font-semibold">{$LL.QuestionProperties()}</p>
                 <div class="bg-gray-100 flex flex-col h-full gap-y-10 shadow-lg rounded-lg p-5 border border-gray-200">
                     {#if selectedQuestion && selectedQuestion.position !== -1}
@@ -352,7 +349,7 @@
                             <p class="text-blue-500 font-extrabold text-base">Q{selectedQuestion.position}</p>
                             {#each selectedQuestion.translations as translation, index}
                                 {#if translation.language == chooseLanguage}
-                                    <p class="text-black font-semibold text-base">{selectedQuestion.translations[index].title}</p>
+                                    <p class="text-black font-semibold text-base text-ellipsis">{selectedQuestion.translations[index].title}</p>
                                 {/if}
                             {/each}
                         </div>
@@ -443,29 +440,23 @@
                 </div>
             </div>
         </div>
-    {:else if currentStep == 2}
-        <p>{formTemplate.translations[0].title}</p>
+    {:else}
+        <p>current = 2</p>
     {/if}
 
-    <!-- Buttons of Stepper -->
     <div class="flex justify-between mt-10">
-        <!-- Go Back button -->
-        <button on:click={handleStepBackward} class="flex gap-x-2 text-lg font-semibold px-5 py-2 border border-transparent hover:bg-gray-100 rounded" id="buttonGoBack">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="4" stroke="currentColor" class="w-7 h-7">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-            </svg> 
+        <button on:click={handleStepBackward} id="buttonGoBack" class="flex items-center gap-x-2 md:text-lg font-semibold px-5 py-2 border border-transparent hover:bg-gray-100 rounded">
+            <svelte:component this={ChevronLeft} strokeWidth="4" size={20} />
             {$LL.Return()}
         </button>
-        <!-- Go Next button -->
-        <button on:click={handleStepForward} type="submit" class="flex gap-x-2 text-lg font-semibold px-5 py-2 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded" id="buttonGoForward" value="Submit">
-            {#if currentStep != 2}
+
+        <button on:click={handleStepForward} id="buttonGoForward" class="flex items-center gap-x-2 md:text-lg font-semibold px-5 py-2 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded">
+            {#if current != 2}
                 {$LL.Forward()}
             {:else}
                 {$LL.Finalize()}
             {/if}
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="4" stroke="currentColor" class="w-7 h-7">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-            </svg>
+            <svelte:component this={ChevronRight} strokeWidth="4" size={20} />
         </button>
     </div>
 </div>

@@ -499,6 +499,10 @@ type RootTranslation = {
 		 * C​o​m​p​l​e​t​e​d
 		 */
 		Completed: string
+		/**
+		 * N​o​ ​s​t​a​t​u​s
+		 */
+		DontExist: string
 	}
 	/**
 	 * H​e​l​p
@@ -592,6 +596,26 @@ type RootTranslation = {
 	 * D​e​l​e​t​e​d​ ​r​e​v​i​e​w​ ​s​u​c​c​e​s​s​f​u​l​l​y​.
 	 */
 	DeleteReviewMessage: string
+	/**
+	 * T​h​e​r​e​ ​a​r​e​ ​n​o​ ​f​o​r​m​s​ ​c​r​e​a​t​e​d​ ​y​e​t​.
+	 */
+	FormDivText: string
+	/**
+	 * E​d​i​t​ ​r​e​v​i​e​w
+	 */
+	EditReview: string
+	/**
+	 * T​h​i​s​ ​f​e​a​t​u​r​e​ ​a​l​l​o​w​s​ ​y​o​u​ ​t​o​ ​e​d​i​t​ ​r​e​v​i​e​w​ ​b​e​f​o​r​e​ ​a​c​t​i​v​e​ ​i​t​.
+	 */
+	EditReviewDescription: string
+	/**
+	 * T​h​i​s​ ​q​u​e​s​t​i​o​n​ ​d​o​e​s​n​'​t​ ​h​a​v​e​ ​a​ ​d​e​s​c​r​i​p​t​i​o​n
+	 */
+	NoDescription: string
+	/**
+	 * T​h​i​s​ ​q​u​e​s​t​i​o​n​ ​d​o​e​s​n​'​t​ ​h​a​v​e​ ​a​ ​t​i​t​l​e
+	 */
+	NoTitle: string
 }
 
 export type TranslationFunctions = {
@@ -1080,6 +1104,10 @@ export type TranslationFunctions = {
 		 * Completed
 		 */
 		Completed: () => LocalizedString
+		/**
+		 * No status
+		 */
+		DontExist: () => LocalizedString
 	}
 	/**
 	 * Help
@@ -1173,6 +1201,26 @@ export type TranslationFunctions = {
 	 * Deleted review successfully.
 	 */
 	DeleteReviewMessage: () => LocalizedString
+	/**
+	 * There are no forms created yet.
+	 */
+	FormDivText: () => LocalizedString
+	/**
+	 * Edit review
+	 */
+	EditReview: () => LocalizedString
+	/**
+	 * This feature allows you to edit review before active it.
+	 */
+	EditReviewDescription: () => LocalizedString
+	/**
+	 * This question doesn't have a description
+	 */
+	NoDescription: () => LocalizedString
+	/**
+	 * This question doesn't have a title
+	 */
+	NoTitle: () => LocalizedString
 }
 
 export type Formatters = {}

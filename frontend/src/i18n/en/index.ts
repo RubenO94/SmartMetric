@@ -134,7 +134,8 @@ const en: BaseTranslation = {
 		NotStarted: "Not Started",
 		Active: "Active",
 		Canceled: "Canceled",
-		Completed: "Completed"
+		Completed: "Completed",
+		DontExist: "No status"
 	},
 	Help: "Help",
 	StartReview: "Start review",
@@ -158,7 +159,12 @@ const en: BaseTranslation = {
 	RemoveReviewStatusDialog: "Delete review?",
 	RemoveReviewStatusDialogDesc: "Are you sure you want to remove review? This action cannot be undone.",
 	DeleteFormMessage: "Deleted form template successfully.",
-	DeleteReviewMessage: "Deleted review successfully."
+	DeleteReviewMessage: "Deleted review successfully.",
+	FormDivText: "There are no forms created yet.",
+	EditReview: "Edit review",
+	EditReviewDescription: "This feature allows you to edit review before active it.",
+	NoDescription: "This question doesn't have a description",
+	NoTitle: "This question doesn't have a title"
 }
 
 export default en

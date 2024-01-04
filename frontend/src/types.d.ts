@@ -1,7 +1,7 @@
 type Question = {
     isRequired: boolean
     position: number,
-    responseType: string,
+    responseType: string | undefined,
     translations: Translations[],
     singleChoiceOptions: SingleChoiceOption[],
     ratingOptions: RatingOption[]
@@ -51,4 +51,9 @@ type Departments = {
     departmentDescription: string,
     departmentParentId: number,
     checked: boolean
+}
+
+type Search = {
+    object: FormTemplate,
+    searchTerms: string
 }

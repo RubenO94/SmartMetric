@@ -21,8 +21,6 @@
     let page: number = 1
     let currentStep: number = 0
     let saveAsForm: boolean = false
-    let apiUrl: string
-    let token: string
     let questions: Question[] = []
     let selectedQuestion: Question
     let insertedSingleChoiceOption: string = '' 
@@ -92,10 +90,6 @@
 
     onMount(() => { fetchData() })
     // ----------------------------------------------------------------------------------------------------------------------------------
-
-    //Store
-    api_url.subscribe((value) => { apiUrl = value })
-    api_token.subscribe((value) => { token = value })
 
     function showLanguageTranslation(languageAbbrev: string) {
         switch (languageAbbrev) {
@@ -285,9 +279,8 @@
     $: review.startDate = review.endDate != null ? dayjs(new Date()).format('YYYY-MM-DDThh:mm:ss') : null
     $: review.reviewDepartmentsIds = departments.filter(department => department.checked).map(department => department.departmentId)
     $: formTemplate.questions = review.questions
+    $: console.log(review)
 </script>
-
-<Toaster />
 
 <div class="flex flex-col text-gray-400 text-xs gap-y-16">
     <Steps clickable={true} {steps} size="2.3em" bind:current={currentStep} />
