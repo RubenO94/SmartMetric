@@ -33,7 +33,7 @@
     
         let response = requestForm
         if (response?.status == 204) {
-            toast.success(response.message)
+            toast.success($LL.DeleteFormMessage())
             responseData = responseData.filter((element: any) => element.formTemplateId !== formTemplateToDelete)
         } else toast.error(response?.details)
     }

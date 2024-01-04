@@ -40,7 +40,7 @@
         }
 
         if (request?.status == 200 || request?.status == 201) {
-            toast.success($LL.FormTemplateSuccess())
+            toast.success(request.status == 201 ? $LL.FormTemplateSuccess() : $LL.EditFormMessage())
             goto('/forms')
         } else {
             toast.error($LL.ErrorsFormTemplate.SomethingWrong())

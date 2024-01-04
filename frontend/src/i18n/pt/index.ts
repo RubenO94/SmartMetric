@@ -158,13 +158,17 @@ const pt: Translation = {
 	SaveAsForm: 'Guardar como formulário',
 	RemoveReviewStatusDialog: 'Remover revisão?',
 	RemoveReviewStatusDialogDesc: 'Tem a certeza que pretende remover a revisão? Esta ação não pode ser revertida.',
-	DeleteFormMessage: 'Formulário removido com sucesso.',
+	DeleteFormMessage: 'Modelo de formulário removido com sucesso.',
 	DeleteReviewMessage: 'Revisão removida com sucesso.',
 	FormDivText: 'Não existem formulários para mostrar de momento.',
 	EditReview: 'Editar revisão',
 	EditReviewDescription: 'Esta funcionalidade permite aos utilizadores editar uma revisão antes de a iniciar.',
 	NoDescription: 'Esta questão não tem descrição',
-	NoTitle: 'Esta questão não tem titulo'
+	NoTitle: 'Esta questão não tem titulo',
+	SelectAll: 'Selecionar tudo',
+	SelectLangs: 'Selecionar idiomas para criar o formulário',
+	EditFormMessage: 'Modelo de formulário editado com sucesso',
+	EditReviewMessage: ''
 }
 
 export default pt

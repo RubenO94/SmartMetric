@@ -589,11 +589,11 @@ type RootTranslation = {
 	 */
 	RemoveReviewStatusDialogDesc: string
 	/**
-	 * D​e​l​e​t​e​d​ ​f​o​r​m​ ​t​e​m​p​l​a​t​e​ ​s​u​c​c​e​s​s​f​u​l​l​y​.
+	 * F​o​r​m​ ​t​e​m​p​l​a​t​e​ ​d​e​l​e​t​e​d​ ​s​u​c​c​e​s​s​f​u​l​l​y​.
 	 */
 	DeleteFormMessage: string
 	/**
-	 * D​e​l​e​t​e​d​ ​r​e​v​i​e​w​ ​s​u​c​c​e​s​s​f​u​l​l​y​.
+	 * R​e​v​i​e​w​ ​d​e​l​e​t​e​d​ ​s​u​c​c​e​s​s​f​u​l​l​y​.
 	 */
 	DeleteReviewMessage: string
 	/**
@@ -616,6 +616,22 @@ type RootTranslation = {
 	 * T​h​i​s​ ​q​u​e​s​t​i​o​n​ ​d​o​e​s​n​'​t​ ​h​a​v​e​ ​a​ ​t​i​t​l​e
 	 */
 	NoTitle: string
+	/**
+	 * S​e​l​e​c​t​ ​a​l​l
+	 */
+	SelectAll: string
+	/**
+	 * S​e​l​e​c​t​ ​l​a​n​g​u​a​g​e​s​ ​t​o​ ​c​r​e​a​t​e​ ​f​o​r​m
+	 */
+	SelectLangs: string
+	/**
+	 * F​o​r​m​ ​t​e​m​p​l​a​t​e​ ​e​d​i​t​e​d​ ​s​u​c​c​e​s​s​f​u​l​l​y
+	 */
+	EditFormMessage: string
+	/**
+	 * R​e​v​i​e​w​ ​e​d​i​t​e​d​ ​s​u​c​c​e​s​s​f​u​l​l​y
+	 */
+	EditReviewMessage: string
 }
 
 export type TranslationFunctions = {
@@ -1194,11 +1210,11 @@ export type TranslationFunctions = {
 	 */
 	RemoveReviewStatusDialogDesc: () => LocalizedString
 	/**
-	 * Deleted form template successfully.
+	 * Form template deleted successfully.
 	 */
 	DeleteFormMessage: () => LocalizedString
 	/**
-	 * Deleted review successfully.
+	 * Review deleted successfully.
 	 */
 	DeleteReviewMessage: () => LocalizedString
 	/**
@@ -1221,6 +1237,22 @@ export type TranslationFunctions = {
 	 * This question doesn't have a title
 	 */
 	NoTitle: () => LocalizedString
+	/**
+	 * Select all
+	 */
+	SelectAll: () => LocalizedString
+	/**
+	 * Select languages to create form
+	 */
+	SelectLangs: () => LocalizedString
+	/**
+	 * Form template edited successfully
+	 */
+	EditFormMessage: () => LocalizedString
+	/**
+	 * Review edited successfully
+	 */
+	EditReviewMessage: () => LocalizedString
 }
 
 export type Formatters = {}

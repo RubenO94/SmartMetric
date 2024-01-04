@@ -304,7 +304,7 @@
                 <!-- <div class="flex flex-col bg-gray-100 border border-gray-300 px-4 py-5 gap-y-2 rounded"> -->
                 <div class="text-gray-600 flex items-center font-medium gap-x-2">
                     <input type="checkbox" class="accent-blue-500 w-5 h-5" bind:checked={selectAllDeps} on:change={selectDepsAll} />
-                    <p>Selecionar Tudo</p>
+                    <p>{$LL.SelectAll()}</p>
                 </div>
 
                 <ul>

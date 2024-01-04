@@ -158,13 +158,17 @@ const en: BaseTranslation = {
 	SaveAsForm: "Save as form",
 	RemoveReviewStatusDialog: "Delete review?",
 	RemoveReviewStatusDialogDesc: "Are you sure you want to remove review? This action cannot be undone.",
-	DeleteFormMessage: "Deleted form template successfully.",
-	DeleteReviewMessage: "Deleted review successfully.",
+	DeleteFormMessage: "Form template deleted successfully.",
+	DeleteReviewMessage: "Review deleted successfully.",
 	FormDivText: "There are no forms created yet.",
 	EditReview: "Edit review",
 	EditReviewDescription: "This feature allows you to edit review before active it.",
 	NoDescription: "This question doesn't have a description",
-	NoTitle: "This question doesn't have a title"
+	NoTitle: "This question doesn't have a title",
+	SelectAll: "Select all",
+	SelectLangs: "Select languages to create form",
+	EditFormMessage: "Form template edited successfully",
+	EditReviewMessage: "Review edited successfully"
 }
 
 export default en

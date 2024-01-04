@@ -92,7 +92,7 @@
         </div>
 
         {#if page == 1}
-            <p>Select languages to create form:</p>
+            <p>{$LL.SelectLangs()}</p>
             <div class="flex flex-col gap-y-2">
                 {#each languages as language}
                     <button class="flex items-center cursor-pointer mr-auto" on:click={() => {language.checked = !language.checked}}>
