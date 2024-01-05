@@ -625,7 +625,7 @@ type RootTranslation = {
 	 */
 	SelectAll: string
 	/**
-	 * S​e​l​e​c​t​ ​l​a​n​g​u​a​g​e​s​ ​t​o​ ​c​r​e​a​t​e​ ​f​o​r​m
+	 * S​e​l​e​c​t​ ​l​a​n​g​u​a​g​e​s​ ​t​o​ ​c​r​e​a​t​e​ ​a​ ​f​o​r​m
 	 */
 	SelectLangs: string
 	/**
@@ -644,6 +644,18 @@ type RootTranslation = {
 	 * R​e​v​i​e​w​ ​s​t​a​t​u​s​ ​u​p​d​a​t​e​d​ ​s​u​c​c​e​s​s​f​u​l​l​y
 	 */
 	PatchReviewStatus: string
+	/**
+	 * C​r​e​a​t​i​o​n​ ​d​a​t​e
+	 */
+	CreationDate: string
+	/**
+	 * A​v​a​i​l​a​b​l​e​ ​l​a​n​g​u​a​g​e​s
+	 */
+	AvailableLangs: string
+	/**
+	 * S​e​l​e​c​t​ ​l​a​n​g​u​a​g​e​s​ ​t​o​ ​c​r​e​a​t​e​ ​a​ ​r​e​v​i​e​w
+	 */
+	SelectLangsReview: string
 }
 
 export type TranslationFunctions = {
@@ -1258,7 +1270,7 @@ export type TranslationFunctions = {
 	 */
 	SelectAll: () => LocalizedString
 	/**
-	 * Select languages to create form
+	 * Select languages to create a form
 	 */
 	SelectLangs: () => LocalizedString
 	/**
@@ -1277,6 +1289,18 @@ export type TranslationFunctions = {
 	 * Review status updated successfully
 	 */
 	PatchReviewStatus: () => LocalizedString
+	/**
+	 * Creation date
+	 */
+	CreationDate: () => LocalizedString
+	/**
+	 * Available languages
+	 */
+	AvailableLangs: () => LocalizedString
+	/**
+	 * Select languages to create a review
+	 */
+	SelectLangsReview: () => LocalizedString
 }
 
 export type Formatters = {}

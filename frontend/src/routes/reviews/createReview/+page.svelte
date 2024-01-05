@@ -124,9 +124,9 @@
                     <select bind:value={formTemplateChoose} class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 flex-grow p-2">
                         {#each FormTemplates as formTemplate}
                             <option value="{formTemplate}">
-                                Titulo: {formTemplate.translations[0].title} ({formTemplate.translations[0].language}), 
-                                Data de criação: {(formTemplate.createdDate).split('T')[0]},
-                                Nº Idiomas Disponiveis: {formTemplate.translations.length}
+                                {$LL.Title()}: {formTemplate.translations[0].title} ({formTemplate.translations[0].language}), 
+                                {$LL.CreationDate()}: {(formTemplate.createdDate).split('T')[0]},
+                                {$LL.AvailableLangs()}: {formTemplate.translations.length}
                             </option>
                         {/each}
                     </select> 
@@ -135,7 +135,7 @@
                 <button on:click={() => goNext()} class="text-lg font-semibold py-1 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded">Continue</button>
             </div>
         {:else if page == 2}
-            <p>Select languages to create form:</p>
+            <p>{$LL.SelectLangsReview()}</p>
             <div class="flex flex-col gap-y-2">
                 {#each languages as language}
                     <button class="flex items-center cursor-pointer mr-auto" on:click={() => {language.checked = !language.checked}}>

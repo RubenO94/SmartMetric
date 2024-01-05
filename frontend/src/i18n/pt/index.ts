@@ -171,7 +171,10 @@ const pt: Translation = {
 	EditFormMessage: 'Modelo de formulário editado com sucesso',
 	EditReviewMessage: 'Revisão editada com sucesso',
 	PatchReviewStatusError: 'Data de fim da revisão não pode ter data anterior à data de início',
-	PatchReviewStatus: 'Estado da revisão alterado com sucesso'
+	PatchReviewStatus: 'Estado da revisão alterado com sucesso',
+	CreationDate: 'Data de criação',
+	AvailableLangs: 'Idiomas disponíveis',
+	SelectLangsReview: 'Selecionar idiomas para criar a revisão'
 }
 
 export default pt

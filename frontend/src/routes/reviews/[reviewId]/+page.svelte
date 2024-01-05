@@ -155,7 +155,7 @@
         <!-- Track of the progress of review -->
     {:else if pageSelected == 'form'}
         <div class="flex justify-between">
-            <p class="font-semibold text-2xl">{$LL.Form()}</p>
+            <p class="font-semibold text-xl">{$LL.Form()}</p>
             <div class="flex gap-x-2 items-center">
                 {#if review.reviewStatus == 'NotStarted'}
                     <Dropdown bind:object={review} />

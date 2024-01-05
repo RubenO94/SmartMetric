@@ -167,11 +167,14 @@ const en: BaseTranslation = {
 	NoDescription: "This question doesn't have a description",
 	NoTitle: "This question doesn't have a title",
 	SelectAll: "Select all",
-	SelectLangs: "Select languages to create form",
+	SelectLangs: "Select languages to create a form",
 	EditFormMessage: "Form template edited successfully",
 	EditReviewMessage: "Review edited successfully",
 	PatchReviewStatusError: "End date can't be before Start date of review",
-	PatchReviewStatus: "Review status updated successfully"
+	PatchReviewStatus: "Review status updated successfully",
+	CreationDate: "Creation date",
+	AvailableLangs: "Available languages",
+	SelectLangsReview: "Select languages to create a review"
 }
 
 export default en

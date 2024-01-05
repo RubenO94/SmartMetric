@@ -11,12 +11,10 @@
     let responseData = data.formTemplates
     let totalForms = data.total
     let pageSize = data.pageSize
+    let user = data.user
     let lang = $locale.toUpperCase()
     let formTemplateToDelete = ''
     let isDropdownOpen = false
-
-    function toggleDropdown() { isDropdownOpen = !isDropdownOpen }
-    function closeDropdown() { isDropdownOpen = false }
 
     function showDialog(index: string) {
         isDropdownOpen = false
@@ -78,10 +76,12 @@
     <!-- Title and Create button-->
     <div class="flex flex-col md:flex-row gap-y-5 justify-between">
         <h1 class="font-semibold text-2xl mx-auto md:mx-0">{ $LL.Sidebar.Forms() }</h1>
-        <a href="forms/createForm/" class="flex mx-auto md:mx-0 items-center gap-x-1 bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer border border-transparent hover:bg-blue-700 hover:border-blue-950">
-            <svelte:component this={Plus} />
-            { $LL.FormButton() }
-        </a>
+        {#if user?.authorizations[0].permissions[0].hasPermission}
+            <a href="forms/createForm/" class="flex mx-auto md:mx-0 items-center gap-x-1 bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer border border-transparent hover:bg-blue-700 hover:border-blue-950">
+                <svelte:component this={Plus} />
+                { $LL.FormButton() }
+            </a>
+        {/if}
     </div>
     <!-- Search bar -->
     <div class="flex flex-row">
@@ -105,12 +105,16 @@
                                     <p class="text-xs text-gray-400">{translation.description}</p>
                                 </div>
                             </div>
+
                             <div class="hidden md:flex gap-x-2">
                                 <a href="/forms/{formTemplate.formTemplateId}" class="bg-blue-500 text-white text-xs md:text-sm px-2 py-1 rounded-lg border border-transparent cursor-pointer whitespace-nowrap hover:bg-blue-700 hover:border-blue-950">{$LL.Preview()}</a>
-                                <button on:click={() => showDialog(formTemplate.formTemplateId)}>
-                                    <svelte:component this={Trash2} class="hover:text-gray-400" />
-                                </button>
+                                {#if user?.authorizations[0].permissions[3].hasPermission}
+                                    <button on:click={() => showDialog(formTemplate.formTemplateId)}>
+                                        <svelte:component this={Trash2} class="hover:text-gray-400" />
+                                    </button>
+                                {/if}
                             </div>
+
                             <div class="relative group md:hidden items-center">
                                 <button class="cursor-pointer hover:bg-gray-300 p-2 rounded">
                                     <svelte:component this={MoreVertical} />
@@ -120,10 +124,12 @@
                                         <svelte:component this={Eye} size="20" />
                                         {$LL.Preview()}
                                     </DropdownItem>
-                                    <DropdownItem on:click={() => showDialog(formTemplate.formTemplateId)} class="flex items-center gap-x-2 whitespace-nowrap">
-                                        <svelte:component this={Trash2} size="20" />
-                                        {$LL.Delete()}
-                                    </DropdownItem>
+                                    {#if user?.authorizations[0].permissions[3].hasPermission}
+                                        <DropdownItem on:click={() => showDialog(formTemplate.formTemplateId)} class="flex items-center gap-x-2 whitespace-nowrap">
+                                            <svelte:component this={Trash2} size="20" />
+                                            {$LL.Delete()}
+                                        </DropdownItem>
+                                    {/if}
                                 </Dropdown>
                             </div>
                         </div>
