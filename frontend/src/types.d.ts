@@ -57,3 +57,11 @@ type Search = {
     object: FormTemplate,
     searchTerms: string
 }
+
+type User = {
+    userId: number,
+    userName: string,
+    profileDescription: string,
+    profileType: string
+    authorizations: any[]
+}

@@ -84,7 +84,7 @@
                 </button>
             {/each}
         </div>
-        <button on:click={() => checkLanguages()} class="flex gap-x-2 mx-auto text-base font-semibold px-5 py-2 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded">Create form</button>
+        <button on:click={() => checkLanguages()} class="flex gap-x-2 mx-auto text-base font-semibold px-5 py-2 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded">{$LL.FormButton()}</button>
     {:else if page == 1}
         <FormComponent {formTemplate} {action} />
     {/if}

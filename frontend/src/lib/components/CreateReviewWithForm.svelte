@@ -1,8 +1,7 @@
 <script lang="ts">
     import dayjs from 'dayjs'
     import LL from "../../i18n/i18n-svelte"
-    import toast, { Toaster } from 'svelte-french-toast'
-    import { api_token, api_url } from '$lib/stores/url'
+    import toast from 'svelte-french-toast'
     import { draggable } from '$lib/actions/dnd'
     import { fade, fly } from 'svelte/transition'
     import { goto } from "$app/navigation"

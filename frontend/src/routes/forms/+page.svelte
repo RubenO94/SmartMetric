@@ -4,6 +4,7 @@
     import { LL, locale } from "../../i18n/i18n-svelte"
     import { AlertCircle, Eye, MoreVertical, Pencil, Plus, PlusCircle, Search, Trash2, XCircle } from 'lucide-svelte'
     import toast, { Toaster } from "svelte-french-toast"
+    import { Dropdown, DropdownItem } from 'flowbite-svelte'
 
     export let data
 
@@ -18,6 +19,7 @@
     function closeDropdown() { isDropdownOpen = false }
 
     function showDialog(index: string) {
+        isDropdownOpen = false
         formTemplateToDelete = index
         let dialog = document.getElementById('dialog');
         dialog?.classList.remove('hidden');
@@ -52,6 +54,25 @@
 </svelte:head>
 
 <Toaster />
+
+<!-- DIALOG -->
+<div id="dialog" class="fixed left-0 top-0 bg-black bg-opacity-75 hidden w-screen h-screen transition-opacity duration-500">
+    <div class="bg-white rounded shadow-md p-8 mx-auto my-20 w-4/5 lg:w-3/5 xl:w-2/5">
+        <div class="flex items-center gap-5">
+            <div class="bg-red-200 text-red-500 flex items-center justify-center w-10 h-10 p-5 rounded-full">
+                <p><svelte:component this={XCircle} /></p>
+            </div>
+            <div>
+                <h1 class="font-bold text-lg mb-2">{$LL.DeleteDialogForm()}</h1>
+                <p class="text-gray-400 text-sm">{$LL.DeleteDialogFormDesc()}</p>
+            </div>
+        </div>
+        <div class="flex justify-end gap-4 mt-5">
+            <button class="bg-gray-100 border border-gray-300 px-6 py-2 rounded text-black hover:bg-gray-200" on:click="{hideDialog}">{$LL.Cancel()}</button>
+            <button class="bg-red-500 px-6 py-2 rounded text-white hover:bg-red-600" on:click="{deleteFormTemplate}">{$LL.Delete()}</button>
+        </div>
+    </div>
+</div>
 
 <div class="mx-auto flex flex-col xl:w-[1280px] p-5 gap-y-10">
     <!-- Title and Create button-->
@@ -89,49 +110,21 @@
                                 <button on:click={() => showDialog(formTemplate.formTemplateId)}>
                                     <svelte:component this={Trash2} class="hover:text-gray-400" />
                                 </button>
-
-                                <!-- DIALOG -->
-                                <div id="dialog" class="fixed left-0 top-0 bg-black bg-opacity-75 hidden w-screen h-screen transition-opacity duration-500">
-                                    <div class="bg-white rounded shadow-md p-8 mx-auto my-20 w-4/5 lg:w-3/5 xl:w-2/5">
-                                        <div class="flex items-center gap-5">
-                                            <div class="bg-red-200 text-red-500 flex items-center justify-center w-10 h-10 p-5 rounded-full">
-                                                <p><svelte:component this={XCircle} /></p>
-                                            </div>
-                                            <div>
-                                                <h1 class="font-bold text-lg mb-2">{$LL.DeleteDialogForm()}</h1>
-                                                <p class="text-gray-400 text-sm">{$LL.DeleteDialogFormDesc()}</p>
-                                            </div>
-                                        </div>
-                                        <div class="flex justify-end gap-4 mt-5">
-                                            <button class="bg-gray-100 border border-gray-300 px-6 py-2 rounded text-black hover:bg-gray-200" on:click="{hideDialog}">{$LL.Cancel()}</button>
-                                            <button class="bg-red-500 px-6 py-2 rounded text-white hover:bg-red-600" on:click="{deleteFormTemplate}">{$LL.Delete()}</button>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                             <div class="relative group md:hidden items-center">
-                                <button on:focus={toggleDropdown} on:blur={closeDropdown} class="cursor-pointer hover:bg-gray-300 p-2 rounded focus:ring-2 focus:ring-gray-300">
+                                <button class="cursor-pointer hover:bg-gray-300 p-2 rounded">
                                     <svelte:component this={MoreVertical} />
                                 </button>
-
-                                {#if isDropdownOpen}
-                                    <div class="absolute top-5 right-12 p-2 bg-gray-50 border border-gray-300 shadow-md rounded-lg">
-                                        <ul class="flex flex-col">
-                                            <button class="cursor-pointer whitespace-nowrap flex items-center gap-x-2">
-                                                <p class="flex items-center hover:bg-blue-500 hover:text-white py-2 px-4 gap-x-2 text-sm rounded-lg">
-                                                    <svelte:component this={Eye} size="20" />
-                                                    {$LL.Preview()}
-                                                </p>
-                                            </button>
-                                            <button class="cursor-pointer whitespace-nowrap">
-                                                <p class="flex items-center hover:bg-blue-500 hover:text-white py-2 px-4 gap-x-2 text-sm rounded-lg">
-                                                    <svelte:component this={Trash2} size="20" />                          
-                                                    {$LL.Delete()}
-                                                </p>
-                                            </button>
-                                        </ul>
-                                    </div>
-                                {/if}
+                                <Dropdown bind:open={isDropdownOpen}>
+                                    <DropdownItem href={`/forms/${formTemplate.formTemplateId}`} class="flex items-center gap-x-2 whitespace-nowrap">
+                                        <svelte:component this={Eye} size="20" />
+                                        {$LL.Preview()}
+                                    </DropdownItem>
+                                    <DropdownItem on:click={() => showDialog(formTemplate.formTemplateId)} class="flex items-center gap-x-2 whitespace-nowrap">
+                                        <svelte:component this={Trash2} size="20" />
+                                        {$LL.Delete()}
+                                    </DropdownItem>
+                                </Dropdown>
                             </div>
                         </div>
                     {/if}

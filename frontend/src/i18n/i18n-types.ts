@@ -421,6 +421,10 @@ type RootTranslation = {
 		 * S​e​r​v​e​r​ ​e​r​r​o​r
 		 */
 		Others: string
+		/**
+		 * S​o​m​e​t​h​i​n​g​ ​w​e​n​t​ ​w​r​o​n​g
+		 */
+		SomethingWrong: string
 	}
 	/**
 	 * B​a​c​k​o​f​f​i​c​e​ ​m​o​d​u​l​e
@@ -1050,6 +1054,10 @@ export type TranslationFunctions = {
 		 * Server error
 		 */
 		Others: () => LocalizedString
+		/**
+		 * Something went wrong
+		 */
+		SomethingWrong: () => LocalizedString
 	}
 	/**
 	 * Backoffice module

@@ -6,7 +6,7 @@ import type { PageServerLoad } from "./$types"
 // Get templates
 export const load: PageServerLoad = async ( event ) => {    
     const pageNumber = Number(event.url.searchParams.get('page')) || 1
-    const pageSize = Number(event.url.searchParams.get('pageSize')) || 5
+    const pageSize = Number(event.url.searchParams.get('pageSize')) || 20
     try {
         const lang = event.locals.lang[0].slice(0, 2)
         const [formTemplatesResponse] = await Promise.all([

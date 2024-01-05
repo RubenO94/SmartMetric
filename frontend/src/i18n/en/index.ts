@@ -113,7 +113,8 @@ const en: BaseTranslation = {
 		Question: "Review must have at least one question",
 		ReviewType: "Review must have a type",
 		Departments: "Review must have at least one department associated",
-		Others: "Server error"
+		Others: "Server error",
+		SomethingWrong: "Something went wrong"
 	},
 	Backoffice: "Backoffice module",
 	Frontoffice: "Frontoffice module",

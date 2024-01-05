@@ -2,6 +2,7 @@
     import { goto } from "$app/navigation"
     import { LL } from "../../i18n/i18n-svelte"
     import { Plus, Search } from 'lucide-svelte'
+    import { Indicator, Button } from "flowbite-svelte"
 
     export let data
 
@@ -23,7 +24,7 @@
     <title>{$LL.Sidebar.Reviews()}</title>
 </svelte:head>
 
-<div class="mx-auto flex flex-col w-[1200px] p-5 gap-y-10">
+<div class="mx-auto flex flex-col w-[1280px] p-5 gap-y-10">
     <div class="flex justify-between">
         <h1 class="font-semibold text-2xl">{ $LL.Sidebar.Reviews() }</h1>
         <a href="/reviews/createReview" class="flex flex-row items-center gap-x-1 bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer border border-transparent hover:bg-blue-700 hover:border-blue-950">

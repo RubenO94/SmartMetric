@@ -8,21 +8,24 @@
 
     export let user: any
 
-    const menuItems: { name: string, label: string, icon: ComponentType<Icon> }[] = [
+    const menuItems: { name: string, label: string, permission: boolean, icon: ComponentType<Icon> }[] = [
         { 
             name: "reviews", 
-            label: $LL.Sidebar.Reviews(), 
-            icon: Clipboard 
+            label: $LL.Sidebar.Reviews(),
+            permission: user.authorizations[1].permissions[1].hasPermission,
+            icon: Clipboard
         }, 
         { 
             name: "forms", 
-            label: $LL.Sidebar.Forms(), 
-            icon: List 
+            label: $LL.Sidebar.Forms(),
+            permission: user.authorizations[0].permissions[1].hasPermission,
+            icon: List
         }, 
         { 
             name: "statistics", 
-            label: $LL.Sidebar.Statistics(), 
-            icon: BarChartBig 
+            label: $LL.Sidebar.Statistics(),
+            permission: user.authorizations[2].permissions[1].hasPermission,
+            icon: BarChartBig
         }
     ]
 </script>
@@ -33,13 +36,15 @@
         <p class="font-semibold text-center pt-4 pb-1 px-2">{$LL.Backoffice()}</p>
         <hr class="mx-10" />
         {#each menuItems as item}
-            <a href="/{item.name}" class="flex flex-row gap-x-2 items-center hover:bg-gray-300 p-2 rounded {$page.url.pathname.split("/")[1].toLowerCase() === item.name ? 'bg-gray-300' : ''}">
-                <svelte:component this={item.icon} size={20} />
-                <p class="text-sm">{item.label}</p>
-                {#if $page.url.pathname.split("/")[1].toLowerCase() === item.name}
-                    <svelte:component this={ChevronRight} size={20} class="ml-auto" />
-                {/if}
-            </a>
+            {#if item.permission}
+                <a href="/{item.name}" class="flex flex-row gap-x-2 items-center hover:bg-gray-300 p-2 rounded {$page.url.pathname.split("/")[1].toLowerCase() === item.name ? 'bg-gray-300' : ''}">
+                    <svelte:component this={item.icon} size={20} />
+                    <p class="text-sm">{item.label}</p>
+                    {#if $page.url.pathname.split("/")[1].toLowerCase() === item.name}
+                        <svelte:component this={ChevronRight} size={20} class="ml-auto" />
+                    {/if}
+                </a>
+            {/if}
         {/each}
     </div>
 </nav>
