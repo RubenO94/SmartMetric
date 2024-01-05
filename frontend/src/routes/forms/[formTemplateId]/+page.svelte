@@ -26,10 +26,10 @@
     }
 </script>
 
-<div class="mx-auto flex flex-col w-[1200px] p-10 gap-y-10">
-    <div class="flex justify-between">
-        <p class="font-semibold text-2xl">{$LL.Form()}</p>  
-        <div class="flex gap-x-2 items-center">
+<div class="mx-auto flex flex-col xl:w-[1280px] p-5 gap-y-10">
+    <div class="flex flex-col md:flex-row gap-y-5 justify-between">
+        <p class="font-semibold text-2xl">{$LL.Form()}</p>
+        <div class="flex gap-x-2 items-center justify-end">
             <Dropdown bind:object={formTemplate} />             
             <select bind:value={lang} class="bg-gray-100 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 px-2 py-1 rounded-lg">
                 {#each formTemplate.translations as translation}

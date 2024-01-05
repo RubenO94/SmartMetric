@@ -31,6 +31,7 @@
 	"dependencies": {
 		"dayjs": "^1.11.10",
 		"dotenv": "^16.3.1",
+		"flowbite-svelte": "^0.44.21",
 		"lucide-svelte": "^0.303.0",
 		"svelte-french-toast": "^1.2.0",
 		"svelte-steps": "^2.4.1",

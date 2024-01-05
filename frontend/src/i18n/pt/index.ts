@@ -74,7 +74,7 @@ const pt: Translation = {
 		Question: 'Modelo de formulário deve ter pelo menos uma questão',
 		QuestionTitle: 'Todas as questões do formulário deve ter titulo',
 		Others: 'Erro do servidor',
-		SomethingWrong: ''
+		SomethingWrong: 'Algo deu errado'
 	},
 	Departments: 'Departamentos',
 	ReviewTitleTitle: 'Título da Revisão',
@@ -113,7 +113,8 @@ const pt: Translation = {
 		Question: 'Modelo de formulário deve ter pelo menos uma questão',
 		ReviewType: 'Modelo de formulário deve ter um tipo associado',
 		Departments: 'Modelo de formulário deve ter pelo menos um departamento associado',
-		Others: 'Erro do servidor'
+		Others: 'Erro do servidor',
+		SomethingWrong: 'Algo deu errado'
 	},
 	Backoffice: 'Módulo de Backoffice',
 	Frontoffice: 'Módulo de Frontoffice',
@@ -168,7 +169,12 @@ const pt: Translation = {
 	SelectAll: 'Selecionar tudo',
 	SelectLangs: 'Selecionar idiomas para criar o formulário',
 	EditFormMessage: 'Modelo de formulário editado com sucesso',
-	EditReviewMessage: ''
+	EditReviewMessage: 'Revisão editada com sucesso',
+	PatchReviewStatusError: 'Data de fim da revisão não pode ter data anterior à data de início',
+	PatchReviewStatus: 'Estado da revisão alterado com sucesso',
+	CreationDate: 'Data de criação',
+	AvailableLangs: 'Idiomas disponíveis',
+	SelectLangsReview: 'Selecionar idiomas para criar a revisão'
 }
 
 export default pt

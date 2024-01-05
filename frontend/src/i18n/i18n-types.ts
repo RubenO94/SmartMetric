@@ -421,6 +421,10 @@ type RootTranslation = {
 		 * S​e​r​v​e​r​ ​e​r​r​o​r
 		 */
 		Others: string
+		/**
+		 * S​o​m​e​t​h​i​n​g​ ​w​e​n​t​ ​w​r​o​n​g
+		 */
+		SomethingWrong: string
 	}
 	/**
 	 * B​a​c​k​o​f​f​i​c​e​ ​m​o​d​u​l​e
@@ -621,7 +625,7 @@ type RootTranslation = {
 	 */
 	SelectAll: string
 	/**
-	 * S​e​l​e​c​t​ ​l​a​n​g​u​a​g​e​s​ ​t​o​ ​c​r​e​a​t​e​ ​f​o​r​m
+	 * S​e​l​e​c​t​ ​l​a​n​g​u​a​g​e​s​ ​t​o​ ​c​r​e​a​t​e​ ​a​ ​f​o​r​m
 	 */
 	SelectLangs: string
 	/**
@@ -632,6 +636,26 @@ type RootTranslation = {
 	 * R​e​v​i​e​w​ ​e​d​i​t​e​d​ ​s​u​c​c​e​s​s​f​u​l​l​y
 	 */
 	EditReviewMessage: string
+	/**
+	 * E​n​d​ ​d​a​t​e​ ​c​a​n​'​t​ ​b​e​ ​b​e​f​o​r​e​ ​S​t​a​r​t​ ​d​a​t​e​ ​o​f​ ​r​e​v​i​e​w
+	 */
+	PatchReviewStatusError: string
+	/**
+	 * R​e​v​i​e​w​ ​s​t​a​t​u​s​ ​u​p​d​a​t​e​d​ ​s​u​c​c​e​s​s​f​u​l​l​y
+	 */
+	PatchReviewStatus: string
+	/**
+	 * C​r​e​a​t​i​o​n​ ​d​a​t​e
+	 */
+	CreationDate: string
+	/**
+	 * A​v​a​i​l​a​b​l​e​ ​l​a​n​g​u​a​g​e​s
+	 */
+	AvailableLangs: string
+	/**
+	 * S​e​l​e​c​t​ ​l​a​n​g​u​a​g​e​s​ ​t​o​ ​c​r​e​a​t​e​ ​a​ ​r​e​v​i​e​w
+	 */
+	SelectLangsReview: string
 }
 
 export type TranslationFunctions = {
@@ -1042,6 +1066,10 @@ export type TranslationFunctions = {
 		 * Server error
 		 */
 		Others: () => LocalizedString
+		/**
+		 * Something went wrong
+		 */
+		SomethingWrong: () => LocalizedString
 	}
 	/**
 	 * Backoffice module
@@ -1242,7 +1270,7 @@ export type TranslationFunctions = {
 	 */
 	SelectAll: () => LocalizedString
 	/**
-	 * Select languages to create form
+	 * Select languages to create a form
 	 */
 	SelectLangs: () => LocalizedString
 	/**
@@ -1253,6 +1281,26 @@ export type TranslationFunctions = {
 	 * Review edited successfully
 	 */
 	EditReviewMessage: () => LocalizedString
+	/**
+	 * End date can't be before Start date of review
+	 */
+	PatchReviewStatusError: () => LocalizedString
+	/**
+	 * Review status updated successfully
+	 */
+	PatchReviewStatus: () => LocalizedString
+	/**
+	 * Creation date
+	 */
+	CreationDate: () => LocalizedString
+	/**
+	 * Available languages
+	 */
+	AvailableLangs: () => LocalizedString
+	/**
+	 * Select languages to create a review
+	 */
+	SelectLangsReview: () => LocalizedString
 }
 
 export type Formatters = {}
