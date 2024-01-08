@@ -15,6 +15,8 @@
     export let languages: any
     export let user
 
+    let totalDeps = 0
+    let pageSize = 10
     let departments: Departments[] = []
     let selectAllDeps: boolean = false
     let newBatch: Departments[] = []
@@ -46,7 +48,8 @@
     }
     let steps = [
         { text: $LL.Details() }, 
-        { text: $LL.Departments() }, 
+        { text: $LL.Departments() },
+        { text: $LL.Employees()},
         { text: $LL.Questions() }, 
         { text: $LL.Finalize() }
     ]
@@ -71,13 +74,14 @@
     // Scroll Departments ---------------------------------------------------------------------------------------------------------------
     async function fetchData() {
         const [response] = await Promise.all([
-            api ('GET', `Departments?page=${page}&pageSize=10`)
+            api ('GET', `Departments?page=${page}&pageSize=${pageSize}`)
         ])
         newBatch = response?.body
+        totalDeps = response?.total
         newBatch.forEach((department) => {
             department.checked = selectAllDeps
         })
-        departments = [...departments, ...newBatch]
+        departments = pageSize == 10 ? [...departments, ...newBatch] : [...newBatch]
     }
 
     onMount(() => { fetchData() })
@@ -221,9 +225,15 @@
         }
     }
 
-    function selectDepsAll(e: any) {
+    async function selectDepsAll(e: any) {
+        review.reviewDepartmentsIds = []
+        e.target.checked ? pageSize = totalDeps : pageSize = 10
+        e.target.checked ? page = 1 : page
+        if (e.target.checked) {
+            await fetchData()
+        }
         review.reviewDepartmentsIds = e.target.checked ? departments.map(department => department.departmentId) : []
-        //departments.forEach(department => department.checked = !selectAllDeps)
+        departments = departments.map((n) => ({...n, checked: true}));
     }
 
     //buttons of stepper
@@ -311,17 +321,19 @@
                         {#if department.departmentParentId == 0}    
                             <li class="cursor-pointer">
                                 <div class="text-gray-600 flex items-center font-medium gap-x-2">
-                                    <input bind:group={review.reviewDepartmentsIds} value={department.departmentId} type="checkbox" class="accent-blue-500 w-5 h-5" />
+                                    <input bind:checked={department.checked} bind:group={review.reviewDepartmentsIds} value={department.departmentId} type="checkbox" class="accent-blue-500 w-5 h-5" />
                                     <p>{department.departmentDescription}</p>
                                 </div>
                             </li>
                         {/if}
                     {/each}
-                    <InfiniteScroll hasMore={newBatch.length} threshold={100} on:loadMore={() => {page++; fetchData()}} />
+                    <InfiniteScroll hasMore={departments.length != totalDeps ? true : false} threshold={100} on:loadMore={() => {newBatch.length = totalDeps ? 1 : page++; fetchData()}} />
                 </ul>
             </div>
         </div>
     {:else if currentStep == 2}
+        <p>dsfsdf</p>
+    {:else if currentStep == 3}
         <div class="flex flex-row gap-x-10">
             <div class="flex flex-col gap-y-2">
                 <p class="text-black text-base font-semibold">{$LL.QuestionTypeText()}</p>

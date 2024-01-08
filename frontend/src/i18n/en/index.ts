@@ -174,7 +174,8 @@ const en: BaseTranslation = {
 	PatchReviewStatus: "Review status updated successfully",
 	CreationDate: "Creation date",
 	AvailableLangs: "Available languages",
-	SelectLangsReview: "Select languages to create a review"
+	SelectLangsReview: "Select languages to create a review",
+	Employees: "Employees"
 }
 
 export default en

@@ -7,7 +7,9 @@ export const load: PageServerLoad = async ( event ) => {
     const pageNumber = Number(event.url.searchParams.get('page')) || 1
     const pageSize = Number(event.url.searchParams.get('pageSize')) || 20
     try {
-        if (!event.locals.user?.authorizations[0].permissions[1].hasPermission) {
+        const window = event.locals.user?.authorizations.find((n: any) => n.windowType === "Forms");
+        const permission = window.permissions.find((p: any) => p.permissionType === "Read");
+        if (!permission.hasPermission) {
             console.log("Unauthorized")
             throw redirect(302, "/")
         }

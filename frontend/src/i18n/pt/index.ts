@@ -174,7 +174,8 @@ const pt: Translation = {
 	PatchReviewStatus: 'Estado da revisão alterado com sucesso',
 	CreationDate: 'Data de criação',
 	AvailableLangs: 'Idiomas disponíveis',
-	SelectLangsReview: 'Selecionar idiomas para criar a revisão'
+	SelectLangsReview: 'Selecionar idiomas para criar a revisão',
+	Employees: 'Funcionários'
 }
 
 export default pt

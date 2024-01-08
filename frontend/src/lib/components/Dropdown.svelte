@@ -7,6 +7,7 @@
     import { Dropdown, DropdownItem } from "flowbite-svelte"
 
     export let object: any
+    export let user: User | null
     
     let isOpen = false
 
@@ -47,6 +48,12 @@
             else toast.error($LL.ErrorsReview.Others())
         }
     }
+
+    function checkPermission(typeOfPermission: string) {
+        let window = object.formTemplateId ? user?.authorizations.find((n: any) => n.windowType == 'Forms') : user?.authorizations.find((n) => n.windowType == 'Reviews')
+        let permission = window.permissions.find((p: any) => p.permissionType === typeOfPermission)
+        return permission.hasPermission
+    }
 </script>
 
 <!-- Dialog -->
@@ -70,24 +77,29 @@
     </div>
 </div>
 
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-<div class="relative group items-center text-xs">
-    <button class="cursor-pointer">
-        <svelte:component this={MoreHorizontal} strokeWidth="1.5" />
-    </button>
+{#if checkPermission('Update') || checkPermission('Delete')}
+    <div class="relative group items-center text-xs">
+        <button class="cursor-pointer">
+            <svelte:component this={MoreHorizontal} strokeWidth="1.5" />
+        </button>
 
-    <Dropdown bind:open={isOpen} class="border border-gray-300 rounded p-1">
-        <DropdownItem on:click={() => goto('/')} class="flex items-center gap-x-2 whitespace-nowrap rounded hover:bg-blue-500 hover:text-white">
-            <svelte:component this={PlusCircle} size="20" />
-            {$LL.AddLanguage()}
-        </DropdownItem>
-        <DropdownItem on:click={() => goToEditPage()} class="flex items-center gap-x-2 whitespace-nowrap rounded hover:bg-blue-500 hover:text-white">
-            <svelte:component this={Pencil} size="20" />
-            {$LL.Edit()}
-        </DropdownItem>
-        <DropdownItem on:click={() => showDialog()} class="flex items-center gap-x-2 whitespace-nowrap rounded hover:bg-blue-500 hover:text-white">
-            <svelte:component this={Trash2} size="20" />
-            {$LL.Delete()}
-        </DropdownItem>
-    </Dropdown>
-</div>
+        <Dropdown bind:open={isOpen} class="border border-gray-300 rounded p-1">
+            {#if checkPermission('Update')}
+                <DropdownItem on:click={() => goto('/')} class="flex items-center gap-x-2 whitespace-nowrap rounded hover:bg-blue-500 hover:text-white">
+                    <svelte:component this={PlusCircle} size="20" />
+                    {$LL.AddLanguage()}
+                </DropdownItem>
+                <DropdownItem on:click={() => goToEditPage()} class="flex items-center gap-x-2 whitespace-nowrap rounded hover:bg-blue-500 hover:text-white">
+                    <svelte:component this={Pencil} size="20" />
+                    {$LL.Edit()}
+                </DropdownItem>
+            {/if}
+            {#if checkPermission('Delete')}
+                <DropdownItem on:click={() => showDialog()} class="flex items-center gap-x-2 whitespace-nowrap rounded hover:bg-blue-500 hover:text-white">
+                    <svelte:component this={Trash2} size="20" />
+                    {$LL.Delete()}
+                </DropdownItem>
+            {/if}
+        </Dropdown>
+    </div>
+{/if}

@@ -6,6 +6,7 @@
     export let data
 
     let formTemplate = data.formTemplate
+    let user = data.user
     let lang = formTemplate.translations[0].language
 
     function showLanguageTranslation(languageAbbrev: string) {
@@ -30,7 +31,7 @@
     <div class="flex flex-col md:flex-row gap-y-5 justify-between">
         <p class="font-semibold text-2xl">{$LL.Form()}</p>
         <div class="flex gap-x-2 items-center justify-end">
-            <Dropdown bind:object={formTemplate} />             
+            <Dropdown bind:object={formTemplate} {user} />             
             <select bind:value={lang} class="bg-gray-100 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 px-2 py-1 rounded-lg">
                 {#each formTemplate.translations as translation}
                     <option value={translation.language}>{$LL.ShowFormIn()} {showLanguageTranslation(translation.language)}</option>

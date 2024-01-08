@@ -656,6 +656,10 @@ type RootTranslation = {
 	 * S​e​l​e​c​t​ ​l​a​n​g​u​a​g​e​s​ ​t​o​ ​c​r​e​a​t​e​ ​a​ ​r​e​v​i​e​w
 	 */
 	SelectLangsReview: string
+	/**
+	 * E​m​p​l​o​y​e​e​s
+	 */
+	Employees: string
 }
 
 export type TranslationFunctions = {
@@ -1301,6 +1305,10 @@ export type TranslationFunctions = {
 	 * Select languages to create a review
 	 */
 	SelectLangsReview: () => LocalizedString
+	/**
+	 * Employees
+	 */
+	Employees: () => LocalizedString
 }
 
 export type Formatters = {}
