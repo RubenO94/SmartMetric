@@ -85,7 +85,7 @@ const pt: Translation = {
 	ReviewTypeDescription: 'Escolha o método de avaliação que melhor se adequa à dinâmica organizacional.',
 	SaveReviewAsForm: 'Guardar Revisão como formulário',
 	SaveReviewAsFormDesc: 'Se desejar, pode guardar o questionário desta revisão como um modelo de formulário para facilitar a criação rápida de revisões futuras. Basta marcar a opção abaixo. Se não fizer alterações nas questões não necessita de assinalar a opção.',
-	Save: 'Guardar Formulário',
+	SaveForm: 'Guardar Formulário',
 	StartAndEndDateText: 'Indicar Data de Fim',
 	StartAndEndDateDesc: 'Opcionalmente, pode especificar datas de início e fim para a revisão. Caso não forneça essas informações agora, será solicitado a indicar as datas quando iniciar efetivamente a revisão.',
 	TopDown: {
@@ -175,7 +175,11 @@ const pt: Translation = {
 	CreationDate: 'Data de criação',
 	AvailableLangs: 'Idiomas disponíveis',
 	SelectLangsReview: 'Selecionar idiomas para criar a revisão',
-	Employees: 'Funcionários'
+	Employees: 'Funcionários',
+	AdminSettings: 'Definições de administrador',
+	ChooseProfile: 'Escolher perfil',
+	ChooseProfileDesc: 'Selecionar um perfil para mudar as permissões',
+	SaveChanges: 'Guardar alterações'
 }
 
 export default pt

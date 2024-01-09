@@ -15,6 +15,8 @@
     export let languages: any
     export let user
 
+    let employees: any
+    let departmentChoose: number
     let totalDeps = 0
     let pageSize = 10
     let departments: Departments[] = []
@@ -86,6 +88,15 @@
 
     onMount(() => { fetchData() })
     // ----------------------------------------------------------------------------------------------------------------------------------
+
+    async function fetchEmployees(idDep: number) {
+        const [response] = await Promise.all([
+            api("GET", `Departments/${idDep}/Employees`)
+        ])
+        employees = response?.body
+        console.log(employees)
+    }
+
     //Functions for Drop questionType and create question
     function allowDrop(event: DragEvent) { event.preventDefault() } 
     function handleDrop(event: DragEvent) {
@@ -253,6 +264,7 @@
     $: review.reviewStatus = review.endDate != null ? 'Active' : 'NotStarted'
     $: review.startDate = review.endDate != null ? dayjs(new Date()).format('YYYY-MM-DDThh:mm:ss') : null
     $: formTemplate.questions = review.questions
+    $: employees
 </script>
 
 <div class="flex flex-col text-gray-400 text-xs gap-y-16">
@@ -318,7 +330,7 @@
 
                 <ul>
                     {#each departments as department}
-                        {#if department.departmentParentId == 0}    
+                        {#if department.departmentParentId == 0}   
                             <li class="cursor-pointer">
                                 <div class="text-gray-600 flex items-center font-medium gap-x-2">
                                     <input bind:checked={department.checked} bind:group={review.reviewDepartmentsIds} value={department.departmentId} type="checkbox" class="accent-blue-500 w-5 h-5" />
@@ -327,12 +339,10 @@
                             </li>
                         {/if}
                     {/each}
-                    <InfiniteScroll hasMore={departments.length != totalDeps ? true : false} threshold={100} on:loadMore={() => {newBatch.length = totalDeps ? 1 : page++; fetchData()}} />
+                    <InfiniteScroll hasMore={departments.length != totalDeps ? true : false} threshold={100} on:loadMore={() => {newBatch.length == totalDeps ? 1 : page++; fetchData()}} />
                 </ul>
             </div>
         </div>
-    {:else if currentStep == 2}
-        <p>dsfsdf</p>
     {:else if currentStep == 3}
         <div class="flex flex-row gap-x-10">
             <div class="flex flex-col gap-y-2">
@@ -527,7 +537,7 @@
                 </div>
             </div>
         </div>
-    {:else}
+    {:else if currentStep == 4}
         <div class="flex flex-col gap-y-10">
             <div class="flex flex-col gap-y-1">
                 <p class="text-black text-base font-semibold">{$LL.SaveReviewAsForm()}</p>

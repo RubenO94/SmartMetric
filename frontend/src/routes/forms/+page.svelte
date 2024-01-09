@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { goto } from "$app/navigation";
     import { api } from "$lib/api/_api"
     import { LL, locale } from "../../i18n/i18n-svelte"
     import { AlertCircle, Eye, MoreVertical, Pencil, Plus, PlusCircle, Search, Trash2, XCircle } from 'lucide-svelte'
@@ -10,11 +9,18 @@
 
     let responseData = data.formTemplates
     let totalForms = data.total
-    let pageSize = data.pageSize
     let user = data.user
-    let lang = $locale.toUpperCase()
+    let languages = ['PT', 'EN', 'ES', 'FR', 'PL']
+    // let lang = $locale.toUpperCase()
+    let lang: string = languages[0]
     let formTemplateToDelete = ''
     let isDropdownOpen = false
+
+    function checkPermission(permissionType: string) {
+        const window = user?.authorizations.find((x: any) => x.windowType === "Forms")
+        const permission = window.permissions.find((y: any) => y.permissionType === permissionType)
+        return permission.hasPermission
+    }
 
     function showDialog(index: string) {
         isDropdownOpen = false
@@ -43,8 +49,7 @@
         } else toast.error(response?.details)
     }
 
-    $: totalPages = Math.ceil(totalForms / pageSize)
-    $: responseData
+    $: console.log(responseData)
 </script>
 
 <svelte:head>
@@ -76,12 +81,20 @@
     <!-- Title and Create button-->
     <div class="flex flex-col md:flex-row gap-y-5 justify-between">
         <h1 class="font-semibold text-2xl mx-auto md:mx-0">{ $LL.Sidebar.Forms() }</h1>
-        {#if user?.authorizations[0].permissions[0].hasPermission}
-            <a href="forms/createForm/" class="flex mx-auto md:mx-0 items-center gap-x-1 bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer border border-transparent hover:bg-blue-700 hover:border-blue-950">
-                <svelte:component this={Plus} />
-                { $LL.FormButton() }
-            </a>
-        {/if}
+        <div class="flex gap-x-2">
+            <!-- <div class="flex border border-black rounded">
+                {#each languages as language, index}
+                    <button class="p-1 {language === lang ? 'underline' : '' } {index + 1 != languages.length ? 'border-r border-black' : '' }" on:click={() => lang = language}>{language}</button> 
+                {/each}
+            </div> -->
+            {#if checkPermission("Create")}
+                <a href="forms/createForm/" class="flex mx-auto md:mx-0 items-center gap-x-1 bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer border border-transparent hover:bg-blue-700 hover:border-blue-950">
+                    <svelte:component this={Plus} />
+                    { $LL.FormButton() }
+                </a>
+            {/if}
+        </div>
+        
     </div>
     <!-- Search bar -->
     <div class="flex flex-row">
@@ -108,7 +121,7 @@
 
                             <div class="hidden md:flex gap-x-2">
                                 <a href="/forms/{formTemplate.formTemplateId}" class="bg-blue-500 text-white text-xs md:text-sm px-2 py-1 rounded-lg border border-transparent cursor-pointer whitespace-nowrap hover:bg-blue-700 hover:border-blue-950">{$LL.Preview()}</a>
-                                {#if user?.authorizations[0].permissions[3].hasPermission}
+                                {#if checkPermission("Delete")}
                                     <button on:click={() => showDialog(formTemplate.formTemplateId)}>
                                         <svelte:component this={Trash2} class="hover:text-gray-400" />
                                     </button>
@@ -124,7 +137,7 @@
                                         <svelte:component this={Eye} size="20" />
                                         {$LL.Preview()}
                                     </DropdownItem>
-                                    {#if user?.authorizations[0].permissions[3].hasPermission}
+                                    {#if checkPermission("Delete")}
                                         <DropdownItem on:click={() => showDialog(formTemplate.formTemplateId)} class="flex items-center gap-x-2 whitespace-nowrap">
                                             <svelte:component this={Trash2} size="20" />
                                             {$LL.Delete()}

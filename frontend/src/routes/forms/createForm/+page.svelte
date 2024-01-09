@@ -1,8 +1,8 @@
 <script lang="ts">
     import toast, { Toaster } from "svelte-french-toast"
     import LL from "../../../i18n/i18n-svelte"
-    import { FilePlus } from "lucide-svelte";
-    import FormComponent from "$lib/components/FormComponent.svelte";
+    import { FilePlus } from "lucide-svelte"
+    import FormComponent from "$lib/components/FormComponent.svelte"
 
     export let data
 
@@ -18,7 +18,7 @@
         {name: 'PL', checked: false}
     ]
     let formTemplate: FormTemplate = {
-        createdByUserId: user.userId,
+        createdByUserId: user!.userId,
         translations: [],
         questions: [],
         formTemplateId: null,

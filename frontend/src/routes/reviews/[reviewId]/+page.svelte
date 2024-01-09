@@ -11,6 +11,7 @@
 
     export let data
 
+    let user = data.user
     let lang = $locale.toUpperCase()
     let review = data.review
     let activeLang = review.translations[0].language
@@ -158,7 +159,7 @@
             <p class="font-semibold text-xl">{$LL.Form()}</p>
             <div class="flex gap-x-2 items-center">
                 {#if review.reviewStatus == 'NotStarted'}
-                    <Dropdown bind:object={review} />
+                    <Dropdown bind:object={review} {user} />
                 {/if}
                 <select bind:value={activeLang} class="bg-gray-100 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 px-2 py-1 rounded-lg">
                     {#each review.translations as translation}

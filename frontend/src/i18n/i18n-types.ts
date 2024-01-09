@@ -335,7 +335,7 @@ type RootTranslation = {
 	/**
 	 * S​a​v​e​ ​F​o​r​m
 	 */
-	Save: string
+	SaveForm: string
 	/**
 	 * S​p​e​c​i​f​y​ ​E​n​d​ ​D​a​t​e​.
 	 */
@@ -660,6 +660,22 @@ type RootTranslation = {
 	 * E​m​p​l​o​y​e​e​s
 	 */
 	Employees: string
+	/**
+	 * A​d​m​i​n​ ​s​e​t​t​i​n​g​s
+	 */
+	AdminSettings: string
+	/**
+	 * C​h​o​o​s​e​ ​p​r​o​f​i​l​e
+	 */
+	ChooseProfile: string
+	/**
+	 * S​e​l​e​c​t​ ​a​ ​p​r​o​f​i​l​e​ ​t​o​ ​c​h​a​n​g​e​ ​t​h​e​i​r​ ​p​e​r​m​i​s​s​i​o​n​s
+	 */
+	ChooseProfileDesc: string
+	/**
+	 * S​a​v​e​ ​c​h​a​n​g​e​s
+	 */
+	SaveChanges: string
 }
 
 export type TranslationFunctions = {
@@ -984,7 +1000,7 @@ export type TranslationFunctions = {
 	/**
 	 * Save Form
 	 */
-	Save: () => LocalizedString
+	SaveForm: () => LocalizedString
 	/**
 	 * Specify End Date.
 	 */
@@ -1309,6 +1325,22 @@ export type TranslationFunctions = {
 	 * Employees
 	 */
 	Employees: () => LocalizedString
+	/**
+	 * Admin settings
+	 */
+	AdminSettings: () => LocalizedString
+	/**
+	 * Choose profile
+	 */
+	ChooseProfile: () => LocalizedString
+	/**
+	 * Select a profile to change their permissions
+	 */
+	ChooseProfileDesc: () => LocalizedString
+	/**
+	 * Save changes
+	 */
+	SaveChanges: () => LocalizedString
 }
 
 export type Formatters = {}

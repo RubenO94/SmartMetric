@@ -85,7 +85,7 @@ const en: BaseTranslation = {
 	ReviewTypeDescription: "Choose the evaluation method that best suits the organizational dynamics.",
 	SaveReviewAsForm: "Save Review as Form template",
 	SaveReviewAsFormDesc: "If you wish, you can save the questionnaire from this review as a form template to facilitate the quick creation of future reviews. Just check the option below.",
-	Save: "Save Form",
+	SaveForm: "Save Form",
 	StartAndEndDateText: "Specify End Date.",
 	StartAndEndDateDesc: "Optionally, you can specify start and end dates for the review. If you don't provide this information now, you will be prompted to indicate the dates when you actually start the review.",
 	TopDown: {
@@ -175,7 +175,11 @@ const en: BaseTranslation = {
 	CreationDate: "Creation date",
 	AvailableLangs: "Available languages",
 	SelectLangsReview: "Select languages to create a review",
-	Employees: "Employees"
+	Employees: "Employees",
+	AdminSettings: "Admin settings",
+	ChooseProfile: "Choose profile",
+	ChooseProfileDesc: "Select a profile to change their permissions",
+	SaveChanges: "Save changes"
 }
 
 export default en
