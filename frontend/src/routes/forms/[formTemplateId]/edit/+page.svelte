@@ -25,5 +25,5 @@
         </div>
     </div>
 
-    <FormComponent {formTemplate} {action} />
+    <FormComponent {formTemplate} {action} addLangs={[]} />
 </div>

@@ -11,6 +11,7 @@
 
     export let formTemplate: FormTemplate
     export let action: string
+    export let addLangs: string[]
 
     let selectedQuestion: Question
     let insertedSingleChoiceOption: string = ''
@@ -20,14 +21,28 @@
     let chooseLanguage = formTemplate.translations[0].language
     let steps = [
         { text: $LL.Details() },
-        { text: $LL.Questions() },
-        { text: $LL.Finalize() }
+        { text: $LL.Questions() }
     ]
     let cards = [
         { id: 1, title: $LL.QuestionType.Text(), name: 'Text', icon: "M3 3h18v2H3zm0 4h12v2H3zm0 4h18v2H3zm0 4h12v2H3zm0 4h18v2H3z" },
         { id: 2, title: $LL.QuestionType.SingleChoice(), name: 'SingleChoice', icon: "m10 17l-5-5l1.41-1.42L10 14.17l7.59-7.59L19 8m0-5H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2" },
         { id: 3, title: $LL.QuestionType.Rating(), name: 'Rating', icon: "M14 17h-2V9h-2V7h4m5-4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2" }
     ]
+
+    formTemplate.questions.forEach((question: Question) => {
+        addLangs.forEach((lang: string) => {
+            question.translations = [...question.translations, {language: lang, title: '', description: ''}]
+            if (question.responseType == "Rating") {
+                question.ratingOptions.forEach((rto: RatingOption) => {
+                    rto.translations = [...rto.translations, {language: lang, title: '', description: ''}]
+                })
+            } else if (question.responseType == "SingleChoice") {
+                question.singleChoiceOptions.forEach((sco: SingleChoiceOption) => {
+                    sco.translations = [...sco.translations, {language: lang, title: '', description: ''}]
+                })
+            }
+        })
+    })
 
     async function saveForm() {
         let request: any
@@ -95,9 +110,17 @@
         }
     }
 
+    // Function to disable inputs when addLang ----------------------------------------------------------
+    function disableInputs() {
+        if (action === 'add' && !addLangs.includes(chooseLanguage)) {
+            return true
+        }
+    }
+
     //Functions for Drop questionType and create question -----------------------------------------------
     function allowDrop(event: DragEvent) { event.preventDefault() } 
     function handleDrop(event: DragEvent) {
+        if (action == "add") return
         event.preventDefault()
         const cardId = event.dataTransfer?.getData('text/plain')
         const selectedCard = cards.find(card => card.id.toString() === cardId)
@@ -120,6 +143,7 @@
         }
     }
     function handleDblClick(id: number) {
+        if (action == "add") return
         const selectedCard = cards.find(card => card.id === id)
         const newQuestion: Question = {
                 isRequired: false,
@@ -229,7 +253,7 @@
                 <p>{$LL.FormModelTitleDescription}</p>
                 {#each formTemplate.translations as translation}
                     {#if translation.language == chooseLanguage}
-                        <input name="titleForm" class="w-auto my-1 p-2 text-black border rounded peer" bind:value={translation.title} />
+                        <input name="titleForm" class="w-auto my-1 p-2 text-black border rounded peer" bind:value={translation.title} disabled={disableInputs()} />
                     {/if}
                 {/each}
             </div>
@@ -238,7 +262,7 @@
                 <p>{$LL.FormModelDescriptionDescription()}</p>
                 {#each formTemplate.translations as translation}
                     {#if translation.language == chooseLanguage}
-                        <textarea name="descriptionForm" rows="8" class="w-auto my-1 p-2 text-black border rounded" bind:value={translation.description}></textarea>
+                        <textarea name="descriptionForm" rows="8" class="w-auto my-1 p-2 text-black border rounded" bind:value={translation.description} disabled={disableInputs()}></textarea>
                     {/if}
                 {/each}
             </div>
@@ -276,9 +300,11 @@
                     {#each formTemplate.questions as question, index}
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
                         <div in:fade={{ duration: 500 }} out:fly={{ y: -200, duration: 500 }} id="questionsAdded" class="group bg-white flex flex-col gap-y-5 px-2 py-4 rounded border border-transparent cursor-pointer hover:border-blue-500 relative" on:click={() => selectQuestion(question)}>
-                            <button class="md:hidden md:group-hover:flex absolute top-0 right-0 p-2" on:click={(event) => removeQuestion(event, index)}>
-                                <svelte:component this={X} />
-                            </button>
+                            {#if action != "add"}
+                                <button class="md:hidden md:group-hover:flex absolute top-0 right-0 p-2" on:click={(event) => removeQuestion(event, index)}>
+                                    <svelte:component this={X} />
+                                </button>
+                            {/if}
                             <div class="flex flex-row gap-x-2">
                                 <p class="text-blue-500 font-extrabold">Q{question.position}</p>
                                 <div class="flex flex-col gap-y-1">
@@ -357,7 +383,7 @@
                             <div class="flex gap-x-2">
                                 <p class="text-black text-sm font-semibold">{$LL.Required()}</p>
                                 <label class="toggle">
-                                    <input type="checkbox" checked="{selectedQuestion.isRequired}" on:change={() => selectedQuestion.isRequired = !selectedQuestion.isRequired}>
+                                    <input type="checkbox" checked="{selectedQuestion.isRequired}" on:change={() => selectedQuestion.isRequired = !selectedQuestion.isRequired} disabled={disableInputs()}>
                                     <span class="slider"></span>
                                 </label>
                             </div>
@@ -365,7 +391,7 @@
                                 <p class="text-black text-sm font-semibold">{$LL.Title()}</p>
                                 {#each selectedQuestion.translations as translation, index}
                                     {#if translation.language == chooseLanguage}
-                                        <input class="text-black p-2 rounded" placeholder={$LL.Title()} bind:value={selectedQuestion.translations[index].title} on:blur={() => updateQuestion(selectedQuestion)} />
+                                        <input class="text-black p-2 rounded" placeholder={$LL.Title()} bind:value={selectedQuestion.translations[index].title} on:blur={() => updateQuestion(selectedQuestion)} disabled={disableInputs()} />
                                     {/if}
                                 {/each}
                             </div>
@@ -373,7 +399,7 @@
                                 <p class="text-black text-sm font-semibold">{$LL.Description()}</p>
                                 {#each selectedQuestion.translations as translation, index}
                                     {#if translation.language == chooseLanguage}
-                                        <textarea class="text-black p-2 rounded" placeholder={$LL.Description()} bind:value={selectedQuestion.translations[index].description} on:blur={() => updateQuestion(selectedQuestion)} rows="5"></textarea>
+                                        <textarea class="text-black p-2 rounded" placeholder={$LL.Description()} bind:value={selectedQuestion.translations[index].description} on:blur={() => updateQuestion(selectedQuestion)} rows="5" disabled={disableInputs()}></textarea>
                                     {/if}
                                 {/each}
                             </div>
@@ -385,25 +411,29 @@
                                             <div class="flex gap-x-2">
                                                 {#each option.translations as translation, index}
                                                     {#if translation.language == chooseLanguage}
-                                                        <input class="bg-white p-2 text-black rounded flex-grow" bind:value={translation.description} on:blur={() => updateQuestion(selectedQuestion)} />
+                                                        <input class="bg-white p-2 text-black rounded flex-grow" bind:value={translation.description} on:blur={() => updateQuestion(selectedQuestion)} disabled={disableInputs()} />
                                                     {/if}
                                                 {/each}
-                                                <button on:click={() => removeOption(index, 2)}>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 hover:text-black">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-                                                    </svg>  
-                                                </button>
+                                                {#if action != "add"}
+                                                    <button on:click={() => removeOption(index, 2)}>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 hover:text-black">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                                                        </svg>  
+                                                    </button>
+                                                {/if}
                                             </div>
                                         {/each}
-                                        <div class="flex gap-x-2">
-                                            <input id="numericValueRatingOption" type="number" pattern="[0-9]*" class="bg-white w-[70px] p-2 text-black border border-dashed border-gray-500 rounded" bind:value={insertedNumericValue} placeholder={$LL.Numeric()} />
-                                            <input id="titleRatingOption" class="bg-white p-2 text-black border border-dashed border-gray-500 rounded flex-grow" bind:value={insertedTitle} placeholder={$LL.AddOption()} />
-                                            <button on:click={() => addRatingOption(insertedNumericValue, insertedTitle)}>
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-500 hover:bg-blue-100 rounded-full">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                </svg>
-                                            </button>
-                                        </div>
+                                        {#if action != "add"}
+                                            <div class="flex gap-x-2">
+                                                <input id="numericValueRatingOption" type="number" pattern="[0-9]*" class="bg-white w-[70px] p-2 text-black border border-dashed border-gray-500 rounded" bind:value={insertedNumericValue} placeholder={$LL.Numeric()} disabled={disableInputs()} />
+                                                <input id="titleRatingOption" class="bg-white p-2 text-black border border-dashed border-gray-500 rounded flex-grow" bind:value={insertedTitle} placeholder={$LL.AddOption()} disabled={disableInputs()} />
+                                                <button on:click={() => addRatingOption(insertedNumericValue, insertedTitle)}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-500 hover:bg-blue-100 rounded-full">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        {/if}
                                     </div>
                                 </div>
                             {:else if selectedQuestion.responseType == 'SingleChoice'}
@@ -414,24 +444,28 @@
                                             <div class="flex gap-x-2">
                                                 {#each option.translations as translation, i}
                                                     {#if translation.language == chooseLanguage}
-                                                        <input class="bg-white p-2 text-black border border-gray-500 rounded flex-grow" bind:value={option.translations[i].description} on:blur={() => updateQuestion(selectedQuestion)} />
+                                                        <input class="bg-white p-2 text-black rounded flex-grow" bind:value={option.translations[i].description} on:blur={() => updateQuestion(selectedQuestion)} disabled={disableInputs()} />
                                                     {/if}
                                                 {/each}
-                                                <button on:click={() => removeOption(index, 1)}>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 hover:text-black">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                                                {#if action != "add"}
+                                                    <button on:click={() => removeOption(index, 1)}>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 hover:text-black">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                                                        </svg>
+                                                    </button>
+                                                {/if}
+                                            </div>
+                                        {/each}
+                                        {#if action != "add"}
+                                            <div class="flex gap-x-2">
+                                                <input class="bg-white p-2 text-black border border-dashed border-gray-500 rounded flex-grow" bind:value={insertedSingleChoiceOption} placeholder={$LL.AddOption()} />
+                                                <button on:click={() => addSingleChoiceOption(insertedSingleChoiceOption)}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-500 hover:bg-blue-100 rounded-full">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                     </svg>
                                                 </button>
                                             </div>
-                                        {/each}
-                                        <div class="flex gap-x-2">
-                                            <input class="bg-white p-2 text-black border border-dashed border-gray-500 rounded flex-grow" bind:value={insertedSingleChoiceOption} placeholder={$LL.AddOption()} />
-                                            <button on:click={() => addSingleChoiceOption(insertedSingleChoiceOption)}>
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-500 hover:bg-blue-100 rounded-full">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                </svg>
-                                            </button>
-                                        </div>
+                                        {/if}
                                     </div>
                                 </div>
                             {/if}
@@ -440,8 +474,6 @@
                 </div>
             </div>
         </div>
-    {:else}
-        <p>current = 2</p>
     {/if}
 
     <div class="flex justify-between mt-10">
@@ -451,7 +483,7 @@
         </button>
 
         <button on:click={handleStepForward} id="buttonGoForward" class="flex items-center gap-x-2 md:text-lg font-semibold px-5 py-2 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded">
-            {#if current != 2}
+            {#if current != steps.length - 1}
                 {$LL.Forward()}
             {:else}
                 {$LL.Finalize()}
