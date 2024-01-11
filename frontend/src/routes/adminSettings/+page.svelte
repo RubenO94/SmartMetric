@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { api } from "$lib/api/_api";
-    import { onMount } from "svelte";
+    import { api } from "$lib/api/_api"
     import LL from "../../i18n/i18n-svelte"
     import { goto } from "$app/navigation";
     import toast, { Toaster } from "svelte-french-toast";
@@ -57,26 +56,84 @@
         {/if}
     </div>
 
-    <div class="flex flex-col gap-y-5">
-    {#await getPermissionOfProfile(profileChooseId)}
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg>
-    {:then}
-        {#each profilePermissions as window}
-            <div class="flex flex-col gap-y-1">
-                <li class="text-black font-semibold">{window.windowType}</li>
-                <div class="flex gap-x-5">
-                    {#each window.permissions as permission}
-                        <div class="flex gap-x-1">
-                            <p>{permission.permissionType}</p>
-                            <input type="checkbox" bind:checked={permission.hasPermission} />
-                        </div>
-                        |
-                    {/each}
-                </div>
+    <div class="flex flex-col gap-y-20">
+        {#await getPermissionOfProfile(profileChooseId)}
+            <div class="flex justify-center items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg>
             </div>
-        {/each}
-    {/await}
+        {:then}
+            <div class="flex flex-col gap-y-5">
+                {#each profilePermissions as window}
+                    <div class="flex flex-col gap-y-1">
+                        <li class="text-black font-semibold">{window.windowType}</li>
+                        <div class="flex gap-x-5">
+                            {#each window.permissions as permission, index}
+                                <div class="flex gap-x-1">
+                                    <p>{permission.permissionType}</p>
+                                    <label class="toggle">
+                                        <input type="checkbox" bind:checked={permission.hasPermission}>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                {#if window.permissions.length != index + 1}
+                                    |
+                                {/if}
+                            {/each}
+                        </div>
+                    </div>
+                {/each}
+            </div>
+            <button on:click={saveSettings} class="mx-auto border border-transparent p-2 rounded text-white bg-blue-500 hover:bg-blue-700 hover:border-blue-950">{$LL.SaveChanges()}</button>
+        {/await}
     </div>
-
-    <button on:click={saveSettings} class="mx-auto border border-transparent p-2 rounded text-white bg-blue-500 hover:bg-blue-700 hover:border-blue-950">{$LL.SaveChanges()}</button>
 </div>
+
+<style>
+    .toggle {
+        position: relative;
+        display: inline-block;
+        width: 40px;
+        height: 22px;
+    }
+         
+    /* Hide the checkbox input */
+    .toggle input {
+        display: none;
+    }
+         
+    /* Describe slider's look and position. */
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: gray;
+        transition: .4s;
+        border-radius: 34px;
+    }
+         
+    /* Describe the white ball's location and appearance in the slider. */
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        left: 4px;
+        bottom: 2px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+    }
+         
+    /* Modify the slider's background color to green once the checkbox has been selected. */
+    input:checked+.slider {
+        background-color: #3B82F6;
+    }
+         
+    /* When the checkbox is checked, shift the white ball towards the right within the slider. */
+    input:checked+.slider:before {
+        transform: translateX(14px);
+    }
+</style>

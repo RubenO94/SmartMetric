@@ -23,6 +23,7 @@
     }
 
     function showDialog(index: string) {
+        
         isDropdownOpen = false
         formTemplateToDelete = index
         let dialog = document.getElementById('dialog');
@@ -111,7 +112,7 @@
             {#each responseData as formTemplate, i}
                 {#each formTemplate.translations as translation}
                     {#if translation.language == lang}
-                        <div class="flex gap-x-2 justify-between md:items-center p-4 border-b border-gray-300 hover:bg-gray-100 {i == 0 ? 'rounded-t' : ''}">
+                        <div class="flex gap-x-2 justify-between md:items-center p-4 border-b border-gray-300 {i == 0 ? 'rounded-t' : ''}">
                             <div class="flex gap-x-4 flex-grow">
                                 <div class="flex flex-col gap-x-1 pt-1">
                                     <p class="text-sm md:text-base">{translation.title}</p>
@@ -129,7 +130,7 @@
                             </div>
 
                             <div class="relative group md:hidden items-center">
-                                <button class="cursor-pointer hover:bg-gray-300 p-2 rounded">
+                                <button class="cursor-pointer hover:bg-gray-100 p-2 rounded focus:bg-gray-100">
                                     <svelte:component this={MoreVertical} />
                                 </button>
                                 <Dropdown bind:open={isDropdownOpen}>

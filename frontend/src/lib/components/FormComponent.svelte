@@ -231,8 +231,6 @@
         }
         updateQuestion(selectedQuestion)
     }
-
-    $: console.log(formTemplate)
 </script>
 
 <div class="flex flex-col text-gray-400 text-xs gap-y-10">

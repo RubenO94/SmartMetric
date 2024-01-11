@@ -47,7 +47,7 @@
 			</div>
 		{/if}
 		<Header {sidebarVisible} {toggleSidebar} />
-		<div style="height:calc(100vh - 56px); overflow-y: auto;">
+		<div style="height:calc(100vh - 56px); overflow-y: auto; overflow-x: hidden">
 			<slot />
 		</div>
 	</div>
