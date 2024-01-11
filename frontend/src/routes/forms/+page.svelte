@@ -1,7 +1,7 @@
 <script lang="ts">
     import { api } from "$lib/api/_api"
     import { LL, locale } from "../../i18n/i18n-svelte"
-    import { AlertCircle, Eye, MoreVertical, Pencil, Plus, PlusCircle, Search, Trash2, XCircle } from 'lucide-svelte'
+    import { AlertCircle, Eye, MoreVertical, Plus, Search, Trash2, XCircle } from 'lucide-svelte'
     import toast, { Toaster } from "svelte-french-toast"
     import { Dropdown, DropdownItem } from 'flowbite-svelte'
 
@@ -23,7 +23,6 @@
     }
 
     function showDialog(index: string) {
-        
         isDropdownOpen = false
         formTemplateToDelete = index
         let dialog = document.getElementById('dialog');
@@ -79,15 +78,15 @@
 </div>
 
 <div class="mx-auto flex flex-col xl:w-[1280px] p-5 gap-y-10">
+    <div class="flex mx-auto p-1 gap-x-1 border border-gray-300 text-gray-500 rounded">
+        {#each languages as language}
+            <button class="py-1 px-2 rounded {language === lang ? 'bg-blue-500 text-white' : 'hover:bg-gray-100' }" on:click={() => lang = language}>{language}</button>
+        {/each}
+    </div>
     <!-- Title and Create button-->
     <div class="flex flex-col md:flex-row gap-y-5 justify-between">
         <h1 class="font-semibold text-2xl mx-auto md:mx-0">{ $LL.Sidebar.Forms() }</h1>
         <div class="flex gap-x-2">
-            <!-- <div class="flex border border-black rounded">
-                {#each languages as language, index}
-                    <button class="p-1 {language === lang ? 'underline' : '' } {index + 1 != languages.length ? 'border-r border-black' : '' }" on:click={() => lang = language}>{language}</button> 
-                {/each}
-            </div> -->
             {#if checkPermission("Create")}
                 <a href="forms/createForm/" class="flex mx-auto md:mx-0 items-center gap-x-1 bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer border border-transparent hover:bg-blue-700 hover:border-blue-950">
                     <svelte:component this={Plus} />

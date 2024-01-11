@@ -111,7 +111,8 @@
     }
 
     // Function to disable inputs when addLang ----------------------------------------------------------
-    function disableInputs() {
+    function disableInputs(toggle?: boolean) {
+        if (toggle) { return true }
         if (action === 'add' && !addLangs.includes(chooseLanguage)) {
             return true
         }
@@ -381,7 +382,7 @@
                             <div class="flex gap-x-2">
                                 <p class="text-black text-sm font-semibold">{$LL.Required()}</p>
                                 <label class="toggle">
-                                    <input type="checkbox" checked="{selectedQuestion.isRequired}" on:change={() => selectedQuestion.isRequired = !selectedQuestion.isRequired} disabled={disableInputs()}>
+                                    <input type="checkbox" checked="{selectedQuestion.isRequired}" on:change={() => selectedQuestion.isRequired = !selectedQuestion.isRequired} disabled={disableInputs(true)}>
                                     <span class="slider"></span>
                                 </label>
                             </div>

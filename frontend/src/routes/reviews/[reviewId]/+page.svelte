@@ -28,6 +28,12 @@
         else if (review.reviewStatus == 'Active') reviewPatchBody.reviewStatus = 'Canceled'
     })
 
+    function checkPermission() {
+        let window = user?.authorizations.find((m: any) => m.windowType === "Reviews")
+        let permission = window.permissions.find((n: any) => n.permissionType === "Patch")
+        return permission.hasPermission
+    }
+
     function showLanguageTranslation(languageAbbrev: string) {
         switch (languageAbbrev) {
             case 'PT':
@@ -94,7 +100,7 @@
     {#if pageSelected == 'details'}
         <div class="flex justify-between">
             <h1 class="font-semibold text-xl mb-5">{ review.translations[0].title }</h1>
-            {#if review.reviewStatus == 'NotStarted'}
+            {#if review.reviewStatus == 'NotStarted' && checkPermission()}
                 <button on:click={showDialog} class="flex flex-row items-center gap-x-1 h-fit bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer border border-transparent hover:bg-blue-700 hover:border-blue-950">
                     <svelte:component this={Clock} size="20" />
                     {$LL.StartReview()}
@@ -102,7 +108,7 @@
 
                 <!-- DIALOG -->
                 <div id="dialog" class="fixed left-0 top-0 bg-black bg-opacity-75 hidden w-screen h-screen transition-opacity duration-500">
-                    <div class="bg-white rounded shadow-md p-8 mx-auto my-20 w-2/5 flex flex-col gap-y-5">
+                    <div class="bg-white rounded shadow-md p-8 mx-auto my-20 w-4/5 lg:w-3/5 xl:w-2/5">
                         <div class="flex items-center gap-5">
                             <div class="bg-blue-200 text-blue-500 flex items-center justify-center w-10 h-10 p-5 rounded-full">
                                 <p>
@@ -124,15 +130,15 @@
                         </div>
                     </div>
                 </div>
-            {:else if review.reviewStatus == 'Active'}
-                <button on:click={showDialog} class="flex flex-row items-center gap-x-1 bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer border border-transparent hover:bg-blue-700 hover:border-blue-950">
-                    <svelte:component this={ArchiveX} size="20" />                                       
+            {:else if review.reviewStatus == 'Active' && checkPermission()}
+                <button on:click={showDialog} class="flex flex-row items-center gap-x-1 h-fit bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer border border-transparent hover:bg-blue-700 hover:border-blue-950">
+                    <svelte:component this={ArchiveX} size="20" />
                     {$LL.CancelReview()}
                 </button>
 
                 <!-- DIALOG -->
                 <div id="dialog" class="fixed left-0 top-0 bg-black bg-opacity-75 hidden w-screen h-screen transition-opacity duration-500">
-                    <div class="bg-white rounded shadow-md p-8 mx-auto my-20 w-2/5 flex flex-col gap-y-5">
+                    <div class="bg-white rounded shadow-md p-8 mx-auto my-20 w-4/5 lg:w-3/5 xl:w-2/5">
                         <div class="flex items-center gap-5">
                             <div class="bg-red-200 text-red-500 flex items-center justify-center w-10 h-10 p-5 rounded-full">
                                 <p>

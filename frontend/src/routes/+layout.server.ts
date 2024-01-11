@@ -1,4 +1,3 @@
-import { api } from "$lib/api/_api"
 import type { LayoutServerLoad } from "./$types"
 
 export const load: LayoutServerLoad = async ({ locals }) => {

@@ -66,18 +66,16 @@
                 {#each profilePermissions as window}
                     <div class="flex flex-col gap-y-1">
                         <li class="text-black font-semibold">{window.windowType}</li>
-                        <div class="flex gap-x-5">
-                            {#each window.permissions as permission, index}
-                                <div class="flex gap-x-1">
+                        <div class="flex flex-col md:flex-row justify-around gap-y-1">
+                            {#each window.permissions as permission}
+                                <div class="flex gap-x-2 justify-between">
                                     <p>{permission.permissionType}</p>
+                                    <div class="flex-grow h-auto border-b-2 border-gray-300"></div>
                                     <label class="toggle">
                                         <input type="checkbox" bind:checked={permission.hasPermission}>
                                         <span class="slider"></span>
                                     </label>
                                 </div>
-                                {#if window.permissions.length != index + 1}
-                                    |
-                                {/if}
                             {/each}
                         </div>
                     </div>
