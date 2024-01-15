@@ -36,23 +36,40 @@
         return item.permission
     }
     
+    console.log(user)
 </script>
 
 <nav class="hidden xl:flex flex-col w-[250px] min-h-screen text-sm bg-gray-100 border-r-[1px] border-gray-300" transition:fly={{ delay: 0, duration: 200, x: -50 }}>
     <UserMenu bind:user={user} />
     <div class="flex flex-col gap-y-1 px-1 py-2">
-        <p class="font-semibold text-center pt-4 pb-1 px-2">{$LL.Backoffice()}</p>
-        <hr class="mx-10" />
-        {#each menuItems as item}
-            {#if checkPermission(item)}
-                <a href="/{item.name.toLowerCase()}" class="flex flex-row gap-x-2 items-center hover:bg-gray-300 p-2 rounded {$page.url.pathname.split("/")[1].toLowerCase() === item.name.toLowerCase() ? 'bg-gray-300' : ''}">
-                    <svelte:component this={item.icon} size={20} />
-                    <p class="text-sm">{item.label}</p>
-                    {#if $page.url.pathname.split("/")[1].toLowerCase() === item.name.toLowerCase()}
-                        <svelte:component this={ChevronRight} size={20} class="ml-auto" />
-                    {/if}
-                </a>
-            {/if}
-        {/each}
+        {#if user.profileType === 'Backoffice'}
+            <p class="font-semibold text-center pt-4 pb-1 px-2">{$LL.Backoffice()}</p>
+            <hr class="mx-10" />
+            {#each menuItems as item}
+                {#if checkPermission(item)}
+                    <a href="/{item.name.toLowerCase()}" class="flex flex-row gap-x-2 items-center hover:bg-gray-200 p-2 rounded {$page.url.pathname.split("/")[1].toLowerCase() === item.name.toLowerCase() ? 'bg-gray-200' : ''}">
+                        <svelte:component this={item.icon} size={20} />
+                        <p class="text-sm">{item.label}</p>
+                        {#if $page.url.pathname.split("/")[1].toLowerCase() === item.name.toLowerCase()}
+                            <svelte:component this={ChevronRight} size={20} class="ml-auto" />
+                        {/if}
+                    </a>
+                {/if}
+            {/each}
+        {:else if user.profileType === 'Frontoffice'}
+            <p class="font-semibold text-center pt-4 pb-1 px-2">{$LL.Frontoffice()}</p>
+            <hr class="mx-10" />
+            {#each menuItems as item}
+                {#if checkPermission(item)}
+                    <a href="/{item.name.toLowerCase()}" class="flex flex-row gap-x-2 items-center hover:bg-gray-200 p-2 rounded {$page.url.pathname.split("/")[1].toLowerCase() === item.name.toLowerCase() ? 'bg-gray-200' : ''}">
+                        <svelte:component this={item.icon} size={20} />
+                        <p class="text-sm">{item.label}</p>
+                        {#if $page.url.pathname.split("/")[1].toLowerCase() === item.name.toLowerCase()}
+                            <svelte:component this={ChevronRight} size={20} class="ml-auto" />
+                        {/if}
+                    </a>
+                {/if}
+            {/each}
+        {/if}
     </div>
 </nav>

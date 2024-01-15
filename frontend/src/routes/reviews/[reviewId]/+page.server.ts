@@ -6,8 +6,6 @@ export const load: PageServerLoad = async ({ url }) => {
         //Using the URL constructor to parse the URL
         const parsedURL = new URL(url)
         const pathSegments = parsedURL.pathname.split("/").filter(Boolean)
-
-        // Get last element of url, Id of the formTemplate
         const reviewId = pathSegments[pathSegments.length - 1]
 
         const [reviewResponse] = await Promise.all([

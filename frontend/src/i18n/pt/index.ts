@@ -161,7 +161,7 @@ const pt: Translation = {
 	RemoveReviewStatusDialogDesc: 'Tem a certeza que pretende remover a revisão? Esta ação não pode ser revertida.',
 	DeleteFormMessage: 'Modelo de formulário removido com sucesso.',
 	DeleteReviewMessage: 'Revisão removida com sucesso.',
-	FormDivText: 'Não existem formulários para mostrar de momento.',
+	FormDivText: 'Não existem formulários deste idioma para mostrar de momento.',
 	EditReview: 'Editar revisão',
 	EditReviewDescription: 'Esta funcionalidade permite aos utilizadores editar uma revisão antes de a iniciar.',
 	NoDescription: 'Esta questão não tem descrição',
@@ -179,7 +179,9 @@ const pt: Translation = {
 	AdminSettings: 'Definições de administrador',
 	ChooseProfile: 'Escolher perfil',
 	ChooseProfileDesc: 'Selecionar um perfil para mudar as permissões',
-	SaveChanges: 'Guardar alterações'
+	SaveChanges: 'Guardar alterações',
+	Review: 'Revisão',
+	BasicInfo: 'Informação básica'
 }
 
 export default pt

@@ -2,11 +2,11 @@
     import { goto } from "$app/navigation"
     import { LL } from "../../i18n/i18n-svelte"
     import { Plus, Search } from 'lucide-svelte'
-    import { Indicator, Button } from "flowbite-svelte"
 
     export let data
 
     let reviews = data.reviews
+    let user = data.user
     let activeSeparator: string = 'Active'
 
     function showStatusReview(reviewStatus: string) {
@@ -18,6 +18,12 @@
             default: return $LL.ReviewState.DontExist()
         }
     }
+
+    function checkPermission() {
+        let window = user?.authorizations.find((m: any) => m.windowType == 'Reviews')
+        let permission = window.permissions.find((n: any) => n.permissionType === 'Create')
+        return permission.hasPermission
+    }
 </script>
 
 <svelte:head>
@@ -27,10 +33,12 @@
 <div class="mx-auto flex flex-col w-[1280px] p-5 gap-y-10">
     <div class="flex justify-between">
         <h1 class="font-semibold text-2xl">{ $LL.Sidebar.Reviews() }</h1>
-        <a href="/reviews/createReview" class="flex flex-row items-center gap-x-1 bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer border border-transparent hover:bg-blue-700 hover:border-blue-950">
-            <svelte:component this={Plus} />
-            { $LL.ReviewButton() }
-        </a>
+        {#if checkPermission()}
+            <a href="/reviews/createReview" class="flex flex-row items-center gap-x-1 bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer border border-transparent hover:bg-blue-700 hover:border-blue-950">
+                <svelte:component this={Plus} />
+                { $LL.ReviewButton() }
+            </a>
+        {/if}
     </div>
 
     <!-- Search Bar -->
@@ -44,10 +52,10 @@
     <!-- Table list of reviews -->
     <div class="flex flex-col">
         <div class="flex gap-x-2">
-            <button on:click={() => activeSeparator = 'Active'} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator === 'Active' ? 'border-blue-500' : 'border-transparent'}">{$LL.Ongoing()}</button>
-            <button on:click={() => activeSeparator = 'NotStarted'} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator === 'NotStarted' ? 'border-blue-500' : 'border-transparent'}">{$LL.NotStarted()}</button>
-            <button on:click={() => activeSeparator = 'Canceled'} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator === 'Canceled' ? 'border-blue-500' : 'border-transparent'}">{$LL.Canceled()}</button>
-            <button on:click={() => activeSeparator = 'Completed'} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator === 'Completed' ? 'border-blue-500' : 'border-transparent'}">{$LL.Completed()}</button>
+            <button on:click={() => activeSeparator = 'Active'} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator === 'Active' ? 'border-blue-500 text-blue-500' : 'border-transparent'}">{$LL.Ongoing()}</button>
+            <button on:click={() => activeSeparator = 'NotStarted'} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator === 'NotStarted' ? 'border-blue-500 text-blue-500' : 'border-transparent'}">{$LL.NotStarted()}</button>
+            <button on:click={() => activeSeparator = 'Canceled'} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator === 'Canceled' ? 'border-blue-500 text-blue-500' : 'border-transparent'}">{$LL.Canceled()}</button>
+            <button on:click={() => activeSeparator = 'Completed'} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator === 'Completed' ? 'border-blue-500 text-blue-500' : 'border-transparent'}">{$LL.Completed()}</button>
         </div>
         <div class="w-full overflow-x-auto">
             <table class="w-full bg-transparent border-collapse table-auto">

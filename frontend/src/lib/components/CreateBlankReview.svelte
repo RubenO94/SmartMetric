@@ -1,8 +1,7 @@
 <script lang="ts">
     import dayjs from 'dayjs'
     import LL from "../../i18n/i18n-svelte"
-    import toast, { Toaster } from 'svelte-french-toast'
-    import { api_token, api_url } from '$lib/stores/url'
+    import toast from 'svelte-french-toast'
     import { draggable } from '$lib/actions/dnd'
     import { fade, fly } from 'svelte/transition'
     import { goto } from "$app/navigation"
@@ -34,7 +33,8 @@
         reviewStatus: 'NotStarted',
         translations: [],
         questions: [],
-        reviewDepartmentsIds: []
+        reviewDepartmentsIds: [],
+        reviewEmployeesIds: []
     }
     let formTemplate: FormTemplate = {
         createdByUserId: review.createdByUserId,
@@ -553,7 +553,7 @@
                 <p>{$LL.SaveReviewAsFormDesc()}</p>
                 <div class="flex items-center m-5">
                     <input on:click={() => saveAsForm = !saveAsForm} checked={saveAsForm} id="default-checkbox" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
-                    <label for="default-checkbox" class="ms-2 text-sm font-medium text-gray-600">{$LL.Save()}</label>
+                    <label for="default-checkbox" class="ms-2 text-sm font-medium text-gray-600">{$LL.SaveForm()}</label>
                 </div>
             </div>
             <div class="flex flex-col gap-y-1">

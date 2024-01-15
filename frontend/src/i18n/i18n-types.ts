@@ -601,7 +601,7 @@ type RootTranslation = {
 	 */
 	DeleteReviewMessage: string
 	/**
-	 * T​h​e​r​e​ ​a​r​e​ ​n​o​ ​f​o​r​m​s​ ​c​r​e​a​t​e​d​ ​y​e​t​.
+	 * T​h​e​r​e​ ​a​r​e​ ​n​o​ ​f​o​r​m​s​ ​o​f​ ​t​h​i​s​ ​l​a​n​g​u​a​g​e​ ​t​o​ ​s​h​o​w​ ​a​t​ ​t​h​e​ ​m​o​m​e​n​t​.
 	 */
 	FormDivText: string
 	/**
@@ -676,6 +676,14 @@ type RootTranslation = {
 	 * S​a​v​e​ ​c​h​a​n​g​e​s
 	 */
 	SaveChanges: string
+	/**
+	 * R​e​v​i​e​w
+	 */
+	Review: string
+	/**
+	 * B​a​s​i​c​ ​i​n​f​o​r​m​a​t​i​o​n
+	 */
+	BasicInfo: string
 }
 
 export type TranslationFunctions = {
@@ -1266,7 +1274,7 @@ export type TranslationFunctions = {
 	 */
 	DeleteReviewMessage: () => LocalizedString
 	/**
-	 * There are no forms created yet.
+	 * There are no forms of this language to show at the moment.
 	 */
 	FormDivText: () => LocalizedString
 	/**
@@ -1341,6 +1349,14 @@ export type TranslationFunctions = {
 	 * Save changes
 	 */
 	SaveChanges: () => LocalizedString
+	/**
+	 * Review
+	 */
+	Review: () => LocalizedString
+	/**
+	 * Basic information
+	 */
+	BasicInfo: () => LocalizedString
 }
 
 export type Formatters = {}

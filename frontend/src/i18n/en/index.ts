@@ -161,7 +161,7 @@ const en: BaseTranslation = {
 	RemoveReviewStatusDialogDesc: "Are you sure you want to remove review? This action cannot be undone.",
 	DeleteFormMessage: "Form template deleted successfully.",
 	DeleteReviewMessage: "Review deleted successfully.",
-	FormDivText: "There are no forms created yet.",
+	FormDivText: "There are no forms of this language to show at the moment.",
 	EditReview: "Edit review",
 	EditReviewDescription: "This feature allows you to edit review before active it.",
 	NoDescription: "This question doesn't have a description",
@@ -179,7 +179,9 @@ const en: BaseTranslation = {
 	AdminSettings: "Admin settings",
 	ChooseProfile: "Choose profile",
 	ChooseProfileDesc: "Select a profile to change their permissions",
-	SaveChanges: "Save changes"
+	SaveChanges: "Save changes",
+	Review: "Review",
+	BasicInfo: "Basic information"
 }
 
 export default en

@@ -10,7 +10,7 @@
 	
 </script>
 
-<header class="flex items-center px-2 md:px-10 py-2 text-xs md:text-sm border-b-[1px] border-gray-300 justify-between">
+<header class="flex items-center px-2 md:px-5 py-2 text-xs md:text-sm border-b-[1px] border-gray-300 justify-between">
 	<!-- Button to hide or show the Sidebar -->
 	<div class="flex gap-x-1 md:gap-x-4">
 		<div class="relative 2xl:inline-block group hidden">
@@ -58,13 +58,13 @@
 		</div>
 	</div>
 
-	<div class="flex gap-x-2 items-center">
+	<!-- <div class="flex gap-x-2 items-center">
 		<div class="relative group">
 			<svelte:component this={HelpCircle} class="cursor-pointer" />
 			<div class="absolute w-max top-0 right-full mt-2 mr-2 p-2 bg-gray-800 text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-x-0">
 				{$LL.Help()}
 			</div>
 		</div>
-	</div>
+	</div> -->
 		  
 </header>

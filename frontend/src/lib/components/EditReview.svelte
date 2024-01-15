@@ -432,7 +432,7 @@
                 <p>{$LL.SaveReviewAsFormDesc()}</p>
                 <div class="flex items-center m-5">
                     <input on:click={() => saveAsForm = !saveAsForm} checked={saveAsForm} id="default-checkbox" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
-                    <label for="default-checkbox" class="ms-2 text-sm font-medium text-gray-600">{$LL.Save()}</label>
+                    <label for="default-checkbox" class="ms-2 text-sm font-medium text-gray-600">{$LL.SaveForm()}</label>
                 </div>
             </div>
             <div class="flex flex-col gap-y-1">

@@ -38,7 +38,8 @@
         reviewStatus: 'NotStarted',
         translations: [],
         questions: [],
-        reviewDepartmentsIds: []
+        reviewDepartmentsIds: [],
+        reviewEmployeesIds: []
     }
     let formTemplate: FormTemplate = {
         createdByUserId: review.createdByUserId,
@@ -94,7 +95,6 @@
             api("GET", `Departments/${idDep}/Employees`)
         ])
         employees = response?.body
-        console.log(employees)
     }
 
     //Functions for Drop questionType and create question
@@ -333,7 +333,7 @@
                         {#if department.departmentParentId == 0}   
                             <li class="cursor-pointer">
                                 <div class="text-gray-600 flex items-center font-medium gap-x-2">
-                                    <input bind:checked={department.checked} bind:group={review.reviewDepartmentsIds} value={department.departmentId} type="checkbox" class="accent-blue-500 w-5 h-5" />
+                                    <input bind:group={review.reviewDepartmentsIds} value={department.departmentId} type="checkbox" class="accent-blue-500 w-5 h-5" />
                                     <p>{department.departmentDescription}</p>
                                 </div>
                             </li>

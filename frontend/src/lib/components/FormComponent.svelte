@@ -112,7 +112,7 @@
 
     // Function to disable inputs when addLang ----------------------------------------------------------
     function disableInputs(toggle?: boolean) {
-        if (toggle) { return true }
+        if (toggle && action === 'add') { return true }
         if (action === 'add' && !addLangs.includes(chooseLanguage)) {
             return true
         }
@@ -298,7 +298,7 @@
                     {/if}
                     {#each formTemplate.questions as question, index}
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
-                        <div in:fade={{ duration: 500 }} out:fly={{ y: -200, duration: 500 }} id="questionsAdded" class="group bg-white flex flex-col gap-y-5 px-2 py-4 rounded border border-transparent cursor-pointer hover:border-blue-500 relative" on:click={() => selectQuestion(question)}>
+                        <div in:fade={{ duration: 500 }} out:fly={{ y: -200, duration: 500 }} id="questionsAdded" class="group bg-white flex flex-col gap-y-5 px-2 py-4 rounded border border-transparent cursor-pointer hover:border-blue-500 relative" class:selected={question == selectedQuestion} on:click={() => selectQuestion(question)}>
                             {#if action != "add"}
                                 <button class="md:hidden md:group-hover:flex absolute top-0 right-0 p-2" on:click={(event) => removeQuestion(event, index)}>
                                     <svelte:component this={X} />
@@ -541,7 +541,8 @@
         transform: translateX(14px);
     }
 
-    #questionsAdded:focus {
-        border-color: #3B82F6
+    /* Add border blue to selected question */
+    .selected {
+        border-color: #3B82F6;
     }
 </style>

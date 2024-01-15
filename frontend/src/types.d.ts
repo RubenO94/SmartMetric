@@ -38,8 +38,9 @@ type Reviews = {
     reviewType: string,
     reviewStatus: string,
     translations: Translations[],
-    questions: Question[]
-    reviewDepartmentsIds: Array<number>
+    questions: Question[],
+    reviewDepartmentsIds: Array<number>,
+    reviewEmployeesIds: Array<number>
 }
 
 type Secrets = {
