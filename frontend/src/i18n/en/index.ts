@@ -111,6 +111,7 @@ const en: BaseTranslation = {
 	ErrorsReview: {
 		Title: "Review must have a title",
 		Question: "Review must have at least one question",
+		QuestionTitle: "All questions of review must have a title",
 		ReviewType: "Review must have a type",
 		Departments: "Review must have at least one department associated",
 		Others: "Server error",
@@ -181,7 +182,11 @@ const en: BaseTranslation = {
 	ChooseProfileDesc: "Select a profile to change their permissions",
 	SaveChanges: "Save changes",
 	Review: "Review",
-	BasicInfo: "Basic information"
+	BasicInfo: "Basic information",
+	ReviewSuccess: "Review created successfully",
+	Continue: "Continue",
+	SelectFormTemplate: "Select form template to use:",
+	NoEmployees: "No Employees"
 }
 
 export default en

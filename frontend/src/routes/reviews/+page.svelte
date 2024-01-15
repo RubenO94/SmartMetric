@@ -74,7 +74,7 @@
                             <tr class="border-b border-gray-300 hover:bg-zinc-100 cursor-pointer" on:click={() => goto(`/reviews/${review.reviewId}`)}>
                                 <td>
                                     <div class="flex flex-row p-2 gap-x-2">
-                                        <div class="bg-red-200 flex items-center justify-center px-6 py-5 rounded-md">AA</div>
+                                        <div class="bg-red-200 flex items-center justify-center px-6 py-5 rounded-md">{review.translations[0].title.slice(0, 3)}</div>
                                         <div class="flex flex-col">
                                             <p>{review.translations[0].title}</p>
                                             <p class="text-xs text-gray-400 overflow-hidden max-h-8 leading-4">{review.translations[0].description}</p>

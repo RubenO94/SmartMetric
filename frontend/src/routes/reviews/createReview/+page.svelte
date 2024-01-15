@@ -2,16 +2,14 @@
     import { api } from "$lib/api/_api"
     import { onMount } from "svelte"
     import ChooseReview from "$lib/components/ChooseReview.svelte"
-    import CreateBlankReview from "$lib/components/CreateBlankReview.svelte"
-    import CreateReviewWithForm from "$lib/components/CreateReviewWithForm.svelte"
     import LL from "../../../i18n/i18n-svelte"
     import toast, { Toaster } from "svelte-french-toast"
+    import ReviewComponent from "$lib/components/ReviewComponent.svelte"
 
     export let data
 
     let user = data.user
-    let lang = data.lang[0].slice(0, 2).toUpperCase()
-    let chooseForm: number = 0
+    let departments = data.departments
     let currentStep: number = 1
     let page: number = 1
     let FormTemplates: FormTemplate[] = []
@@ -24,12 +22,30 @@
         {name: 'FR', checked: false},
         {name: 'PL', checked: false}
     ]
+    let action = 'create'
+    let review: Reviews = {
+        createdByUserId: user!.userId,
+        translations: [],
+        questions: [],
+        reviewId: null,
+        createdDate: null,
+        startDate: null,
+        endDate: null,
+        reviewType: "",
+        reviewStatus: "NotStarted",
+        reviewDepartmentsIds: [],
+        reviewEmployeesIds: []
+    }
 
     function checkLanguages() {
         if (chooseLanguages.length < 1) {
             toast.error($LL.ErrorAddingLanguagesToForm())
             return
-        } 
+        }
+        chooseLanguages.forEach((lang: string) => {
+            review.translations = [...review.translations, {language: lang, title: '', description: ''}]
+        })
+        if (currentStep == 3) review.questions = formTemplateChoose.questions
         page++
     }
 
@@ -73,6 +89,7 @@
     })
 
     $: chooseLanguages = languages.filter(language => language.checked).map(language => language.name)
+    console.log(departments)
 </script>
 
 <Toaster />
@@ -103,9 +120,9 @@
             </div>
             <button on:click={() => checkLanguages()} class="flex gap-x-2 mx-auto text-base font-semibold px-5 py-2 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded">Create form</button>
         {:else if page == 2}
-            <CreateBlankReview {user} bind:languages={chooseLanguages} />
+            <ReviewComponent {review} {action} addLangs={[]} {departments} />
+            <!-- <CreateBlankReview {user} bind:languages={chooseLanguages} /> -->
         {/if}
-        
     {:else}
         <div class="flex flex-row gap-x-4 text-blue-500">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="100" height="100">
@@ -120,7 +137,7 @@
         {#if page == 1}
             <div class="flex flex-col gap-y-10">
                 <div class="flex flex-col gap-y-2">
-                   <p class="text-black text-base font-semibold">Select form template to use:</p>
+                   <p class="text-black text-base font-semibold">{$LL.SelectFormTemplate()}</p>
                     <select bind:value={formTemplateChoose} class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 flex-grow p-2">
                         {#each FormTemplates as formTemplate}
                             <option value="{formTemplate}">
@@ -132,7 +149,7 @@
                     </select> 
                 </div>
 
-                <button on:click={() => goNext()} class="text-lg font-semibold py-1 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded">Continue</button>
+                <button on:click={() => goNext()} class="text-lg font-semibold py-1 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded">{$LL.Continue()}</button>
             </div>
         {:else if page == 2}
             <p>{$LL.SelectLangsReview()}</p>
@@ -144,9 +161,10 @@
                     </button>
                 {/each}
             </div>
-            <button on:click={() => checkLanguages()} class="flex gap-x-2 mx-auto text-base font-semibold px-5 py-2 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded">Create form</button>
+            <button on:click={() => checkLanguages()} class="flex gap-x-2 mx-auto text-base font-semibold px-5 py-2 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded">{$LL.FormButton()}</button>
         {:else}
-            <CreateReviewWithForm {user} bind:languages={chooseLanguages} bind:questions={formTemplateChoose.questions} />
+            <ReviewComponent {review} {action} addLangs={[]} {departments} />
+            <!-- <CreateReviewWithForm {user} bind:languages={chooseLanguages} bind:questions={formTemplateChoose.questions} /> -->
         {/if}
     {/if}
 </div>

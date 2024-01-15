@@ -72,7 +72,7 @@ const pt: Translation = {
 	ErrorsFormTemplate: {
 		Title: 'Modelo de formulário deve ter um título',
 		Question: 'Modelo de formulário deve ter pelo menos uma questão',
-		QuestionTitle: 'Todas as questões do formulário deve ter titulo',
+		QuestionTitle: 'Todas as questões do formulário devem ter titulo',
 		Others: 'Erro do servidor',
 		SomethingWrong: 'Algo deu errado'
 	},
@@ -111,6 +111,7 @@ const pt: Translation = {
 	ErrorsReview: {
 		Title: 'Modelo de formulário deve ter um título',
 		Question: 'Modelo de formulário deve ter pelo menos uma questão',
+		QuestionTitle: "Todas as questões da revisão devem ter titulo",
 		ReviewType: 'Modelo de formulário deve ter um tipo associado',
 		Departments: 'Modelo de formulário deve ter pelo menos um departamento associado',
 		Others: 'Erro do servidor',
@@ -181,7 +182,11 @@ const pt: Translation = {
 	ChooseProfileDesc: 'Selecionar um perfil para mudar as permissões',
 	SaveChanges: 'Guardar alterações',
 	Review: 'Revisão',
-	BasicInfo: 'Informação básica'
+	BasicInfo: 'Informação básica',
+	ReviewSuccess: 'Revisão criada com sucesso',
+	Continue: 'Continuar',
+	SelectFormTemplate: 'Selecionar modelo de formulário para usar:',
+	NoEmployees: 'Sem funcionários'
 }
 
 export default pt
