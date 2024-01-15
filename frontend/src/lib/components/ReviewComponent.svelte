@@ -1,7 +1,5 @@
 <script lang="ts">
     import { api } from "$lib/api/_api"
-    import toast from "svelte-french-toast"
-    import LL from "../../i18n/i18n-svelte"
     import { goto } from "$app/navigation"
     import { Steps } from "svelte-steps"
     import { ChevronLeft, ChevronRight, X, Square, Folder, FolderOpen, User } from 'lucide-svelte'
@@ -9,6 +7,9 @@
     import { draggable } from "$lib/actions/dnd"
     import { fade, fly } from "svelte/transition"
     import { DateInput } from 'date-picker-svelte'
+    import dayjs from "dayjs"
+    import LL from "../../i18n/i18n-svelte"
+    import toast from "svelte-french-toast"
 
     export let review: Reviews
     export let action: string
@@ -281,6 +282,9 @@
         }
         updateQuestion(selectedQuestion)
     }
+
+    $: review.reviewStatus = review.endDate != null ? 'Active' : 'NotStarted'
+    $: review.startDate = review.endDate != null ? dayjs(new Date()).format('YYYY-MM-DDTHH:mm:ss') : null
 </script>
 
 <div class="flex flex-col text-gray-400 text-xs gap-y-10">
@@ -400,7 +404,7 @@
                     {/if}
                     {#each review.questions as question, index}
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
-                        <div in:fade={{ duration: 500 }} out:fly={{ y: -200, duration: 500 }} id="questionsAdded" class="group bg-white flex flex-col gap-y-5 px-2 py-4 rounded border border-transparent cursor-pointer hover:border-blue-500 relative" class:selected={question == selectedQuestion} on:click={() => selectQuestion(question)}>
+                        <div in:fade={{ duration: 500 }} out:fly={{ y: -200, duration: 500 }} id="questionsAdded" class="group bg-white flex flex-col gap-y-5 px-2 py-4 rounded border border-transparent cursor-pointer hover:border-blue-500 relative shadow-lg" class:selected={question == selectedQuestion} on:click={() => selectQuestion(question)}>
                             {#if action != "add"}
                                 <button class="md:hidden md:group-hover:flex absolute top-0 right-0 p-2" on:click={(event) => removeQuestion(event, index)}>
                                     <svelte:component this={X} />

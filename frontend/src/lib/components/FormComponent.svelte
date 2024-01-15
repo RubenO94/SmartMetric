@@ -298,7 +298,7 @@
                     {/if}
                     {#each formTemplate.questions as question, index}
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
-                        <div in:fade={{ duration: 500 }} out:fly={{ y: -200, duration: 500 }} id="questionsAdded" class="group bg-white flex flex-col gap-y-5 px-2 py-4 rounded border border-transparent cursor-pointer hover:border-blue-500 relative" class:selected={question == selectedQuestion} on:click={() => selectQuestion(question)}>
+                        <div in:fade={{ duration: 500 }} out:fly={{ y: -200, duration: 500 }} id="questionsAdded" class="group bg-white flex flex-col gap-y-5 px-2 py-4 rounded border border-transparent cursor-pointer hover:border-blue-500 relative shadow-lg" class:selected={question == selectedQuestion} on:click={() => selectQuestion(question)}>
                             {#if action != "add"}
                                 <button class="md:hidden md:group-hover:flex absolute top-0 right-0 p-2" on:click={(event) => removeQuestion(event, index)}>
                                     <svelte:component this={X} />
