@@ -101,10 +101,10 @@
 <div class="mx-auto flex flex-col xl:w-[1280px] p-5 gap-y-10">
     {#if pageSelected == 'details'}
         <div class="flex flex-col">
-            <div class=" border-x border-t border-gray-300 bg-gray-200 flex py-5 px-10 rounded-t-xl">
+            <div class=" border-x border-t border-gray-200 bg-gray-100 flex py-5 px-10 rounded-t-xl">
                 <h1 class="font-semibold text-xl">{ review.translations[0].title }</h1>
             </div>
-            <div class="flex justify-between border border-gray-300 py-5 px-10 rounded-b-xl">
+            <div class="flex justify-between border border-gray-200 py-5 px-10 rounded-b-xl">
                 <div>
                     <p>«Progress bar»</p>
                 </div>
@@ -172,7 +172,7 @@
                 <svelte:component this={FileText} size={50} class="text-blue-500" />
                 <p class="font-semibold">{$LL.BasicInfo()}</p>
             </div>
-            <div class="flex flex-col gap-y-5 p-2 md:py-10 md:px-20 border border-gray-300 bg-gray-200 rounded flex-grow">
+            <div class="flex flex-col gap-y-5 p-2 md:py-10 md:px-20 border border-gray-200 bg-gray-100 rounded flex-grow">
                 <div class="flex flex-col gap-y-1">
                     <p class="text-xs text-gray-400 font-medium">{$LL.Description()}</p>
                     <input class="text-base p-2 border-2 border-gray-300 bg-white text-gray-400 rounded" bind:value={review.translations[0].description} disabled />

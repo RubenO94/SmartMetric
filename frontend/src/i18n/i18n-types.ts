@@ -410,6 +410,10 @@ type RootTranslation = {
 		 */
 		Question: string
 		/**
+		 * A​l​l​ ​q​u​e​s​t​i​o​n​s​ ​o​f​ ​r​e​v​i​e​w​ ​m​u​s​t​ ​h​a​v​e​ ​a​ ​t​i​t​l​e
+		 */
+		QuestionTitle: string
+		/**
 		 * R​e​v​i​e​w​ ​m​u​s​t​ ​h​a​v​e​ ​a​ ​t​y​p​e
 		 */
 		ReviewType: string
@@ -684,6 +688,22 @@ type RootTranslation = {
 	 * B​a​s​i​c​ ​i​n​f​o​r​m​a​t​i​o​n
 	 */
 	BasicInfo: string
+	/**
+	 * R​e​v​i​e​w​ ​c​r​e​a​t​e​d​ ​s​u​c​c​e​s​s​f​u​l​l​y
+	 */
+	ReviewSuccess: string
+	/**
+	 * C​o​n​t​i​n​u​e
+	 */
+	Continue: string
+	/**
+	 * S​e​l​e​c​t​ ​f​o​r​m​ ​t​e​m​p​l​a​t​e​ ​t​o​ ​u​s​e​:
+	 */
+	SelectFormTemplate: string
+	/**
+	 * N​o​ ​E​m​p​l​o​y​e​e​s
+	 */
+	NoEmployees: string
 }
 
 export type TranslationFunctions = {
@@ -1083,6 +1103,10 @@ export type TranslationFunctions = {
 		 */
 		Question: () => LocalizedString
 		/**
+		 * All questions of review must have a title
+		 */
+		QuestionTitle: () => LocalizedString
+		/**
 		 * Review must have a type
 		 */
 		ReviewType: () => LocalizedString
@@ -1357,6 +1381,22 @@ export type TranslationFunctions = {
 	 * Basic information
 	 */
 	BasicInfo: () => LocalizedString
+	/**
+	 * Review created successfully
+	 */
+	ReviewSuccess: () => LocalizedString
+	/**
+	 * Continue
+	 */
+	Continue: () => LocalizedString
+	/**
+	 * Select form template to use:
+	 */
+	SelectFormTemplate: () => LocalizedString
+	/**
+	 * No Employees
+	 */
+	NoEmployees: () => LocalizedString
 }
 
 export type Formatters = {}

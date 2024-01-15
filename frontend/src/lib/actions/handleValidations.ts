@@ -28,6 +28,31 @@ export function handleValidationsForm(formTemplate: FormTemplate, currentStep: n
     return [formValid, error]
 }
 
-export function handlevalidationsReview(review: Reviews, currentStep: number): [boolean, any] {
-    return [true, "Passing"]
+export function handleValidationsReview(review: Reviews, currentStep: number): [boolean, any] {
+    let [reviewValid, error]: [boolean, string] = [true, '']
+
+    if (currentStep == 0) {
+        review.translations.forEach(element => {
+            if (element.title == '' || element.title == null) {
+                [reviewValid, error] = [false, 'title']
+                return
+            } else if (review.reviewType == '' || review.reviewType == null) {
+                [reviewValid, error] = [false, 'reviewType']
+            }
+        })
+    } else if (currentStep == 1) {
+        review.reviewDepartmentsIds.length == 0 ? [false, 'departments'] : []
+    } else if (currentStep == 2) {
+        if (review.questions.length == 0) [reviewValid, error] = [false, 'question']
+        review.questions.forEach((question) => {
+            question.translations.forEach((translation) => {
+                if (translation.title == '' || translation.title == null) {
+                    [reviewValid, error] = [false, 'questionTitle']
+                    return
+                }
+            });
+        })
+    }
+
+    return [reviewValid, error]
 }

@@ -32,7 +32,9 @@ type Translations = {
 }
 
 type Reviews = {
+    reviewId: string | null,
     createdByUserId: number,
+    createdDate: any | null,
     startDate: string | null,
     endDate: Date | null,
     reviewType: string,

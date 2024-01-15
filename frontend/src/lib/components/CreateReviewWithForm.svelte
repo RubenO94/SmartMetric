@@ -10,6 +10,7 @@
     import { onMount } from 'svelte'
     import InfiniteScroll from './InfiniteScroll.svelte'
     import { DateInput } from 'date-picker-svelte'
+    import { handleValidationsReview } from '$lib/actions/handleValidations';
 
     export let questions: Question[] = []
     export let languages: any
@@ -251,7 +252,28 @@
     const handleStepBackward = (event: Event) => {
         if (currentStep != 0) currentStep -= 1
     }
-    const handleStepForward = async (event: Event) => { 
+    const handleStepForward = async (event: Event) => {
+        let [validationReview, message] = handleValidationsReview(review, currentStep)
+        if (!validationReview) {
+            switch(message) {
+                case 'title':
+                    toast.error($LL.ErrorsReview.Title())
+                    break
+                case 'reviewType':
+                    toast.error($LL.ErrorsReview.ReviewType())
+                    break
+                case 'departments':
+                    toast.error($LL.ErrorsReview.Departments())
+                    break
+                case 'question':
+                    toast.error($LL.ErrorsReview.Question())
+                    break
+                case 'questionTitle':
+                    toast.error($LL.ErrorsReview.QuestionTitle())
+                    break
+            }
+            return
+        }
         if (currentStep != steps.length - 1) currentStep += 1
         else {
             document.getElementById('buttonGoForward')?.setAttribute("disabled", "disabled")
