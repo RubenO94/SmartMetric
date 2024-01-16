@@ -35,8 +35,6 @@
         item.permission = permission.hasPermission
         return item.permission
     }
-    
-    console.log(user)
 </script>
 
 <nav class="hidden xl:flex flex-col w-[250px] min-h-screen text-sm bg-gray-100 border-r-[1px] border-gray-300" transition:fly={{ delay: 0, duration: 200, x: -50 }}>

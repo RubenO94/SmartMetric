@@ -1,9 +1,9 @@
 <script lang="ts">
     import { api } from "$lib/api/_api"
     import { onMount } from "svelte"
-    import ChooseReview from "$lib/components/ChooseReview.svelte"
     import LL from "../../../i18n/i18n-svelte"
     import toast, { Toaster } from "svelte-french-toast"
+    import ChooseReview from "$lib/components/ChooseReview.svelte"
     import ReviewComponent from "$lib/components/ReviewComponent.svelte"
 
     export let data
@@ -34,7 +34,9 @@
         reviewType: "",
         reviewStatus: "NotStarted",
         reviewDepartmentsIds: [],
-        reviewEmployeesIds: []
+        reviewEmployeesIds: [],
+        employees: [],
+        departments: []
     }
 
     function checkLanguages() {
@@ -45,7 +47,33 @@
         chooseLanguages.forEach((lang: string) => {
             review.translations = [...review.translations, {language: lang, title: '', description: ''}]
         })
-        if (currentStep == 3) review.questions = formTemplateChoose.questions
+        if (currentStep == 3) {
+            // Copy the structure from formTemplateChoose to review
+            review.questions = formTemplateChoose.questions.map(originalQuestion => {
+                //Create a copy of the original question
+                var newQuestion = { ...originalQuestion }
+
+                // Filter translations for the question itself
+                newQuestion.translations = originalQuestion.translations.filter(translation => chooseLanguages.includes(translation.language))
+
+                // Filter translations for ratingOptions
+                newQuestion.ratingOptions = originalQuestion.ratingOptions.map(originalRatingOption => {
+                    var newRatingOption = {...originalRatingOption}
+                    newRatingOption.translations = originalRatingOption.translations.filter(rtot => chooseLanguages.includes(rtot.language))
+                    return newRatingOption
+                })
+
+                // Filter translations for singleChoiceOptions
+                newQuestion.singleChoiceOptions = originalQuestion.singleChoiceOptions.map(originalSingleChoiceOption => {
+                    var newSingleChoiceOption = {...originalSingleChoiceOption}
+                    newSingleChoiceOption.translations = originalSingleChoiceOption.translations.filter(scot => chooseLanguages.includes(scot.language))
+                    return newSingleChoiceOption
+                })
+
+                return newQuestion
+            })
+            console.log(review)
+        }
         page++
     }
 
@@ -121,7 +149,6 @@
             <button on:click={() => checkLanguages()} class="flex gap-x-2 mx-auto text-base font-semibold px-5 py-2 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded">Create form</button>
         {:else if page == 2}
             <ReviewComponent {review} {action} addLangs={[]} {departments} />
-            <!-- <CreateBlankReview {user} bind:languages={chooseLanguages} /> -->
         {/if}
     {:else}
         <div class="flex flex-row gap-x-4 text-blue-500">
@@ -164,7 +191,6 @@
             <button on:click={() => checkLanguages()} class="flex gap-x-2 mx-auto text-base font-semibold px-5 py-2 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded">{$LL.FormButton()}</button>
         {:else}
             <ReviewComponent {review} {action} addLangs={[]} {departments} />
-            <!-- <CreateReviewWithForm {user} bind:languages={chooseLanguages} bind:questions={formTemplateChoose.questions} /> -->
         {/if}
     {/if}
 </div>

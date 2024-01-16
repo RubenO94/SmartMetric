@@ -4,9 +4,11 @@
     import { AlertCircle, Eye, MoreVertical, Plus, Search, Trash2, XCircle } from 'lucide-svelte'
     import toast, { Toaster } from "svelte-french-toast"
     import { Dropdown, DropdownItem } from 'flowbite-svelte'
+    import { onMount } from "svelte";
 
     export let data
 
+    let formTemplates = data.formTemplates
     let responseData: any
     let user = data.user
     let pageNumber: number = 1
@@ -46,19 +48,13 @@
         let response = requestForm
         if (response?.status == 204) {
             toast.success($LL.DeleteFormMessage())
-            responseData = responseData.filter((element: any) => element.formTemplateId !== formTemplateToDelete)
+            console.log(formTemplates)
+            formTemplates = formTemplates.filter((element: any) => element.formTemplateId !== formTemplateToDelete)
+            console.log(formTemplates)
         } else toast.error(response?.details)
     }
 
-    async function getForms() {
-        const [formsResponse] = await Promise.all([
-            api("GET", `FormTemplates?page=${pageNumber}&pageSize=10&language=${lang}`)
-        ])
-        responseData = formsResponse?.body
-    }
-
-
-    $: lang && getForms()
+    $: filteredItems = formTemplates.filter((element: any) => element.translations.some((f: any) => f.language === lang && f.title.toLowerCase().includes(searchInput.toLowerCase())))
 </script>
 
 <svelte:head>
@@ -90,7 +86,7 @@
     <!-- Changing language -->
     <div class="flex mx-auto p-1 gap-x-1 border border-gray-300 text-gray-500 rounded">
         {#each languages as language}
-            <button class="py-1 px-2 rounded text-sm {language === lang ? 'bg-blue-500 text-white' : 'hover:bg-gray-100' }" on:click={() => lang = language}>{language}</button>
+            <button class="py-1 px-2 rounded text-sm {language === lang ? 'bg-blue-500 text-white' : 'hover:bg-gray-100' }" on:click={() => {lang = language, searchInput = ''}}>{language}</button>
         {/each}
     </div>
 
@@ -117,61 +113,55 @@
 
     <!-- List of form models -->
     <div class="flex flex-col">
-        {#await getForms()}
-            <div class="flex justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg>
-            </div>
-        {:then}
-            {#if responseData.length > 0}
-                {#each responseData as formTemplate, i}
-                    {#each formTemplate.translations as translation}
-                        {#if translation.language == lang}
-                            <div class="flex gap-x-2 justify-between md:items-center p-4 border-b border-gray-300 {i == 0 ? 'rounded-t' : ''}">
-                                <div class="flex gap-x-4 flex-grow">
-                                    <div class="flex flex-col gap-x-1 pt-1">
-                                        <p class="text-sm md:text-base">{translation.title}</p>
-                                        <p class="text-xs text-gray-400">{translation.description}</p>
-                                    </div>
-                                </div>
-
-                                <div class="hidden md:flex gap-x-2">
-                                    <a href="/forms/{formTemplate.formTemplateId}" class="bg-blue-500 text-white text-xs md:text-sm px-2 py-1 rounded-lg border border-transparent cursor-pointer whitespace-nowrap hover:bg-blue-700 hover:border-blue-950">{$LL.Preview()}</a>
-                                    {#if checkPermission("Delete")}
-                                        <button on:click={() => showDialog(formTemplate.formTemplateId)}>
-                                            <svelte:component this={Trash2} class="hover:text-gray-400" />
-                                        </button>
-                                    {/if}
-                                </div>
-
-                                <div class="relative group md:hidden items-center">
-                                    <button class="cursor-pointer hover:bg-gray-100 p-2 rounded focus:bg-gray-100">
-                                        <svelte:component this={MoreVertical} />
-                                    </button>
-                                    <Dropdown bind:open={isDropdownOpen}>
-                                        <DropdownItem href={`/forms/${formTemplate.formTemplateId}`} class="flex items-center gap-x-2 whitespace-nowrap">
-                                            <svelte:component this={Eye} size="20" />
-                                            {$LL.Preview()}
-                                        </DropdownItem>
-                                        {#if checkPermission("Delete")}
-                                            <DropdownItem on:click={() => showDialog(formTemplate.formTemplateId)} class="flex items-center gap-x-2 whitespace-nowrap">
-                                                <svelte:component this={Trash2} size="20" />
-                                                {$LL.Delete()}
-                                            </DropdownItem>
-                                        {/if}
-                                    </Dropdown>
+        {#if filteredItems.length > 0}
+            {#each filteredItems as formTemplate, index}
+                {#each formTemplate.translations as translation}
+                    {#if translation.language == lang}
+                        <div class="flex gap-x-2 justify-between md:items-center p-4 border-b border-gray-300 {index == 0 ? 'rounded-t' : ''}">
+                            <div class="flex gap-x-4 flex-grow">
+                                <div class="flex flex-col gap-x-1 pt-1">
+                                    <p class="text-sm md:text-base">{translation.title}</p>
+                                    <p class="text-xs text-gray-400">{translation.description}</p>
                                 </div>
                             </div>
-                        {/if}
-                    {/each}
+
+                            <div class="hidden md:flex gap-x-2">
+                                <a href="/forms/{formTemplate.formTemplateId}" class="bg-blue-500 text-white text-xs md:text-sm px-2 py-1 rounded-lg border border-transparent cursor-pointer whitespace-nowrap hover:bg-blue-700 hover:border-blue-950">{$LL.Preview()}</a>
+                                {#if checkPermission("Delete")}
+                                    <button on:click={() => showDialog(formTemplate.formTemplateId)}>
+                                        <svelte:component this={Trash2} class="hover:text-gray-400" />
+                                    </button>
+                                {/if}
+                            </div>
+
+                            <div class="relative group md:hidden items-center">
+                                <button class="cursor-pointer hover:bg-gray-100 p-2 rounded focus:bg-gray-100">
+                                    <svelte:component this={MoreVertical} />
+                                </button>
+                                <Dropdown bind:open={isDropdownOpen}>
+                                    <DropdownItem href={`/forms/${formTemplate.formTemplateId}`} class="flex items-center gap-x-2 whitespace-nowrap">
+                                        <svelte:component this={Eye} size="20" />
+                                        {$LL.Preview()}
+                                    </DropdownItem>
+                                    {#if checkPermission("Delete")}
+                                        <DropdownItem on:click={() => showDialog(formTemplate.formTemplateId)} class="flex items-center gap-x-2 whitespace-nowrap">
+                                            <svelte:component this={Trash2} size="20" />
+                                            {$LL.Delete()}
+                                        </DropdownItem>
+                                    {/if}
+                                </Dropdown>
+                            </div>
+                        </div>
+                    {/if}
                 {/each}
-            {:else}
-                <div class="flex justify-center items-center border py-10 rounded border-gray-300 bg-gray-100">
-                    <div class="flex flex-col items-center text-gray-400 p-5 gap-y-2">
-                        <svelte:component this={AlertCircle} />
-                        <p>{$LL.FormDivText()}</p>
-                    </div>
+            {/each}
+        {:else}
+            <div class="flex justify-center items-center rounded">
+                <div class="flex flex-col items-center text-gray-400 p-5 gap-y-2">
+                    <svelte:component this={AlertCircle} size={50} />
+                    <p>{$LL.FormDivText()}</p>
                 </div>
-            {/if}
-        {/await}
+            </div>
+        {/if}
     </div>
 </div>

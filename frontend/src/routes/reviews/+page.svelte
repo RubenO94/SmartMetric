@@ -1,7 +1,7 @@
 <script lang="ts">
     import { goto } from "$app/navigation"
     import { LL } from "../../i18n/i18n-svelte"
-    import { Plus, Search } from 'lucide-svelte'
+    import { Plus, Search, AlertCircle } from 'lucide-svelte'
 
     export let data
 
