@@ -324,7 +324,7 @@
                 <div class="flex flex-col gap-2 mt-2">
                     {#each typeOfReview as type}
                         <div class="flex">
-                            <input id="{type.name}" type="radio" name="radio-group" value="{type.value}" bind:group={review.reviewType} class="h-5 w-5 cursor-pointer" />
+                            <input id="{type.name}" type="radio" name="radio-group" value="{type.value}" bind:group={review.reviewType} class="h-5 w-5 cursor-pointer" disabled={disableInputs(true)} />
                             <label for="{type.name}" class="flex gap-x-1 pl-2 cursor-pointer">
                                 <p class="text-gray-600 font-semibold">{type.name}:</p>
                                 <p>{type.text}</p>
@@ -344,7 +344,7 @@
             <div class="flex flex-col gap-y-5 text-gray-600">
                 {#each departments as department, indexD}
                     <div class="flex gap-x-2 items-center">
-                        <input id={department.departmentId} type="checkbox" bind:group={review.reviewDepartmentsIds} value={department.departmentId} on:change={() => handleDepartmentChange(department.departmentId)} />
+                        <input id={department.departmentId} type="checkbox" bind:group={review.reviewDepartmentsIds} value={department.departmentId} on:change={() => handleDepartmentChange(department.departmentId)} disabled={disableInputs(true)} />
                         <label for={department.departmentId} class="flex gap-x-2 items-center cursor-pointer">
                             <svelte:component this={openMenu[indexD] || review.reviewDepartmentsIds.includes(department.departmentId) ? FolderOpen : Folder} />
                             {department.departmentDescription}
@@ -355,7 +355,7 @@
                             {#if department.employees != 0}
                                 {#each department.employees as employee}
                                     <div class=" flex px-6 gap-x-2 items-center">
-                                        <input id={employee.employeeId} type="checkbox" bind:group={review.reviewEmployeesIds} value={employee.employeeId} on:change={() => handleEmployeeChange(department.departmentId, employee.employeeId)} />
+                                        <input id={employee.employeeId} type="checkbox" bind:group={review.reviewEmployeesIds} value={employee.employeeId} on:change={() => handleEmployeeChange(department.departmentId, employee.employeeId)} disabled={disableInputs(true)} />
                                         <label for={employee.employeeId} class="flex gap-x-2 items-center cursor-pointer">
                                             <svelte:component this={User} />
                                             <p>{employee.employeeName}</p>

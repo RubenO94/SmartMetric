@@ -13,7 +13,7 @@
 
     function goToAddLangPage() {
         if (object.formTemplateId) goto(`/forms/${object.formTemplateId}/addLanguage`)
-        else if (object.reviewId) goto("/")
+        else if (object.reviewId) goto(`/reviews/${object.reviewId}/addLanguage`)
     }
 
     function goToEditPage() {
