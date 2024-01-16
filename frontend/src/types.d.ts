@@ -43,6 +43,8 @@ type Reviews = {
     questions: Question[],
     reviewDepartmentsIds: Array<number>,
     reviewEmployeesIds: Array<number>
+    employees: any[],
+    departments: any[]
 }
 
 type Secrets = {
