@@ -1,16 +1,19 @@
-<script>
-    import EditReview from "$lib/components/EditReview.svelte"
+<script lang="ts">
+    import ReviewComponent from "$lib/components/ReviewComponent.svelte";
     import LL from "../../../../i18n/i18n-svelte"
 
     export let data
 
-    let review = data.review
-    let steps = [
-        { text: $LL.Details() },
-        { text: $LL.Departments() },
-        { text: $LL.Questions() },
-        { text: $LL.Finalize() }
-    ]
+    let review: Reviews = data.review
+    let departments = data.departments
+    let action = 'edit'
+
+    review.reviewDepartmentsIds = review.departments.map(department => department.departmentId)
+    review.reviewEmployeesIds = review.employees.map(employee => employee.employeeId)
+    review.departments = []
+    review.employees = []
+    console.log(review)
+
 </script>
 
 <div class="mx-auto flex flex-col w-[1200px] p-10 gap-y-5">
@@ -23,5 +26,6 @@
             <p class="text-black text-sm">{ $LL.EditReviewDescription() }</p>
         </div>
     </div>
-    <EditReview {steps} {review} />
+    <ReviewComponent {review} {action} addLangs={[]} {departments} />
+    <!-- <EditReview {steps} {review} /> -->
 </div>
