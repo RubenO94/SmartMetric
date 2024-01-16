@@ -58,6 +58,7 @@
             <button on:click={() => activeSeparator = 'Completed'} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator === 'Completed' ? 'border-blue-500 text-blue-500' : 'border-transparent'}">{$LL.Completed()}</button>
         </div>
         <div class="w-full overflow-x-auto">
+            {#if reviews.length > 0}
             <table class="w-full bg-transparent border-collapse table-auto">
                 <thead>
                     <tr class="align-middle text-xs text-left whitespace-nowrap font-bold bg-gray-300 text-black">
@@ -102,6 +103,14 @@
                     {/each}
                 </tbody>
             </table>
+        {:else}
+            <div class="flex justify-center items-center rounded">
+                <div class="flex flex-col items-center text-gray-400 p-5 gap-y-2">
+                    <svelte:component this={AlertCircle} size={50} />
+                    <p>{$LL.ReviewDivText()}</p>
+                </div>
+            </div>
+        {/if}
         </div>
     </div>
 </div>

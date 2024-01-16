@@ -186,7 +186,8 @@ const en: BaseTranslation = {
 	ReviewSuccess: "Review created successfully",
 	Continue: "Continue",
 	SelectFormTemplate: "Select form template to use:",
-	NoEmployees: "No Employees"
+	NoEmployees: "No Employees",
+	ReviewDivText: "There are no reviews of this language available to show yet."
 }
 
 export default en

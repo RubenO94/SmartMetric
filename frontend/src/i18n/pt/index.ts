@@ -186,7 +186,8 @@ const pt: Translation = {
 	ReviewSuccess: 'Revisão criada com sucesso',
 	Continue: 'Continuar',
 	SelectFormTemplate: 'Selecionar modelo de formulário para usar:',
-	NoEmployees: 'Sem funcionários'
+	NoEmployees: 'Sem funcionários',
+	ReviewDivText: 'Não existem revisões deste idioma disponíveis para mostrar.'
 }
 
 export default pt
