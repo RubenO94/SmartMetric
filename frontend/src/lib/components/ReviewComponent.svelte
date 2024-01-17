@@ -284,7 +284,6 @@
     }
 
     $: review.reviewStatus = review.endDate != null ? 'Active' : 'NotStarted'
-    $: review.startDate = review.endDate != null ? dayjs(new Date()).format('YYYY-MM-DDTHH:mm:ss') : null
 </script>
 
 <div class="flex flex-col text-gray-400 text-xs gap-y-10">

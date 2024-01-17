@@ -35,8 +35,8 @@
         reviewStatus: "NotStarted",
         reviewDepartmentsIds: [],
         reviewEmployeesIds: [],
-        employees: [],
-        departments: []
+        employees: null,
+        departments: null
     }
 
     function checkLanguages() {

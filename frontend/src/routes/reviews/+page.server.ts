@@ -12,7 +12,7 @@ export const load: PageServerLoad = async (event) => {
         }
         const lang = event.locals.lang[0].slice(0, 2)
         const [reviewsResponse] = await Promise.all([
-            api ("GET", `Reviews?page=1&pageSize=20&language=${lang}`)
+            api ("GET", `Reviews?page=1&pageSize=20`)
         ])
         let reviews = reviewsResponse?.body
         return { reviews }

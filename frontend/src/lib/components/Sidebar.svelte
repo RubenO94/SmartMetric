@@ -3,7 +3,7 @@
     import UserMenu from './UserMenu.svelte'
     import { page } from '$app/stores'
     import { fly } from 'svelte/transition'
-    import { type Icon, Clipboard, List, BarChartBig, ChevronRight } from 'lucide-svelte'
+    import { type Icon, Clipboard, List, BarChartBig, ChevronRight, Settings } from 'lucide-svelte'
     import type { ComponentType } from 'svelte'
 
     export let user: any
@@ -26,6 +26,12 @@
             label: $LL.Sidebar.Statistics(),
             permission: false,
             icon: BarChartBig
+        },
+        {
+            name: "AdminSettings",
+            label: $LL.Settings(),
+            permission: false,
+            icon: Settings
         }
     ]
 
@@ -45,7 +51,7 @@
             <hr class="mx-10" />
             {#each menuItems as item}
                 {#if checkPermission(item)}
-                    <a href="/{item.name.toLowerCase()}" class="flex flex-row gap-x-2 items-center hover:bg-gray-200 p-2 rounded {$page.url.pathname.split("/")[1].toLowerCase() === item.name.toLowerCase() ? 'bg-gray-200' : ''}">
+                    <a href="/{item.name.charAt(0).toLowerCase() + item.name.slice(1)}" class="flex flex-row gap-x-2 items-center hover:bg-gray-200 p-2 rounded {$page.url.pathname.split("/")[1].toLowerCase() === item.name.toLowerCase() ? 'bg-gray-200 font-medium' : ''}">
                         <svelte:component this={item.icon} size={20} />
                         <p class="text-sm">{item.label}</p>
                         {#if $page.url.pathname.split("/")[1].toLowerCase() === item.name.toLowerCase()}

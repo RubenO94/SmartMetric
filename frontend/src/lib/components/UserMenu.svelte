@@ -40,7 +40,7 @@
         </div>
     </div>
     <!-- Other Buttons (Ex: Settings) -->
-    <div class="flex flex-row gap-x-2">
+    <!-- <div class="flex flex-row gap-x-2">
         {#if checkPermission("Read")}
             <div class="relative inline-block group">
                 <a href="/adminSettings" class="flex justify-center rounded px-2 py-1 border border-transparent hover:bg-gray-300">
@@ -49,5 +49,5 @@
                 <div class="absolute w-max top-0 left-full mt-2 ml-2 p-2 bg-gray-800 text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-x-0">{$LL.Settings()}</div>
             </div>
         {/if}
-    </div>
+    </div> -->
 </div>

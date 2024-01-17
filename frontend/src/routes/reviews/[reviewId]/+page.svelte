@@ -16,6 +16,7 @@
     let review = data.review
     let activeLang = review.translations[0].language
     let pageSelected = 'details'
+    let createdDate = ''
     let reviewPatchBody = {
         endDate: undefined,
         reviewStatus: '',
@@ -24,7 +25,7 @@
     maxDateAllowed.setFullYear(maxDateAllowed.getFullYear() + 5)
 
     onMount(() => {
-        review.createdDate = `${review.createdDate.slice(8, 10)}-${review.createdDate.slice(5, 7)}-${review.createdDate.slice(0, 4)}`
+        createdDate = `${review.createdDate.slice(8, 10)}-${review.createdDate.slice(5, 7)}-${review.createdDate.slice(0, 4)}`
         if (review.reviewStatus == 'NotStarted') reviewPatchBody.reviewStatus = 'Active'
         else if (review.reviewStatus == 'Active') reviewPatchBody.reviewStatus = 'Canceled'
     })
@@ -167,12 +168,12 @@
                 {/if}
             </div>
         </div>
-        <div class="flex flex-col md:flex-row justify-between gap-y-2">
-            <div class="flex flex-col gap-y-2 w-1/2">
+        <div class="flex flex-col md:flex-row gap-y-2">
+            <div class="flex flex-col justify-center items-center gap-y-2 px-20 border-r border-gray-300">
                 <svelte:component this={FileText} size={50} class="text-blue-500" />
                 <p class="font-semibold">{$LL.BasicInfo()}</p>
             </div>
-            <div class="flex flex-col gap-y-5 p-2 md:py-10 md:px-20 border border-gray-200 bg-gray-100 rounded flex-grow">
+            <div class="flex flex-col gap-y-5 px-20 rounded flex-grow">
                 <div class="flex flex-col gap-y-1">
                     <p class="text-xs text-gray-400 font-medium">{$LL.Description()}</p>
                     <input class="text-base p-2 border-2 border-gray-300 bg-white text-gray-400 rounded" bind:value={review.translations[0].description} disabled />
@@ -183,7 +184,7 @@
                 </div>
                 <div class="flex flex-col gap-y-1">
                     <p class="text-xs text-gray-400 font-medium">{$LL.CreationDate()}</p>
-                    <input class="text-base p-2 border-2 border-gray-300 bg-white text-gray-400 rounded" bind:value={review.createdDate} disabled />
+                    <input class="text-base p-2 border-2 border-gray-300 bg-white text-gray-400 rounded" bind:value={createdDate} disabled />
                 </div>
             </div>
         </div>
