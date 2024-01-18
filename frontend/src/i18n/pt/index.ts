@@ -187,7 +187,11 @@ const pt: Translation = {
 	Continue: 'Continuar',
 	SelectFormTemplate: 'Selecionar modelo de formulário para usar:',
 	NoEmployees: 'Sem funcionários',
-	ReviewDivText: 'Não existem revisões deste idioma disponíveis para mostrar.'
+	ReviewDivText: 'Não existem revisões deste idioma disponíveis para mostrar.',
+	Submissions: {
+		SubmissionsCompleted: 'Submissões completas',
+		SubmissionsMissing: 'Submissões por entregar'
+	}
 }
 
 export default pt

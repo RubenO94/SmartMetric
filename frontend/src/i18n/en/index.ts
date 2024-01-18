@@ -187,7 +187,11 @@ const en: BaseTranslation = {
 	Continue: "Continue",
 	SelectFormTemplate: "Select form template to use:",
 	NoEmployees: "No Employees",
-	ReviewDivText: "There are no reviews of this language available to show yet."
+	ReviewDivText: "There are no reviews of this language available to show yet.",
+	Submissions: {
+		SubmissionsCompleted: "Submissions completed",
+		SubmissionsMissing: "Submissions missing"
+	}
 }
 
 export default en

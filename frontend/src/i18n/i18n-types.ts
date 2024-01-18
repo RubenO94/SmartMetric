@@ -708,6 +708,16 @@ type RootTranslation = {
 	 * T​h​e​r​e​ ​a​r​e​ ​n​o​ ​r​e​v​i​e​w​s​ ​o​f​ ​t​h​i​s​ ​l​a​n​g​u​a​g​e​ ​a​v​a​i​l​a​b​l​e​ ​t​o​ ​s​h​o​w​ ​y​e​t​.
 	 */
 	ReviewDivText: string
+	Submissions: {
+		/**
+		 * S​u​b​m​i​s​s​i​o​n​s​ ​c​o​m​p​l​e​t​e​d
+		 */
+		SubmissionsCompleted: string
+		/**
+		 * S​u​b​m​i​s​s​i​o​n​s​ ​m​i​s​s​i​n​g
+		 */
+		SubmissionsMissing: string
+	}
 }
 
 export type TranslationFunctions = {
@@ -1405,6 +1415,16 @@ export type TranslationFunctions = {
 	 * There are no reviews of this language available to show yet.
 	 */
 	ReviewDivText: () => LocalizedString
+	Submissions: {
+		/**
+		 * Submissions completed
+		 */
+		SubmissionsCompleted: () => LocalizedString
+		/**
+		 * Submissions missing
+		 */
+		SubmissionsMissing: () => LocalizedString
+	}
 }
 
 export type Formatters = {}

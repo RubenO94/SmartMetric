@@ -6,8 +6,9 @@
     import { onMount } from 'svelte'
     import PreviewForm from '$lib/components/PreviewForm.svelte'
     import Dropdown from '$lib/components/Dropdown.svelte'
-    import { AlertTriangle, ArchiveX, Calendar, Clock, FileText } from 'lucide-svelte'
-    import toast, { Toaster } from 'svelte-french-toast';
+    import { AlertTriangle, ArchiveX, Calendar, Clock, FileText, CheckSquare2, XSquare } from 'lucide-svelte'
+    import toast, { Toaster } from 'svelte-french-toast'
+    import ProgressBar from '$lib/components/ProgressBar.svelte';
 
     export let data
 
@@ -106,9 +107,11 @@
                 <h1 class="font-semibold text-xl">{ review.translations[0].title }</h1>
             </div>
             <div class="flex justify-between border border-gray-200 py-5 px-10 rounded-b-xl">
-                <div>
-                    <p>«Progress bar»</p>
-                </div>
+                {#if review.reviewStatus == 'Active'}
+                    <ProgressBar bind:submissions={review.submissions} />
+                {:else}
+                    <div></div>
+                {/if}
                 {#if review.reviewStatus == 'NotStarted' && checkPermission()}
                     <button on:click={showDialog} class="flex flex-row items-center gap-x-1 h-fit bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer border border-transparent hover:bg-blue-700 hover:border-blue-950">
                         <svelte:component this={Clock} size="20" />
