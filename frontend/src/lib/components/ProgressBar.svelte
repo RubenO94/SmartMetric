@@ -10,11 +10,9 @@
 </script>
 
 <div class="flex flex-col gap-y-5">
-    <div class="relative">
-        <div class="absolute h-6 w-60 border border-gray-300 bg-gray-100 rounded-full"></div>
-        <div style="width: {percentage}%" class="absolute h-6 bg-blue-500 rounded-full transition-all"></div>
-        <div class="absolute inset-y-3 left-28 flex items-center justify-center font-medium text-black">
-            {percentage.toFixed(1)}%
+    <div class="bg-gray-300 w-[400px] mx-auto rounded-full">
+        <div class="bg-blue-500 w-0 h-6 rounded-full" style="width: {percentage}%;">
+            <p class="text-white pl-4 font-medium">{percentage}%</p>
         </div>
     </div>
     <div class="flex flex-col pt-5 gap-y-1">

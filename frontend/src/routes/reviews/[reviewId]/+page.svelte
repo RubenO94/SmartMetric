@@ -106,14 +106,14 @@
             <div class=" border-x border-t border-gray-200 bg-gray-100 flex py-5 px-10 rounded-t-xl">
                 <h1 class="font-semibold text-xl">{ review.translations[0].title }</h1>
             </div>
-            <div class="flex justify-between border border-gray-200 py-5 px-10 rounded-b-xl">
+            <div class="flex flex-col md:flex-row gap-y-5 justify-between border border-gray-200 py-5 px-2 md:px-10 rounded-b-xl">
                 {#if review.reviewStatus == 'Active'}
                     <ProgressBar bind:submissions={review.submissions} />
                 {:else}
                     <div></div>
                 {/if}
                 {#if review.reviewStatus == 'NotStarted' && checkPermission()}
-                    <button on:click={showDialog} class="flex flex-row items-center gap-x-1 h-fit bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer border border-transparent hover:bg-blue-700 hover:border-blue-950">
+                    <button on:click={showDialog} class="flex items-center mx-auto md:mx-0 gap-x-1 h-fit bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer border border-transparent hover:bg-blue-700 hover:border-blue-950">
                         <svelte:component this={Clock} size="20" />
                         {$LL.StartReview()}
                     </button>
@@ -143,7 +143,7 @@
                         </div>
                     </div>
                 {:else if review.reviewStatus == 'Active' && checkPermission()}
-                    <button on:click={showDialog} class="flex flex-row items-center gap-x-1 h-fit bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer border border-transparent hover:bg-blue-700 hover:border-blue-950">
+                    <button on:click={showDialog} class="flex items-center mx-auto md:mx-0 gap-x-1 h-fit bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer border border-transparent hover:bg-blue-700 hover:border-blue-950">
                         <svelte:component this={ArchiveX} size="20" />
                         {$LL.CancelReview()}
                     </button>
