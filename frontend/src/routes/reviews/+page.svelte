@@ -3,6 +3,7 @@
     import { LL } from "../../i18n/i18n-svelte"
     import { Plus, Search, AlertCircle } from 'lucide-svelte'
     import { Input } from "flowbite-svelte"
+    import ProgressBar from "$lib/components/ProgressBar.svelte";
 
     export let data
 
@@ -80,7 +81,7 @@
                             <tr class="border-b border-gray-300 hover:bg-zinc-100 cursor-pointer" on:click={() => goto(`/reviews/${review.reviewId}`)}>
                                 <td>
                                     <div class="flex flex-row p-2 gap-x-2">
-                                        <div class="bg-red-200 flex items-center justify-center px-6 py-5 rounded-md">{review.translations[0].title.slice(0, 3)}</div>
+                                        <div class="bg-red-200 flex items-center justify-center w-[60px] h-[60px] rounded-md">{review.translations[0].title.slice(0, 3)}</div>
                                         <div class="flex flex-col">
                                             <p>{review.translations[0].title}</p>
                                             <p class="text-xs text-gray-400 overflow-hidden max-h-8 leading-4">{review.translations[0].description}</p>
@@ -89,19 +90,25 @@
                                 </td>
                                 <td>
                                     <div>
-                                        <p class="w-3/4 px-2 py-1 flex justify-center text-sm border border-transparent whitespace-nowrap rounded-lg {review.reviewStatus === 'Active' ? 'bg-green-500 text-white border-green-900' : 'bg-gray-200 text-black border-gray-400'}">
+                                        <p class="mx-5 px-2 py-1 flex justify-center text-sm border border-transparent whitespace-nowrap rounded-lg {review.reviewStatus === 'Active' ? 'bg-green-500 text-white border-green-900' : 'bg-gray-200 text-black border-gray-400'}">
                                             {showStatusReview(review.reviewStatus)}
                                         </p>
                                     </div>
                                 </td>
                                 <td>
-                                    {#if review.endDate}
-                                        <p>{(review.endDate).split('T')[0]}</p>
-                                    {:else}
-                                        <p>{$LL.StateDontExist()}</p>
+                                    <div class="flex px-5 text-sm md:text-base">
+                                        {#if review.endDate}
+                                            <p>{(review.endDate).split('T')[0]}</p>
+                                        {:else}
+                                            <p>{$LL.StateDontExist()}</p>
+                                        {/if}
+                                    </div>
+                                </td>
+                                <td>
+                                    {#if review.reviewStatus == 'Active'}
+                                        <ProgressBar bind:submissions={review.submissions} reviewIdPage={false} />
                                     {/if}
                                 </td>
-                                <td></td>
                                 <td></td>
                             </tr>
                         {/if}

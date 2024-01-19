@@ -17,7 +17,7 @@
     let review = data.review
     let activeLang = review.translations[0].language
     let pageSelected = 'details'
-    let createdDate = ''
+    let createdDate: string, startDate: string, endDate: string = ''
     let reviewPatchBody = {
         endDate: undefined,
         reviewStatus: '',
@@ -27,6 +27,8 @@
 
     onMount(() => {
         createdDate = `${review.createdDate.slice(8, 10)}-${review.createdDate.slice(5, 7)}-${review.createdDate.slice(0, 4)}`
+        startDate = `${review.startDate.slice(8, 10)}-${review.startDate.slice(5, 7)}-${review.startDate.slice(0, 4)}`
+        endDate = `${review.endDate.slice(8, 10)}-${review.endDate.slice(5, 7)}-${review.endDate.slice(0, 4)}`
         if (review.reviewStatus == 'NotStarted') reviewPatchBody.reviewStatus = 'Active'
         else if (review.reviewStatus == 'Active') reviewPatchBody.reviewStatus = 'Canceled'
     })
@@ -108,7 +110,7 @@
             </div>
             <div class="flex flex-col md:flex-row gap-y-5 justify-between border border-gray-200 py-5 px-2 md:px-10 rounded-b-xl">
                 {#if review.reviewStatus == 'Active'}
-                    <ProgressBar bind:submissions={review.submissions} />
+                    <ProgressBar bind:submissions={review.submissions} reviewIdPage={true} />
                 {:else}
                     <div></div>
                 {/if}
@@ -189,10 +191,19 @@
                     <p class="text-xs text-gray-400 font-medium">{$LL.CreationDate()}</p>
                     <input class="text-base p-2 border-2 border-gray-300 bg-white text-gray-400 rounded" bind:value={createdDate} disabled />
                 </div>
+                {#if review.reviewStatus == 'Active'}
+                    <div class="flex flex-col gap-y-1">
+                        <p class="text-xs text-gray-400 font-medium">{$LL.StartDate()}</p>
+                        <input class="text-base p-2 border-2 border-gray-300 bg-white text-gray-400 rounded" bind:value={startDate} disabled />
+                    </div>
+                    <div class="flex flex-col gap-y-1">
+                        <p class="text-xs text-gray-400 font-medium">{$LL.EndDate()}</p>
+                        <input class="text-base p-2 border-2 border-gray-300 bg-white text-gray-400 rounded" bind:value={endDate} disabled />
+                    </div>
+                {/if}
             </div>
         </div>
-        
-        <!-- table of submissions -->
+        <div>tabela de submissões</div>
     {:else if pageSelected == 'form'}
         <div class="flex justify-between">
             <p class="font-semibold text-xl">{$LL.Form()}</p>
