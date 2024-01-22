@@ -65,6 +65,7 @@ type Search = {
 
 type User = {
     userId: number,
+    employeeId: number
     userName: string,
     profileDescription: string,
     profileType: string

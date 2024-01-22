@@ -189,9 +189,12 @@ const pt: Translation = {
 	NoEmployees: 'Sem funcionários',
 	ReviewDivText: 'Não existem revisões deste idioma disponíveis para mostrar.',
 	Submissions: {
+		Name: "Submissões",
 		SubmissionsCompleted: 'Submissões completas',
 		SubmissionsMissing: 'Submissões por entregar'
-	}
+	},
+	NoSubmissions: 'Sem submissões para fazer',
+	SubmissionsToDo: 'Submissões para fazer'
 }
 
 export default pt

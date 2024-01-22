@@ -710,6 +710,10 @@ type RootTranslation = {
 	ReviewDivText: string
 	Submissions: {
 		/**
+		 * S​u​b​m​i​s​s​i​o​n​s
+		 */
+		Name: string
+		/**
 		 * S​u​b​m​i​s​s​i​o​n​s​ ​c​o​m​p​l​e​t​e​d
 		 */
 		SubmissionsCompleted: string
@@ -718,6 +722,14 @@ type RootTranslation = {
 		 */
 		SubmissionsMissing: string
 	}
+	/**
+	 * N​o​ ​s​u​b​m​i​s​s​i​o​n​s​ ​t​o​ ​d​o
+	 */
+	NoSubmissions: string
+	/**
+	 * S​u​b​m​i​s​s​i​o​n​s​ ​t​o​ ​d​o
+	 */
+	SubmissionsToDo: string
 }
 
 export type TranslationFunctions = {
@@ -1417,6 +1429,10 @@ export type TranslationFunctions = {
 	ReviewDivText: () => LocalizedString
 	Submissions: {
 		/**
+		 * Submissions
+		 */
+		Name: () => LocalizedString
+		/**
 		 * Submissions completed
 		 */
 		SubmissionsCompleted: () => LocalizedString
@@ -1425,6 +1441,14 @@ export type TranslationFunctions = {
 		 */
 		SubmissionsMissing: () => LocalizedString
 	}
+	/**
+	 * No submissions to do
+	 */
+	NoSubmissions: () => LocalizedString
+	/**
+	 * Submissions to do
+	 */
+	SubmissionsToDo: () => LocalizedString
 }
 
 export type Formatters = {}

@@ -3,12 +3,12 @@
     import UserMenu from './UserMenu.svelte'
     import { page } from '$app/stores'
     import { fly } from 'svelte/transition'
-    import { type Icon, Clipboard, List, BarChartBig, ChevronRight, Settings } from 'lucide-svelte'
+    import { type Icon, Clipboard, List, BarChartBig, ChevronRight, Settings, PenSquare } from 'lucide-svelte'
     import type { ComponentType } from 'svelte'
 
     export let user: any
 
-    const menuItems: { name: string, label: string, permission: boolean, icon: ComponentType<Icon> }[] = [
+    const menuItemsBackoffice: { name: string, label: string, permission: boolean, icon: ComponentType<Icon> }[] = [
         { 
             name: "Reviews", 
             label: $LL.Sidebar.Reviews(),
@@ -35,6 +35,15 @@
         }
     ]
 
+    const menuItemsFrontoffice: { name: string, label: string, permission: boolean, icon: ComponentType<Icon> }[] = [
+        {
+            name: "Submissions",
+            label: $LL.Submissions.Name(),
+            permission: false,
+            icon: PenSquare
+        }
+    ]
+
     function checkPermission(item: any) {
         let window = user?.authorizations.find((n: any) => n.windowType === item.name)
         let permission = window.permissions.find((p: any) => p.permissionType === "Read")
@@ -49,7 +58,7 @@
         {#if user.profileType === 'Backoffice'}
             <p class="font-semibold text-center pt-4 pb-1 px-2">{$LL.Backoffice()}</p>
             <hr class="mx-10" />
-            {#each menuItems as item}
+            {#each menuItemsBackoffice as item}
                 {#if checkPermission(item)}
                     <a href="/{item.name.charAt(0).toLowerCase() + item.name.slice(1)}" class="flex flex-row gap-x-2 items-center hover:bg-gray-200 p-2 rounded {$page.url.pathname.split("/")[1].toLowerCase() === item.name.toLowerCase() ? 'bg-gray-200 font-medium' : ''}">
                         <svelte:component this={item.icon} size={20} />
@@ -63,16 +72,16 @@
         {:else if user.profileType === 'Frontoffice'}
             <p class="font-semibold text-center pt-4 pb-1 px-2">{$LL.Frontoffice()}</p>
             <hr class="mx-10" />
-            {#each menuItems as item}
-                {#if checkPermission(item)}
-                    <a href="/{item.name.toLowerCase()}" class="flex flex-row gap-x-2 items-center hover:bg-gray-200 p-2 rounded {$page.url.pathname.split("/")[1].toLowerCase() === item.name.toLowerCase() ? 'bg-gray-200' : ''}">
+            {#each menuItemsFrontoffice as item}
+                <!-- {#if checkPermission(item)} -->
+                    <a href="/{item.name.toLowerCase()}" class="flex flex-row gap-x-2 items-center hover:bg-gray-200 p-2 rounded {$page.url.pathname.split("/")[1].toLowerCase() === item.name.toLowerCase() ? 'bg-gray-200 font-medium' : ''}">
                         <svelte:component this={item.icon} size={20} />
                         <p class="text-sm">{item.label}</p>
                         {#if $page.url.pathname.split("/")[1].toLowerCase() === item.name.toLowerCase()}
                             <svelte:component this={ChevronRight} size={20} class="ml-auto" />
                         {/if}
                     </a>
-                {/if}
+                <!-- {/if} -->
             {/each}
         {/if}
     </div>

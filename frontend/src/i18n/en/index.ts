@@ -189,9 +189,12 @@ const en: BaseTranslation = {
 	NoEmployees: "No Employees",
 	ReviewDivText: "There are no reviews of this language available to show yet.",
 	Submissions: {
+		Name: "Submissions",
 		SubmissionsCompleted: "Submissions completed",
 		SubmissionsMissing: "Submissions missing"
-	}
+	},
+	NoSubmissions: "No submissions to do",
+	SubmissionsToDo: "Submissions to do"
 }
 
 export default en

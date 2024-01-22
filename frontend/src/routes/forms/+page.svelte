@@ -4,8 +4,6 @@
     import { AlertCircle, Eye, MoreVertical, Plus, Search, Trash2, XCircle } from 'lucide-svelte'
     import toast, { Toaster } from "svelte-french-toast"
     import { Dropdown, DropdownItem } from 'flowbite-svelte'
-    import { onMount } from "svelte";
-    import { blur } from "svelte/transition";
 
     export let data
 

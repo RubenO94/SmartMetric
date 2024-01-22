@@ -17,7 +17,7 @@
     let review = data.review
     let activeLang = review.translations[0].language
     let pageSelected = 'details'
-    let createdDate: string, startDate: string, endDate: string = ''
+    let createdDate: string, startDate: string | null, endDate: string | null = ''
     let reviewPatchBody = {
         endDate: undefined,
         reviewStatus: '',
@@ -27,8 +27,10 @@
 
     onMount(() => {
         createdDate = `${review.createdDate.slice(8, 10)}-${review.createdDate.slice(5, 7)}-${review.createdDate.slice(0, 4)}`
-        startDate = `${review.startDate.slice(8, 10)}-${review.startDate.slice(5, 7)}-${review.startDate.slice(0, 4)}`
-        endDate = `${review.endDate.slice(8, 10)}-${review.endDate.slice(5, 7)}-${review.endDate.slice(0, 4)}`
+        if (review.reviewStatus == 'Active') {
+            startDate = `${review.startDate.slice(8, 10)}-${review.startDate.slice(5, 7)}-${review.startDate.slice(0, 4)}`
+            endDate = `${review.endDate.slice(8, 10)}-${review.endDate.slice(5, 7)}-${review.endDate.slice(0, 4)}`
+        }
         if (review.reviewStatus == 'NotStarted') reviewPatchBody.reviewStatus = 'Active'
         else if (review.reviewStatus == 'Active') reviewPatchBody.reviewStatus = 'Canceled'
     })
@@ -104,7 +106,7 @@
 
 <div class="mx-auto flex flex-col xl:w-[1280px] p-5 gap-y-10">
     {#if pageSelected == 'details'}
-        <div class="flex flex-col">
+        <div class="flex flex-col shadow rounded-xl">
             <div class=" border-x border-t border-gray-200 bg-gray-100 flex py-5 px-10 rounded-t-xl">
                 <h1 class="font-semibold text-xl">{ review.translations[0].title }</h1>
             </div>
