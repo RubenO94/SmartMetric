@@ -1,11 +1,12 @@
 import { api } from "$lib/api/_api";
+import { redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ locals }) => {
-    console.log(locals.user)
+    if (locals.user?.profileType != 'Frontoffice') throw redirect(302, "/")
     try {
         const [submissionResponse] = await Promise.all([
-            api ("GET", `Submissions/${locals.user?.employeeId}`)
+            api ("GET", `Submissions/Employees/${locals.user?.employeeId}`)
         ])
         console.log(submissionResponse)
         let submissions = submissionResponse?.body

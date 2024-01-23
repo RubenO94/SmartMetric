@@ -1,5 +1,4 @@
 <script>
-    import { goto } from '$app/navigation';
     import Submissions from '$lib/components/Submissions.svelte'
 
     export let data
@@ -8,7 +7,7 @@
 </script>
 
 {#if user?.profileType === "Frontoffice"}
-    <div class="flex justify-end p-10">
+    <div class="flex justify-center items-center p-10">
         <Submissions {user} />
     </div>
 {:else if user?.profileType === "Backoffice"}

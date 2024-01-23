@@ -2,15 +2,15 @@
     import { Bell } from 'lucide-svelte'
     import { onMount } from 'svelte'
     import LL from '../../i18n/i18n-svelte'
-    import { api } from '$lib/api/_api';
-    import { goto } from '$app/navigation';
+    import { api } from '$lib/api/_api'
+    import { goto } from '$app/navigation'
 
     export let user: any
 
     let submissions: any[] = []
 
-    onMount(async () => {     
-        const [response] = await Promise.all([api("GET", `Submissions/${user.employeeId}`)]) 
+    onMount(async () => {
+        const [response] = await Promise.all([api("GET", `Submissions/Employees/${user.employeeId}`)])
         submissions = response?.body
     })
 </script>
@@ -21,7 +21,7 @@
         <p class="font-medium">{$LL.SubmissionsToDo()}</p>
     </div>
     <div class="flex flex-col w-full p-5 border-b border-x border-gray-300 rounded-b-xl">
-        {#if submissions.length > 0}
+        {#if submissions.filter((temp) => temp.submissionDate == null).length > 0}
             <p>{$LL.Submissions.Name()}: {submissions.filter((temp) => temp.submissionDate == null).length}</p>
         {:else}
             <p>{$LL.NoSubmissions()}</p>
