@@ -4,6 +4,7 @@
 
     export let data
     let filteredItems = data.submissions
+    console.log(filteredItems)
 </script>
 
 <div class="mx-auto flex flex-col xl:w-[1280px] py-5 md:px-5 px-2 md:gap-y-10 gap-y-5">
@@ -26,10 +27,11 @@
                         <p>{index + 1}</p>
                         <div class="flex gap-x-14 pr-5">
                             {#if submission.submissionDate}
-                                <p>dfsdfsdz</p>
+                                <p>{submission.evaluatorEmployeeId}</p>
+                                <p>{submission.submissionDate}</p>
                                 <CheckCircle2 class="text-green-500" />
                             {:else}
-                                <p>dfsdfsdz</p>
+                                <p>sem entrega</p>
                                 <XCircle class="text-red-500" />
                             {/if}
                         </div>

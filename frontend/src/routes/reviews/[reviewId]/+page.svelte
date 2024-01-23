@@ -6,9 +6,10 @@
     import { onMount } from 'svelte'
     import PreviewForm from '$lib/components/PreviewForm.svelte'
     import Dropdown from '$lib/components/Dropdown.svelte'
-    import { AlertTriangle, ArchiveX, Calendar, Clock, FileText, CheckSquare2, XSquare } from 'lucide-svelte'
+    import { AlertTriangle, ArchiveX, Calendar, Clock, FileText, CheckSquare2, XSquare, Search, CheckCircle2, XCircle } from 'lucide-svelte'
     import toast, { Toaster } from 'svelte-french-toast'
     import ProgressBar from '$lib/components/ProgressBar.svelte';
+    import Submissions from '$lib/components/Submissions.svelte';
 
     export let data
 
@@ -205,7 +206,39 @@
                 {/if}
             </div>
         </div>
-        <div>tabela de submissões</div>
+        <!-- tabela de submissions -->
+        <div class="flex flex-col shadow rounded-xl">
+            <div class="flex flex-col border-x border-t border-gray-200 bg-gray-100 pt-4 pb-2 px-10 gap-y-3 rounded-t-xl">
+                <div class="flex justify-center relative mx-10">
+                    <input type="text" class="w-full px-12 py-1 text-sm rounded-xl border border-gray-200" placeholder="Search..." />
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"> 
+                        <Search />
+                    </div>
+                </div>
+                <div class="flex justify-between font-medium">
+                    <p class="w-[37.5%] text-center">Evaluator employee</p>
+                    <p class="w-[37.5%] text-center">Evaluated employee</p>
+                    <p class="w-2/12 text-center">Submited date</p>
+                    <p class="w-1/12 text-center">Completed</p>
+                </div>
+            </div>
+            <div class="flex flex-col justify-between border border-gray-200 rounded-b-xl">
+                {#each review.submissions as submission}
+                    <div class="flex items-center border-b border-gray-200 px-5 py-2">
+                        <p class="w-[37.5%] text-center">{submission.evaluatorEmployeeId.employeeName}</p>
+                        <p class="w-[37.5%] text-center">{submission.evaluatedEmployeeId.employeeName}</p>
+                        <p class="w-2/12 text-center">{submission.submissionDate ? submission.submissionDate : 'Not implement yet'}</p>
+                        <p class="w-1/12">
+                            {#if submission.submissionDate}
+                                <CheckCircle2 />
+                            {:else}
+                                <XCircle />
+                            {/if}
+                        </p>
+                    </div>
+                {/each}
+            </div>
+        </div>
     {:else if pageSelected == 'form'}
         <div class="flex justify-between">
             <p class="font-semibold text-xl">{$LL.Form()}</p>
