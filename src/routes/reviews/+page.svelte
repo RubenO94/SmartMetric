@@ -106,7 +106,7 @@
                                 </td>
                                 <td>
                                     {#if review.reviewStatus == 'Active'}
-                                        <ProgressBar bind:submissions={review.submissions} reviewIdPage={false} />
+                                        <ProgressBar bind:completed={review.submissionsCompleted} bind:total={review.submissionsTotal} reviewIdPage={false} />
                                     {/if}
                                 </td>
                                 <td></td>

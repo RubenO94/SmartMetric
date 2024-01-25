@@ -6,10 +6,11 @@
     import { onMount } from 'svelte'
     import PreviewForm from '$lib/components/PreviewForm.svelte'
     import Dropdown from '$lib/components/Dropdown.svelte'
-    import { AlertTriangle, ArchiveX, Calendar, Clock, FileText, Search, CircleUserRound, XSquareIcon, CheckSquareIcon, Folder, Trash2 } from 'lucide-svelte'
+    import { AlertTriangle, ArchiveX, Calendar, Clock, FileText } from 'lucide-svelte'
     import toast, { Toaster } from 'svelte-french-toast'
     import ProgressBar from '$lib/components/ProgressBar.svelte'
     import BadgeComponent from '$lib/components/BadgeComponent.svelte';
+    import SubmissionsTable from '$lib/components/SubmissionsTable.svelte';
 
     export let data
 
@@ -85,7 +86,6 @@
             goto('/reviews')
         }        
     }
-    console.log(review)
 </script>
 
 <Toaster />
@@ -115,7 +115,7 @@
             </div>
             <div class="flex flex-col md:flex-row gap-y-5 justify-between border border-gray-300 py-5 px-2 md:px-10 rounded-b-xl">
                 {#if review.reviewStatus == 'Active'}
-                    <ProgressBar bind:submissions={review.submissions} reviewIdPage={true} />
+                    <ProgressBar bind:completed={review.submissionsCompleted} bind:total={review.submissionsTotal} reviewIdPage={true} />
                 {:else}
                     <div></div>
                 {/if}
@@ -209,87 +209,7 @@
             </div>
         </div>
         <!-- tabela de submissions -->
-        <div class="border border-gray-300 overflow-x-auto shadow rounded-xl">
-        <table class="min-w-full">
-            <thead class="bg-gray-200">
-                <tr>
-                    <th colspan="5" class="rounded-t-xl">
-                        <div class="flex relative mx-20 pt-5">
-                            <input type="text" class="w-full text-sm font-normal py-1 px-10 border border-gray-300 rounded-xl" placeholder={$LL.Search()} />
-                            <div class="absolute inset-y-0 left-0 pl-3 pt-5 flex items-center pointer-events-none">
-                                <Search />
-                            </div>
-                        </div>
-                    </th>
-                </tr>
-                <tr>
-                    <th>
-                        <div class="flex justify-start px-10 py-2">
-                            {$LL.SubmissionTable.Evaluator()} 
-                        </div>
-                    </th>
-                    <th>
-                        <div class="flex justify-start px-10 py-2">
-                            {$LL.SubmissionTable.Evaluated()} 
-                        </div>
-                    </th>
-                    <th>
-                        <div class="flex justify-start py-2">
-                            {$LL.SubmissionTable.SubmissionDate()}
-                        </div>
-                    </th>
-                    <th>
-                        <div class="flex justify-center py-2">
-                            {$LL.SubmissionTable.Completed()}
-                        </div>
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {#each review.submissions as submission (submission.submissionId)}
-                    <tr class="hover:bg-gray-100">
-                        <td>
-                            <div class="flex items-center gap-x-2 p-2">
-                                <CircleUserRound class="flex-shrink-0 w-6 h-6" /> 
-                                <p class="overflow-x-hidden text-ellipsis">{submission.evaluatorEmployeeId.employeeName}</p>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="flex items-center gap-x-2 p-2">
-                                {#if review.reviewType === 'Interdepartamental'}
-                                    <Folder class="flex-shrink-0 w-6 h-6" />
-                                    {submission.evaluatedDepartmentId.departmentDescription}
-                                {:else}
-                                    <CircleUserRound class="flex-shrink-0 w-6 h-6" />
-                                    {submission.evaluatedEmployeeId.employeeName}
-                                {/if}
-                            </div>
-                        </td>
-                        <td>
-                            <div class="flex py-2">
-                                {#if submission.submissionDate}
-                                    {submission.submissionDate}
-                                {/if}
-                            </div>
-                        </td>
-                        <td>
-                            <div class="flex justify-center py-2">
-                                {#if submission.submissionDate}
-                                    <CheckSquareIcon class="text-green-400" />
-                                {:else}
-                                    <XSquareIcon class="text-red-400" />
-                                {/if}
-                            </div>
-                        </td>
-                        <td>
-                            <Trash2 class="text-gray-500 hover:text-black cursor-pointer" />
-                        </td>
-                    </tr>
-                {/each}
-            </tbody>
-        </table>
-        </div>
+        <SubmissionsTable bind:review={review} />
     {:else if pageSelected == 'form'}
         <div class="flex justify-between">
             <p class="font-semibold text-xl">{$LL.Form()}</p>
