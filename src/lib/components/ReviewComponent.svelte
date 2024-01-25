@@ -349,25 +349,27 @@
                             {department.departmentDescription}
                         </label>
                     </div>
-                    {#await getEmployeesOfDep(department, indexD) then}
-                        {#if openMenu[indexD] || review.reviewDepartmentsIds.includes(department.departmentId)}
-                            {#if department.employees != 0}
-                                {#each department.employees as employee}
+                    {#if review.reviewType != 'Interdepartamental'}
+                        {#await getEmployeesOfDep(department, indexD) then}
+                            {#if openMenu[indexD] || review.reviewDepartmentsIds.includes(department.departmentId)}
+                                {#if department.employees != 0}
+                                    {#each department.employees as employee}
+                                        <div class=" flex px-6 gap-x-2 items-center">
+                                            <input id={employee.employeeId} type="checkbox" bind:group={review.reviewEmployeesIds} value={employee.employeeId} on:change={() => handleEmployeeChange(department.departmentId, employee.employeeId)} disabled={disableInputs(true)} />
+                                            <label for={employee.employeeId} class="flex gap-x-2 items-center cursor-pointer">
+                                                <svelte:component this={User} />
+                                                <p>{employee.employeeName}</p>
+                                            </label>
+                                        </div>
+                                    {/each}
+                                {:else}
                                     <div class=" flex px-6 gap-x-2 items-center">
-                                        <input id={employee.employeeId} type="checkbox" bind:group={review.reviewEmployeesIds} value={employee.employeeId} on:change={() => handleEmployeeChange(department.departmentId, employee.employeeId)} disabled={disableInputs(true)} />
-                                        <label for={employee.employeeId} class="flex gap-x-2 items-center cursor-pointer">
-                                            <svelte:component this={User} />
-                                            <p>{employee.employeeName}</p>
-                                        </label>
+                                        <p>{$LL.NoEmployees()}</p>
                                     </div>
-                                {/each}
-                            {:else}
-                                <div class=" flex px-6 gap-x-2 items-center">
-                                    <p>{$LL.NoEmployees()}</p>
-                                </div>
+                                {/if}
                             {/if}
-                        {/if}
-                    {/await}
+                        {/await}
+                    {/if}
                 {/each}
             </div>
         </div>
