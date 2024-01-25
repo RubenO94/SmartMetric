@@ -202,7 +202,9 @@ const en: BaseTranslation = {
 		Completed: "Completed"
 	},
 	Search: "Search",
-	Submit: "Submit"
+	Submit: "Submit",
+	NoSubmissionsYet: "No submissions yet.",
+	Evaluating: "Evaluating"
 }
 
 export default en

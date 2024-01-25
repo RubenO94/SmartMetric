@@ -208,7 +208,6 @@
                 {/if}
             </div>
         </div>
-        <!-- tabela de submissions -->
         <SubmissionsTable bind:review={review} />
     {:else if pageSelected == 'form'}
         <div class="flex justify-between">

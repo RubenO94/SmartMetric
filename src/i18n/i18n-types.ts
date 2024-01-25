@@ -756,6 +756,14 @@ type RootTranslation = {
 	 * S​u​b​m​i​t
 	 */
 	Submit: string
+	/**
+	 * N​o​ ​s​u​b​m​i​s​s​i​o​n​s​ ​y​e​t​.
+	 */
+	NoSubmissionsYet: string
+	/**
+	 * E​v​a​l​u​a​t​i​n​g
+	 */
+	Evaluating: string
 }
 
 export type TranslationFunctions = {
@@ -1501,6 +1509,14 @@ export type TranslationFunctions = {
 	 * Submit
 	 */
 	Submit: () => LocalizedString
+	/**
+	 * No submissions yet.
+	 */
+	NoSubmissionsYet: () => LocalizedString
+	/**
+	 * Evaluating
+	 */
+	Evaluating: () => LocalizedString
 }
 
 export type Formatters = {}

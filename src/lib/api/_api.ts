@@ -28,3 +28,16 @@ export async function api (method: string, resource: string, data?: any) {
         console.log(error)
     }
 }
+
+export async function getToken (method: string, resource: string) {
+    try {
+        var response = await fetch("http://localhost:5104/api/v1/" + resource, {
+            method: method
+        })
+        var responseFromApi = await response.json()
+        return { responseFromApi }
+    } catch (error) {
+        console.log(error)
+    }
+    
+}

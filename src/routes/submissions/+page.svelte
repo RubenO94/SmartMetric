@@ -4,6 +4,7 @@
 
     export let data
     let filteredItems = data.submissions
+    console.log(filteredItems)
 </script>
 
 <div class="mx-auto flex flex-col xl:w-[1280px] py-5 md:px-5 px-2 md:gap-y-10 gap-y-5">
@@ -30,7 +31,6 @@
                                 <p>{submission.submissionDate}</p>
                                 <CheckCircle2 class="text-green-500" />
                             {:else}
-                                <p>sem entrega</p>
                                 <XCircle class="text-red-500" />
                             {/if}
                         </div>
@@ -38,7 +38,7 @@
                     <hr class="text-gray-300">
                 {/each}
             {:else}
-                <p class="flex justify-between px-5 py-2 hover:bg-gray-100">{$LL.NoSubmissions()}</p>
+                <p class="flex justify-between px-5 py-2">{$LL.NoSubmissions()}</p>
             {/if}
         </div>
     </div>

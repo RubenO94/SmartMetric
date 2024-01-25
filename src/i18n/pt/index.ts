@@ -202,7 +202,9 @@ const pt: Translation = {
 		Completed: 'Completada'
 	},
 	Search: "Pesquisar",
-	Submit: "Submeter"
+	Submit: "Submeter",
+	NoSubmissionsYet: 'Ainda sem submissões.',
+	Evaluating: 'A avaliar'
 }
 
 export default pt

@@ -37,6 +37,10 @@
     }
 </script>
 
+<svelte:head>
+    <title>{$LL.Settings()}</title>
+</svelte:head>
+
 <Toaster />
 
 <div class="mx-auto flex flex-col xl:w-[1280px] p-5 gap-y-10">
