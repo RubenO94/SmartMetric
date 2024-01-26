@@ -6,6 +6,7 @@ let submissionId: string = ''
 
 export const load: PageServerLoad = async ({ url, parent }) => {
     const { user } = await parent()
+    if (user?.profileType === "Backoffice") throw redirect(302, "/")
     try {
         const parsedURL = new URL(url)
         const pathSegments = parsedURL.pathname.split("/").filter(Boolean)

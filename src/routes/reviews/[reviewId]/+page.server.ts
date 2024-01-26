@@ -1,15 +1,15 @@
 import { api } from "$lib/api/_api"
-import { error } from "@sveltejs/kit"
+import { error, redirect } from "@sveltejs/kit"
 import type { PageServerLoad } from "./$types"
 
 export const load: PageServerLoad = async ({ url, parent }) => {
     const { user } = await parent()
-    if (user?.profileType === 'Frontoffice') throw error(401, "Unauthorized")
+    if (user?.profileType === 'Frontoffice') throw redirect(302, "/")
     try {
         //Check Permission backoffice
         const window = user?.authorizations.find((n: any) => n.windowType === "Reviews")
         const permission = window.permissions.find((p: any) => p.permissionType === "Read")
-        if (!permission.hasPermission) throw error(401, "Unauthorized")
+        if (!permission.hasPermission) throw redirect(302, "/")
 
         //Using the URL constructor to parse the URL
         const parsedURL = new URL(url)

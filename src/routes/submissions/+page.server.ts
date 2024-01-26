@@ -4,7 +4,7 @@ import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ parent }) => {
     const { user } = await parent()
-    if (user?.profileType != 'Frontoffice') throw redirect(302, "/")
+    if (user?.profileType === "Backoffice") throw redirect(302, "/")
     try {
         const [submissionResponse] = await Promise.all([
             api ("GET", `Submissions/Employees/${user?.employeeId}`)
