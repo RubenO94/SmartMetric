@@ -7,6 +7,10 @@
     console.log(filteredItems)
 </script>
 
+<svelte:head>
+    <title>{$LL.Submissions.Name()}</title>
+</svelte:head>
+
 <div class="mx-auto flex flex-col xl:w-[1280px] py-5 md:px-5 px-2 md:gap-y-10 gap-y-5">
     <div class="flex flex-col md:flex-row gap-y-5 justify-between">
         <h1 class="font-semibold text-2xl mx-auto md:mx-0">{ $LL.Submissions.Name() }</h1>
@@ -23,7 +27,7 @@
         <div class="flex flex-col border-x border-b border-gray-300 rounded-b-xl">
             {#if filteredItems.length > 0}
                 {#each filteredItems as submission, index}
-                    <a href={`/submissions/${submission.submissionId}`} class="flex justify-between px-5 py-2 hover:bg-gray-100 cursor-pointer">
+                    <a href={`/submissions/${submission.submissionId}`} class="flex justify-between px-5 py-2 hover:bg-gray-100 cursor-pointer {index + 1 == filteredItems.length ? 'rounded-b-xl' : '' }">
                         <p>{index + 1}</p>
                         <div class="flex gap-x-14 pr-5">
                             {#if submission.submissionDate}
@@ -35,7 +39,9 @@
                             {/if}
                         </div>
                     </a>
-                    <hr class="text-gray-300">
+                    {#if index + 1 != filteredItems.length}
+                        <hr class="text-gray-300">
+                    {/if}
                 {/each}
             {:else}
                 <p class="flex justify-between px-5 py-2">{$LL.NoSubmissions()}</p>

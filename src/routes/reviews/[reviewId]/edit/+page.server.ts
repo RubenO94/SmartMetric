@@ -1,7 +1,8 @@
 import { api } from "$lib/api/_api"
 import type { PageServerLoad } from "./$types"
 
-export const load: PageServerLoad = async ({ url }) => {
+export const load: PageServerLoad = async ({ url, parent }) => {
+    const { user } = await parent()
     try {
         const parsedUrl = new URL(url)
         const pathSegments = parsedUrl.pathname.split('/').filter(Boolean)

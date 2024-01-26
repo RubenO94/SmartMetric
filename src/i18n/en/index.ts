@@ -190,6 +190,7 @@ const en: BaseTranslation = {
 	ReviewDivText: "There are no reviews available to show yet.",
 	Submissions: {
 		Name: "Submissions",
+		NameSingle: "Submission",
 		SubmissionsCompleted: "Submissions completed",
 		SubmissionsMissing: "Submissions missing"
 	},

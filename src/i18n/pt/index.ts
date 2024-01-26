@@ -190,6 +190,7 @@ const pt: Translation = {
 	ReviewDivText: 'Não existem revisões disponíveis para mostrar.',
 	Submissions: {
 		Name: "Submissões",
+		NameSingle: "Submissão",
 		SubmissionsCompleted: 'Submissões completas',
 		SubmissionsMissing: 'Submissões por entregar'
 	},

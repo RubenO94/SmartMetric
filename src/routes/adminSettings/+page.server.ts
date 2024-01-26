@@ -2,9 +2,10 @@ import { redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 import { api } from "$lib/api/_api";
 
-export const load: PageServerLoad = async ( event ) => {
+export const load: PageServerLoad = async ({ parent }) => {
+    const { user, lang: languages} = await parent()
     try {
-        const window = event.locals.user?.authorizations.find((n: any) => n.windowType === "AdminSettings")
+        const window = user?.authorizations.find((n: any) => n.windowType === "AdminSettings")
         const permission = window.permissions.find((p: any) => p.permissionType === "Read")
         if (!permission.hasPermission) {
             console.log("Unauthorized")

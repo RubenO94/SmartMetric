@@ -714,6 +714,10 @@ type RootTranslation = {
 		 */
 		Name: string
 		/**
+		 * S​u​b​m​i​s​s​i​o​n
+		 */
+		NameSingle: string
+		/**
 		 * S​u​b​m​i​s​s​i​o​n​s​ ​c​o​m​p​l​e​t​e​d
 		 */
 		SubmissionsCompleted: string
@@ -1466,6 +1470,10 @@ export type TranslationFunctions = {
 		 * Submissions
 		 */
 		Name: () => LocalizedString
+		/**
+		 * Submission
+		 */
+		NameSingle: () => LocalizedString
 		/**
 		 * Submissions completed
 		 */
