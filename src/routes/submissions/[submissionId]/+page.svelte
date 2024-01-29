@@ -24,12 +24,12 @@
             <h1 class="font-semibold text-xl">{$LL.Evaluating()}: {submission.evaluatedEmployeeId.employeeName ? submission.evaluatedEmployeeId.employeeName : submission.evaluatedDepartmentId.departmentDescription }</h1>
         </div>
         <div class="flex flex-col overflow-hidden shadow border border-gray-300 rounded-lg">
-            <div class="flex flex-col w-full px-10 pt-5 pb-20 gap-y-10">
+            <div class="flex flex-col w-full md:px-10 px-2 pt-5 pb-20 gap-y-10">
                 {#each questions as question, index}
                     <div class="flex flex-col gap-y-4">
                         <p class="font-medium text-lg">{index + 1}. {question.translations[0].title} {question.isRequired ? '*' : '' }</p>
                         {#if question.responseType == 'Rating'}
-                            <div class="flex gap-x-5 ml-5">
+                            <div class="flex gap-x-5 mx-5">
                                 {#each question.ratingOptions as rto}
                                     <div class="flex items-center">
                                         <input id="{rto.ratingOptionId}" type="radio" value="{rto.numericValue}" name="{question.questionId}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-1">
@@ -38,7 +38,7 @@
                                 {/each}
                             </div>
                         {:else if question.responseType == 'SingleChoice'}
-                            <div class="flex gap-x-5 ml-5">
+                            <div class="flex gap-x-5 mx-5">
                                 {#each question.singleChoiceOptions as sco}
                                     <div class="flex items-center">
                                         <input id="{sco.singleChoiceOptionId}" type="radio" value="{sco.translations[0].description}" name="{question.questionId}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-1">
@@ -47,14 +47,14 @@
                                 {/each}
                             </div>
                         {:else if question.responseType == 'Text'}
-                            <textarea></textarea>
+                            <textarea name="{question.questionId}" class="border border-gray-300 mr-5 text-sm p-2 rounded" rows="4"></textarea>
                         {/if}
                     </div>
                 {/each}
             </div>
-            <p class="flex justify-end text-xs px-10 py-1">* {$LL.Required().toLowerCase()}</p>
+            <p class="flex justify-end text-xs md:px-[60px] px-4 py-1">* {$LL.Required().toLowerCase()}</p>
             <hr>
-            <div class="flex px-10 py-5 justify-end">
+            <div class="flex md:px-[60px] px-4 py-5 justify-end">
                 <button on:click={checkAnswers} class="flex py-2 px-5 border border-transparent hover:bg-blue-700 hover:border-blue-950 bg-blue-500 text-white rounded-lg" type="submit">
                     {$LL.Submit()}
                 </button>

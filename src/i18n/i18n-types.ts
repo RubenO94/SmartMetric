@@ -768,6 +768,14 @@ type RootTranslation = {
 	 * E​v​a​l​u​a​t​i​n​g
 	 */
 	Evaluating: string
+	/**
+	 * U​n​d​e​r​,​ ​y​o​u​ ​s​h​o​u​l​d​ ​s​e​e​ ​r​e​v​i​e​w​s​ ​w​h​i​c​h​ ​a​r​e​ ​a​c​t​i​v​e​,​ ​a​n​d​ ​c​l​i​c​k​i​n​g​ ​t​h​e​m​ ​m​u​s​t​ ​o​p​e​n​ ​t​h​e​ ​s​u​b​m​i​s​s​i​o​n​s​ ​y​o​u​ ​m​u​s​t​ ​d​o
+	 */
+	SubmissionsDescriptionText: string
+	/**
+	 * E​v​a​l​u​a​t​i​n​g
+	 */
+	Evaluate: string
 }
 
 export type TranslationFunctions = {
@@ -1525,6 +1533,14 @@ export type TranslationFunctions = {
 	 * Evaluating
 	 */
 	Evaluating: () => LocalizedString
+	/**
+	 * Under, you should see reviews which are active, and clicking them must open the submissions you must do
+	 */
+	SubmissionsDescriptionText: () => LocalizedString
+	/**
+	 * Evaluating
+	 */
+	Evaluate: () => LocalizedString
 }
 
 export type Formatters = {}

@@ -9,9 +9,14 @@ export const load: PageServerLoad = async ({ parent }) => {
         const [submissionResponse] = await Promise.all([
             api ("GET", `Submissions/Employees/${user?.employeeId}`)
         ])
-        console.log(submissionResponse)
         let submissions = submissionResponse?.body
-        return { submissions }
+
+        const [reviewsResponse] = await Promise.all([
+            api ("GET", `Reviews`)
+        ])
+        let reviews = reviewsResponse?.body
+
+        return { submissions, reviews }
     } catch (error) {
         throw error
     }

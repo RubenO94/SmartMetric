@@ -7,9 +7,9 @@
     export let reviewIdPage: boolean
 
     let sizeProgressBar = 400
-    let percentage = (completed * 100) / total || 0
-
     if (!reviewIdPage) sizeProgressBar = 200
+
+    $: percentage = (completed * 100) / total || 0
 </script>
 
 <div class="flex flex-col gap-y-1">

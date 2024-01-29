@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { CircleUserRound, CheckSquareIcon, Folder, Search, Trash2, XSquareIcon} from 'lucide-svelte'
+    import { CircleUserRound, CheckSquareIcon, Folder, Search, Trash2, XSquareIcon, AlertTriangle} from 'lucide-svelte'
     import LL from '../../i18n/i18n-svelte'
     import { onMount } from 'svelte'
     import { api } from '$lib/api/_api'
@@ -109,8 +109,8 @@
                             </td>
                             <td>
                                 <button on:click={() => deleteSubmission(submission.submissionId)}>
-                                <Trash2 class="text-gray-500 hover:text-black cursor-pointer" /> 
-                                </button>     
+                                    <Trash2 class="text-gray-500 hover:text-black cursor-pointer" /> 
+                                </button> 
                             </td>
                         </tr>
                     {/each}

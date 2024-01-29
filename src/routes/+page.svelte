@@ -11,10 +11,12 @@
     <title>{$LL.PerformanceModule()}</title>
 </svelte:head>
 
-{#if user?.profileType === "Frontoffice"}
-    <div class="flex justify-center items-center p-10">
-        <Submissions {user} />
-    </div>
-{:else if user?.profileType === "Backoffice"}
-    <p>Backoffice</p>
-{/if}
+<div class="mx-auto flex flex-col items-center xl:w-[1280px] py-5 md:px-5 px-2 md:gap-y-10 gap-y-5">
+    {#if user?.profileType === "Frontoffice"}
+        <div class="flex p-10">
+            <Submissions {user} />
+        </div>
+    {:else if user?.profileType === "Backoffice"}
+        <p>Backoffice</p>
+    {/if}
+</div>
