@@ -3,8 +3,10 @@
     import LL from '../../i18n/i18n-svelte'
     import { onMount } from 'svelte'
     import { api } from '$lib/api/_api'
+    import { transformDate } from '$lib/actions/handleDate';
 
     export let review: any
+    export let lang: string
 
     let submissions: any = []
 
@@ -94,7 +96,7 @@
                             <td>
                                 <div class="flex py-2">
                                     {#if submission.submissionDate}
-                                        {submission.submissionDate}
+                                        {transformDate(submission.submissionDate, lang)}
                                     {/if}
                                 </div>
                             </td>

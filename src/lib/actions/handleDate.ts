@@ -1,4 +1,4 @@
-export function transformDate(inputDate: string, lang: string) {
+export function transformDate(inputDate: string, lang?: string) {
     const date = new Date(inputDate)
     const options: Intl.DateTimeFormatOptions = {
         year: "numeric",

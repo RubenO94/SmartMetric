@@ -58,7 +58,7 @@
     {:else}
         <div class="w-full">
             <AlertCircle size={50} />
-            <p>sdfkjsdhf</p>
+            <p>fdg</p>
         </div>
     {/if}
 </div>

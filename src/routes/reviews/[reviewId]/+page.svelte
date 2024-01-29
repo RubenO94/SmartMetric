@@ -11,6 +11,7 @@
     import ProgressBar from '$lib/components/ProgressBar.svelte'
     import BadgeComponent from '$lib/components/BadgeComponent.svelte';
     import SubmissionsTable from '$lib/components/SubmissionsTable.svelte';
+    import { transformDate } from '$lib/actions/handleDate';
 
     export let data
 
@@ -29,10 +30,10 @@
     maxDateAllowed.setFullYear(maxDateAllowed.getFullYear() + 5)
 
     onMount(() => {
-        createdDate = `${review.createdDate.slice(8, 10)}-${review.createdDate.slice(5, 7)}-${review.createdDate.slice(0, 4)}`
+        createdDate = transformDate(review.createdDate, data.lang[0])
         if (review.reviewStatus == 'Active') {
-            startDate = `${review.startDate.slice(8, 10)}-${review.startDate.slice(5, 7)}-${review.startDate.slice(0, 4)}`
-            endDate = `${review.endDate.slice(8, 10)}-${review.endDate.slice(5, 7)}-${review.endDate.slice(0, 4)}`
+            startDate = transformDate(review.startDate, data.lang[0])
+            endDate = transformDate(review.endDate, data.lang[0])
         }
         if (review.reviewStatus == 'NotStarted') reviewPatchBody.reviewStatus = 'Active'
         else if (review.reviewStatus == 'Active') reviewPatchBody.reviewStatus = 'Canceled'
@@ -208,7 +209,7 @@
                 {/if}
             </div>
         </div>
-        <SubmissionsTable bind:review={review} />
+        <SubmissionsTable bind:review={review} bind:lang={data.lang[0]} />
     {:else if pageSelected == 'form'}
         <div class="flex justify-between">
             <p class="font-semibold text-xl">{$LL.Form()}</p>

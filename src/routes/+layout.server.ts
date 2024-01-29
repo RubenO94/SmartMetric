@@ -5,6 +5,7 @@ import type { LayoutServerLoad } from "./$types"
 export const load: LayoutServerLoad = async ({ locals }) => {
     try {
         const [user] = await Promise.all([ api("GET", "Users/me") ])
+        console.log(user)
         if (!user || user.body == null) {
             throw error(404, { message: 'Not Found'})
         }
