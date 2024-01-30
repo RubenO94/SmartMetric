@@ -207,7 +207,10 @@ const en: BaseTranslation = {
 	NoSubmissionsYet: "No submissions yet.",
 	Evaluating: "Evaluating",
 	SubmissionsDescriptionText: "Under, you should see reviews which are active, and clicking them must open the submissions you must do",
-	Evaluate: "Evaluating"
+	Evaluate: "Evaluating",
+	ProgressReview: "Progress of review",
+	ActiveReviews: "Active reviews",
+	CompletedReviews: "Completed reviews"
 }
 
 export default en

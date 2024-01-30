@@ -29,7 +29,6 @@
 
     $: hasActiveReview = reviews.some((review: any) => review.reviewStatus === activeSeparator) 
     $: filteredItems = reviews.filter((element: any) => element.translations.some((r: any) => r.title.toLowerCase().includes(searchInput.toLowerCase())))
-    console.log(reviews)
 </script>
 
 <svelte:head>

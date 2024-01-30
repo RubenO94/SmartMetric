@@ -207,7 +207,10 @@ const pt: Translation = {
 	NoSubmissionsYet: 'Ainda sem submissões.',
 	Evaluating: 'A avaliar',
 	SubmissionsDescriptionText: 'Abaixo, é possível ver as revisões que estão ativas, clicando nelas poderá ver as submissões que precisa de fazer',
-	Evaluate: 'Avaliar'
+	Evaluate: 'Avaliar',
+	ProgressReview: 'Progresso da revisão',
+	ActiveReviews: 'Revisões ativas',
+	CompletedReviews: 'Revisões completas'
 }
 
 export default pt

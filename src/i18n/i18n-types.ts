@@ -776,6 +776,18 @@ type RootTranslation = {
 	 * E​v​a​l​u​a​t​i​n​g
 	 */
 	Evaluate: string
+	/**
+	 * P​r​o​g​r​e​s​s​ ​o​f​ ​r​e​v​i​e​w
+	 */
+	ProgressReview: string
+	/**
+	 * A​c​t​i​v​e​ ​r​e​v​i​e​w​s
+	 */
+	ActiveReviews: string
+	/**
+	 * C​o​m​p​l​e​t​e​d​ ​r​e​v​i​e​w​s
+	 */
+	CompletedReviews: string
 }
 
 export type TranslationFunctions = {
@@ -1541,6 +1553,18 @@ export type TranslationFunctions = {
 	 * Evaluating
 	 */
 	Evaluate: () => LocalizedString
+	/**
+	 * Progress of review
+	 */
+	ProgressReview: () => LocalizedString
+	/**
+	 * Active reviews
+	 */
+	ActiveReviews: () => LocalizedString
+	/**
+	 * Completed reviews
+	 */
+	CompletedReviews: () => LocalizedString
 }
 
 export type Formatters = {}
