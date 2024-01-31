@@ -210,7 +210,8 @@ const en: BaseTranslation = {
 	Evaluate: "Evaluating",
 	ProgressReview: "Progress of review",
 	ActiveReviews: "Active reviews",
-	CompletedReviews: "Completed reviews"
+	CompletedReviews: "Completed reviews",
+	Permissions: "Permissions"
 }
 
 export default en

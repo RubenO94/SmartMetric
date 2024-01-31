@@ -29,7 +29,7 @@
         },
         {
             name: "AdminSettings",
-            label: $LL.Settings(),
+            label: $LL.Permissions(),
             permission: false,
             icon: Settings
         }

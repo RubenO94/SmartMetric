@@ -788,6 +788,10 @@ type RootTranslation = {
 	 * C​o​m​p​l​e​t​e​d​ ​r​e​v​i​e​w​s
 	 */
 	CompletedReviews: string
+	/**
+	 * P​e​r​m​i​s​s​i​o​n​s
+	 */
+	Permissions: string
 }
 
 export type TranslationFunctions = {
@@ -1565,6 +1569,10 @@ export type TranslationFunctions = {
 	 * Completed reviews
 	 */
 	CompletedReviews: () => LocalizedString
+	/**
+	 * Permissions
+	 */
+	Permissions: () => LocalizedString
 }
 
 export type Formatters = {}

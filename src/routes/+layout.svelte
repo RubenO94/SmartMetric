@@ -17,7 +17,7 @@
 		{ name: "Reviews", label: $LL.Sidebar.Reviews(), permission: false, icon: Clipboard },
 		{ name: "Forms", label: $LL.Sidebar.Forms(), permission: false, icon: List },
 		{ name: "Statistics", label: $LL.Sidebar.Statistics(), permission: false, icon: BarChartBig },
-		{ name: "AdminSettings", label: $LL.Settings(), permission: false, icon: Settings },
+		{ name: "AdminSettings", label: $LL.Permissions(), permission: false, icon: Settings },
 	]
 
 	const menuItemsFrontoffice: { name: string, label: string, permission: boolean, icon: ComponentType<Icon> }[] = [
@@ -30,7 +30,7 @@
     ]
 	
 	function toggleSidebar() { 
-		sidebarVisible = !sidebarVisible 
+		sidebarVisible = !sidebarVisible
 	}
 
 	function checkPermission(item: any) {

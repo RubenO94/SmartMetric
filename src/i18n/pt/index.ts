@@ -210,7 +210,8 @@ const pt: Translation = {
 	Evaluate: 'Avaliar',
 	ProgressReview: 'Progresso da revisão',
 	ActiveReviews: 'Revisões ativas',
-	CompletedReviews: 'Revisões completas'
+	CompletedReviews: 'Revisões completas',
+	Permissions: 'Permissões'
 }
 
 export default pt
