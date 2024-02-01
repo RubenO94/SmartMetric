@@ -9,10 +9,6 @@ export const load: PageServerLoad = async ({ parent }) => {
         const window = user?.authorizations.find((n: any) => n.windowType === "Reviews");
         const permission = window.permissions.find((p: any) => p.permissionType === "Create");
         if (!permission.hasPermission) throw redirect(302, "/")
-
-        const [responseDepartments] = await Promise.all([api("GET", `Departments`)])
-        let departments = responseDepartments?.body
-        return { departments }
     } catch (error) {
         throw error
     }

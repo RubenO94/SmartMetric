@@ -7,7 +7,6 @@
     export let data
 
     let review: Reviews = data.review
-    let departments = data.departments
     let page = 0
     let addLangs: string[] = []
     let action = 'add'
@@ -20,8 +19,8 @@
     ]
 
     languages = languages.filter(language => !review.translations.some((trans: any) => trans.language === language.name))
-    review.reviewDepartmentsIds = review.departments.map(department => department.departmentId)
-    review.reviewEmployeesIds = review.employees.map(employee => employee.employeeId)
+    review.reviewDepartmentsIds = review.departments!.map(department => department.departmentId)
+    review.reviewEmployeesIds = review.employees!.map(employee => employee.employeeId)
     review.departments = []
     review.employees = []
 
@@ -79,6 +78,6 @@
             <button on:click={checkLanguages} class="flex gap-x-2 mx-auto text-base font-semibold px-5 py-2 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded">{$LL.AddLanguage()}</button>
         </div>
     {:else if page == 1}
-        <ReviewComponent {review} {action} {addLangs} {departments} />
+        <ReviewComponent {review} {action} {addLangs} />
     {/if}
 </div>

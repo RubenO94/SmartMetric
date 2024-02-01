@@ -773,7 +773,7 @@ type RootTranslation = {
 	 */
 	SubmissionsDescriptionText: string
 	/**
-	 * E​v​a​l​u​a​t​i​n​g
+	 * E​v​a​l​u​a​t​e
 	 */
 	Evaluate: string
 	/**
@@ -792,6 +792,18 @@ type RootTranslation = {
 	 * P​e​r​m​i​s​s​i​o​n​s
 	 */
 	Permissions: string
+	/**
+	 * D​a​s​h​b​o​a​r​d
+	 */
+	Dashboard: string
+	/**
+	 * T​a​s​k​l​i​s​t
+	 */
+	Tasklist: string
+	/**
+	 * Y​o​u​ ​d​o​n​'​t​ ​h​a​v​e​ ​p​e​n​d​i​n​g​ ​s​u​b​m​i​s​s​i​o​n​s
+	 */
+	NoSubmissionsListLabel: string
 }
 
 export type TranslationFunctions = {
@@ -1554,7 +1566,7 @@ export type TranslationFunctions = {
 	 */
 	SubmissionsDescriptionText: () => LocalizedString
 	/**
-	 * Evaluating
+	 * Evaluate
 	 */
 	Evaluate: () => LocalizedString
 	/**
@@ -1573,6 +1585,18 @@ export type TranslationFunctions = {
 	 * Permissions
 	 */
 	Permissions: () => LocalizedString
+	/**
+	 * Dashboard
+	 */
+	Dashboard: () => LocalizedString
+	/**
+	 * Tasklist
+	 */
+	Tasklist: () => LocalizedString
+	/**
+	 * You don't have pending submissions
+	 */
+	NoSubmissionsListLabel: () => LocalizedString
 }
 
 export type Formatters = {}

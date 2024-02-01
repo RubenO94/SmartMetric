@@ -5,7 +5,6 @@
     export let data
 
     let review: Reviews = data.review
-    let departments = data.departments
     let action = 'edit'
 
     review.reviewDepartmentsIds = review.departments.map(department => department.departmentId)
@@ -26,6 +25,5 @@
             <p class="text-black text-sm">{ $LL.EditReviewDescription() }</p>
         </div>
     </div>
-    <ReviewComponent {review} {action} addLangs={[]} {departments} />
-    <!-- <EditReview {steps} {review} /> -->
+    <ReviewComponent {review} {action} addLangs={[]} />
 </div>

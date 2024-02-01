@@ -10,11 +10,11 @@
     import dayjs from "dayjs"
     import LL from "../../i18n/i18n-svelte"
     import toast from "svelte-french-toast"
+    import { onMount } from "svelte";
 
     export let review: Reviews
     export let action: string
     export let addLangs: string[]
-    export let departments: any[]
 
     let selectedQuestion: Question
     let insertedSingleChoiceOption: string = ''
@@ -60,9 +60,32 @@
 
     maxDateAllowed.setFullYear(maxDateAllowed.getFullYear() + 5)
 
-    departments.forEach(department => {
-        department.employees = []
+    let pageDepartments = 1
+    let totalDepartments = 0
+    let departments: any = []
+
+    const fetchDepartments = async () => {
+        try {
+            const [departmentsResponse] = await Promise.all([api("GET", `Departments?page=${pageDepartments}&pageSize=10`)])
+            departments = [...departments, ...departmentsResponse?.body]
+            departments.forEach(async (department: any) => {
+                const [employeesResponse] = await Promise.all([api("GET", `Departments/${department.departmentId}/Employees`)])
+                department.employees = employeesResponse?.body
+            })
+            totalDepartments = departmentsResponse?.total
+        } catch (error) {
+            throw error
+        }
+    }
+
+    onMount(async () => {
+        fetchDepartments()
     })
+
+    const loadMore = async () => {
+        pageDepartments++
+        fetchDepartments()
+    }
 
     async function saveReview() {
         let request: any
@@ -134,7 +157,7 @@
 
     //Departments
     function handleDepartmentChange(departmentId: number) {
-		const department = departments.find((d) => d.departmentId === departmentId);
+		const department = departments.find((d: any) => d.departmentId === departmentId);
         if (department) {
             const employeeIds = department.employees.map((employee: any) => employee.employeeId);
             if (review.reviewDepartmentsIds.includes(departmentId)) {
@@ -145,7 +168,7 @@
         }
 	}
     function handleEmployeeChange(departmentId: number, employeeId: number) {
-		const department = departments.find((d) => d.departmentId === departmentId);
+		const department = departments.find((d: any) => d.departmentId === departmentId);
 		if (review.reviewEmployeesIds.includes(employeeId)) {
 			if (!review.reviewDepartmentsIds.includes(departmentId)) {
 				review.reviewDepartmentsIds = [...review.reviewDepartmentsIds, departmentId]
@@ -156,10 +179,6 @@
 			}
 		}
 	}
-    async function getEmployeesOfDep(department: any, index: number) {
-        let [responseEmployees] = await Promise.all([api("GET", `Departments/${department.departmentId}/Employees`)])
-        department.employees = responseEmployees?.body
-    }
 
     function disableInputs(toggle?: boolean) {
         if (toggle && action === 'add') { return true }
@@ -350,7 +369,6 @@
                         </label>
                     </div>
                     {#if review.reviewType != 'Interdepartamental'}
-                        {#await getEmployeesOfDep(department, indexD) then}
                             {#if openMenu[indexD] || review.reviewDepartmentsIds.includes(department.departmentId)}
                                 {#if department.employees != 0}
                                     {#each department.employees as employee}
@@ -368,9 +386,15 @@
                                     </div>
                                 {/if}
                             {/if}
-                        {/await}
                     {/if}
                 {/each}
+
+                {#if departments.length != totalDepartments}
+                    <button on:click={loadMore} class="flex items-center gap-x-2 p-2 border border-gray-300 bg-gray-100 rounded-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M24 4v4m10-1.32l-2 3.464M41.32 14l-3.464 2M44 24h-4m1.32 10l-3.464-2M34 41.32l-2-3.464M24 44v-4m-10 1.32l2-3.464M6.68 34l3.464-2M4 24h4M6.68 14l3.464 2M14 6.68l2 3.464"/></svg>
+                        Load more
+                    </button>
+                {/if}
             </div>
         </div>
     {:else if current == 2}

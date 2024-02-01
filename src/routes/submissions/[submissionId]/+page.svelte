@@ -18,7 +18,7 @@
     <title>{$LL.Submissions.NameSingle()}</title>
 </svelte:head>
 
-<div class="mx-auto flex flex-col h-full xl:w-[1280px] py-5 md:px-5 px-2 gap-y-10">
+<div class="mx-auto flex flex-col xl:w-[1280px] py-5 md:px-5 px-2 gap-y-10">
     <form method="post" use:enhance={() => { success = true }}>
         <div class="flex pb-4">
             <h1 class="font-semibold text-xl">{$LL.Evaluating()}: {submission.evaluatedEmployeeId.employeeName ? submission.evaluatedEmployeeId.employeeName : submission.evaluatedDepartmentId.departmentDescription }</h1>

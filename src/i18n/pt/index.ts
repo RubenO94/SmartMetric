@@ -211,7 +211,10 @@ const pt: Translation = {
 	ProgressReview: 'Progresso da revisão',
 	ActiveReviews: 'Revisões ativas',
 	CompletedReviews: 'Revisões completas',
-	Permissions: 'Permissões'
+	Permissions: 'Permissões',
+	Dashboard: 'Painel',
+	Tasklist: 'Lista de tarefas',
+	NoSubmissionsListLabel: 'Não tem submissões pendentes'
 }
 
 export default pt

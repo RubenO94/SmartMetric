@@ -9,7 +9,6 @@
     export let data
 
     let user = data.user
-    let departments = data.departments
     let currentStep: number = 1
     let page: number = 1
     let FormTemplates: FormTemplate[] = []
@@ -118,7 +117,6 @@
     })
 
     $: chooseLanguages = languages.filter(language => language.checked).map(language => language.name)
-    console.log(departments)
 </script>
 
 <Toaster />
@@ -149,7 +147,7 @@
             </div>
             <button on:click={() => checkLanguages()} class="flex gap-x-2 mx-auto text-base font-semibold px-5 py-2 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded">Create form</button>
         {:else if page == 2}
-            <ReviewComponent {review} {action} addLangs={[]} {departments} />
+            <ReviewComponent {review} {action} addLangs={[]} />
         {/if}
     {:else if currentStep == 3}
         <div class="flex flex-row gap-x-4 text-blue-500">
@@ -191,7 +189,7 @@
             </div>
             <button on:click={() => checkLanguages()} class="flex gap-x-2 mx-auto text-base font-semibold px-5 py-2 border border-transparent bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-950 rounded">{$LL.FormButton()}</button>
         {:else if page == 3}
-            <ReviewComponent {review} {action} addLangs={[]} {departments} />
+            <ReviewComponent {review} {action} addLangs={[]} />
         {/if}
     {/if}
 </div>
