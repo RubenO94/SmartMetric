@@ -4,6 +4,6 @@
 </script>
 
 <div class="flex items-center pr-2 border border-gray-400 bg-gray-300 rounded-xl">
-    <Dot class="{reviewStatus === 'Active' ? 'text-green-500' : 'text-red-500'}" />
+    <Dot class="{reviewStatus === 'Active' ? 'text-green-500' : reviewStatus === 'Completed' ? 'text-blue-500' : 'text-red-500'}" />
     <p class="text-xs">{reviewStatus}</p>
 </div>

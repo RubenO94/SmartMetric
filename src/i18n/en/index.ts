@@ -214,7 +214,11 @@ const en: BaseTranslation = {
 	Permissions: "Permissions",
 	Dashboard: "Dashboard",
 	Tasklist: "Tasklist",
-	NoSubmissionsListLabel: "You don't have pending submissions"
+	NoSubmissionsListLabel: "You don't have pending submissions",
+	LoadMore: "Load more",
+	EditDialogSubmission: "Submit submission?",
+	EditDialogSubmissionDescription: "Are you sure you want to submit submission? This action can't be undone.",
+	ReviewProgressChartLabel: "No active reviews to show the progress."
 }
 
 export default en

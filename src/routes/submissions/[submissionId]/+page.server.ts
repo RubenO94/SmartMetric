@@ -46,6 +46,7 @@ export const actions = {
                 })
             }
         }
+        console.log(answers)
         const response = await api("PATCH", `Submissions/${submissionId}`, { reviewResponses: answers })
         if (!response?.status) throw error(401, response?.error)
         throw redirect (302, "/submissions")

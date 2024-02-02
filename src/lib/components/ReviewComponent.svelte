@@ -7,7 +7,6 @@
     import { draggable } from "$lib/actions/dnd"
     import { fade, fly } from "svelte/transition"
     import { DateInput } from 'date-picker-svelte'
-    import dayjs from "dayjs"
     import LL from "../../i18n/i18n-svelte"
     import toast from "svelte-french-toast"
     import { onMount } from "svelte";
@@ -66,8 +65,8 @@
 
     const fetchDepartments = async () => {
         try {
-            const [departmentsResponse] = await Promise.all([api("GET", `Departments?page=${pageDepartments}&pageSize=10`)])
-            departments = [...departments, ...departmentsResponse?.body]
+            const [departmentsResponse] = await Promise.all([api("GET", `Departments?page=${pageDepartments}&pageSize=50`)])
+            departments = departmentsResponse?.body
             departments.forEach(async (department: any) => {
                 const [employeesResponse] = await Promise.all([api("GET", `Departments/${department.departmentId}/Employees`)])
                 department.employees = employeesResponse?.body
@@ -86,7 +85,7 @@
         pageDepartments++
         fetchDepartments()
     }
-
+    /* TODO:  */
     async function saveReview() {
         let request: any
         if (action == 'create') {
@@ -369,30 +368,30 @@
                         </label>
                     </div>
                     {#if review.reviewType != 'Interdepartamental'}
-                            {#if openMenu[indexD] || review.reviewDepartmentsIds.includes(department.departmentId)}
-                                {#if department.employees != 0}
-                                    {#each department.employees as employee}
-                                        <div class=" flex px-6 gap-x-2 items-center">
-                                            <input id={employee.employeeId} type="checkbox" bind:group={review.reviewEmployeesIds} value={employee.employeeId} on:change={() => handleEmployeeChange(department.departmentId, employee.employeeId)} disabled={disableInputs(true)} />
-                                            <label for={employee.employeeId} class="flex gap-x-2 items-center cursor-pointer">
-                                                <svelte:component this={User} />
-                                                <p>{employee.employeeName}</p>
-                                            </label>
-                                        </div>
-                                    {/each}
-                                {:else}
+                        {#if openMenu[indexD] || review.reviewDepartmentsIds.includes(department.departmentId)}
+                            {#if department.employees != 0}
+                                {#each department.employees as employee}
                                     <div class=" flex px-6 gap-x-2 items-center">
-                                        <p>{$LL.NoEmployees()}</p>
+                                        <input id={employee.employeeId} type="checkbox" bind:group={review.reviewEmployeesIds} value={employee.employeeId} on:change={() => handleEmployeeChange(department.departmentId, employee.employeeId)} disabled={disableInputs(true)} />
+                                        <label for={employee.employeeId} class="flex gap-x-2 items-center cursor-pointer">
+                                            <svelte:component this={User} />
+                                            <p>{employee.employeeName}</p>
+                                        </label>
                                     </div>
-                                {/if}
+                                {/each}
+                            {:else}
+                                <div class=" flex px-6 gap-x-2 items-center">
+                                    <p>{$LL.NoEmployees()}</p>
+                                </div>
                             {/if}
+                        {/if}
                     {/if}
                 {/each}
 
                 {#if departments.length != totalDepartments}
                     <button on:click={loadMore} class="flex items-center gap-x-2 p-2 border border-gray-300 bg-gray-100 rounded-md">
                         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M24 4v4m10-1.32l-2 3.464M41.32 14l-3.464 2M44 24h-4m1.32 10l-3.464-2M34 41.32l-2-3.464M24 44v-4m-10 1.32l2-3.464M6.68 34l3.464-2M4 24h4M6.68 14l3.464 2M14 6.68l2 3.464"/></svg>
-                        Load more
+                        {$LL.LoadMore()}
                     </button>
                 {/if}
             </div>

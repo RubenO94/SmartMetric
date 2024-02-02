@@ -804,6 +804,22 @@ type RootTranslation = {
 	 * Y​o​u​ ​d​o​n​'​t​ ​h​a​v​e​ ​p​e​n​d​i​n​g​ ​s​u​b​m​i​s​s​i​o​n​s
 	 */
 	NoSubmissionsListLabel: string
+	/**
+	 * L​o​a​d​ ​m​o​r​e
+	 */
+	LoadMore: string
+	/**
+	 * S​u​b​m​i​t​ ​s​u​b​m​i​s​s​i​o​n​?
+	 */
+	EditDialogSubmission: string
+	/**
+	 * A​r​e​ ​y​o​u​ ​s​u​r​e​ ​y​o​u​ ​w​a​n​t​ ​t​o​ ​s​u​b​m​i​t​ ​s​u​b​m​i​s​s​i​o​n​?​ ​T​h​i​s​ ​a​c​t​i​o​n​ ​c​a​n​'​t​ ​b​e​ ​u​n​d​o​n​e​.
+	 */
+	EditDialogSubmissionDescription: string
+	/**
+	 * N​o​ ​a​c​t​i​v​e​ ​r​e​v​i​e​w​s​ ​t​o​ ​s​h​o​w​ ​t​h​e​ ​p​r​o​g​r​e​s​s​.
+	 */
+	ReviewProgressChartLabel: string
 }
 
 export type TranslationFunctions = {
@@ -1597,6 +1613,22 @@ export type TranslationFunctions = {
 	 * You don't have pending submissions
 	 */
 	NoSubmissionsListLabel: () => LocalizedString
+	/**
+	 * Load more
+	 */
+	LoadMore: () => LocalizedString
+	/**
+	 * Submit submission?
+	 */
+	EditDialogSubmission: () => LocalizedString
+	/**
+	 * Are you sure you want to submit submission? This action can't be undone.
+	 */
+	EditDialogSubmissionDescription: () => LocalizedString
+	/**
+	 * No active reviews to show the progress.
+	 */
+	ReviewProgressChartLabel: () => LocalizedString
 }
 
 export type Formatters = {}

@@ -9,7 +9,7 @@
 
     let user = data.user
     let reviews = data.reviews
-    let activeReviews = reviews.filter((temp: any) => temp.reviewStatus === 'Active').length
+    let activeReviews = reviews.filter((temp: any) => temp.reviewStatus === 'Active')
     let completedReviews = reviews.filter((temp: any) => temp.reviewStatus === 'Completed').length
 </script>
 
@@ -24,14 +24,18 @@
             <p>Outro lado...</p>
         </div>
     {:else if user?.profileType === "Backoffice"}
-        <div class="w-full box-border grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-[10px] md:gap-[25px] xl:gap-[50px]">
-            <ChartsOnlyText backgroundColor={'#F1C40F'} icon={List} number={0} title={$LL.Sidebar.Forms()} />
-            <ChartsOnlyText backgroundColor={'#7D3C98'} icon={Clipboard} number={reviews.length || 0} title={$LL.Sidebar.Reviews()} />
-            <ChartsOnlyText backgroundColor={'#4ADE80'} icon={Clock} number={activeReviews} title={$LL.ActiveReviews()} />
-            <ChartsOnlyText backgroundColor={'#60a5fa'} icon={ClipboardCheck} number={completedReviews} title={$LL.CompletedReviews()} />
+        <div class="w-full box-border grid grid-cols-1 xl:grid-cols-2 gap-[10px] md:gap-[25px] xl:gap-[50px]">
+            <div class="w-full box-border grid grid-cols-1 md:grid-cols-2 gap-[10px] md:gap-[25px] xl:gap-[50px]">
+                <ChartsOnlyText backgroundColor={'#F1C40F'} icon={List} number={0} title={$LL.Sidebar.Forms()} />
+                <ChartsOnlyText backgroundColor={'#EA4ABC'} icon={Clipboard} number={reviews.length || 0} title={$LL.Sidebar.Reviews()} />  
+            </div>
+            <div class="w-full box-border grid grid-cols-1 md:grid-cols-2 gap-[10px] md:gap-[25px] xl:gap-[50px]">
+                <ChartsOnlyText backgroundColor={'#4ADE80'} icon={Clock} number={activeReviews.length} title={$LL.ActiveReviews()} />
+                <ChartsOnlyText backgroundColor={'#60a5fa'} icon={ClipboardCheck} number={completedReviews} title={$LL.CompletedReviews()} />
+            </div>
+            <div class="w-full box-border grid grid-cols-1 gap-[10px] md:gap-[25px] xl:gap-[50px]">
+                <Charts reviews={activeReviews} /> 
+            </div>
         </div>
     {/if}
 </div>
-
-<!-- Chart of active reviews -->
-<!-- <Charts reviews={reviews.filter((/** @type {{ reviewStatus: string; }} */ temp) => temp.reviewStatus === 'Active')} />   -->

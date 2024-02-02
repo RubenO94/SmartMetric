@@ -214,7 +214,11 @@ const pt: Translation = {
 	Permissions: 'Permissões',
 	Dashboard: 'Painel',
 	Tasklist: 'Lista de tarefas',
-	NoSubmissionsListLabel: 'Não tem submissões pendentes'
+	NoSubmissionsListLabel: 'Não tem submissões pendentes',
+	LoadMore: 'Carregar mais',
+	EditDialogSubmission: 'Enviar submissão?',
+	EditDialogSubmissionDescription: 'Tem a certeza que quer enviar a submissão? Esta acção não pode ser revertida.',
+	ReviewProgressChartLabel: 'Não existem revisões ativas para visualizar progressão'
 }
 
 export default pt

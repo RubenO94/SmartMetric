@@ -11,8 +11,12 @@
     let intervalId: any
 
     onMount(() => {
-        renderChart()
-        startCarousel()
+        if (reviews.length > 0) {
+            renderChart()
+            if (reviews.length > 1) {
+                startCarousel()
+            }
+        }
     })
 
     onDestroy(() => {
@@ -76,9 +80,13 @@
     }
 </script>
 
-<div class="w-60 h-60 flex flex-col gap-y-1 p-2 border border-gray-300 bg-gray-100 shadow-md rounded-md">
+<div class="flex flex-col items-start gap-y-1 px-2 py-4 border border-gray-300 bg-gray-100 shadow-md rounded-md">
     <h1 class="font-semibold px-2">{$LL.ProgressReview()}</h1>
-    <div class="w-full h-40 flex flex-col justify-center items-center">
-        <canvas id="myChart" />
+    <div class="w-40 h-40 flex items-center justify-center mx-auto">
+        {#if reviews.length > 0}
+            <canvas id="myChart" />
+        {:else}
+            <p class="text-center">{$LL.ReviewProgressChartLabel()}</p>
+        {/if}
     </div>
 </div>
