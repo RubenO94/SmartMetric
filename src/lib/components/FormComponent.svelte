@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Steps } from "svelte-steps"
     import LL from "../../i18n/i18n-svelte"
-    import { ChevronLeft, ChevronRight, Square, X } from "lucide-svelte"
+    import { ChevronLeft, ChevronRight, Square, X, GripVertical } from "lucide-svelte"
     import { draggable } from "$lib/actions/dnd"
     import { fade, fly } from "svelte/transition"
     import toast from "svelte-french-toast"
@@ -133,7 +133,8 @@
                 responseType: selectedCard.name,
                 translations: [],
                 singleChoiceOptions: [],
-                ratingOptions: []
+                ratingOptions: [],
+                questionId: null
             }
             formTemplate.translations.forEach(element => {
                 newQuestion.translations = [...newQuestion.translations, {language: element.language, title: '', description: ''}]
@@ -147,12 +148,13 @@
         if (action == "add") return
         const selectedCard = cards.find(card => card.id === id)
         const newQuestion: Question = {
-                isRequired: false,
-                position: formTemplate.questions.length + 1,
-                responseType: selectedCard?.name,
-                translations: [],
-                singleChoiceOptions: [],
-                ratingOptions: []
+            isRequired: false,
+            position: formTemplate.questions.length + 1,
+            responseType: selectedCard?.name,
+            translations: [],
+            singleChoiceOptions: [],
+            ratingOptions: [],
+            questionId: null
         }
         formTemplate.translations.forEach(element => {
             newQuestion.translations = [...newQuestion.translations, {language: element.language, title: '', description: ''}]
@@ -176,6 +178,7 @@
         formTemplate.questions.forEach((question, index) => question.position = index + 1)
         if (selectedQuestion && selectedQuestion.position - 1 == index) {
             selectedQuestion = {
+                questionId: null,
                 isRequired: false,
                 position: -1,
                 responseType: "",
@@ -272,11 +275,12 @@
                 <p class="text-black text-base font-semibold">{$LL.QuestionTypeText()}</p>
                 <div class="flex flex-col gap-y-2">
                     {#each cards as card}
-                        <p use:draggable={card.id} on:dblclick="{() => handleDblClick(card.id)}" class="flex items-center gap-x-2 p-2 bg-gray-100 text-gray-600 border border-gray-200 font-bold rounded">
+                        <p use:draggable={card.id} on:dblclick="{() => handleDblClick(card.id)}" class="flex items-center gap-x-2 px-1 py-2 bg-gray-100 text-gray-600 border border-gray-200 font-bold rounded">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 <path fill="currentColor" d="{card.icon}"/>
                             </svg>
-                            {card.title}
+                            <span class="flex-grow">{card.title}</span>
+                            <svelte:component this={GripVertical} class="text-gray-300" />
                         </p>
                     {/each}
                 </div>

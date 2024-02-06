@@ -4,10 +4,10 @@
     import { AlertCircle } from 'lucide-svelte'
     export let data
 
+    let user = data.user
     let submission = data.submission
     let questions = data.questions
     let success = false
-    let submitFlag = false
 </script>
 
 <svelte:head>
@@ -17,7 +17,14 @@
 <div class="mx-auto flex flex-col xl:w-[1280px] py-5 md:px-5 px-2 gap-y-10">
     <form method="post" use:enhance={() => { success = true }}>
         <div class="flex pb-4">
-            <h1 class="font-semibold text-xl">{$LL.Evaluating()}: {submission.evaluatedEmployeeId.employeeName ? submission.evaluatedEmployeeId.employeeName : submission.evaluatedDepartmentId.departmentDescription }</h1>
+            <h1 class="font-semibold text-xl">
+                {$LL.Evaluating()}: {submission.evaluatedEmployeeId.employeeName 
+                    ? submission.evaluatedEmployeeId.employeeName === user?.userName
+                        ? $LL.SelfEvaluation.Label()
+                        : submission.evaluatedEmployeeId.employeeName
+                    : submission.evaluatedDepartmentId.departmentDescription 
+                }
+            </h1>
         </div>
         <div class="flex flex-col overflow-hidden shadow border border-gray-300 rounded-lg">
             <div class="flex flex-col w-full md:px-10 px-2 pt-5 pb-20 gap-y-10">
@@ -34,7 +41,6 @@
                                             value="{rto.numericValue}" 
                                             name="{question.questionId}" 
                                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-1"
-                                            required
                                         />
                                         <label for="{rto.ratingOptionId}" class="ms-2 text-sm font-medium text-gray-600">{rto.numericValue} - {rto.translations[0].description}</label>
                                     </div>
@@ -63,7 +69,8 @@
             </div>
             <p class="flex justify-end text-xs md:px-[60px] px-4 py-1">* {$LL.Required().toLowerCase()}</p>
             <hr>
-            <div class="flex md:px-[60px] px-4 py-5 justify-end">
+            <div class="flex md:px-[60px] px-4 py-5 justify-between">
+                <p></p>
                 <button class="flex py-2 px-5 border border-transparent hover:bg-blue-700 hover:border-blue-950 bg-blue-500 text-white rounded-lg" type="submit">
                     {$LL.Submit()}
                 </button>

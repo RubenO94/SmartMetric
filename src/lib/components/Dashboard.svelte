@@ -25,7 +25,7 @@
     {#if submissions.length > 0}
         <div class="flex flex-col gap-y-2">
             {#each submissions as submission}
-                <li><a href="/submissions/{submission.submissionId}">{$LL.Evaluate()}: {submission.evaluatedEmployeeId.employeeName}</a></li>
+                <li><a href="/submissions/{submission.submissionId}">{$LL.Evaluate()}: {submission.evaluatedEmployeeId.employeeName === user.userName ? $LL.SelfEvaluation.Label() : submission.evaluatedEmployeeId.employeeName}</a></li>
             {/each}
         </div>
     {:else}

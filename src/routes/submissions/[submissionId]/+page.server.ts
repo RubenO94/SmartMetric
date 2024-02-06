@@ -1,8 +1,9 @@
 import { api } from "$lib/api/_api";
-import { error, redirect } from "@sveltejs/kit";
-import type { PageServerLoad } from "./$types";
+import { error, redirect } from "@sveltejs/kit"
+import type { PageServerLoad } from "./$types"
 
 let submissionId: string = ''
+let questions: any[]
 
 export const load: PageServerLoad = async ({ url, parent }) => {
     const { user } = await parent()
@@ -20,7 +21,7 @@ export const load: PageServerLoad = async ({ url, parent }) => {
         const [questionsResponse] = await Promise.all([
             api("GET", `Questions?reviewId=${submission.reviewId}`)
         ])
-        const questions = questionsResponse?.body
+        questions = questionsResponse?.body
         return { submission, questions }
     } catch(error) {
         throw error
@@ -46,7 +47,13 @@ export const actions = {
                 })
             }
         }
-        console.log(answers)
+
+        //Check if all required questions we're answered
+        const requiredQuestions = questions.filter(question => question.isRequired === true)
+        const answeredQuestionsIds = answers.map((answer: any) => answer.QuestionId);
+        const allRequiredQuestionsAnswered = requiredQuestions.every(requiredQuestions => answeredQuestionsIds.includes(requiredQuestions.questionId))
+
+        if (!allRequiredQuestionsAnswered) { return }
         const response = await api("PATCH", `Submissions/${submissionId}`, { reviewResponses: answers })
         if (!response?.status) throw error(401, response?.error)
         throw redirect (302, "/submissions")

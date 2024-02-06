@@ -2,7 +2,7 @@
     import { api } from "$lib/api/_api"
     import { goto } from "$app/navigation"
     import { Steps } from "svelte-steps"
-    import { ChevronLeft, ChevronRight, X, Square, Folder, FolderOpen, User } from 'lucide-svelte'
+    import { ChevronLeft, ChevronRight, X, Square, Folder, FolderOpen, User, GripVertical } from 'lucide-svelte'
     import { handleValidationsReview } from '$lib/actions/handleValidations'
     import { draggable } from "$lib/actions/dnd"
     import { fade, fly } from "svelte/transition"
@@ -63,6 +63,15 @@
     let totalDepartments = 0
     let departments: any = []
 
+    $: formTemplate = {
+        createdDate: undefined,
+        formTemplateId: null,
+        createdByUserId: review.createdByUserId,
+        modifiedDate: null,
+        translations: review.translations,
+        questions: review.questions
+    }
+
     const fetchDepartments = async () => {
         try {
             const [departmentsResponse] = await Promise.all([api("GET", `Departments?page=${pageDepartments}&pageSize=50`)])
@@ -89,6 +98,9 @@
     async function saveReview() {
         let request: any
         if (action == 'create') {
+            if (saveAsForm) {
+                await Promise.all([api("POST", `FormTemplates`, formTemplate)])
+            }
             [request] = await Promise.all([api("POST", `Reviews`, review)])
         } else {
             [request] = await Promise.all([api("PUT", `Reviews/${review.reviewId}`, review)])
@@ -201,7 +213,8 @@
                 responseType: selectedCard.name,
                 translations: [],
                 singleChoiceOptions: [],
-                ratingOptions: []
+                ratingOptions: [],
+                questionId: null
             }
             review.translations.forEach(element => {
                 newQuestion.translations = [...newQuestion.translations, {language: element.language, title: '', description: ''}]
@@ -215,12 +228,13 @@
         if (action == "add") return
         const selectedCard = cards.find(card => card.id === id)
         const newQuestion: Question = {
-                isRequired: false,
-                position: review.questions.length + 1,
-                responseType: selectedCard?.name,
-                translations: [],
-                singleChoiceOptions: [],
-                ratingOptions: []
+            isRequired: false,
+            position: review.questions.length + 1,
+            responseType: selectedCard?.name,
+            translations: [],
+            singleChoiceOptions: [],
+            ratingOptions: [],
+            questionId: null
         }
         review.translations.forEach(element => {
             newQuestion.translations = [...newQuestion.translations, {language: element.language, title: '', description: ''}]
@@ -244,6 +258,7 @@
         review.questions.forEach((question, index) => question.position = index + 1)
         if (selectedQuestion && selectedQuestion.position - 1 == index) {
             selectedQuestion = {
+                questionId: null,
                 isRequired: false,
                 position: -1,
                 responseType: "",
@@ -402,11 +417,12 @@
                 <p class="text-black text-base font-semibold">{$LL.QuestionTypeText()}</p>
                 <div class="flex flex-col gap-y-2">
                     {#each cards as card}
-                        <p use:draggable={card.id} on:dblclick="{() => handleDblClick(card.id)}" class="flex items-center gap-x-2 p-2 bg-gray-100 text-gray-600 border border-gray-200 font-bold rounded">
+                        <p use:draggable={card.id} on:dblclick="{() => handleDblClick(card.id)}" class="flex items-center gap-x-2 px-1 py-2 bg-gray-100 text-gray-600 border border-gray-200 font-bold rounded">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 <path fill="currentColor" d="{card.icon}"/>
                             </svg>
-                            {card.title}
+                            <span class="flex-grow">{card.title}</span>
+                            <svelte:component this={GripVertical} class="text-gray-300" />
                         </p>
                     {/each}
                 </div>

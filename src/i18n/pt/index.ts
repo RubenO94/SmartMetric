@@ -218,7 +218,12 @@ const pt: Translation = {
 	LoadMore: 'Carregar mais',
 	EditDialogSubmission: 'Enviar submissão?',
 	EditDialogSubmissionDescription: 'Tem a certeza que quer enviar a submissão? Esta acção não pode ser revertida.',
-	ReviewProgressChartLabel: 'Não existem revisões ativas para visualizar progressão'
+	ReviewProgressChartLabel: 'Não existem revisões ativas para visualizar progressão',
+	Average: 'Média',
+	Total: 'Total',
+	NoReviewsComp: 'Nenhuma revisões completada',
+	SelectReview: 'Selecionar revisão',
+	SelectReviewText: 'Escolha de entre as revisões completas, a que deseja apresentar dados.'
 }
 
 export default pt

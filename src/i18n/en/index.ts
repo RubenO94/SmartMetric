@@ -218,7 +218,12 @@ const en: BaseTranslation = {
 	LoadMore: "Load more",
 	EditDialogSubmission: "Submit submission?",
 	EditDialogSubmissionDescription: "Are you sure you want to submit submission? This action can't be undone.",
-	ReviewProgressChartLabel: "No active reviews to show the progress."
+	ReviewProgressChartLabel: "No active reviews to show the progress.",
+	Average: "Average",
+	Total: "Total",
+	NoReviewsComp: "No reviews completed",
+	SelectReview: "Select review",
+	SelectReviewText: "Choose between all completed reviews, the one you want to show data."
 }
 
 export default en

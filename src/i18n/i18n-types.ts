@@ -820,6 +820,26 @@ type RootTranslation = {
 	 * N​o​ ​a​c​t​i​v​e​ ​r​e​v​i​e​w​s​ ​t​o​ ​s​h​o​w​ ​t​h​e​ ​p​r​o​g​r​e​s​s​.
 	 */
 	ReviewProgressChartLabel: string
+	/**
+	 * A​v​e​r​a​g​e
+	 */
+	Average: string
+	/**
+	 * T​o​t​a​l
+	 */
+	Total: string
+	/**
+	 * N​o​ ​r​e​v​i​e​w​s​ ​c​o​m​p​l​e​t​e​d
+	 */
+	NoReviewsComp: string
+	/**
+	 * S​e​l​e​c​t​ ​r​e​v​i​e​w
+	 */
+	SelectReview: string
+	/**
+	 * C​h​o​o​s​e​ ​b​e​t​w​e​e​n​ ​a​l​l​ ​c​o​m​p​l​e​t​e​d​ ​r​e​v​i​e​w​s​,​ ​t​h​e​ ​o​n​e​ ​y​o​u​ ​w​a​n​t​ ​t​o​ ​s​h​o​w​ ​d​a​t​a​.
+	 */
+	SelectReviewText: string
 }
 
 export type TranslationFunctions = {
@@ -1629,6 +1649,26 @@ export type TranslationFunctions = {
 	 * No active reviews to show the progress.
 	 */
 	ReviewProgressChartLabel: () => LocalizedString
+	/**
+	 * Average
+	 */
+	Average: () => LocalizedString
+	/**
+	 * Total
+	 */
+	Total: () => LocalizedString
+	/**
+	 * No reviews completed
+	 */
+	NoReviewsComp: () => LocalizedString
+	/**
+	 * Select review
+	 */
+	SelectReview: () => LocalizedString
+	/**
+	 * Choose between all completed reviews, the one you want to show data.
+	 */
+	SelectReviewText: () => LocalizedString
 }
 
 export type Formatters = {}
