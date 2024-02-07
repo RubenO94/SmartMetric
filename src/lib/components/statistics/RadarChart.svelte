@@ -4,24 +4,36 @@
 
     export let averagesByQuestion: number[]
     export let questionRatingAnswers: any[]
-    export let title: string
+    export let title: string[]
 
     let canvasElement: HTMLCanvasElement
 	let ctx: any
 	let myChart: any
+    let datasets: any
+    let labels: any
+
+    function getData() {
+        datasets = title.map((titleItem, index) => ({
+            label: titleItem,
+            data: averagesByQuestion[index]
+        }))
+        questionRatingAnswers.forEach((item, index) => {
+            if (index === 0) {
+                labels = item.map((i: any) => i.title)
+            }
+        })
+    }
 	
 	//Function to create chart
 	function createChart() {
+        getData()
 		ctx = canvasElement.getContext('2d');
 		if (myChart) myChart.destroy()
 		myChart = new Chart(ctx, { 
             type: 'radar', 
             data: {
-                labels: questionRatingAnswers.map((item) => item.title),
-                datasets: [{
-                    label: title,
-                    data: averagesByQuestion
-                }]
+                labels,
+                datasets
             },
             options: {
                 scales: {

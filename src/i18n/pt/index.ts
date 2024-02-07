@@ -223,7 +223,9 @@ const pt: Translation = {
 	Total: 'Total',
 	NoReviewsComp: 'Nenhuma revisões completada',
 	SelectReview: 'Selecionar revisão',
-	SelectReviewText: 'Escolha de entre as revisões completas, a que deseja apresentar dados.'
+	SelectReviewText: 'Escolha de entre as revisões completas, a que deseja apresentar dados.',
+	ReviewStatusChartLabel: 'Não existem revisões para visualizar dados',
+	SeeMore: 'Ver mais'
 }
 
 export default pt

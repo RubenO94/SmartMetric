@@ -21,7 +21,6 @@
         border: 1px solid #000;
         border-radius: 10px;
         color: var(--textColor);
-        cursor: pointer;
         display: inline-block;
         height: 75px;
         padding-bottom: 10px;
@@ -29,10 +28,5 @@
         padding-right: 20px;
         padding-top: 10px;
         position: relative;
-        transition: background-color 0.3s;
-    }
-    #numbers:hover {
-        background-color: #004151;
-        color: white;
     }
 </style>

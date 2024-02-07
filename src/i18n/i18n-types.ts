@@ -840,6 +840,14 @@ type RootTranslation = {
 	 * C​h​o​o​s​e​ ​b​e​t​w​e​e​n​ ​a​l​l​ ​c​o​m​p​l​e​t​e​d​ ​r​e​v​i​e​w​s​,​ ​t​h​e​ ​o​n​e​ ​y​o​u​ ​w​a​n​t​ ​t​o​ ​s​h​o​w​ ​d​a​t​a​.
 	 */
 	SelectReviewText: string
+	/**
+	 * N​o​ ​r​e​v​i​e​w​s​ ​t​o​ ​s​h​o​w​.
+	 */
+	ReviewStatusChartLabel: string
+	/**
+	 * S​e​e​ ​m​o​r​e
+	 */
+	SeeMore: string
 }
 
 export type TranslationFunctions = {
@@ -1669,6 +1677,14 @@ export type TranslationFunctions = {
 	 * Choose between all completed reviews, the one you want to show data.
 	 */
 	SelectReviewText: () => LocalizedString
+	/**
+	 * No reviews to show.
+	 */
+	ReviewStatusChartLabel: () => LocalizedString
+	/**
+	 * See more
+	 */
+	SeeMore: () => LocalizedString
 }
 
 export type Formatters = {}

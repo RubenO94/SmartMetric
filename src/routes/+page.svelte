@@ -4,13 +4,14 @@
     import ChartsOnlyText from '$lib/components/statistics/ChartsOnlyText.svelte'
     import Dashboard from '$lib/components/Dashboard.svelte';
     import { Clipboard, ClipboardCheck, Clock, List } from 'lucide-svelte'
+    import ReviewsStatusChart from '$lib/components/statistics/ReviewsStatusChart.svelte';
 
     export let data
 
     let user = data.user
     let reviews = data.reviews
     let activeReviews = reviews.filter((temp: any) => temp.reviewStatus === 'Active')
-    let completedReviews = reviews.filter((temp: any) => temp.reviewStatus === 'Completed').length
+    let completedReviews = reviews.filter((temp: any) => temp.reviewStatus === 'Completed')
 </script>
 
 <svelte:head>
@@ -31,10 +32,13 @@
             </div>
             <div class="w-full box-border grid grid-cols-1 md:grid-cols-2 gap-[10px] md:gap-[25px] xl:gap-[50px]">
                 <ChartsOnlyText backgroundColor={'#4ADE80'} icon={Clock} number={activeReviews.length} title={$LL.ActiveReviews()} />
-                <ChartsOnlyText backgroundColor={'#60a5fa'} icon={ClipboardCheck} number={completedReviews} title={$LL.CompletedReviews()} />
+                <ChartsOnlyText backgroundColor={'#60a5fa'} icon={ClipboardCheck} number={completedReviews.length} title={$LL.CompletedReviews()} />
             </div>
             <div class="w-full box-border grid grid-cols-1 gap-[10px] md:gap-[25px] xl:gap-[50px]">
-                <Charts reviews={activeReviews} /> 
+                <ReviewsStatusChart {reviews} />
+            </div>
+            <div class="w-full box-border grid grid-cols-1 gap-[10px] md:gap-[25px] xl:gap-[50px]">
+                <Charts reviews={activeReviews} />
             </div>
         </div>
     {/if}
