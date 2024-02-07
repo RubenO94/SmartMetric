@@ -18,13 +18,8 @@ export const load: PageServerLoad = async ({ url, parent }) => {
             api("GET", `Reviews/${reviewId}`)
         ])
 
-        const [departmentsResponse] = await Promise.all([
-            api("GET", `Departments`)
-        ])
-
         let review = reviewResponse?.body
-        let departments = departmentsResponse?.body
-        return {review, departments}
+        return {review}
     } catch (ex) {
         throw ex
     }

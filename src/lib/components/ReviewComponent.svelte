@@ -2,19 +2,18 @@
     import { api } from "$lib/api/_api"
     import { goto } from "$app/navigation"
     import { Steps } from "svelte-steps"
-    import { ChevronLeft, ChevronRight, X, Square, Folder, FolderOpen, User } from 'lucide-svelte'
+    import { ChevronLeft, ChevronRight, X, Square, Folder, FolderOpen, User, GripVertical } from 'lucide-svelte'
     import { handleValidationsReview } from '$lib/actions/handleValidations'
     import { draggable } from "$lib/actions/dnd"
     import { fade, fly } from "svelte/transition"
     import { DateInput } from 'date-picker-svelte'
-    import dayjs from "dayjs"
     import LL from "../../i18n/i18n-svelte"
     import toast from "svelte-french-toast"
+    import { onMount } from "svelte";
 
     export let review: Reviews
     export let action: string
     export let addLangs: string[]
-    export let departments: any[]
 
     let selectedQuestion: Question
     let insertedSingleChoiceOption: string = ''
@@ -60,13 +59,48 @@
 
     maxDateAllowed.setFullYear(maxDateAllowed.getFullYear() + 5)
 
-    departments.forEach(department => {
-        department.employees = []
+    let pageDepartments = 1
+    let totalDepartments = 0
+    let departments: any = []
+
+    $: formTemplate = {
+        createdDate: undefined,
+        formTemplateId: null,
+        createdByUserId: review.createdByUserId,
+        modifiedDate: null,
+        translations: review.translations,
+        questions: review.questions
+    }
+
+    const fetchDepartments = async () => {
+        try {
+            const [departmentsResponse] = await Promise.all([api("GET", `Departments?page=${pageDepartments}&pageSize=50`)])
+            departments = departmentsResponse?.body
+            departments.forEach(async (department: any) => {
+                const [employeesResponse] = await Promise.all([api("GET", `Departments/${department.departmentId}/Employees`)])
+                department.employees = employeesResponse?.body
+            })
+            totalDepartments = departmentsResponse?.total
+        } catch (error) {
+            throw error
+        }
+    }
+
+    onMount(async () => {
+        fetchDepartments()
     })
 
+    const loadMore = async () => {
+        pageDepartments++
+        fetchDepartments()
+    }
+    /* TODO:  */
     async function saveReview() {
         let request: any
         if (action == 'create') {
+            if (saveAsForm) {
+                await Promise.all([api("POST", `FormTemplates`, formTemplate)])
+            }
             [request] = await Promise.all([api("POST", `Reviews`, review)])
         } else {
             [request] = await Promise.all([api("PUT", `Reviews/${review.reviewId}`, review)])
@@ -134,7 +168,7 @@
 
     //Departments
     function handleDepartmentChange(departmentId: number) {
-		const department = departments.find((d) => d.departmentId === departmentId);
+		const department = departments.find((d: any) => d.departmentId === departmentId);
         if (department) {
             const employeeIds = department.employees.map((employee: any) => employee.employeeId);
             if (review.reviewDepartmentsIds.includes(departmentId)) {
@@ -145,7 +179,7 @@
         }
 	}
     function handleEmployeeChange(departmentId: number, employeeId: number) {
-		const department = departments.find((d) => d.departmentId === departmentId);
+		const department = departments.find((d: any) => d.departmentId === departmentId);
 		if (review.reviewEmployeesIds.includes(employeeId)) {
 			if (!review.reviewDepartmentsIds.includes(departmentId)) {
 				review.reviewDepartmentsIds = [...review.reviewDepartmentsIds, departmentId]
@@ -156,10 +190,6 @@
 			}
 		}
 	}
-    async function getEmployeesOfDep(department: any, index: number) {
-        let [responseEmployees] = await Promise.all([api("GET", `Departments/${department.departmentId}/Employees`)])
-        department.employees = responseEmployees?.body
-    }
 
     function disableInputs(toggle?: boolean) {
         if (toggle && action === 'add') { return true }
@@ -183,7 +213,8 @@
                 responseType: selectedCard.name,
                 translations: [],
                 singleChoiceOptions: [],
-                ratingOptions: []
+                ratingOptions: [],
+                questionId: null
             }
             review.translations.forEach(element => {
                 newQuestion.translations = [...newQuestion.translations, {language: element.language, title: '', description: ''}]
@@ -197,12 +228,13 @@
         if (action == "add") return
         const selectedCard = cards.find(card => card.id === id)
         const newQuestion: Question = {
-                isRequired: false,
-                position: review.questions.length + 1,
-                responseType: selectedCard?.name,
-                translations: [],
-                singleChoiceOptions: [],
-                ratingOptions: []
+            isRequired: false,
+            position: review.questions.length + 1,
+            responseType: selectedCard?.name,
+            translations: [],
+            singleChoiceOptions: [],
+            ratingOptions: [],
+            questionId: null
         }
         review.translations.forEach(element => {
             newQuestion.translations = [...newQuestion.translations, {language: element.language, title: '', description: ''}]
@@ -226,6 +258,7 @@
         review.questions.forEach((question, index) => question.position = index + 1)
         if (selectedQuestion && selectedQuestion.position - 1 == index) {
             selectedQuestion = {
+                questionId: null,
                 isRequired: false,
                 position: -1,
                 responseType: "",
@@ -350,27 +383,32 @@
                         </label>
                     </div>
                     {#if review.reviewType != 'Interdepartamental'}
-                        {#await getEmployeesOfDep(department, indexD) then}
-                            {#if openMenu[indexD] || review.reviewDepartmentsIds.includes(department.departmentId)}
-                                {#if department.employees != 0}
-                                    {#each department.employees as employee}
-                                        <div class=" flex px-6 gap-x-2 items-center">
-                                            <input id={employee.employeeId} type="checkbox" bind:group={review.reviewEmployeesIds} value={employee.employeeId} on:change={() => handleEmployeeChange(department.departmentId, employee.employeeId)} disabled={disableInputs(true)} />
-                                            <label for={employee.employeeId} class="flex gap-x-2 items-center cursor-pointer">
-                                                <svelte:component this={User} />
-                                                <p>{employee.employeeName}</p>
-                                            </label>
-                                        </div>
-                                    {/each}
-                                {:else}
+                        {#if openMenu[indexD] || review.reviewDepartmentsIds.includes(department.departmentId)}
+                            {#if department.employees != 0}
+                                {#each department.employees as employee}
                                     <div class=" flex px-6 gap-x-2 items-center">
-                                        <p>{$LL.NoEmployees()}</p>
+                                        <input id={employee.employeeId} type="checkbox" bind:group={review.reviewEmployeesIds} value={employee.employeeId} on:change={() => handleEmployeeChange(department.departmentId, employee.employeeId)} disabled={disableInputs(true)} />
+                                        <label for={employee.employeeId} class="flex gap-x-2 items-center cursor-pointer">
+                                            <svelte:component this={User} />
+                                            <p>{employee.employeeName}</p>
+                                        </label>
                                     </div>
-                                {/if}
+                                {/each}
+                            {:else}
+                                <div class=" flex px-6 gap-x-2 items-center">
+                                    <p>{$LL.NoEmployees()}</p>
+                                </div>
                             {/if}
-                        {/await}
+                        {/if}
                     {/if}
                 {/each}
+
+                {#if departments.length != totalDepartments}
+                    <button on:click={loadMore} class="flex items-center gap-x-2 p-2 border border-gray-300 bg-gray-100 rounded-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M24 4v4m10-1.32l-2 3.464M41.32 14l-3.464 2M44 24h-4m1.32 10l-3.464-2M34 41.32l-2-3.464M24 44v-4m-10 1.32l2-3.464M6.68 34l3.464-2M4 24h4M6.68 14l3.464 2M14 6.68l2 3.464"/></svg>
+                        {$LL.LoadMore()}
+                    </button>
+                {/if}
             </div>
         </div>
     {:else if current == 2}
@@ -379,11 +417,12 @@
                 <p class="text-black text-base font-semibold">{$LL.QuestionTypeText()}</p>
                 <div class="flex flex-col gap-y-2">
                     {#each cards as card}
-                        <p use:draggable={card.id} on:dblclick="{() => handleDblClick(card.id)}" class="flex items-center gap-x-2 p-2 bg-gray-100 text-gray-600 border border-gray-200 font-bold rounded">
+                        <p use:draggable={card.id} on:dblclick="{() => handleDblClick(card.id)}" class="flex items-center gap-x-2 px-1 py-2 bg-gray-100 text-gray-600 border border-gray-200 font-bold rounded">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 <path fill="currentColor" d="{card.icon}"/>
                             </svg>
-                            {card.title}
+                            <span class="flex-grow">{card.title}</span>
+                            <svelte:component this={GripVertical} class="text-gray-300" />
                         </p>
                     {/each}
                 </div>

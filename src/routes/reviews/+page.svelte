@@ -71,7 +71,6 @@
                         <th class="py-3 px-2">{$LL.State()}</th>
                         <th class="py-3 px-2">{$LL.EndingDate()}</th>
                         <th class="py-3 px-2">{$LL.Progression()}</th>
-                        <th class="py-3 px-2 w-1/12"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -88,20 +87,23 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <div>
-                                        <p class="mx-5 px-2 py-1 flex justify-center text-sm border border-transparent whitespace-nowrap rounded-lg {review.reviewStatus === 'Active' ? 'bg-green-500 text-white border-green-900' : 'bg-gray-200 text-black border-gray-400'}">
-                                            {showStatusReview(review.reviewStatus)}
-                                        </p>
-                                    </div>
+                                    <p class="flex justify-center w-40 py-1 text-sm border whitespace-nowrap rounded-lg 
+                                        {review.reviewStatus === 'Active' ? 'bg-green-500 text-white border-green-700' : 
+                                        review.reviewStatus === 'Completed' ? 'bg-blue-500 text-white border-blue-700' : 'bg-gray-200 text-black border-gray-300'}"
+                                    >
+                                        {showStatusReview(review.reviewStatus)}
+                                    </p>
                                 </td>
                                 <td>
-                                    <div class="flex px-5 text-sm md:text-base">
-                                        {#if review.endDate}
-                                            <p>{(review.endDate).split('T')[0]}</p>
-                                        {:else}
-                                            <p>{$LL.StateDontExist()}</p>
-                                        {/if}
-                                    </div>
+                                    {#if review.reviewStatus != 'Completed'}
+                                        <div class="flex px-5 text-sm md:text-base">
+                                            {#if review.endDate}
+                                                <p>{(review.endDate).split('T')[0]}</p>
+                                            {:else}
+                                                <p>{$LL.StateDontExist()}</p>
+                                            {/if}
+                                        </div>
+                                    {/if}
                                 </td>
                                 <td>
                                     {#if review.reviewStatus == 'Active'}

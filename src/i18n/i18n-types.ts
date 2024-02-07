@@ -773,7 +773,7 @@ type RootTranslation = {
 	 */
 	SubmissionsDescriptionText: string
 	/**
-	 * E​v​a​l​u​a​t​i​n​g
+	 * E​v​a​l​u​a​t​e
 	 */
 	Evaluate: string
 	/**
@@ -792,6 +792,62 @@ type RootTranslation = {
 	 * P​e​r​m​i​s​s​i​o​n​s
 	 */
 	Permissions: string
+	/**
+	 * D​a​s​h​b​o​a​r​d
+	 */
+	Dashboard: string
+	/**
+	 * T​a​s​k​l​i​s​t
+	 */
+	Tasklist: string
+	/**
+	 * Y​o​u​ ​d​o​n​'​t​ ​h​a​v​e​ ​p​e​n​d​i​n​g​ ​s​u​b​m​i​s​s​i​o​n​s
+	 */
+	NoSubmissionsListLabel: string
+	/**
+	 * L​o​a​d​ ​m​o​r​e
+	 */
+	LoadMore: string
+	/**
+	 * S​u​b​m​i​t​ ​s​u​b​m​i​s​s​i​o​n​?
+	 */
+	EditDialogSubmission: string
+	/**
+	 * A​r​e​ ​y​o​u​ ​s​u​r​e​ ​y​o​u​ ​w​a​n​t​ ​t​o​ ​s​u​b​m​i​t​ ​s​u​b​m​i​s​s​i​o​n​?​ ​T​h​i​s​ ​a​c​t​i​o​n​ ​c​a​n​'​t​ ​b​e​ ​u​n​d​o​n​e​.
+	 */
+	EditDialogSubmissionDescription: string
+	/**
+	 * N​o​ ​a​c​t​i​v​e​ ​r​e​v​i​e​w​s​ ​t​o​ ​s​h​o​w​ ​t​h​e​ ​p​r​o​g​r​e​s​s​.
+	 */
+	ReviewProgressChartLabel: string
+	/**
+	 * A​v​e​r​a​g​e
+	 */
+	Average: string
+	/**
+	 * T​o​t​a​l
+	 */
+	Total: string
+	/**
+	 * N​o​ ​r​e​v​i​e​w​s​ ​c​o​m​p​l​e​t​e​d
+	 */
+	NoReviewsComp: string
+	/**
+	 * S​e​l​e​c​t​ ​r​e​v​i​e​w
+	 */
+	SelectReview: string
+	/**
+	 * C​h​o​o​s​e​ ​b​e​t​w​e​e​n​ ​a​l​l​ ​c​o​m​p​l​e​t​e​d​ ​r​e​v​i​e​w​s​,​ ​t​h​e​ ​o​n​e​ ​y​o​u​ ​w​a​n​t​ ​t​o​ ​s​h​o​w​ ​d​a​t​a​.
+	 */
+	SelectReviewText: string
+	/**
+	 * N​o​ ​r​e​v​i​e​w​s​ ​t​o​ ​s​h​o​w​.
+	 */
+	ReviewStatusChartLabel: string
+	/**
+	 * S​e​e​ ​m​o​r​e
+	 */
+	SeeMore: string
 }
 
 export type TranslationFunctions = {
@@ -1554,7 +1610,7 @@ export type TranslationFunctions = {
 	 */
 	SubmissionsDescriptionText: () => LocalizedString
 	/**
-	 * Evaluating
+	 * Evaluate
 	 */
 	Evaluate: () => LocalizedString
 	/**
@@ -1573,6 +1629,62 @@ export type TranslationFunctions = {
 	 * Permissions
 	 */
 	Permissions: () => LocalizedString
+	/**
+	 * Dashboard
+	 */
+	Dashboard: () => LocalizedString
+	/**
+	 * Tasklist
+	 */
+	Tasklist: () => LocalizedString
+	/**
+	 * You don't have pending submissions
+	 */
+	NoSubmissionsListLabel: () => LocalizedString
+	/**
+	 * Load more
+	 */
+	LoadMore: () => LocalizedString
+	/**
+	 * Submit submission?
+	 */
+	EditDialogSubmission: () => LocalizedString
+	/**
+	 * Are you sure you want to submit submission? This action can't be undone.
+	 */
+	EditDialogSubmissionDescription: () => LocalizedString
+	/**
+	 * No active reviews to show the progress.
+	 */
+	ReviewProgressChartLabel: () => LocalizedString
+	/**
+	 * Average
+	 */
+	Average: () => LocalizedString
+	/**
+	 * Total
+	 */
+	Total: () => LocalizedString
+	/**
+	 * No reviews completed
+	 */
+	NoReviewsComp: () => LocalizedString
+	/**
+	 * Select review
+	 */
+	SelectReview: () => LocalizedString
+	/**
+	 * Choose between all completed reviews, the one you want to show data.
+	 */
+	SelectReviewText: () => LocalizedString
+	/**
+	 * No reviews to show.
+	 */
+	ReviewStatusChartLabel: () => LocalizedString
+	/**
+	 * See more
+	 */
+	SeeMore: () => LocalizedString
 }
 
 export type Formatters = {}

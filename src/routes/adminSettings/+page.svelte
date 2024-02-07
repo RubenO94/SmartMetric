@@ -44,7 +44,9 @@
 <Toaster />
 
 <div class="mx-auto flex flex-col xl:w-[1280px] p-5 gap-y-10">
-    <h1 class="font-semibold text-2xl mx-auto md:mx-0">{ $LL.AdminSettings() }</h1>
+    <div class="flex justify-between">
+        <h1 class="font-semibold text-2xl mx-auto md:mx-0">{ $LL.AdminSettings() }</h1>
+    </div>
 
     <div class="flex flex-col gap-y-4">
         <div class="flex flex-col gap-y-1">

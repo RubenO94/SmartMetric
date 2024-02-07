@@ -211,7 +211,21 @@ const pt: Translation = {
 	ProgressReview: 'Progresso da revisão',
 	ActiveReviews: 'Revisões ativas',
 	CompletedReviews: 'Revisões completas',
-	Permissions: 'Permissões'
+	Permissions: 'Permissões',
+	Dashboard: 'Painel',
+	Tasklist: 'Lista de tarefas',
+	NoSubmissionsListLabel: 'Não tem submissões pendentes',
+	LoadMore: 'Carregar mais',
+	EditDialogSubmission: 'Enviar submissão?',
+	EditDialogSubmissionDescription: 'Tem a certeza que quer enviar a submissão? Esta acção não pode ser revertida.',
+	ReviewProgressChartLabel: 'Não existem revisões ativas para visualizar progressão',
+	Average: 'Média',
+	Total: 'Total',
+	NoReviewsComp: 'Nenhuma revisões completada',
+	SelectReview: 'Selecionar revisão',
+	SelectReviewText: 'Escolha de entre as revisões completas, a que deseja apresentar dados.',
+	ReviewStatusChartLabel: 'Não existem revisões para visualizar dados',
+	SeeMore: 'Ver mais'
 }
 
 export default pt

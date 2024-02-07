@@ -15,12 +15,9 @@ export const load: PageServerLoad = async ({ url, parent }) => {
         const pathSegments = parsedURL.pathname.split("/").filter(Boolean)
         const reviewId = pathSegments[pathSegments.length - 2]
 
-        const [departmentsResponse] = await Promise.all([api("GET",  "Departments")])
         const [reviewResponse] = await Promise.all([api("GET", `Reviews/${reviewId}`)])
-
-        let departments = departmentsResponse?.body
         let review = reviewResponse?.body
-        return { departments, review }
+        return { review }
     } catch (error) {
         throw error
     }

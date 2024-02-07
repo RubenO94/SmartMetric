@@ -1,5 +1,6 @@
 type Question = {
-    isRequired: boolean
+    questionId: string | null,
+    isRequired: boolean,
     position: number,
     responseType: string | undefined,
     translations: Translations[],

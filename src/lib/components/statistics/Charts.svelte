@@ -11,8 +11,12 @@
     let intervalId: any
 
     onMount(() => {
-        renderChart()
-        startCarousel()
+        if (reviews.length > 0) {
+            renderChart()
+            if (reviews.length > 1) {
+                startCarousel()
+            }
+        }
     })
 
     onDestroy(() => {
@@ -33,7 +37,7 @@
                 const xCoor = chart.getDatasetMeta(0).data[0].x
                 const yCoor = chart.getDatasetMeta(0).data[0].y
                 let textCenter = ((currentReview.submissionsCompleted * 100) / currentReview.submissionsTotal).toFixed(1) + '%'
-                ctx.font = 'bold 30px'
+                ctx.font = 'bolder 50px'
                 ctx.fillStyle = 'rgb(59, 130, 246)'
                 ctx.textAlign = 'center'
                 ctx.textBaseline = 'middle'
@@ -76,9 +80,16 @@
     }
 </script>
 
-<div class="w-60 h-60 flex flex-col gap-y-1 p-2 border border-gray-300 bg-gray-100 shadow-md rounded-md">
+<div class="flex flex-col items-start gap-y-5 px-2 py-4 border border-gray-300 bg-gray-100 shadow-md rounded-md">
     <h1 class="font-semibold px-2">{$LL.ProgressReview()}</h1>
-    <div class="w-full h-40 flex flex-col justify-center items-center">
-        <canvas id="myChart" />
+    <div class=" w-60 h-60 flex items-center justify-center mx-auto">
+        {#if reviews.length > 0}
+            <canvas id="myChart" />
+        {:else}
+            <p class="text-center">{$LL.ReviewProgressChartLabel()}</p>
+        {/if}
+    </div>
+    <div class="flex justify-end w-full text-xs px-2 border-t border-gray-300 text-blue-600 hover:underline">
+        <a href="/reviews">{ $LL.SeeMore() }</a>
     </div>
 </div>

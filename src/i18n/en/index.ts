@@ -207,11 +207,25 @@ const en: BaseTranslation = {
 	NoSubmissionsYet: "No submissions yet.",
 	Evaluating: "Evaluating",
 	SubmissionsDescriptionText: "Under, you should see reviews which are active, and clicking them must open the submissions you must do",
-	Evaluate: "Evaluating",
+	Evaluate: "Evaluate",
 	ProgressReview: "Progress of review",
 	ActiveReviews: "Active reviews",
 	CompletedReviews: "Completed reviews",
-	Permissions: "Permissions"
+	Permissions: "Permissions",
+	Dashboard: "Dashboard",
+	Tasklist: "Tasklist",
+	NoSubmissionsListLabel: "You don't have pending submissions",
+	LoadMore: "Load more",
+	EditDialogSubmission: "Submit submission?",
+	EditDialogSubmissionDescription: "Are you sure you want to submit submission? This action can't be undone.",
+	ReviewProgressChartLabel: "No active reviews to show the progress.",
+	Average: "Average",
+	Total: "Total",
+	NoReviewsComp: "No reviews completed",
+	SelectReview: "Select review",
+	SelectReviewText: "Choose between all completed reviews, the one you want to show data.",
+	ReviewStatusChartLabel: "No reviews to show.",
+	SeeMore: "See more"
 }
 
 export default en
