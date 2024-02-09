@@ -2,16 +2,19 @@
     import LL from '../i18n/i18n-svelte'
     import Charts from '$lib/components/statistics/Charts.svelte'
     import ChartsOnlyText from '$lib/components/statistics/ChartsOnlyText.svelte'
-    import Dashboard from '$lib/components/Dashboard.svelte';
+    import Dashboard from '$lib/components/Dashboard.svelte'
     import { Clipboard, ClipboardCheck, Clock, List } from 'lucide-svelte'
-    import ReviewsStatusChart from '$lib/components/statistics/ReviewsStatusChart.svelte';
+    import ReviewsStatusChart from '$lib/components/statistics/ReviewsStatusChart.svelte'
+    import RatingReviews from '$lib/components/RatingReviews.svelte'
+    import LineChart from '$lib/components/statistics/LineChart.svelte'
 
     export let data
 
     let user = data.user
-    let reviews = data.reviews
-    let activeReviews = reviews.filter((temp: any) => temp.reviewStatus === 'Active')
-    let completedReviews = reviews.filter((temp: any) => temp.reviewStatus === 'Completed')
+    let submissions = data.submissions || []
+    let reviews = data.reviews || []
+    let activeReviews = reviews.filter((temp: any) => temp.reviewStatus === 'Active') || []
+    let completedReviews = reviews.filter((temp: any) => temp.reviewStatus === 'Completed') || []
 </script>
 
 <svelte:head>
@@ -20,10 +23,15 @@
 
 <div class="mx-auto flex flex-col xl:w-[1280px] py-5 md:px-5 px-2 md:gap-y-10 gap-y-5">
     {#if user?.profileType === "Frontoffice"}
-        <div class="flex gap-x-5">
+        <div class="flex gap-x-10">
             <Dashboard {user} />
-            <p>Outro lado...</p>
-        </div>
+            <div class="flex flex-col flex-grow gap-y-10">
+                <div class="flex flex-col xl:flex-row w-full justify-between gap-x-5">
+                    <RatingReviews {submissions} reviews={completedReviews} />
+                    <LineChart {submissions} reviews={completedReviews} />
+                </div>
+            </div>
+        </div>  
     {:else if user?.profileType === "Backoffice"}
         <div class="w-full box-border grid grid-cols-1 xl:grid-cols-2 gap-[10px] md:gap-[25px] xl:gap-[50px]">
             <div class="w-full box-border grid grid-cols-1 md:grid-cols-2 gap-[10px] md:gap-[25px] xl:gap-[50px]">

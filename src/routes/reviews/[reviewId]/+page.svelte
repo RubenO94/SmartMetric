@@ -31,10 +31,8 @@
 
     onMount(() => {
         createdDate = transformDate(review.createdDate, data.lang[0])
-        if (review.reviewStatus == 'Active') {
-            startDate = transformDate(review.startDate, data.lang[0])
-            endDate = transformDate(review.endDate, data.lang[0])
-        }
+        startDate = transformDate(review.startDate, data.lang[0])
+        endDate = transformDate(review.endDate, data.lang[0])
         if (review.reviewStatus == 'NotStarted') reviewPatchBody.reviewStatus = 'Active'
         else if (review.reviewStatus == 'Active') reviewPatchBody.reviewStatus = 'Canceled'
     })
@@ -120,63 +118,69 @@
                 {:else}
                     <div></div>
                 {/if}
-                {#if review.reviewStatus == 'NotStarted' && checkPermission()}
-                    <button on:click={showDialog} class="flex items-center mx-auto md:mx-0 gap-x-1 h-fit bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer border border-transparent hover:bg-blue-700 hover:border-blue-950">
-                        <svelte:component this={Clock} size="20" />
-                        {$LL.StartReview()}
-                    </button>
+                <div class="flex flex-col items-end gap-y-10">
+                    {#if review.reviewStatus == 'NotStarted' && checkPermission()}
+                        <button on:click={showDialog} class="flex items-center mx-auto md:mx-0 gap-x-1 h-fit bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer border border-transparent hover:bg-blue-700 hover:border-blue-950">
+                            <svelte:component this={Clock} size="20" />
+                            {$LL.StartReview()}
+                        </button>
 
-                    <!-- DIALOG -->
-                    <div id="dialog" class="fixed left-0 top-0 bg-black bg-opacity-75 hidden w-screen h-screen transition-opacity duration-500 z-50">
-                        <div class="bg-white flex flex-col gap-y-5 rounded shadow-md p-8 mx-auto my-20 w-4/5 lg:w-3/5 xl:w-2/5">
-                            <div class="flex items-center gap-5">
-                                <div class="bg-blue-200 text-blue-500 flex items-center justify-center w-10 h-10 p-5 rounded-full">
-                                    <p>
-                                        <svelte:component this={Calendar} />                                   
-                                    </p>                                                                               
+                        <!-- DIALOG -->
+                        <div id="dialog" class="fixed left-0 top-0 bg-black bg-opacity-75 hidden w-screen h-screen transition-opacity duration-500 z-50">
+                            <div class="bg-white flex flex-col gap-y-5 rounded shadow-md p-8 mx-auto my-20 w-4/5 lg:w-3/5 xl:w-2/5">
+                                <div class="flex items-center gap-5">
+                                    <div class="bg-blue-200 text-blue-500 flex items-center justify-center w-10 h-10 p-5 rounded-full">
+                                        <p>
+                                            <svelte:component this={Calendar} />                                   
+                                        </p>                                                                               
+                                    </div>
+                                    <div>
+                                        <h1 class="font-bold text-xl mb-2">{$LL.ChangeReviewStatusDialog()}</h1>
+                                        <p class="text-gray-400 text-sm">{$LL.ChangeReviewStatusDialogDesc()}</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h1 class="font-bold text-xl mb-2">{$LL.ChangeReviewStatusDialog()}</h1>
-                                    <p class="text-gray-400 text-sm">{$LL.ChangeReviewStatusDialogDesc()}</p>
+                                <div class="flex flex-col gap-y-1">
+                                    <p>{$LL.AddEndDate()}</p>
+                                    <DateInput bind:value={reviewPatchBody.endDate} placeholder="" closeOnSelection max={maxDateAllowed} />
                                 </div>
-                            </div>
-                            <div class="flex flex-col gap-y-1">
-                                <p>{$LL.AddEndDate()}</p>
-                                <DateInput bind:value={reviewPatchBody.endDate} placeholder="" closeOnSelection max={maxDateAllowed} />
-                            </div>
-                            <div class="flex justify-end gap-4 mt-5">
-                                <button class="bg-gray-100 border border-gray-300 px-6 py-2 rounded text-black hover:bg-gray-200" on:click="{hideDialog}">{$LL.Cancel()}</button>
-                                <button class="bg-blue-500 px-6 py-2 rounded text-white hover:bg-blue-700" on:click="{patchReview}">{$LL.Start()}</button>
+                                <div class="flex justify-end gap-4 mt-5">
+                                    <button class="bg-gray-100 border border-gray-300 px-6 py-2 rounded text-black hover:bg-gray-200" on:click="{hideDialog}">{$LL.Cancel()}</button>
+                                    <button class="bg-blue-500 px-6 py-2 rounded text-white hover:bg-blue-700" on:click="{patchReview}">{$LL.Start()}</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                {:else if review.reviewStatus == 'Active' && checkPermission()}
-                    <button on:click={showDialog} class="flex items-center mx-auto md:mx-0 gap-x-1 h-fit bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer border border-transparent hover:bg-blue-700 hover:border-blue-950">
-                        <svelte:component this={ArchiveX} size="20" />
-                        {$LL.CancelReview()}
-                    </button>
+                    {:else if review.reviewStatus == 'Active' && checkPermission()}
+                        <button on:click={showDialog} class="flex items-center mx-auto md:mx-0 gap-x-1 w-fit h-fit bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer border border-transparent hover:bg-blue-700 hover:border-blue-950">
+                            <svelte:component this={ArchiveX} size="20" />
+                            {$LL.CancelReview()}
+                        </button>
 
-                    <!-- DIALOG -->
-                    <div id="dialog" class="fixed left-0 top-0 bg-black bg-opacity-75 hidden w-screen h-screen transition-opacity duration-500 z-50">
-                        <div class="bg-white flex flex-col gap-y-5 rounded shadow-md p-8 mx-auto my-20 w-4/5 lg:w-3/5 xl:w-2/5">
-                            <div class="flex items-center gap-5">
-                                <div class="bg-red-200 text-red-500 flex items-center justify-center w-10 h-10 p-5 rounded-full">
-                                    <p>
-                                        <svelte:component this={AlertTriangle} />
-                                    </p>
+                        <!-- DIALOG -->
+                        <div id="dialog" class="fixed left-0 top-0 bg-black bg-opacity-75 hidden w-screen h-screen transition-opacity duration-500 z-50">
+                            <div class="bg-white flex flex-col gap-y-5 rounded shadow-md p-8 mx-auto my-20 w-4/5 lg:w-3/5 xl:w-2/5">
+                                <div class="flex items-center gap-5">
+                                    <div class="bg-red-200 text-red-500 flex items-center justify-center w-10 h-10 p-5 rounded-full">
+                                        <p>
+                                            <svelte:component this={AlertTriangle} />
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <h1 class="font-bold text-xl mb-2">{$LL.ChangeReviewStatusDialog2()}</h1>
+                                        <p class="text-gray-400 text-sm">{$LL.ChangeReviewStatusDialogDesc2()}</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h1 class="font-bold text-xl mb-2">{$LL.ChangeReviewStatusDialog2()}</h1>
-                                    <p class="text-gray-400 text-sm">{$LL.ChangeReviewStatusDialogDesc2()}</p>
+                                <div class="flex justify-end gap-4 mt-5">
+                                    <button class="bg-gray-100 border border-gray-300 px-6 py-2 rounded text-black hover:bg-gray-200" on:click="{hideDialog}">{$LL.GoBack()}</button>
+                                    <button class="bg-red-500 px-6 py-2 rounded text-white hover:bg-red-700" on:click="{patchReview}">{$LL.CancelReview()}</button>
                                 </div>
-                            </div>
-                            <div class="flex justify-end gap-4 mt-5">
-                                <button class="bg-gray-100 border border-gray-300 px-6 py-2 rounded text-black hover:bg-gray-200" on:click="{hideDialog}">{$LL.GoBack()}</button>
-                                <button class="bg-red-500 px-6 py-2 rounded text-white hover:bg-red-700" on:click="{patchReview}">{$LL.CancelReview()}</button>
                             </div>
                         </div>
+                    {/if}
+                    <div class="flex flex-col w-full items-end gap-y-1">
+                        <p>{$LL.StartDate()}: {startDate}</p>
+                        <p>{$LL.EndDate()}: {endDate}</p>
                     </div>
-                {/if}
+                </div>
             </div>
         </div>
         <div class="flex flex-col md:flex-row gap-y-2">
@@ -197,16 +201,6 @@
                     <p class="text-xs text-gray-400 font-medium">{$LL.CreationDate()}</p>
                     <input class="text-base p-2 border-2 border-gray-300 bg-white text-gray-400 rounded" bind:value={createdDate} disabled />
                 </div>
-                {#if review.reviewStatus == 'Active'}
-                    <div class="flex flex-col gap-y-1">
-                        <p class="text-xs text-gray-400 font-medium">{$LL.StartDate()}</p>
-                        <input class="text-base p-2 border-2 border-gray-300 bg-white text-gray-400 rounded" bind:value={startDate} disabled />
-                    </div>
-                    <div class="flex flex-col gap-y-1">
-                        <p class="text-xs text-gray-400 font-medium">{$LL.EndDate()}</p>
-                        <input class="text-base p-2 border-2 border-gray-300 bg-white text-gray-400 rounded" bind:value={endDate} disabled />
-                    </div>
-                {/if}
             </div>
         </div>
         <SubmissionsTable bind:review={review} bind:lang={data.lang[0]} />

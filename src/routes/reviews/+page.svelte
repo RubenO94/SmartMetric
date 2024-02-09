@@ -95,7 +95,7 @@
                                     </p>
                                 </td>
                                 <td>
-                                    {#if review.reviewStatus != 'Completed'}
+                                    {#if review.reviewStatus != 'NotStarted'}
                                         <div class="flex px-5 text-sm md:text-base">
                                             {#if review.endDate}
                                                 <p>{(review.endDate).split('T')[0]}</p>

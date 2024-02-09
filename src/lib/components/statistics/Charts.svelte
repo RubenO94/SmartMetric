@@ -89,7 +89,7 @@
             <p class="text-center">{$LL.ReviewProgressChartLabel()}</p>
         {/if}
     </div>
-    <div class="flex justify-end w-full text-xs px-2 border-t border-gray-300 text-blue-600 hover:underline">
-        <a href="/reviews">{ $LL.SeeMore() }</a>
+    <div class="flex justify-end w-full text-xs px-2 border-t border-gray-300">
+        <a href="/reviews" class="text-blue-600 hover:underline">{ $LL.SeeMore() }</a>
     </div>
 </div>
