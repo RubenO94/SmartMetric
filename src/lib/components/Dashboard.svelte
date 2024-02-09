@@ -9,7 +9,7 @@
 
     onMount(async () => {
         const [response] = await Promise.all([
-            api("GET", `Submissions/Employees/${user.employeeId}`)
+            api("GET", `Submissions/EvaluatorEmployee/${user.employeeId}`)
         ])
         submissions = response?.body
     })

@@ -5,14 +5,41 @@
     import { AlertCircle } from "lucide-svelte"
     import RadarChart from "$lib/components/statistics/RadarChart.svelte"
     import toast, { Toaster } from "svelte-french-toast"
+    import StatsByFuncTable from "$lib/components/statistics/StatsByFuncTable.svelte";
+
+    export let data
 
     let page = 1
-    let reviews: Reviews[] = []
+    let reviews: Reviews[] = data.reviews
     let reviewChoosed: Reviews[] = []
     let submissions: any[] = []
     let questionRatingAnswers: any[] = []
     let averagesByQuestion: any[] = []
+    let uniqueEmployees: any[] = []
+    let employees: any[] = []
 
+    async function loadSubmissions() {
+        if (reviewChoosed.length <= 0) {
+            toast.error("Need at least one review")
+            return
+        } 
+
+        page += 1
+
+        try {
+            const promises = reviewChoosed.map(async (review) => {
+                const response = await api("GET", `Reviews/Submissions?reviewId=${review.reviewId}`)
+                return response?.body
+            });
+
+            const submissionsResponse = await Promise.all(promises)
+            submissions = submissionsResponse
+            createObject()
+        } catch (error) {
+            console.error("Error", error)
+        }
+    }
+    
     function createObject() {
         let responsesByQuestion: any = []
 
@@ -35,6 +62,8 @@
             })
         })
 
+        console.log(submissions)
+
         responsesByQuestion.forEach((element: any, index: number) => {
             questionRatingAnswers[index] = Object.entries(element).map(([questionId, responses]) => {
                 const matchingQuestion = reviewChoosed[index].questions.find((question) => question.questionId === questionId)
@@ -45,13 +74,26 @@
                     title: matchingQuestion ? matchingQuestion.translations[0].title : null
                 }
             })
-        });
+        })
+
+        console.log(questionRatingAnswers)
 
         questionRatingAnswers.forEach((element, index) => {
             averagesByQuestion[index] = element.map((question: any) => (
                 parseFloat((question.responses.reduce((acc: any, value: any) => acc + value, 0) / question.responses.length).toFixed(2))
             ))
         })
+
+        console.log(averagesByQuestion)
+
+        submissions.forEach((submissionsArray: any) => {
+            submissionsArray.forEach((submission: any) => {
+                const evaluatedEmployeeId = submission.evaluatedEmployeeId;
+                uniqueEmployees[evaluatedEmployeeId.employeeId] = evaluatedEmployeeId
+            });
+        });
+
+        employees = Object.values(uniqueEmployees);
     }
 
     function calcAverage(array: any[], index: number) {
@@ -64,34 +106,6 @@
         const isChecked = event.target.checked
         if (isChecked) reviewChoosed = [...reviewChoosed, review]
         else reviewChoosed = reviewChoosed.filter((reviewArray) => reviewArray.reviewId !== review.reviewId)
-    }
-
-    onMount(async () => {
-        const [reviewsResponse] = await Promise.all([api("GET", `Reviews`)])
-        reviews = reviewsResponse?.body
-        reviews = reviews.filter((review: any) => review.reviewStatus === 'Completed')
-    })
-
-    async function loadSubmissions() {
-        if (reviewChoosed.length <= 0) {
-            toast.error("Need at least one review")
-            return
-        }
-
-        page += 1
-
-        try {
-            const promises = reviewChoosed.map(async (review) => {
-                const response = await api("GET", `Reviews/Submissions?reviewId=${review.reviewId}`)
-                return response?.body
-            });
-
-            const submissionsResponse = await Promise.all(promises)
-            submissions = submissionsResponse
-            createObject()
-        } catch (error) {
-            console.error("Error", error)
-        }
     }
 </script>
 
@@ -177,6 +191,10 @@
                     <RadarChart {averagesByQuestion} {questionRatingAnswers} title={reviewChoosed.map((review) => review.translations[0].title)} />
                 </div>
             </div>
+        </div>
+        <div class="flex flex-col gap-y-5">
+            <p class="text-black text-base font-semibold">{$LL.Evaluated()}</p>
+            <StatsByFuncTable {employees} />
         </div>
     {:else}
         <div class="flex flex-col justify-center items-center gap-y-5 text-lg text-gray-500">

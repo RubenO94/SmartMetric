@@ -225,7 +225,9 @@ const pt: Translation = {
 	SelectReview: 'Selecionar revisão',
 	SelectReviewText: 'Escolha de entre as revisões completas, a que deseja apresentar dados.',
 	ReviewStatusChartLabel: 'Não existem revisões para visualizar dados',
-	SeeMore: 'Ver mais'
+	SeeMore: 'Ver mais',
+	Evaluated: 'Avaliados',
+	YourEvaluations: 'As suas avaliações'
 }
 
 export default pt

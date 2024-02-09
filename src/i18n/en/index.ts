@@ -225,7 +225,9 @@ const en: BaseTranslation = {
 	SelectReview: "Select review",
 	SelectReviewText: "Choose between all completed reviews, the one you want to show data.",
 	ReviewStatusChartLabel: "No reviews to show.",
-	SeeMore: "See more"
+	SeeMore: "See more",
+	Evaluated: "Evaluated",
+	YourEvaluations: "Your evaluations"
 }
 
 export default en

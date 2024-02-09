@@ -69,9 +69,9 @@
             {/each}
         </Accordion>
     {:else}
-        <div class="w-full">
-            <AlertCircle size={50} />
-            <p>Sem submissões para realizar</p>
+        <div class="w-full flex flex-col gap-y-[10px] justify-center items-center">
+            <AlertCircle size={50} strokeWidth={1.5} />
+            <p>{ $LL.NoSubmissions() }</p>
         </div>
     {/if}
 </div>

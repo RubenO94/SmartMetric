@@ -848,6 +848,14 @@ type RootTranslation = {
 	 * S​e​e​ ​m​o​r​e
 	 */
 	SeeMore: string
+	/**
+	 * E​v​a​l​u​a​t​e​d
+	 */
+	Evaluated: string
+	/**
+	 * Y​o​u​r​ ​e​v​a​l​u​a​t​i​o​n​s
+	 */
+	YourEvaluations: string
 }
 
 export type TranslationFunctions = {
@@ -1685,6 +1693,14 @@ export type TranslationFunctions = {
 	 * See more
 	 */
 	SeeMore: () => LocalizedString
+	/**
+	 * Evaluated
+	 */
+	Evaluated: () => LocalizedString
+	/**
+	 * Your evaluations
+	 */
+	YourEvaluations: () => LocalizedString
 }
 
 export type Formatters = {}

@@ -7,7 +7,7 @@ export const load: PageServerLoad = async ({ parent }) => {
     if (user?.profileType === "Backoffice") throw redirect(302, "/")
     try {
         const [submissionResponse] = await Promise.all([
-            api ("GET", `Submissions/Employees/${user?.employeeId}`)
+            api ("GET", `Submissions/EvaluatorEmployee/${user?.employeeId}`)
         ])
         let submissions = submissionResponse?.body
 
