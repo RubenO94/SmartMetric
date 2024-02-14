@@ -56,12 +56,16 @@
     }
 
     const options = {
-        r: {
-            ticks: { stepSize: 1 }
-        },
         scales: {
-            x: { stacked: true },
-            y: { stacked: true }
+            x: { 
+                stacked: true 
+            },
+            y: { 
+                stacked: true,
+                ticks: {
+                    stepSize: 1
+                }
+            },
         }
     }
 

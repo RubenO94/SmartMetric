@@ -62,9 +62,6 @@
             })
         })
 
-        console.log(submissions)
-        console.log(responsesByQuestion)
-
         responsesByQuestion.forEach((element: any, index: number) => {
             questionRatingAnswers[index] = Object.entries(element).map(([questionId, responses]) => {
                 const matchingQuestion = reviewChoosed[index].questions.find((question) => question.questionId === questionId)

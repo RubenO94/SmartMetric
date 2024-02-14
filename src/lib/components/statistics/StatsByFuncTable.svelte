@@ -54,8 +54,6 @@
             })
         })
 
-        console.log(otherQuestions)
-
         otherQuestions.forEach((element: any, index: number) => {
             textAnswers[index] = Object.entries(element).map(([questionId, responses]) => {
                 const matchingQuestion = reviewChoosed[index].questions.find((question: any) => question.questionId === questionId)
