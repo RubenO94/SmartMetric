@@ -9,10 +9,32 @@
     export let lang: string
 
     let submissions: any = []
+    let searchInput = ''
 
     async function loadSubmissions() {
-        const [response] = await Promise.all([ api("GET", `Reviews/Submissions?reviewId=${review.reviewId}`) ])
-        submissions = response?.body
+        let currentPage = 1
+        let total = 0
+
+        do {
+            const [response] = await Promise.all([
+                api("GET", `Reviews/Submissions?reviewId=${review.reviewId}&page=${currentPage}&pageSize=20`)
+            ])
+
+            if (response) {
+                const currentSubmissions = response.body
+                total = response.total
+
+                currentSubmissions.forEach((submission: any) => {
+                    if (!submissions.some((existingSubmission: any) => existingSubmission.submissionId === submission.submissionId)) {
+                        submissions = submissions.concat(submission)
+                    }
+                })
+                currentPage++
+            } else {
+                console.error("Failed to fetch submissions")
+                break
+            }
+        } while (total > submissions.length)
     }
 
     async function deleteSubmission(submissionId: string) {
@@ -24,15 +46,21 @@
     onMount(async () => {
         loadSubmissions()
     })
+
+    $: console.log(submissions)
+    $: filteredItems = submissions.filter((element: any) => 
+        element.evaluatedEmployeeId.employeeName.toLowerCase().includes(searchInput.toLowerCase()) || 
+        element.evaluatorEmployeeId.employeeName.toLowerCase().includes(searchInput.toLowerCase())
+    )
 </script>
 
-<div class="border border-gray-300 overflow-x-auto shadow rounded-xl">
+<div class="border border-gray-200 overflow-x-auto shadow" id="table-container">
     <table class="min-w-full">
         <thead class="bg-gray-200">
             <tr>
-                <th colspan="5" class="rounded-t-xl">
+                <th colspan="5">
                     <div class="flex relative mx-20 pt-5">
-                        <input type="text" class="w-full text-sm font-normal py-1 px-10 border border-gray-300 rounded-xl" placeholder={$LL.Search()} />
+                        <input bind:value={searchInput} type="text" class="w-full text-sm font-normal py-1 px-10 border border-gray-300 rounded-xl" placeholder={$LL.Search()} />
                         <div class="absolute inset-y-0 left-0 pl-3 pt-5 flex items-center pointer-events-none">
                             <Search />
                         </div>
@@ -63,7 +91,7 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody style="max-height: 400px; overflow-y: auto;">
             {#await loadSubmissions()}
                 <tr>
                     <td colspan="5">
@@ -74,7 +102,7 @@
                 </tr>
             {:then}
                 {#if submissions.length > 0}
-                    {#each submissions as submission (submission.submissionId)}
+                    {#each filteredItems as submission (submission.submissionId)}
                         <tr class="hover:bg-gray-100">
                             <td>
                                 <div class="flex items-center gap-x-2 p-2">
@@ -127,3 +155,20 @@
         </tbody>
     </table>
 </div>
+
+<style>
+#table-container {
+    max-height: 500px; /* Set the maximum height */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+#table-container table {
+    width: 100%; /* Ensure the table fills the container */
+    border-collapse: collapse; /* Merge border styles */
+}
+
+#table-container thead {
+    position: sticky; /* Make the header sticky */
+    top: 0; /* Stick it to the top */
+}
+</style>

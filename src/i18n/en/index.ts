@@ -227,7 +227,9 @@ const en: BaseTranslation = {
 	ReviewStatusChartLabel: "No reviews to show.",
 	SeeMore: "See more",
 	Evaluated: "Evaluated",
-	YourEvaluations: "Your evaluations"
+	YourEvaluations: "Your evaluations",
+	ChooseEmployee: "Choose a employee and check his individual statistics for this review(s)",
+	Performance: "Performance"
 }
 
 export default en

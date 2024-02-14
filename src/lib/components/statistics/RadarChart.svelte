@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Chart from 'chart.js/auto'
+	import Chart, { elements } from 'chart.js/auto'
 	import {afterUpdate} from 'svelte'
 
     export let averagesByQuestion: number[]
@@ -15,10 +15,13 @@
     function getData() {
         datasets = title.map((titleItem, index) => ({
             label: titleItem,
-            data: averagesByQuestion[index]
+            data: averagesByQuestion[index],
+            fill: false
         }))
         questionRatingAnswers.forEach((item, index) => {
-            if (index === 0) {
+            if (index === 0 && item) {
+                labels = item.map((i: any) => i.title)
+            } else if (index === 1 && item) {
                 labels = item.map((i: any) => i.title)
             }
         })

@@ -3,7 +3,7 @@
     import UserMenu from './UserMenu.svelte'
     import { page } from '$app/stores'
     import { fly } from 'svelte/transition'
-    import { type Icon, Clipboard, List, BarChartBig, ChevronRight, Settings, PenSquare } from 'lucide-svelte'
+    import { type Icon, Clipboard, List, BarChartBig, ChevronRight, Settings, PenSquare, ActivitySquare } from 'lucide-svelte'
     import type { ComponentType } from 'svelte'
 
     export let user: any
@@ -14,7 +14,7 @@
             label: $LL.Sidebar.Reviews(),
             permission: false,
             icon: Clipboard
-        }, 
+        },
         { 
             name: "Forms", 
             label: $LL.Sidebar.Forms(),

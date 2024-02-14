@@ -9,7 +9,12 @@
     let reviewsStatus: any
 
     const data = {
-        labels: ['Active', 'Not Started', 'Canceled', 'Completed'],
+        labels: [
+            $LL.ReviewState.Active(), 
+            $LL.ReviewState.NotStarted(), 
+            $LL.ReviewState.Canceled(), 
+            $LL.ReviewState.Completed()
+        ],
         datasets: [
             { 
                 label: $LL.TopDown.Label(), 

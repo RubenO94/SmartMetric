@@ -26,17 +26,17 @@
         <div class="flex gap-x-10">
             <Dashboard {user} />
             <div class="flex flex-col flex-grow gap-y-10">
-                <div class="flex flex-col xl:flex-row w-full justify-between gap-x-5">
+                <div class="flex flex-col xl:flex-row w-full justify-between gap-x-5 overflow-hidden">
                     <RatingReviews {submissions} reviews={completedReviews} />
                     <LineChart {submissions} reviews={completedReviews} />
                 </div>
             </div>
-        </div>  
+        </div>
     {:else if user?.profileType === "Backoffice"}
         <div class="w-full box-border grid grid-cols-1 xl:grid-cols-2 gap-[10px] md:gap-[25px] xl:gap-[50px]">
             <div class="w-full box-border grid grid-cols-1 md:grid-cols-2 gap-[10px] md:gap-[25px] xl:gap-[50px]">
                 <ChartsOnlyText backgroundColor={'#F1C40F'} icon={List} number={0} title={$LL.Sidebar.Forms()} />
-                <ChartsOnlyText backgroundColor={'#EA4ABC'} icon={Clipboard} number={reviews.length || 0} title={$LL.Sidebar.Reviews()} />  
+                <ChartsOnlyText backgroundColor={'#EA4ABC'} icon={Clipboard} number={reviews.length || 0} title={$LL.Sidebar.Reviews()} />
             </div>
             <div class="w-full box-border grid grid-cols-1 md:grid-cols-2 gap-[10px] md:gap-[25px] xl:gap-[50px]">
                 <ChartsOnlyText backgroundColor={'#4ADE80'} icon={Clock} number={activeReviews.length} title={$LL.ActiveReviews()} />

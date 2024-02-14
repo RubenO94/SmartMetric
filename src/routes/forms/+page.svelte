@@ -9,7 +9,6 @@
 
     let formTemplates = data.formTemplates
     let user = data.user
-    let pageNumber: number = 1
     let languages = ['PT', 'EN', 'ES', 'FR', 'PL']
     // let lang = $locale.toUpperCase()
     let lang: string = languages[0]

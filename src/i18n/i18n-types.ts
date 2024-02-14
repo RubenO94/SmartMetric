@@ -856,6 +856,14 @@ type RootTranslation = {
 	 * Y​o​u​r​ ​e​v​a​l​u​a​t​i​o​n​s
 	 */
 	YourEvaluations: string
+	/**
+	 * C​h​o​o​s​e​ ​a​ ​e​m​p​l​o​y​e​e​ ​a​n​d​ ​c​h​e​c​k​ ​h​i​s​ ​i​n​d​i​v​i​d​u​a​l​ ​s​t​a​t​i​s​t​i​c​s​ ​f​o​r​ ​t​h​i​s​ ​r​e​v​i​e​w​(​s​)
+	 */
+	ChooseEmployee: string
+	/**
+	 * P​e​r​f​o​r​m​a​n​c​e
+	 */
+	Performance: string
 }
 
 export type TranslationFunctions = {
@@ -1701,6 +1709,14 @@ export type TranslationFunctions = {
 	 * Your evaluations
 	 */
 	YourEvaluations: () => LocalizedString
+	/**
+	 * Choose a employee and check his individual statistics for this review(s)
+	 */
+	ChooseEmployee: () => LocalizedString
+	/**
+	 * Performance
+	 */
+	Performance: () => LocalizedString
 }
 
 export type Formatters = {}
