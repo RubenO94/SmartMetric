@@ -4,7 +4,7 @@
     import Sidebar from '$lib/components/Sidebar.svelte'
 	import Header from '$lib/components/Header.svelte'
 	import { fly } from 'svelte/transition'
-	import { type Icon, Clipboard, List, BarChartBig, Settings, X, ChevronRight, PenSquare } from 'lucide-svelte'
+	import { type Icon, Clipboard, List, BarChartBig, Settings, X, ChevronRight, PenSquare, ActivitySquare } from 'lucide-svelte'
 	import type { ComponentType } from 'svelte'
     import { page } from '$app/stores';
 
@@ -21,12 +21,7 @@
 	]
 
 	const menuItemsFrontoffice: { name: string, label: string, permission: boolean, icon: ComponentType<Icon> }[] = [
-        {
-            name: "Submissions",
-            label: $LL.Submissions.Name(),
-            permission: false,
-            icon: PenSquare
-        }
+        { name: "Submissions", label: $LL.Submissions.Name(), permission: false, icon: PenSquare }
     ]
 	
 	function toggleSidebar() { 

@@ -40,18 +40,18 @@
         if (myChart) myChart.destroy()
 
         myChart = new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             data: {
                 labels: newData.map((entry: any) => entry.title),
                 datasets: [{
                     label: 'Average rating by review',
                     data: newData.map((entry: any) => average(entry.ratings)),
-                    fill: true
                 }]
             },
             options: {
                 scales: {
-                    x: { display: false }
+                    x: { display: false },
+                    y: { beginAtZero: true }
                 }
             }
         })

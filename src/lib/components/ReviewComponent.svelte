@@ -74,13 +74,27 @@
 
     const fetchDepartments = async () => {
         try {
-            const [departmentsResponse] = await Promise.all([api("GET", `Departments?page=${pageDepartments}&pageSize=50`)])
-            departments = departmentsResponse?.body
+            do {
+                const [departmentsResponse] = await Promise.all([
+                    api("GET", `Departments?page=${pageDepartments}&pageSize=5`)
+                ])
+
+                if (departmentsResponse) {
+                    const currentDepartments = departmentsResponse.body
+                    totalDepartments = departmentsResponse.total
+
+                    departments = departments.concat(currentDepartments)
+                    pageDepartments++
+                } else {
+                    console.error("Failed to fetch departments")
+                    break
+                }
+            } while (totalDepartments > departments.length)
+
             departments.forEach(async (department: any) => {
                 const [employeesResponse] = await Promise.all([api("GET", `Departments/${department.departmentId}/Employees`)])
                 department.employees = employeesResponse?.body
             })
-            totalDepartments = departmentsResponse?.total
         } catch (error) {
             throw error
         }
@@ -111,6 +125,7 @@
             goto('/reviews')
         } else {
             toast.error($LL.ErrorsReview.SomethingWrong())
+            document.getElementById('buttonGoForward')?.removeAttribute('disabled')
         }
     }
 

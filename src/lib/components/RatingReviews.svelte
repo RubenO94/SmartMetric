@@ -39,15 +39,17 @@
     <div class="flex flex-col items-start gap-y-5 px-2 py-4 border border-gray-300 bg-gray-100 shadow rounded-md">
         <div class="flex flex-col w-full h-[200px] gap-y-5 justify-center">
             {#if submissions.length > 0}
-                {#each newData as data}
-                    <div class="flex gap-x-2 px-5 items-center">
-                        <p class="text-sm w-40 h-10 overflow-hidden text-ellipsis" title={data.title}>{data.title}</p>
-                        <div class="border border-gray-300 bg-gray-200 w-20 h-[15px] overflow-hidden rounded-full">
-                            <div class="bg-blue-500 w-10 h-full flex items-center rounded-full">
+                {#each newData as data, index}
+                    {#if index <= 2}
+                        <div class="flex gap-x-2 px-5 items-center overflow-hidden">
+                            <p class="text-sm w-60 h-10 overflow-hidden text-ellipsis" title={data.title}>{data.title}</p>
+                            <div class="border border-gray-300 bg-gray-200 w-20 h-[15px] overflow-hidden rounded-full">
+                                <div class="bg-blue-500 w-10 h-full flex items-center rounded-full">
+                                </div>
                             </div>
+                            <p>{average(data.ratings)} Avg</p>
                         </div>
-                        <p>{average(data.ratings)} Avg</p>
-                    </div>       
+                    {/if}
                 {/each}
             {:else}
                 <p class="text-center">{$LL.ReviewStatusChartLabel()}</p>

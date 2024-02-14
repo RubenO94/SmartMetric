@@ -227,7 +227,9 @@ const pt: Translation = {
 	ReviewStatusChartLabel: 'Não existem revisões para visualizar dados',
 	SeeMore: 'Ver mais',
 	Evaluated: 'Avaliados',
-	YourEvaluations: 'As suas avaliações'
+	YourEvaluations: 'As suas avaliações',
+	ChooseEmployee: 'Escolha um funcionário e veja as estatisticas individuais para esta/estas revisão/revisões.',
+	Performance: 'Desempenho'
 }
 
 export default pt

@@ -208,7 +208,7 @@
         <div class="flex justify-between">
             <p class="font-semibold text-xl">{$LL.Form()}</p>
             <div class="flex gap-x-2 items-center">
-                {#if review.reviewStatus == 'NotStarted'}
+                {#if review.reviewStatus == 'NotStarted' || review.reviewStatus == 'Canceled'}
                     <Dropdown bind:object={review} {user} />
                 {/if}
                 <select bind:value={activeLang} class="bg-gray-100 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 px-2 py-1 rounded-lg">

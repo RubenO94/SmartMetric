@@ -1,6 +1,5 @@
 <script lang="ts">
     import { api } from "$lib/api/_api"
-    import { onMount } from "svelte"
     import LL from "../../i18n/i18n-svelte"
     import { AlertCircle } from "lucide-svelte"
     import RadarChart from "$lib/components/statistics/RadarChart.svelte"
@@ -17,6 +16,7 @@
     let averagesByQuestion: any[] = []
     let uniqueEmployees: any[] = []
     let employees: any[] = []
+    let selectedEmployee: any 
 
     async function loadSubmissions() {
         if (reviewChoosed.length <= 0) {
@@ -63,6 +63,7 @@
         })
 
         console.log(submissions)
+        console.log(responsesByQuestion)
 
         responsesByQuestion.forEach((element: any, index: number) => {
             questionRatingAnswers[index] = Object.entries(element).map(([questionId, responses]) => {
@@ -76,15 +77,11 @@
             })
         })
 
-        console.log(questionRatingAnswers)
-
         questionRatingAnswers.forEach((element, index) => {
             averagesByQuestion[index] = element.map((question: any) => (
                 parseFloat((question.responses.reduce((acc: any, value: any) => acc + value, 0) / question.responses.length).toFixed(2))
             ))
         })
-
-        console.log(averagesByQuestion)
 
         submissions.forEach((submissionsArray: any) => {
             submissionsArray.forEach((submission: any) => {
@@ -147,7 +144,7 @@
         </div>
     {:else if reviews.length > 0 && page == 2}
         <div class="flex flex-col lg:flex-row gap-x-5 gap-y-5">
-            <div class="flex w-full lg:w-[60%] border-2 border-black h-fit overflow-hidden rounded">
+            <div class="flex w-full lg:w-[70%] border-2 border-black h-fit overflow-hidden rounded">
                 <div class="flex flex-col flex-grow">
                     <div class="bg-black text-white h-10 flex justify-center items-center">
                         <p>{ $LL.Average() }</p>
@@ -167,9 +164,9 @@
                     </div>
                 </div>
                 {#each reviewChoosed as review, index}
-                    <div class="flex flex-col w-[10%] border-l-2 border-black">
-                        <div class="flex items-center h-10 border-b-2 border-black">
-                            <p class="whitespace-nowrap overflow-hidden text-ellipsis" title={review.translations[0].title}>{review.translations[0].title}</p>
+                    <div class="flex flex-col w-[15%] border-l-2 border-black">
+                        <div class="flex items-center justify-center h-10 border-b-2 border-black overflow-hidden">
+                            <p class="overflow-hidden text-ellipsis text-[0.5rem] text-center" title={review.translations[0].title}>{review.translations[0].title}</p>
                         </div>
                         {#each averagesByQuestion as row, jndex}
                             {#each row as number}
@@ -186,7 +183,7 @@
                     </div>
                 {/each}
             </div>
-            <div class="flex flex-col justify-center items-center w-full lg:w-[40%] border border-gray-200 rounded">
+            <div class="flex flex-col justify-center items-center w-full lg:w-[30%] border border-gray-200 rounded">
                 <div class="flex justify-center w-96 h-96">
                     <RadarChart {averagesByQuestion} {questionRatingAnswers} title={reviewChoosed.map((review) => review.translations[0].title)} />
                 </div>
@@ -194,7 +191,15 @@
         </div>
         <div class="flex flex-col gap-y-5">
             <p class="text-black text-base font-semibold">{$LL.Evaluated()}</p>
-            <StatsByFuncTable {employees} />
+            <p class="text-xs text-gray-400">{$LL.ChooseEmployee()}</p>
+            <select bind:value={selectedEmployee} class="border border-gray-300 bg-gray-100 p-2 rounded-lg">
+                {#each employees as employee}
+                    <option value="{employee}">{employee.employeeName}</option>
+                {/each}
+            </select>
+            {#if selectedEmployee}
+                <StatsByFuncTable {selectedEmployee} {reviewChoosed} {submissions} />
+            {/if}
         </div>
     {:else}
         <div class="flex flex-col justify-center items-center gap-y-5 text-lg text-gray-500">
