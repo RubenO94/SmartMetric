@@ -299,6 +299,7 @@
         selectedQuestion.singleChoiceOptions = [...selectedQuestion.singleChoiceOptions, singleChoiceOption]
         updateQuestion(selectedQuestion)
     }
+
     function addRatingOption(numericValue: number | null, title: string): void {
         let conditionIsTrue = false
         insertedNumericValue = null
@@ -322,6 +323,7 @@
         selectedQuestion.ratingOptions = [...selectedQuestion.ratingOptions, ratingOption]
         updateQuestion(selectedQuestion)
     }
+
     function removeOption(index: number, optionType: number): void {
         if (optionType == 1) {
             selectedQuestion.singleChoiceOptions = selectedQuestion.singleChoiceOptions.filter((_, i) => i !== index)
@@ -388,7 +390,7 @@
                 <p>{$LL.SelectDepartmentsText()}</p>
             </div>
 
-            <div class="flex flex-col gap-y-5 text-gray-600">
+            <div class="flex flex-col gap-y-5 h-[400px] text-gray-600 overflow-y-auto">
                 {#each departments as department, indexD}
                     <div class="flex gap-x-2 items-center">
                         <input id={department.departmentId} type="checkbox" bind:group={review.reviewDepartmentsIds} value={department.departmentId} on:change={() => handleDepartmentChange(department.departmentId)} disabled={disableInputs(true)} />

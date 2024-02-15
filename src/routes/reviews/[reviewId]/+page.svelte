@@ -16,10 +16,10 @@
     export let data
 
     let user = data.user
-    let lang = $locale.toUpperCase()
     let review = data.review
+    let pageSelected = data.pageSelected
+    let lang = $locale.toUpperCase()
     let activeLang = review.translations[0].language
-    let pageSelected = 'details'
     let createdDate: string, startDate: string | null, endDate: string | null = ''
     let reviewPatchBody = {
         endDate: undefined,

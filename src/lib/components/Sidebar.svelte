@@ -41,6 +41,12 @@
             label: $LL.Submissions.Name(),
             permission: false,
             icon: PenSquare
+        },
+        {
+            name: "Performance",
+            label: $LL.Performance(),
+            permission: false,
+            icon: ActivitySquare
         }
     ]
 

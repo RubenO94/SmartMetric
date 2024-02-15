@@ -21,7 +21,8 @@
 	]
 
 	const menuItemsFrontoffice: { name: string, label: string, permission: boolean, icon: ComponentType<Icon> }[] = [
-        { name: "Submissions", label: $LL.Submissions.Name(), permission: false, icon: PenSquare }
+        { name: "Submissions", label: $LL.Submissions.Name(), permission: false, icon: PenSquare },
+		{ name: "Performance", label: $LL.Performance(), permission: false, icon: ActivitySquare }
     ]
 	
 	function toggleSidebar() { 

@@ -25,7 +25,7 @@
     {#if user?.profileType === "Frontoffice"}
         <div class="flex gap-x-10">
             <Dashboard {user} />
-            <div class="flex flex-col flex-grow gap-y-10">
+            <div class="flex flex-col w-full gap-y-10">
                 <div class="flex flex-col xl:flex-row w-full justify-between gap-x-5 overflow-hidden">
                     <RatingReviews {submissions} reviews={completedReviews} />
                     <LineChart {submissions} reviews={completedReviews} />

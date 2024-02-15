@@ -1,5 +1,5 @@
 import { api } from "$lib/api/_api"
-import { error, redirect } from "@sveltejs/kit"
+import { redirect } from "@sveltejs/kit"
 import type { PageServerLoad } from "./$types"
 
 export const load: PageServerLoad = async ({ url, parent }) => {
@@ -16,12 +16,15 @@ export const load: PageServerLoad = async ({ url, parent }) => {
         const pathSegments = parsedURL.pathname.split("/").filter(Boolean)
         const reviewId = pathSegments[pathSegments.length - 1]
 
+        //Check page section => details for default
+        let pageSelected = parsedURL.searchParams.get("page") || "details"
+
         const [reviewResponse] = await Promise.all([
             api ("GET", `Reviews/${reviewId}`)
         ])
 
         let review = reviewResponse?.body
-        return { review }
+        return { review, pageSelected }
     } catch (ex) {
         throw ex
     }

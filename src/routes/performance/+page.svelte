@@ -9,12 +9,15 @@
     let submissions = data.submissions
     let selectedEmployee = employees[0]
     let selectedReviews: any[] = []
+    let selectedSubmissions: any[] = []
     let page = 1
 
     function handleCheckboxChange(event: any, review: Reviews) {
         const isChecked = event.target.checked
+        const reviewIndex = reviews.findIndex((item: any) => item.reviewId === review.reviewId)
         if (isChecked) {
             selectedReviews = [...selectedReviews, review]
+            selectedSubmissions = [...selectedSubmissions, submissions[reviewIndex]]
         }
         else selectedReviews = selectedReviews.filter((reviewArray: any) => reviewArray.reviewId !== review.reviewId)
     }
@@ -22,9 +25,6 @@
     function loadSubmissions() {
         page++
     }
-
-    $: console.log(selectedReviews)
-    $: console.log(submissions)
 </script>
 
 <div class="mx-auto flex flex-col xl:w-[1280px] p-5 gap-y-5">
@@ -52,7 +52,7 @@
                         <option value="{employee}">{employee.employeeName}</option>
                     {/each}
                 </select>
-            <StatsByFuncTable selectedEmployee={selectedEmployee} reviewChoosed={reviews} {submissions} />
+            <StatsByFuncTable selectedEmployee={selectedEmployee} reviewChoosed={reviews} submissions={selectedSubmissions} />
         </div>
     {/if}
 </div>

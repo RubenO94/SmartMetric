@@ -58,6 +58,6 @@
     }
 </script>
 
-<div class="w-full mt-8 p-5 border border-gray-300 bg-gray-100 shadow rounded">
+<div class="w-full h-60 mt-8 p-5 border border-gray-300 bg-gray-100 shadow rounded">
     <canvas id="myChart" />
 </div>
