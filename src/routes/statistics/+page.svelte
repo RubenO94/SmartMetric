@@ -192,7 +192,7 @@
                 {#each reviewChoosed as review, index}
                     <div class="flex flex-col w-[15%] border-l-2 border-black">
                         <div class="flex items-center justify-center h-10 border-b-2 border-black overflow-hidden">
-                            <p class="overflow-hidden text-ellipsis text-[0.5rem] text-center" title={review.translations[0].title}>{review.translations[0].title}</p>
+                            <p class="overflow-hidden text-ellipsis text-[0.6rem] text-center" title={review.translations[0].title}>{review.translations[0].title}</p>
                         </div>
                         {#each averagesByQuestion as row, jndex}
                             {#each row as number}

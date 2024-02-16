@@ -1,6 +1,7 @@
 <script lang="ts">
     import LL from "../../../i18n/i18n-svelte"
     import RadarChart from "$lib/components/statistics/RadarChart.svelte"
+    import BarChart from "./BarChart.svelte";
 
     export let selectedEmployee: any
     export let reviewChoosed: Reviews[]
@@ -66,8 +67,25 @@
                     typeQuestion: matchingQuestion ? matchingQuestion.responseType : null,
                     title: matchingQuestion ? reviewChoosed[index].translations[0].title : null
                 }
-            })
+            }).filter((temp: any) => temp.typeQuestion === "Text")
         })
+
+        otherQuestions.forEach((element: any, index: number) => {
+            singleChoiceAnswers[index] = Object.entries(element).map(([questionId, responses]) => {
+                const matchingQuestion = reviewChoosed[index].questions.find((question: any) => question.questionId === questionId)
+
+                return {
+                    questionId: questionId,
+                    responses: responses,
+                    titleQuestion: matchingQuestion ? matchingQuestion.translations[0].title : null,
+                    typeQuestion: matchingQuestion ? matchingQuestion.responseType : null,
+                    title: matchingQuestion ? reviewChoosed[index].translations[0].title : null,
+                    options: matchingQuestion ? matchingQuestion.singleChoiceOptions.map((temp: any) => temp.translations[0].description) : []
+                }
+            }).filter((temp: any) => temp.typeQuestion === "SingleChoice")
+        })
+
+        console.log(singleChoiceAnswers)
 
         responsesByQuestion.forEach((element: any, index: number) => {
             questionRatingAnswers[index] = Object.entries(element).map(([questionId, responses]) => {
@@ -119,7 +137,7 @@
             {#if typeof averagesByQuestion[index] === 'object' && averagesByQuestion[index] !== null}
                 <div class="flex flex-col w-[15%] border-l-2 border-black">
                     <div class="flex items-center justify-center h-10 border-b-2 border-black overflow-hidden">
-                        <p class="overflow-hidden text-ellipsis text-[0.5rem] text-center" title={review.translations[0].title}>{review.translations[0].title}</p>
+                        <p class="overflow-hidden text-ellipsis text-[0.6rem] text-center" title={review.translations[0].title}>{review.translations[0].title}</p>
                     </div>
                     {#each averagesByQuestion[index] as number}
                         <div class="h-[50px] flex justify-center items-center border-b-2 border-black">
@@ -140,9 +158,16 @@
     </div>
 </div>
 
+<!-- Charts for single choice options -->
+<!-- <div class="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-5">
+    {#each singleChoiceAnswers as singleChoiceAnswer}
+        <BarChart singleChoiceAnswers={singleChoiceAnswer} />
+    {/each}
+</div> -->
+
 <div class="flex flex-col gap-y-[10px]">
     {#each textAnswers as reviewAnswers, index}
-        {#if typeof reviewAnswers === 'object' && reviewAnswers[index] !== null}
+        {#if typeof reviewAnswers === 'object' && reviewAnswers[index] !== null && reviewAnswers.length !== 0 }
             <div class="flex flex-col gap-y-[5px] px-[10px] py-[5px] border border-gray-200 rounded">
                 {#each reviewAnswers as textAnswer, jndex}
                     {#if jndex == 0}
