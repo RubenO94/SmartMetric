@@ -16,15 +16,12 @@ export const load: PageServerLoad = async ({ url, parent }) => {
         const pathSegments = parsedURL.pathname.split("/").filter(Boolean)
         const reviewId = pathSegments[pathSegments.length - 1]
 
-        //Check page section => details for default
-        let pageSelected = parsedURL.searchParams.get("page") || "details"
-
         const [reviewResponse] = await Promise.all([
             api ("GET", `Reviews/${reviewId}`)
         ])
 
         let review = reviewResponse?.body
-        return { review, pageSelected }
+        return { review }
     } catch (ex) {
         throw ex
     }

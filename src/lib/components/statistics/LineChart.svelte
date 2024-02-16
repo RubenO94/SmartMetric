@@ -51,7 +51,12 @@
             options: {
                 scales: {
                     x: { display: false },
-                    y: { beginAtZero: true }
+                    y: { 
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
                 }
             }
         })

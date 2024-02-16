@@ -1,6 +1,7 @@
 <script lang="ts">
     import LL from "../../i18n/i18n-svelte"
     import StatsByFuncTable from '$lib/components/statistics/StatsByFuncTable.svelte'
+    import toast, { Toaster } from "svelte-french-toast";
 
     export let data
 
@@ -8,7 +9,7 @@
     let employees = data.employees
     let submissions = data.submissions
     let selectedEmployee = employees[0]
-    let selectedReviews: any[] = []
+    let selectedReviews: Reviews[] = []
     let selectedSubmissions: any[] = []
     let page = 1
 
@@ -19,13 +20,55 @@
             selectedReviews = [...selectedReviews, review]
             selectedSubmissions = [...selectedSubmissions, submissions[reviewIndex]]
         }
-        else selectedReviews = selectedReviews.filter((reviewArray: any) => reviewArray.reviewId !== review.reviewId)
+        else {
+            const submissionIndexToDelete = selectedReviews.findIndex((temp: any) => temp.reviewId === review.reviewId)
+            selectedReviews = selectedReviews.filter((temp: any) => temp.reviewId !== review.reviewId)
+            selectedSubmissions = selectedSubmissions.filter((temp: any, index: number) => index !== submissionIndexToDelete )
+        }
     }
 
     function loadSubmissions() {
+        if (selectedReviews.length <= 0) {
+            toast.error("Need at least one review")
+            return
+        }
+
+        const isValid = compareRatingQuestions()
+        if (!isValid) {
+            toast.error("Reviews choosed don't have the same rating questions")
+            return
+        }
+
         page++
     }
+
+    function compareRatingQuestions() {
+        if (selectedReviews.length < 2) return true
+
+        const referenceQuestions = selectedReviews[0].questions
+            .filter(question => question.responseType === "Rating")
+            .map(question => question.translations[0].title)
+        
+        for (let i = 1; i < selectedReviews.length; i++) {
+            const reviewQuestions = selectedReviews[i].questions
+                .filter(question => question.responseType === "Rating")
+                .map(question => question.translations[0].title)
+
+            referenceQuestions.sort()
+            reviewQuestions.sort()
+
+            if (referenceQuestions.length !== reviewQuestions.length) return false
+
+            for (let j = 0; j < referenceQuestions.length; j++) {
+                if (referenceQuestions[j] !== reviewQuestions[j]) return false
+            }
+        }
+
+        return true
+    }
 </script>
+
+<Toaster />
 
 <div class="mx-auto flex flex-col xl:w-[1280px] p-5 gap-y-5">
     {#if page == 1}
@@ -52,7 +95,7 @@
                         <option value="{employee}">{employee.employeeName}</option>
                     {/each}
                 </select>
-            <StatsByFuncTable selectedEmployee={selectedEmployee} reviewChoosed={reviews} submissions={selectedSubmissions} />
+            <StatsByFuncTable selectedEmployee={selectedEmployee} reviewChoosed={selectedReviews} submissions={selectedSubmissions} />
         </div>
     {/if}
 </div>

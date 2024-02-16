@@ -17,7 +17,7 @@
 
     let user = data.user
     let review = data.review
-    let pageSelected = data.pageSelected
+    let pageSelected = "details"
     let lang = $locale.toUpperCase()
     let activeLang = review.translations[0].language
     let createdDate: string, startDate: string | null, endDate: string | null = ''
@@ -184,7 +184,7 @@
             </div>
         </div>
         <div class="flex flex-col md:flex-row gap-y-2">
-            <div class="flex flex-col justify-center items-center gap-y-2 px-20 border-r border-gray-300">
+            <div class="flex flex-col justify-center items-center gap-y-2 px-20 md:border-r border-gray-300">
                 <svelte:component this={FileText} size={50} class="text-blue-500" />
                 <p class="font-semibold">{$LL.BasicInfo()}</p>
             </div>

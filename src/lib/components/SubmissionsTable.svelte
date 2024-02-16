@@ -60,7 +60,7 @@
         rows per page
     </div>
 
-    <div class="border border-gray-300 max-h-[516px] h-fit overflow-hidden overflow-y-auto shadow rounded">
+    <div class="border border-gray-300 max-h-[516px] h-fit overflow-y-auto overflow-x-auto shadow rounded">
         <table class="min-w-full">
             <thead class="bg-gray-200 sticky top-0">
                 <tr>
@@ -74,16 +74,16 @@
                     </th>
                 </tr>
                 <tr class="h-10">
-                    <th class="w-[30%]">
-                        <p>{$LL.SubmissionTable.Evaluator()}</p>
+                    <th class="w-[30%] text-left px-[10px]">
+                        {$LL.SubmissionTable.Evaluator()}
                     </th>
-                    <th class="w-[30%]">
+                    <th class="w-[30%] text-left px-[10px]">
                         {$LL.SubmissionTable.Evaluated()} 
                     </th>
-                    <th class="w-[25%]">
+                    <th class="w-[25%] text-left px-[10px]">
                         {$LL.SubmissionTable.SubmissionDate()}
                     </th>
-                    <th class="w-[10%]">
+                    <th class="w-[10%] text-left px-[10px]">
                         {$LL.SubmissionTable.Completed()}
                     </th>
                     <th class="w-[5%]"></th>
@@ -105,7 +105,7 @@
                                 <td>
                                     <div class="flex items-center gap-x-2 p-2">
                                         <CircleUserRound class="flex-shrink-0 w-6 h-6" /> 
-                                        <p class="overflow-x-hidden text-ellipsis whitespace-nowrap text-sm">{submission.evaluatorEmployeeId.employeeName}</p>
+                                        <p class="text-sm">{submission.evaluatorEmployeeId.employeeName}</p>
                                     </div>
                                 </td>
                                 <td>
@@ -122,7 +122,7 @@
                                 <td>
                                     <div class="flex py-2">
                                         {#if submission.submissionDate}
-                                            <p class="text-sm">{transformDate(submission.submissionDate, lang)}</p>
+                                            <p class="text-sm px-[10px]">{transformDate(submission.submissionDate, lang)}</p>
                                         {/if}
                                     </div>
                                 </td>

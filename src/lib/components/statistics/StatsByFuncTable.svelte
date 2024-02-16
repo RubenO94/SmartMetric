@@ -1,7 +1,6 @@
 <script lang="ts">
     import LL from "../../../i18n/i18n-svelte"
     import RadarChart from "$lib/components/statistics/RadarChart.svelte"
-    import { text } from "@sveltejs/kit";
 
     export let selectedEmployee: any
     export let reviewChoosed: Reviews[]
@@ -13,6 +12,7 @@
     let averagesByQuestion: any = []
     let otherQuestions: any[] = []
     let textAnswers: any[] = []
+    let singleChoiceAnswers: any[] = []
 
     $: {
         //Reset variables
@@ -22,6 +22,7 @@
         averagesByQuestion = []
         otherQuestions = []
         textAnswers = []
+        singleChoiceAnswers = []
 
         submissions.forEach((submissionsArray: any, index: number) => {
             submissionsArray.forEach((submission: any) => {
@@ -62,6 +63,7 @@
                     questionId: questionId,
                     responses: responses,
                     titleQuestion: matchingQuestion ? matchingQuestion.translations[0].title : null,
+                    typeQuestion: matchingQuestion ? matchingQuestion.responseType : null,
                     title: matchingQuestion ? reviewChoosed[index].translations[0].title : null
                 }
             })
@@ -132,7 +134,7 @@
         {/each}
     </div>
     <div class="flex flex-col justify-center items-center w-full lg:w-[30%] border border-gray-200 rounded">
-        <div class="flex justify-center w-96 h-96">
+        <div class="flex justify-center w-[350px] h-[350px]">
             <RadarChart {averagesByQuestion} {questionRatingAnswers} title={reviewChoosed.map((review) => review.translations[0].title)} />
         </div>
     </div>
@@ -142,13 +144,13 @@
     {#each textAnswers as reviewAnswers, index}
         {#if typeof reviewAnswers === 'object' && reviewAnswers[index] !== null}
             <div class="flex flex-col gap-y-[5px] px-[10px] py-[5px] border border-gray-200 rounded">
-                {#each reviewAnswers as textAnswers, jndex}
+                {#each reviewAnswers as textAnswer, jndex}
                     {#if jndex == 0}
-                        <p class="font-semibold">{textAnswers.title}</p>
+                        <p class="font-semibold">{textAnswer.title}</p>
                     {/if}
                     <div class="flex flex-col text-sm">
-                        <p class="font-medium text-gray-600 italic">{textAnswers.titleQuestion}</p>
-                        {#each textAnswers.responses as response}
+                        <p class="font-medium text-gray-600 italic">{textAnswer.titleQuestion}</p>
+                        {#each textAnswer.responses as response}
                             <li>{response}</li>
                         {/each}
                     </div>

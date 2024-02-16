@@ -22,8 +22,12 @@
         if (reviewChoosed.length <= 0) {
             toast.error("Need at least one review")
             return
+        }
+        const isValid = compareRatingQuestions()
+        if (!isValid) {
+            toast.error("Reviews choosed don't have the same rating questions")
+            return 
         } 
-
         page += 1
 
         try {
@@ -38,6 +42,31 @@
         } catch (error) {
             console.error("Error", error)
         }
+    }
+
+    function compareRatingQuestions() {
+        if (reviewChoosed.length < 2) return true
+
+        const referenceQuestions = reviewChoosed[0].questions
+            .filter(question => question.responseType === "Rating")
+            .map(question => question.translations[0].title);
+
+        for (let i = 1; i < reviewChoosed.length; i++) {
+            const reviewQuestions = reviewChoosed[i].questions
+                .filter(question => question.responseType === "Rating")
+                .map(question => question.translations[0].title);
+            
+            referenceQuestions.sort()
+            reviewQuestions.sort()
+
+            if (referenceQuestions.length !== reviewQuestions.length) return false
+
+            for (let j = 0; j < referenceQuestions.length; j++) {
+                if (referenceQuestions[j] !== reviewQuestions[j]) return false;
+            }
+        }
+
+        return true
     }
     
     function createObject() {
@@ -181,7 +210,7 @@
                 {/each}
             </div>
             <div class="flex flex-col justify-center items-center w-full lg:w-[30%] border border-gray-200 rounded">
-                <div class="flex justify-center w-96 h-96">
+                <div class="flex justify-center w-[350px] h-[350px]">
                     <RadarChart {averagesByQuestion} {questionRatingAnswers} title={reviewChoosed.map((review) => review.translations[0].title)} />
                 </div>
             </div>
