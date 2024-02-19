@@ -13,6 +13,7 @@
     let currentSubPage: number = 1
     let pageSize: number = 10
     let searchName = ""
+    let statusSubmission: number = 0
 
     function changePage(change: string) {
         if (change === 'increment' && currentSubPage < Math.ceil(totalSubmissions / pageSize)) currentSubPage++
@@ -22,7 +23,7 @@
 
     async function loadSubmissions() {
         const [response] = await Promise.all([
-            api("GET", `Reviews/Submissions?reviewId=${review.reviewId}&page=${currentSubPage}&pageSize=${pageSize}&name=${searchName}`)
+            api("GET", `Reviews/Submissions?reviewId=${review.reviewId}&page=${currentSubPage}&pageSize=${pageSize}&name=${searchName}&statusSubmission=${statusSubmission}`)
         ])
 
         if (response) {
@@ -50,14 +51,23 @@
 </script>
 
 <div class="flex flex-col gap-y-[10px]">
-    <div>
-        Showing 
-        <select bind:value={pageSize} on:change={() => { currentSubPage = 1; loadSubmissions() }} class="border border-gray-300">
-            <option value={10}>10</option>
-            <option value={25}>25</option>
-            <option value={50}>50</option>
-        </select>
-        rows per page
+    <div class="flex justify-between">
+        <div class="flex gap-x-[5px]">
+            {$LL.Showing()}
+            <select bind:value={pageSize} on:change={() => { currentSubPage = 1; loadSubmissions() }} class="border border-gray-300 rounded">
+                <option value={10}>10</option>
+                <option value={25}>25</option>
+                <option value={50}>50</option>
+            </select>
+            {$LL.RowsPerPage()}
+        </div>
+        <div class="flex">
+            <select bind:value={statusSubmission} on:change={() => { currentSubPage = 1; loadSubmissions() }} class="border border-gray-300 rounded">
+                <option value={0}>{$LL.All()}</option>
+                <option value={1}>{$LL.Completed()}</option>
+                <option value={2}>{$LL.ToBeSubmitted()}</option>
+            </select>
+        </div>
     </div>
 
     <div class="border border-gray-300 max-h-[516px] h-fit overflow-y-auto overflow-x-auto shadow rounded">
@@ -157,7 +167,7 @@
     </div>
 
     <div class="flex justify-between text-sm px-[5px]">
-        <p>Showing {firstElement} to {lastElement} of {totalSubmissions} items</p>
+        <p>{$LL.Showing()} {firstElement} {$LL.To()} {lastElement} {$LL.Of()} {totalSubmissions} items</p>
         <div class="flex gap-x-[10px]">
             <button on:click={() => changePage("decrement")} class="mx-auto border border-gray-200 hover:bg-gray-100 shadow rounded"><ChevronLeft /></button>
             <button on:click={() => changePage("increment")} class="mx-auto border border-gray-200 hover:bg-gray-100 shadow rounded"><ChevronRight /></button>

@@ -231,7 +231,13 @@ const en: BaseTranslation = {
 	ChooseEmployee: "Choose a employee and check his individual statistics for this review(s)",
 	Performance: "Performance",
 	TeamPerformance: "Team Performance",
-	EvaluationOf: "Evaluation of"
+	EvaluationOf: "Evaluation of",
+	Showing: "Showing",
+	RowsPerPage: "rows per page",
+	To: "to",
+	Of: "of",
+	All: "All",
+	ToBeSubmitted: "To be submitted"
 }
 
 export default en

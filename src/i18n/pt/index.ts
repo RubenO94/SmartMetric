@@ -231,7 +231,13 @@ const pt: Translation = {
 	ChooseEmployee: 'Escolha um funcionário e veja as estatisticas individuais para esta/estas revisão/revisões.',
 	Performance: 'Desempenho',
 	TeamPerformance: 'Desempenho Equipa',
-	EvaluationOf: 'Avaliação de'
+	EvaluationOf: 'Avaliação de',
+	Showing: 'Mostrar',
+	RowsPerPage: 'items por página',
+	To: 'até',
+	Of: 'de',
+	All: 'Todas',
+	ToBeSubmitted: 'Por submeter'
 }
 
 export default pt

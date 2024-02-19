@@ -872,6 +872,30 @@ type RootTranslation = {
 	 * E​v​a​l​u​a​t​i​o​n​ ​o​f
 	 */
 	EvaluationOf: string
+	/**
+	 * S​h​o​w​i​n​g
+	 */
+	Showing: string
+	/**
+	 * r​o​w​s​ ​p​e​r​ ​p​a​g​e
+	 */
+	RowsPerPage: string
+	/**
+	 * t​o
+	 */
+	To: string
+	/**
+	 * o​f
+	 */
+	Of: string
+	/**
+	 * A​l​l
+	 */
+	All: string
+	/**
+	 * T​o​ ​b​e​ ​s​u​b​m​i​t​t​e​d
+	 */
+	ToBeSubmitted: string
 }
 
 export type TranslationFunctions = {
@@ -1733,6 +1757,30 @@ export type TranslationFunctions = {
 	 * Evaluation of
 	 */
 	EvaluationOf: () => LocalizedString
+	/**
+	 * Showing
+	 */
+	Showing: () => LocalizedString
+	/**
+	 * rows per page
+	 */
+	RowsPerPage: () => LocalizedString
+	/**
+	 * to
+	 */
+	To: () => LocalizedString
+	/**
+	 * of
+	 */
+	Of: () => LocalizedString
+	/**
+	 * All
+	 */
+	All: () => LocalizedString
+	/**
+	 * To be submitted
+	 */
+	ToBeSubmitted: () => LocalizedString
 }
 
 export type Formatters = {}
