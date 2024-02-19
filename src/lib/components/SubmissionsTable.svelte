@@ -51,7 +51,7 @@
 </script>
 
 <div class="flex flex-col gap-y-[10px]">
-    <div class="flex justify-between">
+    <div class="flex flex-col md:flex-row justify-between gap-y-[10px]">
         <div class="flex gap-x-[5px]">
             {$LL.Showing()}
             <select bind:value={pageSize} on:change={() => { currentSubPage = 1; loadSubmissions() }} class="border border-gray-300 rounded">
