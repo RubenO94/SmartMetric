@@ -51,6 +51,10 @@
     $: addLangs = languages.filter(language => language.checked).map(language => language.name)
 </script>
 
+<svelte:head>
+    <title>{$LL.AddLanguage()}</title>
+</svelte:head>
+
 <Toaster />
 
 <div class="mx-auto flex flex-col xl:w-[1280px] p-5 gap-y-5">

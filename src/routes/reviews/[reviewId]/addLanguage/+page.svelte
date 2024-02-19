@@ -56,6 +56,10 @@
     $: console.log(review)
 </script>
 
+<svelte:head>
+    <title>{$LL.AddLanguage()}</title>
+</svelte:head>
+
 <div class="mx-auto flex flex-col xl:w-[1280px] p-5 gap-y-5">
     <div class="flex flex-col md:flex-row gap-x-4 items-center text-blue-500">
         <div class="block">

@@ -160,9 +160,7 @@
                             <div class="bg-white flex flex-col gap-y-5 rounded shadow-md p-8 mx-auto my-20 w-4/5 lg:w-3/5 xl:w-2/5">
                                 <div class="flex items-center gap-5">
                                     <div class="bg-red-200 text-red-500 flex items-center justify-center w-10 h-10 p-5 rounded-full">
-                                        <p>
-                                            <svelte:component this={AlertTriangle} />
-                                        </p>
+                                        <p><svelte:component this={AlertTriangle} /></p>
                                     </div>
                                     <div>
                                         <h1 class="font-bold text-xl mb-2">{$LL.ChangeReviewStatusDialog2()}</h1>
@@ -177,8 +175,12 @@
                         </div>
                     {/if}
                     <div class="flex flex-col w-full items-end gap-y-1">
-                        <p>{$LL.StartDate()}: {startDate}</p>
-                        <p>{$LL.EndDate()}: {endDate}</p>
+                        {#if startDate}
+                            <p>{$LL.StartDate()}: {startDate}</p>
+                        {/if}
+                        {#if endDate}
+                            <p>{$LL.EndDate()}: {endDate}</p>
+                        {/if}
                     </div>
                 </div>
             </div>

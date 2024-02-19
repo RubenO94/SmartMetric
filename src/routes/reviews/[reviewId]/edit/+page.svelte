@@ -7,13 +7,17 @@
     let review: Reviews = data.review
     let action = 'edit'
 
-    review.reviewDepartmentsIds = review.departments.map(department => department.departmentId)
-    review.reviewEmployeesIds = review.employees.map(employee => employee.employeeId)
+    review.reviewDepartmentsIds = review.departments!.map(department => department.departmentId)
+    review.reviewEmployeesIds = review.employees!.map(employee => employee.employeeId)
     review.departments = []
     review.employees = []
     console.log(review)
 
 </script>
+
+<svelte:head>
+    <title>{$LL.EditReview()}</title>
+</svelte:head>
 
 <div class="mx-auto flex flex-col w-[1200px] p-10 gap-y-5">
     <div class="flex gap-x-4 text-blue-500">

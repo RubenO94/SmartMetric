@@ -27,6 +27,10 @@
     }
 </script>
 
+<svelte:head>
+    <title>{$LL.Form()}</title>
+</svelte:head>
+
 <div class="mx-auto flex flex-col xl:w-[1280px] p-5 gap-y-10">
     <div class="flex flex-col md:flex-row gap-y-5 justify-between">
         <p class="font-semibold text-2xl">{$LL.Form()}</p>

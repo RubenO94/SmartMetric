@@ -9,5 +9,7 @@ export function transformDate(inputDate: string, lang?: string) {
         second: 'numeric',
     };
 
+    if (inputDate == null) return ''
+
     return date.toLocaleString(lang, options)
 }

@@ -119,6 +119,10 @@
     $: chooseLanguages = languages.filter(language => language.checked).map(language => language.name)
 </script>
 
+<svelte:head>
+    <title>{$LL.ReviewButton()}</title>
+</svelte:head>
+
 <Toaster />
 
 <div class="mx-auto flex flex-col xl:w-[1280px] p-10 gap-y-5">
