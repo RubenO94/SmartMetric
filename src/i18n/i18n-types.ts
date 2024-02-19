@@ -864,6 +864,14 @@ type RootTranslation = {
 	 * P​e​r​f​o​r​m​a​n​c​e
 	 */
 	Performance: string
+	/**
+	 * T​e​a​m​ ​P​e​r​f​o​r​m​a​n​c​e
+	 */
+	TeamPerformance: string
+	/**
+	 * E​v​a​l​u​a​t​i​o​n​ ​o​f
+	 */
+	EvaluationOf: string
 }
 
 export type TranslationFunctions = {
@@ -1717,6 +1725,14 @@ export type TranslationFunctions = {
 	 * Performance
 	 */
 	Performance: () => LocalizedString
+	/**
+	 * Team Performance
+	 */
+	TeamPerformance: () => LocalizedString
+	/**
+	 * Evaluation of
+	 */
+	EvaluationOf: () => LocalizedString
 }
 
 export type Formatters = {}

@@ -17,7 +17,7 @@
     $: submissions = submissions.filter(temp => temp.submissionDate == null)
 </script>
 
-<div class="w-1/4">
+<div class="w-80">
     <div class="flex gap-x-2 px-2 py-2 border-b border-gray-300">
         <p class="font-medium">{$LL.Dashboard()}</p>
     </div>

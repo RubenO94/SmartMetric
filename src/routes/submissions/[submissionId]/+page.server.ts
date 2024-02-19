@@ -18,6 +18,8 @@ export const load: PageServerLoad = async ({ url, parent }) => {
         ])
         const submission = submissionResponse?.body
 
+        if (submission.submissionDate != null) throw redirect(302, "/")
+
         const [questionsResponse] = await Promise.all([
             api("GET", `Questions?reviewId=${submission.reviewId}`)
         ])

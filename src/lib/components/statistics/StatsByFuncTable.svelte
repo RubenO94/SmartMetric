@@ -85,8 +85,6 @@
             }).filter((temp: any) => temp.typeQuestion === "SingleChoice")
         })
 
-        console.log(singleChoiceAnswers)
-
         responsesByQuestion.forEach((element: any, index: number) => {
             questionRatingAnswers[index] = Object.entries(element).map(([questionId, responses]) => {
                 const matchingQuestion = reviewChoosed[index].questions.find((question: any) => question.questionId === questionId)
@@ -117,7 +115,7 @@
     <div class="flex w-full lg:w-[70%] border-2 border-black h-fit overflow-hidden rounded">
         <div class="flex flex-col flex-grow">
             <div class="bg-black text-white h-10 flex justify-center items-center">
-                <p>{ selectedEmployee.employeeName }</p>
+                <p>{ selectedEmployee.employeeName || selectedEmployee.userName }</p>
             </div>
             {#each reviewChoosed[0].questions as question}
                 {#if question.responseType === 'Rating'}

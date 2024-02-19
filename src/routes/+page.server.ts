@@ -8,6 +8,9 @@ export const load: PageServerLoad = async ({ locals, parent }) => {
         let total = 0
         let currentPage = 1
 
+        const [formsResponse] = await Promise.all([api("GET", `FormTemplates`)])
+        let totalForms = formsResponse?.total
+
         do {
             const [reviewsResponse] = await Promise.all([
                 api("GET", `Reviews?page=${currentPage}&pageSize=20`)
@@ -30,7 +33,7 @@ export const load: PageServerLoad = async ({ locals, parent }) => {
             return { submissions: submissions?.body, reviews }
         }
 
-        return { reviews }
+        return { reviews, totalForms }
     } catch (error) {
         throw error
     }

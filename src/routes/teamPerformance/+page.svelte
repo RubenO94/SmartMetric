@@ -1,21 +1,24 @@
 <script lang="ts">
-    import toast, { Toaster } from "svelte-french-toast";
     import LL from "../../i18n/i18n-svelte"
-    import StatsByFuncTable from "$lib/components/statistics/StatsByFuncTable.svelte";
-    import ReviewsStatusChart from "$lib/components/statistics/ReviewsStatusChart.svelte";
+    import StatsByFuncTable from '$lib/components/statistics/StatsByFuncTable.svelte'
+    import toast, { Toaster } from "svelte-french-toast"
 
     export let data
 
-    let page = 1
+    let reviews = data.reviews
+    let employees = data.employees 
+    let submissions = data.submissions
+    let selectedEmployee = employees[0]
     let selectedReviews: Reviews[] = []
     let selectedSubmissions: any[] = []
+    let page = 1
 
     function handleCheckboxChange(event: any, review: Reviews) {
         const isChecked = event.target.checked
-        const reviewIndex = data.reviews.findIndex((item: any) => item.reviewId === review.reviewId)
+        const reviewIndex = reviews.findIndex((item: any) => item.reviewId === review.reviewId)
         if (isChecked) {
             selectedReviews = [...selectedReviews, review]
-            selectedSubmissions = [...selectedSubmissions, data.submissions[reviewIndex]]
+            selectedSubmissions = [...selectedSubmissions, submissions[reviewIndex]]
         }
         else {
             const submissionIndexToDelete = selectedReviews.findIndex((temp: any) => temp.reviewId === review.reviewId)
@@ -65,22 +68,32 @@
     }
 
     function handleReviews() {
-        for (let index = data.reviews.length - 1; index >= 0; index--) {
-            let reviewShouldBeRemoved = true
-
-            for (const submission of data.submissions[index]) {
-                const evaluatedEmployeeId = submission.evaluatedEmployeeId.employeeId
-                
-                if (evaluatedEmployeeId === data.user?.employeeId) {
-                    reviewShouldBeRemoved = false
-                    break
-                }
+        for (let index = reviews.length - 1; index >= 0; index--) {
+            if (employees === null || employees.length === 0) {
+                reviews.splice(index, 1)
+                submissions.splice(index, 1)
+                continue
             }
+
+            let reviewShouldBeRemoved = true;
+
+            for (const submission of submissions[index]) {
+                const evaluatedEmployeeId = submission.evaluatedEmployeeId.employeeId;
+
+                const matchFound = employees.some((employee: any) => {
+                    return employee.employeeId === evaluatedEmployeeId;
+                })
+
+                if (matchFound) {
+                    reviewShouldBeRemoved = false;
+                    break;
+                }
+            };
 
             if (reviewShouldBeRemoved) {
-                data.reviews.splice(index, 1)
-                data.submissions.splice(index, 1)
-            }
+                reviews.splice(index, 1)
+                submissions.splice(index, 1)
+            } 
         }
     }
 
@@ -88,7 +101,7 @@
 </script>
 
 <svelte:head>
-    <title>{$LL.Performance()}</title>
+    <title>{$LL.TeamPerformance()}</title>
 </svelte:head>
 
 <Toaster />
@@ -101,7 +114,7 @@
                 <p class="text-xs text-gray-400">{ $LL.SelectReviewText() }</p>
             </div>
 
-            {#each data.reviews as review}
+            {#each reviews as review}
                 <label for="{review.reviewId}">
                     <input id="{review.reviewId}" type="checkbox" on:change={(event) => handleCheckboxChange(event, review)} />
                     <span>{review.translations[0].title}</span>
@@ -110,8 +123,15 @@
             <button on:click={() => loadSubmissions()} class="p-1 border border-transparent text-white bg-blue-500 hover:bg-blue-700 hover:border-blue-900 rounded-lg">{$LL.Submit()}</button>
         </div>
     {:else if page == 2}
+        <p class="font-semibold text-lg">{$LL.EvaluationOf()} {selectedEmployee.employeeName}</p>
         <div class="flex flex-col gap-y-5">
-            <StatsByFuncTable selectedEmployee={data.user} reviewChoosed={selectedReviews} submissions={selectedSubmissions} />
+            <p class="text-xs text-gray-400">{$LL.ChooseEmployee()}</p>
+                <select bind:value={selectedEmployee} class="border border-gray-300 bg-gray-100 p-2 rounded-lg">
+                    {#each employees as employee}
+                        <option value="{employee}">{employee.employeeName}</option>
+                    {/each}
+                </select>
+            <StatsByFuncTable selectedEmployee={selectedEmployee} reviewChoosed={selectedReviews} submissions={selectedSubmissions} />
         </div>
     {/if}
 </div>

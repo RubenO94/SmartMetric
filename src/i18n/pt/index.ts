@@ -229,7 +229,9 @@ const pt: Translation = {
 	Evaluated: 'Avaliados',
 	YourEvaluations: 'As suas avaliações',
 	ChooseEmployee: 'Escolha um funcionário e veja as estatisticas individuais para esta/estas revisão/revisões.',
-	Performance: 'Desempenho'
+	Performance: 'Desempenho',
+	TeamPerformance: 'Desempenho Equipa',
+	EvaluationOf: 'Avaliação de'
 }
 
 export default pt

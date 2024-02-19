@@ -1,14 +1,7 @@
 <script lang="ts">
-    import { Settings } from "lucide-svelte";
     import LL from "../../i18n/i18n-svelte"
 
     export let user: any
-
-    function checkPermission(string: string) {
-        let window = user.authorizations.find((m: any) => m.windowType == "AdminSettings")
-        let permission = window.permissions.find((n: any) => n.permissionType == string)
-        return permission.hasPermission
-    }
 </script>
 
 <div class="flex flex-col gap-y-4 bg-gray-200 h-auto p-2 pb-5">
@@ -32,22 +25,11 @@
             <p class="font-semibold">{$LL.Hello()},</p>
             <p class="line-clamp-1">
                 {#if user && user.userName}
-                    {user.userName}
+                    <p title="{user.userName}">{user.userName}</p>
                 {:else}
-                    {$LL.User()}
+                    <p>{$LL.User()}</p>
                 {/if}
             </p>
         </div>
     </div>
-    <!-- Other Buttons (Ex: Settings) -->
-    <!-- <div class="flex flex-row gap-x-2">
-        {#if checkPermission("Read")}
-            <div class="relative inline-block group">
-                <a href="/adminSettings" class="flex justify-center rounded px-2 py-1 border border-transparent hover:bg-gray-300">
-                    <svelte:component this={Settings} />
-                </a>
-                <div class="absolute w-max top-0 left-full mt-2 ml-2 p-2 bg-gray-800 text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-x-0">{$LL.Settings()}</div>
-            </div>
-        {/if}
-    </div> -->
 </div>
