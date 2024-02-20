@@ -15,27 +15,28 @@
     })
 
     $: submissions = submissions.filter(temp => temp.submissionDate == null)
-    $: console.log(submissions)
 </script>
 
 <div class="w-80">
     <div class="flex gap-x-2 px-2 py-2 border-b border-gray-300">
         <p class="font-medium">{$LL.Dashboard()}</p>
     </div>
-    <p class="py-5 font-bold text-gray-500">{$LL.Tasklist()} ({submissions.length})</p>
+    <a href="/submissions" class="flex my-5 font-bold text-gray-500">{$LL.Tasklist()} ({submissions.length})</a>
     {#if submissions.length > 0}
         <div class="flex flex-col gap-y-2">
-            {#each submissions as submission}
-                <li>
-                    <a href="/submissions/{submission.submissionId}">{$LL.Evaluate()}: 
-                        {!submission.evaluatedEmployeeId ?
-                            submission.evaluatedDepartmentId.departmentDescription :
-                            (submission.evaluatedEmployeeId.employeeName === user.userName) ?
-                                $LL.SelfEvaluation.Label() :
-                                submission.evaluatedEmployeeId.employeeName
-                        }
-                    </a>
-                </li>
+            {#each submissions as submission, index}
+                {#if index < 5}
+                    <li>
+                        <a href="/submissions/{submission.submissionId}">{$LL.Evaluate()}: 
+                            {!submission.evaluatedEmployeeId ?
+                                submission.evaluatedDepartmentId.departmentDescription :
+                                (submission.evaluatedEmployeeId.employeeName === user.userName) ?
+                                    $LL.SelfEvaluation.Label() :
+                                    submission.evaluatedEmployeeId.employeeName
+                            }
+                        </a>
+                    </li>
+                {/if}
             {/each}
         </div>
     {:else}
