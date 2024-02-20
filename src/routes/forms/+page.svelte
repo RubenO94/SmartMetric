@@ -1,20 +1,21 @@
 <script lang="ts">
     import { api } from "$lib/api/_api"
-    import { LL, locale } from "../../i18n/i18n-svelte"
-    import { AlertCircle, Eye, MoreVertical, Plus, Search, Trash2, XCircle } from 'lucide-svelte'
+    import { LL } from "../../i18n/i18n-svelte"
+    import { AlertCircle, ChevronLeft, ChevronRight, Eye, MoreVertical, Plus, Search, Trash2, XCircle } from 'lucide-svelte'
     import toast, { Toaster } from "svelte-french-toast"
     import { Dropdown, DropdownItem } from 'flowbite-svelte'
+    import { onMount } from "svelte";
 
     export let data
 
-    let formTemplates = data.formTemplates
     let user = data.user
+    let forms: any = []
     let languages = ['PT', 'EN', 'ES', 'FR', 'PL']
-    // let lang = $locale.toUpperCase()
     let lang: string = languages[0]
-    let formTemplateToDelete = ''
-    let isDropdownOpen: boolean[] = Array(formTemplates.length).fill(false)
-    let searchInput = ''
+    let formTemplateToDelete = ""
+    let isDropdownOpen: boolean[] = Array(forms.length).fill(false)
+    let searchInput = ""
+    let firstElement: number = 0, lastElement: number = 0, totalForms: number = 0, currentPage: number = 1, sizePage: number = 5
 
     function checkPermission(permissionType: string) {
         const window = user?.authorizations.find((x: any) => x.windowType === "Forms")
@@ -36,6 +37,25 @@
         }, 100);
     }
 
+    function changePage(change: string) {
+        if (change === 'increment' && currentPage < Math.ceil(totalForms / sizePage)) currentPage++
+        else if (change === 'decrement' && currentPage > 1) currentPage--
+        loadFormTemplate()
+    }
+
+    async function loadFormTemplate() {
+        const [response] = await Promise.all([
+            api("GET", `FormTemplates?page=${currentPage}&pageSize=${sizePage}&language=${lang}&name=${searchInput}`)
+        ])
+
+        if (response) {
+            forms = response.body
+            totalForms = response.total
+        } else {
+            console.log("Failed to fetch forms")
+        }
+    }
+
     async function deleteFormTemplate() {
         hideDialog()
         const [requestForm] = await Promise.all([
@@ -45,13 +65,17 @@
         let response = requestForm
         if (response?.status == 204) {
             toast.success($LL.DeleteFormMessage())
-            console.log(formTemplates)
-            formTemplates = formTemplates.filter((element: any) => element.formTemplateId !== formTemplateToDelete)
-            console.log(formTemplates)
+            forms = forms.filter((element: any) => element.formTemplateId !== formTemplateToDelete)
         } else toast.error(response?.details)
+        loadFormTemplate()
     }
 
-    $: filteredItems = formTemplates.filter((element: any) => element.translations.some((f: any) => f.language === lang && f.title.toLowerCase().includes(searchInput.toLowerCase())))
+    onMount(async () => { loadFormTemplate() })
+
+    $: {
+        firstElement = Math.min((currentPage - 1) * sizePage + 1, totalForms)
+        lastElement = Math.min(currentPage * sizePage, totalForms)
+    }
 </script>
 
 <svelte:head>
@@ -83,7 +107,7 @@
     <!-- Changing language -->
     <div class="flex mx-auto p-1 gap-x-1 border border-gray-300 text-gray-500 rounded">
         {#each languages as language}
-            <button class="py-1 px-2 rounded text-sm {language === lang ? 'bg-blue-500 text-white' : 'hover:bg-gray-100' }" on:click={() => {lang = language, searchInput = ''}}>{language}</button>
+            <button class="py-1 px-2 rounded text-sm {language === lang ? 'bg-blue-500 text-white' : 'hover:bg-gray-100' }" on:click={() => {lang = language, searchInput = '', loadFormTemplate()}}>{language}</button>
         {/each}
     </div>
 
@@ -102,19 +126,19 @@
 
     <!-- Search bar -->
     <div class="flex relative">
-        <input bind:value={searchInput} type="text" class="bg-gray-100 w-full pl-12 pr-5 py-4 rounded-lg text-sm border border-gray-200" placeholder="{$LL.FormSearchInput()}" /> 
+        <input bind:value={searchInput} on:input={() => { currentPage = 1; loadFormTemplate() }} type="text" class="bg-gray-100 w-full pl-12 pr-5 py-4 rounded-lg text-sm border border-gray-200" placeholder="{$LL.FormSearchInput()}" /> 
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"> 
             <Search />
         </div>
     </div>
 
     <!-- List of form models -->
-    <div class="flex flex-col">
-        {#if filteredItems.length > 0}
-            {#each filteredItems as formTemplate, index}
+    <div class="flex flex-col h-[400px] overflow-hidden">
+        {#if totalForms > 0}
+            {#each forms as formTemplate, index}
                 {#each formTemplate.translations as translation}
                     {#if translation.language == lang}
-                        <div class="flex gap-x-2 justify-between md:items-center p-4 border-b border-gray-300 {index == 0 ? 'rounded-t' : ''}">
+                        <div class="flex gap-x-2 justify-between md:items-center h-20 p-4 border-b border-gray-300 {index == 0 ? 'rounded-t' : ''}">
                             <div class="flex gap-x-4 flex-grow">
                                 <div class="flex flex-col gap-x-1 pt-1">
                                     <p class="text-sm md:text-base">{translation.title}</p>
@@ -161,4 +185,14 @@
             </div>
         {/if}
     </div>
+
+    {#if totalForms != 0}
+        <div class="flex justify-between text-sm px-[5px]">
+            <p>{$LL.Showing()} {firstElement} {$LL.To()} {lastElement} {$LL.Of()} {totalForms} items</p>
+            <div class="flex gap-x-[10px]">
+                <button on:click={() => changePage("decrement")} class="mx-auto border border-gray-200 hover:bg-gray-100 shadow rounded"><ChevronLeft /></button>
+                <button on:click={() => changePage("increment")} class="mx-auto border border-gray-200 hover:bg-gray-100 shadow rounded"><ChevronRight /></button>
+            </div>
+        </div>
+    {/if}
 </div>

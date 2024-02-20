@@ -896,6 +896,10 @@ type RootTranslation = {
 	 * T​o​ ​b​e​ ​s​u​b​m​i​t​t​e​d
 	 */
 	ToBeSubmitted: string
+	/**
+	 * N​o​t​h​i​n​g​ ​t​o​ ​s​h​o​w
+	 */
+	NothingToShow: string
 }
 
 export type TranslationFunctions = {
@@ -1781,6 +1785,10 @@ export type TranslationFunctions = {
 	 * To be submitted
 	 */
 	ToBeSubmitted: () => LocalizedString
+	/**
+	 * Nothing to show
+	 */
+	NothingToShow: () => LocalizedString
 }
 
 export type Formatters = {}

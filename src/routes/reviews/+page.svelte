@@ -1,15 +1,18 @@
 <script lang="ts">
     import { goto } from "$app/navigation"
     import { LL } from "../../i18n/i18n-svelte"
-    import { Plus, Search, AlertCircle } from 'lucide-svelte'
+    import { Plus, Search, AlertCircle, ChevronLeft, ChevronRight } from 'lucide-svelte'
     import ProgressBar from "$lib/components/ProgressBar.svelte"
+    import { onMount } from "svelte";
+    import { api } from "$lib/api/_api";
 
     export let data
 
-    let reviews = data.reviews
     let user = data.user
+    let reviews: any[] = []
     let activeSeparator: string = 'Active'
     let searchInput = ''
+    let firstElement = 0, lastElement = 0, totalReviews = 0, currentPage = 1, sizePage = 5
 
     function showStatusReview(reviewStatus: string) {
         switch(reviewStatus) {
@@ -27,8 +30,31 @@
         return permission.hasPermission
     }
 
-    $: hasActiveReview = reviews.some((review: any) => review.reviewStatus === activeSeparator) 
-    $: filteredItems = reviews.filter((element: any) => element.translations.some((r: any) => r.title.toLowerCase().includes(searchInput.toLowerCase())))
+    function changePage(change: string) {
+        if (change === 'increment' && currentPage < Math.ceil(totalReviews / sizePage)) currentPage++
+        else if (change === 'decrement' && currentPage > 1) currentPage--
+        loadReviews()
+    }
+
+    async function loadReviews() {
+        const [response] = await Promise.all([
+            api("GET", `Reviews?page=${currentPage}&pageSize=${sizePage}&name=${searchInput}&reviewStatus=${activeSeparator}`)
+        ])
+
+        if (response) {
+            reviews = response.body
+            totalReviews = response.total
+        } else {
+            console.log("Failed to fetch reviews")
+        }
+    }
+
+    onMount(async () => { loadReviews() })
+
+    $: {
+        firstElement = Math.min((currentPage - 1) * sizePage + 1, totalReviews)
+        lastElement = Math.min(currentPage * sizePage, totalReviews)
+    }
 </script>
 
 <svelte:head>
@@ -48,22 +74,22 @@
 
     <!-- Search Bar -->
     <div class="flex relative">
-        <input bind:value={searchInput} type="text" class="bg-gray-100 w-full pl-12 pr-5 py-4 rounded-lg text-sm border border-gray-200" placeholder="{$LL.ReviewSearchInput()}" /> 
+        <input bind:value={searchInput} on:input={() => { currentPage = 1; loadReviews() }} type="text" class="bg-gray-100 w-full pl-12 pr-5 py-4 rounded-lg text-sm border border-gray-200" placeholder="{$LL.ReviewSearchInput()}" /> 
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"> 
             <Search />
         </div>
     </div>
 
     <!-- Table list of reviews -->
-    <div class="flex flex-col">
+    <div class="flex flex-col h-[500px] overflow-hidden">
         <div class="flex gap-x-2 overflow-x-auto whitespace-nowrap">
-            <button on:click={() => activeSeparator = 'Active'} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator === 'Active' ? 'border-blue-500 text-blue-500' : 'border-transparent'}">{$LL.Ongoing()}</button>
-            <button on:click={() => activeSeparator = 'NotStarted'} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator === 'NotStarted' ? 'border-blue-500 text-blue-500' : 'border-transparent'}">{$LL.NotStarted()}</button>
-            <button on:click={() => activeSeparator = 'Canceled'} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator === 'Canceled' ? 'border-blue-500 text-blue-500' : 'border-transparent'}">{$LL.Canceled()}</button>
-            <button on:click={() => activeSeparator = 'Completed'} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator === 'Completed' ? 'border-blue-500 text-blue-500' : 'border-transparent'}">{$LL.Completed()}</button>
+            <button on:click={() => { activeSeparator = 'Active'; loadReviews() }} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator === 'Active' ? 'border-blue-500 text-blue-500' : 'border-transparent'}">{$LL.Ongoing()}</button>
+            <button on:click={() => { activeSeparator = 'NotStarted'; loadReviews() }} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator === 'NotStarted' ? 'border-blue-500 text-blue-500' : 'border-transparent'}">{$LL.NotStarted()}</button>
+            <button on:click={() => { activeSeparator = 'Canceled'; loadReviews() }} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator === 'Canceled' ? 'border-blue-500 text-blue-500' : 'border-transparent'}">{$LL.Canceled()}</button>
+            <button on:click={() => { activeSeparator = 'Completed'; loadReviews() }} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator === 'Completed' ? 'border-blue-500 text-blue-500' : 'border-transparent'}">{$LL.Completed()}</button>
         </div>
         <div class="w-full overflow-x-auto">
-            {#if filteredItems.length > 0 && hasActiveReview}
+            {#if totalReviews > 0}
             <table class="w-full bg-transparent border-collapse table-auto">
                 <thead>
                     <tr class="align-middle text-xs text-left whitespace-nowrap font-bold bg-gray-300 text-black">
@@ -74,7 +100,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {#each filteredItems as review}
+                    {#each reviews as review}
                         {#if activeSeparator === review.reviewStatus}
                             <tr class="border-b border-gray-300 hover:bg-zinc-100 cursor-pointer" on:click={() => goto(`/reviews/${review.reviewId}`)}>
                                 <td>
@@ -126,4 +152,14 @@
         {/if}
         </div>
     </div>
+
+    {#if totalReviews != 0}
+        <div class="flex justify-between text-sm px-[5px]">
+            <p>{$LL.Showing()} {firstElement} {$LL.To()} {lastElement} {$LL.Of()} {totalReviews} items</p>
+            <div class="flex gap-x-[10px]">
+                <button on:click={() => changePage("decrement")} class="mx-auto border border-gray-200 hover:bg-gray-100 shadow rounded"><ChevronLeft /></button>
+                <button on:click={() => changePage("increment")} class="mx-auto border border-gray-200 hover:bg-gray-100 shadow rounded"><ChevronRight /></button>
+            </div>
+        </div>
+    {/if}
 </div>

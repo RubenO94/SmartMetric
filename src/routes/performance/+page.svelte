@@ -95,6 +95,9 @@
 
 <div class="mx-auto flex flex-col xl:w-[1280px] p-5 gap-y-5">
     {#if page == 1}
+        <div class="flex flex-col gap-y-5">
+            <h1 class="font-semibold text-2xl mx-auto md:mx-0">{ $LL.Performance() }</h1>
+        </div>
         <div class="flex flex-col gap-y-4">
             <div class="flex flex-col gap-y-1">
                 <p class="text-black text-base font-semibold">{ $LL.SelectReview() }</p>

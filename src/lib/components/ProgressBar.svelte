@@ -13,8 +13,8 @@
 </script>
 
 <div class="flex flex-col gap-y-1">
-    <div class="bg-gray-300 w-0 mx-auto rounded-full overflow-hidden" role="progressbar" aria-valuenow="{percentage}" aria-valuemin="0" aria-valuemax="100" style="width: {sizeProgressBar}px;">
-        <div class="bg-blue-500 w-0 h-5 rounded-full" style="width: {percentage}%;">
+    <div class="bg-gray-300 mx-auto rounded-full overflow-hidden" role="progressbar" aria-valuenow="{percentage}" aria-valuemin="0" aria-valuemax="100" style="width: {sizeProgressBar}px;">
+        <div class="bg-blue-500 h-5 rounded-full" style="width: {percentage}%;">
             <p class="text-white pl-4 font-medium text-sm">{percentage.toFixed(1)}%</p>
         </div>
     </div>

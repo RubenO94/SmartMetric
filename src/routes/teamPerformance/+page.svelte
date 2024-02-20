@@ -2,6 +2,7 @@
     import LL from "../../i18n/i18n-svelte"
     import StatsByFuncTable from '$lib/components/statistics/StatsByFuncTable.svelte'
     import toast, { Toaster } from "svelte-french-toast"
+    import { XCircle } from "lucide-svelte";
 
     export let data
 
@@ -108,20 +109,35 @@
 
 <div class="mx-auto flex flex-col xl:w-[1280px] p-5 gap-y-5">
     {#if page == 1}
-        <div class="flex flex-col gap-y-4">
-            <div class="flex flex-col gap-y-1">
-                <p class="text-black text-base font-semibold">{ $LL.SelectReview() }</p>
-                <p class="text-xs text-gray-400">{ $LL.SelectReviewText() }</p>
-            </div>
-
-            {#each reviews as review}
-                <label for="{review.reviewId}">
-                    <input id="{review.reviewId}" type="checkbox" on:change={(event) => handleCheckboxChange(event, review)} />
-                    <span>{review.translations[0].title}</span>
-                </label>
-            {/each}
-            <button on:click={() => loadSubmissions()} class="p-1 border border-transparent text-white bg-blue-500 hover:bg-blue-700 hover:border-blue-900 rounded-lg">{$LL.Submit()}</button>
+        <div class="flex flex-col gap-y-5">
+            <h1 class="font-semibold text-2xl mx-auto md:mx-0">{ $LL.TeamPerformance() }</h1>
         </div>
+        {#if employees.length == 0 || employees == null}
+            <div class="flex flex-col justify-center items-center gap-y-5 my-10">
+                <XCircle strokeWidth={1.5} class="w-20 h-20" />
+                <p>{$LL.NoEmployees()}</p>
+            </div>
+        {:else if reviews.length == 0 || employees == null}
+            <div class="flex flex-col justify-center items-center gap-y-5 my-10">
+                <XCircle strokeWidth={1.5} class="w-20 h-20" />
+                <p>{$LL.NothingToShow()}</p>
+            </div>
+        {:else}
+            <div class="flex flex-col gap-y-4">
+                <div class="flex flex-col gap-y-1">
+                    <p class="text-black text-base font-semibold">{ $LL.SelectReview() }</p>
+                    <p class="text-xs text-gray-400">{ $LL.SelectReviewText() }</p>
+                </div>
+
+                {#each reviews as review}
+                    <label for="{review.reviewId}">
+                        <input id="{review.reviewId}" type="checkbox" on:change={(event) => handleCheckboxChange(event, review)} />
+                        <span>{review.translations[0].title}</span>
+                    </label>
+                {/each}
+                <button on:click={() => loadSubmissions()} class="p-1 border border-transparent text-white bg-blue-500 hover:bg-blue-700 hover:border-blue-900 rounded-lg">{$LL.Submit()}</button>
+            </div>
+        {/if}
     {:else if page == 2}
         <p class="font-semibold text-lg">{$LL.EvaluationOf()} {selectedEmployee.employeeName}</p>
         <div class="flex flex-col gap-y-5">

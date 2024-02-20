@@ -237,7 +237,8 @@ const pt: Translation = {
 	To: 'até',
 	Of: 'de',
 	All: 'Todas',
-	ToBeSubmitted: 'Por submeter'
+	ToBeSubmitted: 'Por submeter',
+	NothingToShow: 'Nada a apresentar'
 }
 
 export default pt

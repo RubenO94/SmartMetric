@@ -237,7 +237,8 @@ const en: BaseTranslation = {
 	To: "to",
 	Of: "of",
 	All: "All",
-	ToBeSubmitted: "To be submitted"
+	ToBeSubmitted: "To be submitted",
+	NothingToShow: "Nothing to show"
 }
 
 export default en
