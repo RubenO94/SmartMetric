@@ -55,7 +55,15 @@
                             {#each review.submissions as submission, index}
                                 <button class="flex gap-x-2 px-4 py-2 hover:bg-gray-100 rounded-lg" on:click={() => checkSubmission(submission)}>
                                     <p class="w-[30px]">{index + 1}</p>
-                                    <p class="w-full text-start whitespace-nowrap text-ellipsis overflow-hidden">{$LL.Evaluate()}: {submission.evaluatedEmployeeId.employeeName === user?.userName ? $LL.SelfEvaluation.Label() : submission.evaluatedEmployeeId.employeeName}</p>
+                                    <p class="w-full text-start whitespace-nowrap text-ellipsis overflow-hidden">
+                                        {$LL.Evaluate()}: 
+                                        {!submission.evaluatedEmployeeId ?
+                                            submission.evaluatedDepartmentId.departmentDescription :
+                                            (submission.evaluatedEmployeeId.employeeName === user?.userName) ?
+                                                $LL.SelfEvaluation.Label() :
+                                                submission.evaluatedEmployeeId.employeeName
+                                        }
+                                    </p>
                                     {#if submission.submissionDate}
                                         <CheckCircle2 class="text-green-500" />
                                     {:else}

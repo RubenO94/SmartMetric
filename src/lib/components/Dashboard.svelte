@@ -15,6 +15,7 @@
     })
 
     $: submissions = submissions.filter(temp => temp.submissionDate == null)
+    $: console.log(submissions)
 </script>
 
 <div class="w-80">
@@ -25,7 +26,16 @@
     {#if submissions.length > 0}
         <div class="flex flex-col gap-y-2">
             {#each submissions as submission}
-                <li><a href="/submissions/{submission.submissionId}">{$LL.Evaluate()}: {submission.evaluatedEmployeeId.employeeName === user.userName ? $LL.SelfEvaluation.Label() : submission.evaluatedEmployeeId.employeeName}</a></li>
+                <li>
+                    <a href="/submissions/{submission.submissionId}">{$LL.Evaluate()}: 
+                        {!submission.evaluatedEmployeeId ?
+                            submission.evaluatedDepartmentId.departmentDescription :
+                            (submission.evaluatedEmployeeId.employeeName === user.userName) ?
+                                $LL.SelfEvaluation.Label() :
+                                submission.evaluatedEmployeeId.employeeName
+                        }
+                    </a>
+                </li>
             {/each}
         </div>
     {:else}

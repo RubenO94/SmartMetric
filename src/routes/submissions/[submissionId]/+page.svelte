@@ -18,11 +18,11 @@
     <form method="post" use:enhance={() => { success = true }}>
         <div class="flex pb-4">
             <h1 class="font-semibold text-xl">
-                {$LL.Evaluating()}: {submission.evaluatedEmployeeId.employeeName 
-                    ? submission.evaluatedEmployeeId.employeeName === user?.userName
-                        ? $LL.SelfEvaluation.Label()
-                        : submission.evaluatedEmployeeId.employeeName
-                    : submission.evaluatedDepartmentId.departmentDescription 
+                {$LL.Evaluating()}: {!submission.evaluatedEmployeeId ?
+                    submission.evaluatedDepartmentId.departmentDescription :
+                    (submission.evaluatedEmployeeId.employeeName === user?.userName) ?
+                        $LL.SelfEvaluation.Label() :
+                        submission.evaluatedEmployeeId.employeeName
                 }
             </h1>
         </div>
