@@ -1,12 +1,12 @@
 <script lang="ts">
     import LL from '../i18n/i18n-svelte'
+    import { Clipboard, ClipboardCheck, Clock, List } from 'lucide-svelte'
     import Charts from '$lib/components/statistics/Charts.svelte'
     import ChartsOnlyText from '$lib/components/statistics/ChartsOnlyText.svelte'
     import Dashboard from '$lib/components/Dashboard.svelte'
-    import { Clipboard, ClipboardCheck, Clock, List } from 'lucide-svelte'
-    import ReviewsStatusChart from '$lib/components/statistics/ReviewsStatusChart.svelte'
-    import RatingReviews from '$lib/components/RatingReviews.svelte'
     import LineChart from '$lib/components/statistics/LineChart.svelte'
+    import RatingReviews from '$lib/components/RatingReviews.svelte'
+    import ReviewsStatusChart from '$lib/components/statistics/ReviewsStatusChart.svelte'
 
     export let data
 

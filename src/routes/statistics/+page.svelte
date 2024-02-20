@@ -112,7 +112,13 @@
         submissions.forEach((submissionsArray: any) => {
             submissionsArray.forEach((submission: any) => {
                 const evaluatedEmployeeId = submission.evaluatedEmployeeId;
-                uniqueEmployees[evaluatedEmployeeId.employeeId] = evaluatedEmployeeId
+                const evaluatedDepartmentId = submission.evaluatedDepartmentId;
+
+                const finalEvaluatedId = evaluatedEmployeeId ? evaluatedEmployeeId : evaluatedDepartmentId
+
+                const key = evaluatedEmployeeId ? evaluatedEmployeeId.employeeId : evaluatedDepartmentId.departmentId
+
+                uniqueEmployees[key] = finalEvaluatedId
             });
         });
 
@@ -220,7 +226,7 @@
             <p class="text-xs text-gray-400">{$LL.ChooseEmployee()}</p>
             <select bind:value={selectedEmployee} class="border border-gray-300 bg-gray-100 p-2 rounded-lg">
                 {#each employees as employee}
-                    <option value="{employee}">{employee.employeeName}</option>
+                    <option value="{employee}">{employee.employeeName || employee.departmentDescription}</option>
                 {/each}
             </select>
             {#if selectedEmployee}

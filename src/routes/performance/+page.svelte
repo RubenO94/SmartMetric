@@ -69,7 +69,7 @@
             let reviewShouldBeRemoved = true
 
             for (const submission of data.submissions[index]) {
-                const evaluatedEmployeeId = submission.evaluatedEmployeeId.employeeId
+                const evaluatedEmployeeId = submission.evaluatedEmployeeId.employeeId || null
                 
                 if (evaluatedEmployeeId === data.user?.employeeId) {
                     reviewShouldBeRemoved = false

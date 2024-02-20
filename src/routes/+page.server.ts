@@ -13,7 +13,7 @@ export const load: PageServerLoad = async ({ locals, parent }) => {
 
         do {
             const [reviewsResponse] = await Promise.all([
-                api("GET", `Reviews?page=${currentPage}&pageSize=20`)
+                api("GET", `Reviews?page=${currentPage}&pageSize=10`)
             ])
 
             if (reviewsResponse) {
