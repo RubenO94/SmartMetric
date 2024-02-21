@@ -27,11 +27,18 @@
 
         submissions.forEach((submissionsArray: any, index: number) => {
             submissionsArray.forEach((submission: any) => {
-                if (submission.evaluatedEmployeeId.employeeId === selectedEmployee.employeeId) {
-                    if (!submissionsOfEmployee[index]) {
-                        submissionsOfEmployee[index] = []
+                if (submission.evaluatedEmployeeId) {
+                    if (submission.evaluatedEmployeeId.employeeId === selectedEmployee.employeeId) {
+                        if (!submissionsOfEmployee[index]) {
+                            submissionsOfEmployee[index] = []
+                        }
+                        submissionsOfEmployee[index].push(submission)
                     }
-                    submissionsOfEmployee[index].push(submission)
+                } else {
+                    if (submission.evaluatedDepartmentId.departmentId === selectedEmployee.departmentId) {
+                        if (!submissionsOfEmployee[index]) submissionsOfEmployee[index] = []
+                        submissionsOfEmployee[index].push(submission)
+                    }
                 }
             });
         })
@@ -115,7 +122,7 @@
     <div class="flex w-full lg:w-[70%] border-2 border-black h-fit overflow-hidden rounded">
         <div class="flex flex-col flex-grow">
             <div class="bg-black text-white h-10 flex justify-center items-center">
-                <p>{ selectedEmployee.employeeName || selectedEmployee.userName }</p>
+                <p>{ selectedEmployee.employeeName || selectedEmployee.userName || selectedEmployee.departmentDescription }</p>
             </div>
             {#each reviewChoosed[0].questions as question}
                 {#if question.responseType === 'Rating'}
@@ -156,13 +163,7 @@
     </div>
 </div>
 
-<!-- Charts for single choice options -->
-<!-- <div class="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-5">
-    {#each singleChoiceAnswers as singleChoiceAnswer}
-        <BarChart singleChoiceAnswers={singleChoiceAnswer} />
-    {/each}
-</div> -->
-
+<!-- Text answers -->
 <div class="flex flex-col gap-y-[10px]">
     {#each textAnswers as reviewAnswers, index}
         {#if typeof reviewAnswers === 'object' && reviewAnswers[index] !== null && reviewAnswers.length !== 0 }
@@ -179,6 +180,17 @@
                     </div>
                 {/each}
             </div>
+        {/if}
+    {/each}
+</div>
+
+<!-- Charts for single choice options -->
+<div class="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-5">
+    {#each singleChoiceAnswers as singleChoiceAnswersArray}
+        {#if singleChoiceAnswersArray && singleChoiceAnswersArray.length > 0}
+            {#each singleChoiceAnswersArray as singleChoiceAnswer}
+                <BarChart singleChoiceAnswers={singleChoiceAnswer} />
+            {/each}
         {/if}
     {/each}
 </div>

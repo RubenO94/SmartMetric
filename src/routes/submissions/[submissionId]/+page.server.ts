@@ -1,6 +1,7 @@
 import { api } from "$lib/api/_api";
 import { error, redirect } from "@sveltejs/kit"
 import type { PageServerLoad } from "./$types"
+import toast from "svelte-french-toast";
 
 let submissionId: string = ''
 let questions: any[]
@@ -55,7 +56,10 @@ export const actions = {
         const answeredQuestionsIds = answers.map((answer: any) => answer.QuestionId);
         const allRequiredQuestionsAnswered = requiredQuestions.every(requiredQuestions => answeredQuestionsIds.includes(requiredQuestions.questionId))
 
-        if (!allRequiredQuestionsAnswered) { return }
+        if (!allRequiredQuestionsAnswered) {
+            toast.error('Please answer all questions.')
+            return 
+        }
         const response = await api("PATCH", `Submissions/${submissionId}`, { reviewResponses: answers })
         if (!response?.status) throw error(401, response?.error)
         throw redirect (302, "/submissions")

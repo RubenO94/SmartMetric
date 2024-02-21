@@ -71,7 +71,6 @@
 
                 return newQuestion
             })
-            console.log(review)
         }
         page++
     }

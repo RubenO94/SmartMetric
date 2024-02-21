@@ -8,64 +8,13 @@
     import { TabItem } from 'flowbite-svelte';
 
     export let user: any
-
-    const menuItemsBackoffice: { name: string, label: string, permission: boolean, icon: ComponentType<Icon> }[] = [
-        { 
-            name: "Reviews", 
-            label: $LL.Sidebar.Reviews(),
-            permission: false,
-            icon: Clipboard
-        },
-        { 
-            name: "Forms", 
-            label: $LL.Sidebar.Forms(),
-            permission: false,
-            icon: List
-        },
-        {
-            name: "Statistics", 
-            label: $LL.Sidebar.Statistics(),
-            permission: false,
-            icon: BarChartBig
-        },
-        {
-            name: "AdminSettings",
-            label: $LL.Permissions(),
-            permission: false,
-            icon: Settings
-        }
-    ]
-
-    const menuItemsFrontoffice: { name: string, label: string, permission: boolean, icon: ComponentType<Icon> }[] = [
-        {
-            name: "Submissions",
-            label: $LL.Submissions.Name(),
-            permission: false,
-            icon: PenSquare
-        },
-        {
-            name: "Performance",
-            label: $LL.Performance(),
-            permission: false,
-            icon: ActivitySquare
-        },
-        {
-            name: "TeamPerformance",
-            label: $LL.TeamPerformance(),
-            permission: false,
-            icon: Users
-        }
-    ]
+    export let menuItemsBackoffice: { name: string, label: string, permission: boolean, icon: ComponentType<Icon> }[]
+    export let menuItemsFrontoffice: { name: string, label: string, permission: boolean, icon: ComponentType<Icon> }[]
 
     function checkPermission(item: any) {
         let window = user?.authorizations.find((n: any) => n.windowType === item.name)
         let permission = window.permissions.find((p: any) => p.permissionType === "Read")
         item.permission = permission.hasPermission
-        return item.permission
-    }
-
-    function permissionPerformance(item: any) {
-        item.permission = true
         return item.permission
     }
 </script>
@@ -91,7 +40,7 @@
             <p class="font-semibold text-center pt-4 pb-1 px-2">{$LL.Frontoffice()}</p>
             <hr class="mx-10" />
             {#each menuItemsFrontoffice as item}
-                {#if permissionPerformance(item)}
+                {#if item.permission}
                     <a href="/{item.name.charAt(0).toLowerCase() + item.name.slice(1)}" class="flex flex-row gap-x-2 items-center hover:bg-gray-200 p-2 rounded {$page.url.pathname.split("/")[1].toLowerCase() === item.name.toLowerCase() ? 'bg-gray-200 font-medium' : ''}">
                         <svelte:component this={item.icon} size={20} />
                         <p class="text-sm">{item.label}</p>

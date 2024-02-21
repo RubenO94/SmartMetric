@@ -5,8 +5,9 @@
 	import Header from '$lib/components/Header.svelte'
 	import { fly } from 'svelte/transition'
 	import { type Icon, Clipboard, List, BarChartBig, Settings, X, ChevronRight, PenSquare, ActivitySquare, Users } from 'lucide-svelte'
-	import type { ComponentType } from 'svelte'
+	import { onMount, type ComponentType } from 'svelte'
     import { page } from '$app/stores';
+    import { api } from '$lib/api/_api';
 
 	export let data
 
@@ -21,9 +22,9 @@
 	]
 
 	const menuItemsFrontoffice: { name: string, label: string, permission: boolean, icon: ComponentType<Icon> }[] = [
-        { name: "Submissions", label: $LL.Submissions.Name(), permission: false, icon: PenSquare },
-		{ name: "Performance", label: $LL.Performance(), permission: false, icon: ActivitySquare },
-		{ name: "TeamPerformance", label: $LL.TeamPerformance(), permission: false, icon: Users }
+        { name: "Submissions", label: $LL.Submissions.Name(), permission: true, icon: PenSquare },
+		{ name: "Performance", label: $LL.Performance(), permission: true, icon: ActivitySquare },
+		{ name: "TeamPerformance", label: $LL.TeamPerformance(), permission: true, icon: Users }
     ]
 	
 	function toggleSidebar() { 
@@ -36,12 +37,21 @@
         item.permission = permission.hasPermission
         return item.permission
     }
+
+	onMount(async () => {
+		if (user?.profileType === "Frontoffice") {
+			const [chiefResponse] = await Promise.all([api("GET", `Employee?chefiaId=${user?.employeeId}`)])
+			if (chiefResponse?.body.length == 0 || chiefResponse?.body == null) {
+				menuItemsFrontoffice.find(item => item.name === "TeamPerformance")!.permission = false
+			}
+		}
+	})
 </script>
 
 <div class="flex w-full min-h-screen overflow-y-hidden">
 	<div class="2xl:flex hidden">
 		{#if sidebarVisible}
-			<Sidebar bind:user={user} />
+			<Sidebar bind:user={user} {menuItemsBackoffice} {menuItemsFrontoffice} />
 		{/if}
 	</div>
 	<div class="flex flex-col flex-1 overflow-y-hidden">
@@ -70,7 +80,7 @@
 							<p class="font-semibold text-center pt-4 pb-1 px-2">{$LL.Frontoffice()}</p>
 							<hr class="mx-10" />
 							{#each menuItemsFrontoffice as item}
-								<!-- {#if checkPermission(item)} -->
+								{#if item.permission}
 									<a on:click={toggleSidebar} href="/{item.name.charAt(0).toLowerCase() + item.name.slice(1)}" class="flex flex-row gap-x-2 items-center hover:bg-gray-200 p-2 rounded {$page.url.pathname.split("/")[1].toLowerCase() === item.name.toLowerCase() ? 'bg-gray-200 font-medium' : ''}">
 										<svelte:component this={item.icon} size={20} />
 										<p class="text-sm">{item.label}</p>
@@ -78,7 +88,7 @@
 											<svelte:component this={ChevronRight} size={20} class="ml-auto" />
 										{/if}
 									</a>
-								<!-- {/if} -->
+								{/if}
 							{/each}
 						{/if}
 					</div>

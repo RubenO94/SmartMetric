@@ -53,7 +53,6 @@
     }
 
     $: addLangs = languages.filter(language => language.checked).map(language => language.name)
-    $: console.log(review)
 </script>
 
 <svelte:head>

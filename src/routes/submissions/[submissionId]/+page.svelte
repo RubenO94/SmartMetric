@@ -2,6 +2,7 @@
     import LL from '../../../i18n/i18n-svelte'
     import { enhance } from '$app/forms'
     import { AlertCircle } from 'lucide-svelte'
+    import { Toaster } from 'svelte-french-toast';
     export let data
 
     let user = data.user
@@ -13,6 +14,8 @@
 <svelte:head>
     <title>{$LL.Submissions.NameSingle()}</title>
 </svelte:head>
+
+<Toaster />
 
 <div class="mx-auto flex flex-col xl:w-[1280px] py-5 md:px-5 px-2 gap-y-10">
     <form method="post" use:enhance={() => { success = true }}>

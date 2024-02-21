@@ -83,10 +83,10 @@
     <!-- Table list of reviews -->
     <div class="flex flex-col h-[500px] overflow-hidden">
         <div class="flex gap-x-2 overflow-x-auto whitespace-nowrap">
-            <button on:click={() => { activeSeparator = 'Active'; loadReviews() }} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator === 'Active' ? 'border-blue-500 text-blue-500' : 'border-transparent'}">{$LL.Ongoing()}</button>
-            <button on:click={() => { activeSeparator = 'NotStarted'; loadReviews() }} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator === 'NotStarted' ? 'border-blue-500 text-blue-500' : 'border-transparent'}">{$LL.NotStarted()}</button>
-            <button on:click={() => { activeSeparator = 'Canceled'; loadReviews() }} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator === 'Canceled' ? 'border-blue-500 text-blue-500' : 'border-transparent'}">{$LL.Canceled()}</button>
-            <button on:click={() => { activeSeparator = 'Completed'; loadReviews() }} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator === 'Completed' ? 'border-blue-500 text-blue-500' : 'border-transparent'}">{$LL.Completed()}</button>
+            <button on:click={() => { activeSeparator = 'Active'; currentPage = 1; loadReviews() }} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator === 'Active' ? 'border-blue-500 text-blue-500' : 'border-transparent'}">{$LL.Ongoing()}</button>
+            <button on:click={() => { activeSeparator = 'NotStarted'; currentPage = 1; loadReviews() }} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator === 'NotStarted' ? 'border-blue-500 text-blue-500' : 'border-transparent'}">{$LL.NotStarted()}</button>
+            <button on:click={() => { activeSeparator = 'Canceled'; currentPage = 1; loadReviews() }} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator === 'Canceled' ? 'border-blue-500 text-blue-500' : 'border-transparent'}">{$LL.Canceled()}</button>
+            <button on:click={() => { activeSeparator = 'Completed'; currentPage = 1; loadReviews() }} class="p-2 border-b-2 cursor-pointer hover:border-blue-500 {activeSeparator === 'Completed' ? 'border-blue-500 text-blue-500' : 'border-transparent'}">{$LL.Completed()}</button>
         </div>
         <div class="w-full overflow-x-auto">
             {#if totalReviews > 0}

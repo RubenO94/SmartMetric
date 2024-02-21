@@ -5,8 +5,7 @@ export function transformDate(inputDate: string, lang?: string) {
         month: "long",
         day: 'numeric',
         hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric',
+        minute: 'numeric'
     };
 
     if (inputDate == null) return ''

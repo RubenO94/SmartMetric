@@ -11,7 +11,6 @@
     review.reviewEmployeesIds = review.employees!.map(employee => employee.employeeId)
     review.departments = []
     review.employees = []
-    console.log(review)
 
 </script>
 

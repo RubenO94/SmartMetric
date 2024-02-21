@@ -79,7 +79,7 @@
             let reviewShouldBeRemoved = true;
 
             for (const submission of submissions[index]) {
-                const evaluatedEmployeeId = submission.evaluatedEmployeeId.employeeId || null;
+                const evaluatedEmployeeId = submission.evaluatedEmployeeId?.employeeId;
 
                 const matchFound = employees.some((employee: any) => {
                     return employee.employeeId === evaluatedEmployeeId;

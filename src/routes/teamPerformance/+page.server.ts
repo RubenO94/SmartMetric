@@ -11,7 +11,7 @@ export const load: PageServerLoad = async ({ parent }) => {
         ])
         let employees = employeesResponse?.body
 
-        //if (employees == null || employees.length == 0) throw redirect(302, "/")
+        if (employees == null || employees.length == 0) throw redirect(302, "/")
 
         const [reviewsResponse] = await Promise.all([
             api("GET", "Reviews/ReviewsCompleted")
